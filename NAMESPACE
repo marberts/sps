@@ -1,0 +1,7 @@
+export(sps)
+
+S3method(weights, sps)
+S3method(print, sps)
+
+importFrom(stats, weights)
+importFrom(stats, runif)

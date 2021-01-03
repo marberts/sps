@@ -1,0 +1,12 @@
+Package: sps
+Title: Sequential Poisson Sampling
+Version: 0.1.0
+Authors@R: c(
+    person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com")
+    )
+Description: Draw a sequential Poisson sample according to the method in Ohlsson (1998, ISSN:0282-423X).
+Depends: R (>= 3.5)
+Imports: stats
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
