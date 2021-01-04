@@ -24,6 +24,18 @@ sps <- function(x, n) {
             class = c("sps", "numeric"))
 }
 
+#---- Stratified sequential Poisson sampling ----
+ssps <- function(x, s, n) {
+  res <- split(seq_along(x), s)
+  x <- split(x, s)
+  samp <- Map(sps, x, n)
+  res <- Map(`[`, res, samp)
+  structure(unlist(res, use.names = FALSE),
+            weights = unlist(lapply(samp, weights), use.names = FALSE),
+            levels = unlist(lapply(samp, levels), use.names = FALSE),
+            class = c("sps", "numeric"))
+}
+
 #---- Methods for class sps ----
 # levels.default() extracts levels; no need for a method
 

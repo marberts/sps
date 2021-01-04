@@ -1,5 +1,6 @@
 \name{sps}
 \alias{sps}
+\alias{ssps}
 
 \title{
 Sequential Poisson Sampling
@@ -11,12 +12,17 @@ Draw a probability-proportional-to-size sample according to the sequential Poiss
 
 \usage{
 sps(x, n)
+
+ssps(x, s, n)
 }
 
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A length 1 numeric vector giving the size of the sample.}
+\item{n}{A length 1 numeric vector giving the size of the sample. For the stratified version, this can be a vector of sample sizes for each stratum, ordered according to the levels of
+code{s}.}
+
+\item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}.}
 }
 
 \details{
@@ -52,7 +58,5 @@ sps(rep(1, 10), 5)
 
 # Example of a stratified sample
 
-x <- split(1:20, letters[1:2])
-n <- c(a = 4, b = 6)
-Vectorize(sps)(x, n)
+ssps(1:20, letters[1:2], c(4, 6))
 }
