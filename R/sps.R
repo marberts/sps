@@ -26,10 +26,15 @@ sps <- function(x, n) {
 
 #---- Stratified sequential Poisson sampling ----
 ssps <- function(x, s, n) {
-  res <- split(seq_along(x), s)
-  x <- split(x, s)
-  samp <- Map(sps, x, n)
-  res <- Map(`[`, res, samp)
+  stopifnot("'x' must be a strictly positive and finite numeric vector" = is_positive_numeric(x),
+            "'s' must be an atomic vector" = is.atomic(s),
+            "'x' and 's' must be the same length" = length(x) == length(s),
+            "'n' must be a strictly positive and finite numeric vector" = is_positive_numeric(n),
+            "Each element of 'n' must be less than the length of 'x'" = all(n <= length(x)))
+  s <- as.factor(s)
+  stopifnot("'n' must have a sample size for each level in 's'" = length(n) == nlevels(s))
+  samp <- Map(sps, split(x, s), n)
+  res <- Map(`[`, split(seq_along(x), s), samp)
   structure(unlist(res, use.names = FALSE),
             weights = unlist(lapply(samp, weights), use.names = FALSE),
             levels = unlist(lapply(samp, levels), use.names = FALSE),

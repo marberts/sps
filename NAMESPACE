@@ -1,4 +1,4 @@
-export(sps, ssps)
+export(sps, ssps, allocate)
 
 S3method(weights, sps)
 S3method(print, sps)
