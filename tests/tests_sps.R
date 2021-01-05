@@ -4,6 +4,13 @@ stopifnot(
   exprs = {
     sps(1, 1) == 1
     setequal(sps(1:10, 10), 1:10)
+    setequal(sps(1:10, 15), 1:10)
+    srs(1, 1) == 1
+    setequal(srs(1:10, 10), 1:10)
+    setequal(srs(1:10, 15), 1:10)
+    cos(1, 1) == 1
+    setequal(cos(1:10, 10), 1:10)
+    setequal(cos(1:10, 15), 1:10)
     weights(sps(1:10, 10)) == 1
     levels(sps(1:10, 10)) == "TA"
     sps(c(1:10, 20, 100), 5)[1:2] == 12:11
@@ -17,6 +24,7 @@ stopifnot(
     replicate(100, length(unique(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(weights(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(levels(sps(rlnorm(100), 20)))) == 20
+    cos(1:10, 3) == 10:8
   },
   local = getNamespace("sps")
 )

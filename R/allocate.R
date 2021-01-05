@@ -1,6 +1,6 @@
 # I don't think this is right, but I'm not sure how PROC SURVEYSELECT with alloc=prop does it
 
-allocate <- function(x, s, n) {
+allocate <- function(x, n, s) {
   stopifnot("'x' must be a strictly positive and finite numeric vector" = is_positive_numeric(x),
             "'s' must be an atomic vector" = is.atomic(s),
             "'x' and 's' must be the same length" = length(x) == length(s),

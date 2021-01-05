@@ -1,7 +1,7 @@
-export(sps, ssps, allocate)
+export(sps, srs, cos, allocate)
 
-S3method(weights, sps)
-S3method(print, sps)
+S3method(weights, sample)
+S3method(print, sample)
 
 importFrom(stats, weights)
 importFrom(stats, runif)
