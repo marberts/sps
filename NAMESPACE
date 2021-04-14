@@ -1,7 +1,7 @@
-export(sps, allocate)
+export(sps)
 
-S3method(weights, sample)
-S3method(print, sample)
+S3method(weights, sps)
+S3method(print, sps)
+S3method(rep, sps)
 
-importFrom(stats, weights)
-importFrom(stats, runif)
+importFrom(stats, weights, runif, rbinom)
