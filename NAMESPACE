@@ -1,4 +1,4 @@
-export(sps, srs, cos, allocate)
+export(sps, allocate)
 
 S3method(weights, sample)
 S3method(print, sample)
