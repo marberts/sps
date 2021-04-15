@@ -1,7 +1,6 @@
-export(sps)
+export(sps, bp_replicates)
 
 S3method(weights, sps)
 S3method(print, sps)
-S3method(rep, sps)
 
 importFrom(stats, weights, runif, rbinom)

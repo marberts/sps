@@ -47,3 +47,14 @@ stratify <- function(fun) {
 
 #---- Sequential Poisson sampling (external) ----
 sps <- stratify(.sps)
+
+#---- Methods for class 'sps' ----
+# levels.default() extracts levels; no need for a method
+
+weights.sps <- function(object, ...) {
+  attr(object, "weights")
+}
+
+print.sps <- function(x, ...) {
+  print(as.numeric(x), ...)
+}
