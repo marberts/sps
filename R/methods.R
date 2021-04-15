@@ -17,8 +17,7 @@ rep.sps <- function(x, B = 1000, tau = 1, dist = NULL, ...) {
   B <- trunc(B)
   n <- length(x) * B
   a <- if (is.null(dist)) {
-    wr <- rep(floor(w), B)
-    wr <- wr + (runif(n) < w - wr)
+    wr <- rand_round(w, B)
     rbinom(n, wr, pi) - pi * wr
   } else {
     dist(n) * sqrt(1 - pi)

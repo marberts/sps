@@ -13,6 +13,12 @@ is_positive_number1 <- function(x) {
 }
 
 #---- Inclusion probability ----
-incl_prob <- function(x, n) {
+inclusion_prob <- function(x, n) {
   x / sum(x) * n
+}
+
+#---- Random rounding ----
+rand_round <- function(x, n) {
+  y <- floor(x)
+  y + (runif(length(x) * n) < x - y)
 }

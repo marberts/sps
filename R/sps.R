@@ -8,11 +8,11 @@
     n <- min(n, N)
   }
   # remove the take alls so that inclusion probs are < 1
-  stratum <- replace(rep("ts", N), incl_prob(x, n) >= 1, "ta")
+  stratum <- replace(rep("ts", N), inclusion_prob(x, n) >= 1, "ta")
   res <- split(seq_len(N), stratum)
   repeat { # repeat until all inclusion probs are < 1
     n_ts <- n - length(res$ta) # always >= 0
-    ts_to_ta <- (p <- incl_prob(x[res$ts], n_ts)) >= 1
+    ts_to_ta <- (p <- inclusion_prob(x[res$ts], n_ts)) >= 1
     res$ta <- c(res$ta, res$ts[ts_to_ta])
     res$ts <- res$ts[!ts_to_ta]
     if (!any(ts_to_ta, na.rm = TRUE)) break
