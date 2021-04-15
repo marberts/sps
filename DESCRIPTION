@@ -4,7 +4,7 @@ Version: 0.1.0
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com")
     )
-Description: Draw a sequential Poisson sample according to the method in Ohlsson (1998, ISSN:0282-423X).
+Description: Sequential Poisson sampling is a method for drawing probability proportional to size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw a stratified sequential Poisson sample according to the method in Ohlsson (1998, ISSN:0282-423X), and generate bootstrap replicate weights according to the method in Beaumont and Patak (2012, <doi:10.1111/j.1751-5823.2011.00166.x>).
 Depends: R (>= 3.5)
 Imports: stats
 License: MIT + file LICENSE

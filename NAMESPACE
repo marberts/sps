@@ -1,4 +1,4 @@
-export(sps, bp_replicates)
+export(sps, sps_repweights)
 
 S3method(weights, sps)
 S3method(print, sps)

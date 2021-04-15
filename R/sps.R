@@ -3,6 +3,7 @@
   if (!is_positive_numeric(x)) stop("'x' must be a positive and finite numeric vector")
   if (!is_positive_number(n)) stop("'n' must be a positive number")
   N <- length(x)
+  n <- trunc(n)
   if (n >= N) {
     warning("sample size 'n' is greater than or equal to population size")
     n <- min(n, N)
