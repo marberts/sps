@@ -1,9 +1,6 @@
 #---- Sequential Poisson sampling (internal) ----
 .sps <- function(x, n) {
-  if (!is_positive_numeric(x)) stop("'x' must be a positive and finite numeric vector")
-  if (!is_positive_number(n)) stop("'n' must be a positive number")
   N <- length(x)
-  n <- trunc(n)
   if (n >= N) {
     warning("sample size 'n' is greater than or equal to population size")
     n <- min(n, N)
@@ -28,26 +25,28 @@
             class = c("sps", "numeric"))
 }
 
-#---- Make a stratified sampling method ----
-stratify <- function(fun) {
-  fun <- match.fun(fun)
-  function(x, n, s = rep(1L, length(x))) {
-    if (length(x) != length(s)) stop("'x' and 's' must be the same length")
-    s <- as.factor(s)
-    if (length(n) != nlevels(s)) {
-      stop("'n' must have a single sample size for each level in 's' (stratum)")
-    }
-    samp <- Map(fun, split(x, s), n)
-    res <- Map(`[`, split(seq_along(x), s), samp)
-    structure(unlist(res, use.names = FALSE),
-              weights = unlist(lapply(samp, weights), use.names = FALSE),
-              levels = unlist(lapply(samp, levels), use.names = FALSE),
-              class = c("sps", "numeric"))
+#---- Stratified sequential Poisson sampling (exported)----
+sps <- function(x, n, s = rep(1L, length(x))) {
+  if (!is_positive_numeric(x)) {
+    stop("'x' must be a positive and finite numeric vector")
   }
+  if (!is_positive_numeric1(n)) {
+    stop("'n' must be a finite numeric vector with each element greater than or equal to 1")
+  }
+  s <- as.factor(s)
+  if (length(x) != length(s)) {
+    stop("'x' and 's' must be the same length")
+  }
+  if (length(n) != nlevels(s)) {
+    stop("'n' must have a single sample size for each level in 's' (stratum)")
+  }
+  samp <- Map(.sps, split(x, s), trunc(n))
+  res <- Map(`[`, split(seq_along(x), s), samp)
+  structure(unlist(res, use.names = FALSE),
+            weights = unlist(lapply(samp, weights), use.names = FALSE),
+            levels = unlist(lapply(samp, levels), use.names = FALSE),
+            class = c("sps", "numeric"))
 }
-
-#---- Sequential Poisson sampling (external) ----
-sps <- stratify(.sps)
 
 #---- Methods for class 'sps' ----
 # levels.default() extracts levels; no need for a method
@@ -58,4 +57,5 @@ weights.sps <- function(object, ...) {
 
 print.sps <- function(x, ...) {
   print(as.numeric(x), ...)
+  invisible(x)
 }
