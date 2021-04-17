@@ -11,6 +11,7 @@ Sequential Poisson sampling is a method for drawing probability proportional to 
 ```r
 devtools::install_github("marberts/sps")
 ```
+
 ## References
 
 Beaumont, J.-F., and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. *International Statistical Review*, 80(1): 127-148.
