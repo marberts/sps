@@ -2,8 +2,10 @@ set.seed(1234)
 
 stopifnot(
   exprs = {
-    length(sps(1, 0)) == 0
-    length(sps(integer(0), integer(0))) == 0
+    identical(sps(1, 0), 
+              structure(numeric(0), weights = numeric(0), levels = character(0), class = c("sps", "numeric")))
+    identical(sps(integer(0), integer(0)), 
+              structure(numeric(0), weights = numeric(0), levels = character(0), class = c("sps", "numeric")))
     sps(1, 1) == 1
     setequal(sps(1:10, 10), 1:10)
     weights(sps(1:10, 10)) == 1

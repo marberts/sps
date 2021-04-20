@@ -2,6 +2,8 @@ set.seed(1234)
 
 stopifnot(
   exprs = {
+    identical(sps_repweights(weights(sps(1:10, 0)), 10), 
+              structure(matrix(numeric(0), nrow = 0, ncol = 10), tau = 1, class = c("sps_brw", "matrix")))
     identical(sps_repweights(weights(sps(1:10, 10)), 5), 
               structure(matrix(1, nrow = 10, ncol = 5), tau = 1, class = c("sps_brw", "matrix")))
     identical(sps_repweights(weights(sps(1:10, 10)), 10, tau = 3), 
