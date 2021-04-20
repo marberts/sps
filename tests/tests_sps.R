@@ -21,8 +21,8 @@ stopifnot(
     replicate(100, length(unique(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(weights(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(levels(sps(rlnorm(100), 20)))) == 20
-    sps(1:4, c(1, 0), c(1, 1, 2, 2)) == 2
-    sps(1:4, c(1, 2), c(1, 1, 2, 2)) == c(2, 4, 3)
+    sps(1:4, c(2, 0), c(1, 1, 2, 2)) == 2:1
+    levels(sps(1:4, c(1, 2), c(1, 1, 2, 2))) == c("TS", "TA", "TA")
   },
   local = getNamespace("sps")
 )
