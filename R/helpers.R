@@ -1,7 +1,7 @@
 # None of these functions are exported
 #---- Argument checking ----
 is_positive_numeric <- function(x) {
-  is.numeric(x) && all(is.finite(x)) && all(x > 0)
+  is.numeric(x) && all(is.finite(x)) && all(x >= 0)
 }
 
 is_positive_numeric1 <- function(x) {

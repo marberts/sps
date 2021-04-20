@@ -17,9 +17,9 @@ sps(x, n, s = rep(1, length(x)))
 }
 
 \arguments{
-\item{x}{A positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
+\item{x}{A strictly positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive vector of integers, each greater than or equal to 1, giving the sample sizes for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
+\item{n}{A positive vector of integers giving the sample sizes for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
 
 \item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 

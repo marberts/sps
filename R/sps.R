@@ -1,9 +1,8 @@
 #---- Sequential Poisson sampling (internal) ----
 .sps <- function(x, n) {
   N <- length(x)
-  if (n >= N) {
-    warning("sample size 'n' is greater than or equal to population size")
-    n <- min(n, N)
+  if (n > N) {
+    stop("sample size 'n' is greater than or equal to population size")
   }
   # remove the take alls so that inclusion probs are < 1
   stratum <- replace(rep("ts", N), inclusion_prob(x, n) >= 1, "ta")
@@ -13,13 +12,13 @@
     ts_to_ta <- (p <- inclusion_prob(x[res$ts], n_ts)) >= 1
     res$ta <- c(res$ta, res$ts[ts_to_ta])
     res$ts <- res$ts[!ts_to_ta]
-    if (!any(ts_to_ta, na.rm = TRUE)) break
+    if (!any(ts_to_ta)) break
   }
   # sample the take somes
   z <- runif(length(res$ts)) / p
   keep <- order(z)[seq_len(n_ts)]
   res$ts <- res$ts[keep]
-  structure(unlist(res, use.names = FALSE),
+  structure(as.numeric(unlist(res, use.names = FALSE)),
             weights = c(rep(1, n - n_ts), 1 / p[keep]),
             levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
             class = c("sps", "numeric"))
@@ -27,11 +26,11 @@
 
 #---- Stratified sequential Poisson sampling (exported)----
 sps <- function(x, n, s = rep(1L, length(x))) {
-  if (!is_positive_numeric(x)) {
-    stop("'x' must be a positive and finite numeric vector")
+  if (!is_positive_numeric(x) || !all(x > 0)) {
+    stop("'x' must be a strictly positive and finite numeric vector")
   }
-  if (!is_positive_numeric1(n)) {
-    stop("'n' must be a finite numeric vector with each element greater than or equal to 1")
+  if (!is_positive_numeric(n)) {
+    stop("'n' must be a positive and finite numeric vector")
   }
   s <- as.factor(s)
   if (length(x) != length(s)) {
@@ -42,7 +41,7 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   }
   samp <- Map(.sps, split(x, s), trunc(n))
   res <- Map(`[`, split(seq_along(x), s), samp)
-  structure(unlist(res, use.names = FALSE),
+  structure(as.numeric(unlist(res, use.names = FALSE)),
             weights = unlist(lapply(samp, weights), use.names = FALSE),
             levels = unlist(lapply(samp, levels), use.names = FALSE),
             class = c("sps", "numeric"))

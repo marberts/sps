@@ -2,9 +2,10 @@ set.seed(1234)
 
 stopifnot(
   exprs = {
+    length(sps(1, 0)) == 0
+    length(sps(integer(0), integer(0))) == 0
     sps(1, 1) == 1
     setequal(sps(1:10, 10), 1:10)
-    setequal(sps(1:10, 15), 1:10)
     weights(sps(1:10, 10)) == 1
     levels(sps(1:10, 10)) == "TA"
     sps(c(1:10, 20, 100), 5)[1:2] == 12:11
@@ -18,6 +19,8 @@ stopifnot(
     replicate(100, length(unique(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(weights(sps(rlnorm(100), 20)))) == 20
     replicate(100, length(levels(sps(rlnorm(100), 20)))) == 20
+    sps(1:4, c(1, 0), c(1, 1, 2, 2)) == 2
+    sps(1:4, c(1, 2), c(1, 1, 2, 2)) == c(2, 4, 3)
   },
   local = getNamespace("sps")
 )
