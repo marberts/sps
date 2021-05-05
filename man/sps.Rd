@@ -1,6 +1,7 @@
 \name{sps}
 \alias{sps}
 \alias{weights.sps}
+\alias{allocate}
 
 \title{
 Draw a sequential Poisson sample
@@ -14,6 +15,8 @@ Draw a probability proportional to size sample according to the sequential Poiss
 sps(x, n, s = rep(1, length(x)))
 
 \method{weights}{sps}(object, ...)
+
+allocate(x, n, s = rep(1, length(x)))
 }
 
 \arguments{
@@ -32,12 +35,16 @@ sps(x, n, s = rep(1, length(x)))
 The details of the sequential Poisson sampling procedure are in section 2.2 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1.
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by PROC SURVEYSELECT in SAS with METHOD = SEQ_POISSON.
+
+The \code{allocate()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding. In cases where the number of units in a stratum is smaller than its allocation, that allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
 }
 
 \value{
 \code{sps()} returns an object of class \code{'sps'}. This is a numeric vector of indices for the units in the population that form the sample, along with attributes that give the design weights for each observation in the sample, and the levels (either take-all or take-some).
 
 \code{weights()} returns a numeric vector (the design weights attribute of an \code{'sps'} object).
+
+\code{allocate()} returns a numeric vector of sample sizes for each stratum in \code{s}.
 }
 
 \references{
@@ -63,4 +70,8 @@ levels(samp)
 # Example of a stratified sample
 strata <- rep(letters[1:4], 5)
 sps(1:20, c(4, 3, 3, 2), strata)
+
+# Proportional allocation
+strata <- rep(letters[1:4], 5)
+sps(1:20, allocate(1:20, 12, strata), strata)
 }

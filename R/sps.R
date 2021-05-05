@@ -32,10 +32,10 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   if (!is_positive_numeric(n)) {
     stop("'n' must be a positive and finite numeric vector")
   }
-  s <- as.factor(s)
   if (length(x) != length(s)) {
     stop("'x' and 's' must be the same length")
   }
+  s <- as.factor(s)
   if (length(n) != nlevels(s)) {
     stop("'n' must have a single sample size for each level in 's' (stratum)")
   }

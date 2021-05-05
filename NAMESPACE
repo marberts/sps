@@ -1,4 +1,4 @@
-export(sps, sps_repweights)
+export(sps, sps_repweights, allocate)
 
 S3method(weights, sps)
 S3method(print, sps)
