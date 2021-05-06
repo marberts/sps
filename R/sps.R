@@ -5,8 +5,9 @@
     stop("sample size 'n' is greater than or equal to population size")
   }
   # remove the take alls so that inclusion probs are < 1
-  stratum <- replace(rep("ts", N), inclusion_prob(x, n) >= 1, "ta")
-  res <- split(seq_len(N), stratum)
+  stratum <- rep("ts", N)
+  stratum[inclusion_prob(x, n) >= 1] <- "ta"
+  res <- split(seq_len(N), factor(stratum, levels = c("ta", "ts")))
   repeat { # repeat until all inclusion probs are < 1
     n_ts <- n - length(res$ta) # always >= 0
     ts_to_ta <- (p <- inclusion_prob(x[res$ts], n_ts)) >= 1

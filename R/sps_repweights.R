@@ -24,7 +24,6 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
 }
 
 #---- Methods for class 'sps_brw' ----
-
 print.sps_brw <- function(x, ...) {
   print(structure(as.numeric(x), dim = dim(x)), ...)
   invisible(x)

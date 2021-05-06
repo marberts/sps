@@ -4,11 +4,11 @@
 \alias{allocate}
 
 \title{
-Draw a sequential Poisson sample
+Draw a stratified sequential Poisson sample
 }
 
 \description{
-Draw a probability proportional to size sample according to the sequential Poisson sampling method in Ohlsson (1998).
+Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method in Ohlsson (1998), with the optional of an allocation proportional to size.
 }
 
 \usage{
@@ -16,7 +16,7 @@ sps(x, n, s = rep(1, length(x)))
 
 \method{weights}{sps}(object, ...)
 
-allocate(x, n, s = rep(1, length(x)))
+allocate(x, N, s = rep(1, length(x)))
 }
 
 \arguments{
@@ -28,6 +28,8 @@ allocate(x, n, s = rep(1, length(x)))
 
 \item{object}{An object of class \code{'sps'}, as made by \code{sps()}.}
 
+\item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
+
 \item{...}{Further arguments passed to or used by methods.}
 }
 
@@ -36,7 +38,7 @@ The details of the sequential Poisson sampling procedure are in section 2.2 of O
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by PROC SURVEYSELECT in SAS with METHOD = SEQ_POISSON.
 
-The \code{allocate()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding. In cases where the number of units in a stratum is smaller than its allocation, that allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
+The \code{allocate()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
 }
 
 \value{
@@ -44,7 +46,7 @@ The \code{allocate()} function gives a sample size for each stratum that is prop
 
 \code{weights()} returns a numeric vector (the design weights attribute of an \code{'sps'} object).
 
-\code{allocate()} returns a numeric vector of sample sizes for each stratum in \code{s}.
+\code{allocate()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 }
 
 \references{

@@ -26,3 +26,10 @@ rand_round <- function(x, n) {
   y <- floor(x)
   y + (runif(length(x) * n) < x - y)
 }
+
+#---- Largest-remainder rounding ----
+largest_remainder_round <- function(p, n) {
+  np <- n * p
+  npf <- floor(np)
+  npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
+}

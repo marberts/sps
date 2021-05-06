@@ -9,4 +9,4 @@ Depends: R (>= 3.5)
 Imports: stats
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+URL: https://github.com/marberts/sps

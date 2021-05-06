@@ -1,18 +1,12 @@
-largest_remainder_rounding <- function(n, p) {
-  np <- n * p
-  npf <- floor(np)
-  npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
-}
-
-allocate <- function(x, n, s = rep(1L, length(x))) {
+allocate <- function(x, N, s = rep(1L, length(x))) {
   if (!is_positive_numeric(x) || !all(x > 0)) {
     stop("'x' must be a strictly positive and finite numeric vector")
   }
-  if (!is_positive_number(n)) {
-    stop("'n' must be a positive and finite number")
+  if (!is_positive_number(N)) {
+    stop("'N' must be a positive and finite number")
   }
-  if (n > length(x)) {
-    stop("sample size 'n' is greater than or equal to population size")
+  if (N > length(x)) {
+    stop("sample size 'N' is greater than or equal to population size")
   }
   if (length(x) != length(s)) {
     stop("'x' and 's' must be the same length")
@@ -20,16 +14,17 @@ allocate <- function(x, n, s = rep(1L, length(x))) {
   s <- as.factor(s)
   ns <- tabulate(s)
   p <- vapply(split(x, s), sum, numeric(1)) / sum(x)
-  res <- 0
+  res <- 0 # initialize result for loop
   repeat {
-    res <- res + largest_remainder_rounding(n, p)
+    res <- res + largest_remainder_round(p, N)
     d <- pmax(res - ns, 0)
     over <- as.logical(d)
     if (!any(over)) break
-    p[over] <- 0
-    p <- p / sum(p)
     res[over] <- ns[over]
-    n <- sum(d)
+    # redistribute sample units for those that cap out at the stratum size
+    p[over] <- 0  
+    p <- p / sum(p)
+    N <- sum(d)
   }
   res
 }
