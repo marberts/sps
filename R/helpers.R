@@ -9,7 +9,7 @@ is_positive_numeric1 <- function(x) {
 }
 
 is_positive_number <- function(x) {
-  length(x == 1) && is_positive_numeric(x)
+  length(x) == 1 && is_positive_numeric(x)
 }
 
 is_positive_number1 <- function(x) {
