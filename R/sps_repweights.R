@@ -20,7 +20,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
   }
   res <- w * (a + tau) / tau
   if (any(res < 0)) warning("some replicate weights are negative; try increasing 'tau'")
-  structure(res, dim = c(length(w), B), tau = tau, class = "sps_brw")
+  structure(res, dim = c(length(w), B), tau = tau, class = c("sps_brw", "matrix", "array"))
 }
 
 #---- Methods for class 'sps_brw' ----
