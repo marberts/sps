@@ -19,10 +19,11 @@
   z <- runif(length(res$ts)) / p
   keep <- order(z)[seq_len(n_ts)]
   res$ts <- res$ts[keep]
-  structure(as.numeric(unlist(res, use.names = FALSE)), # unlist can return NULL
+  res <- as.numeric(unlist(res, use.names = FALSE)) # unlist can return NULL
+  structure(res,
             weights = c(rep(1, n - n_ts), 1 / p[keep]),
             levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
-            class = c("sps", "numeric"))
+            class = c("sps", class(res)))
 }
 
 #---- Stratified sequential Poisson sampling (exported)----
@@ -42,10 +43,11 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   }
   samp <- Map(.sps, split(x, s), trunc(n))
   res <- Map(`[`, split(seq_along(x), s), samp)
-  structure(as.numeric(unlist(res, use.names = FALSE)), # unlist can return NULL
+  res <- as.numeric(unlist(res, use.names = FALSE)) # unlist can return NULL
+  structure(res,
             weights = as.numeric(unlist(lapply(samp, weights), use.names = FALSE)),
             levels = as.character(unlist(lapply(samp, levels), use.names = FALSE)),
-            class = c("sps", "numeric"))
+            class = c("sps", class(res)))
 }
 
 #---- Methods for class 'sps' ----
