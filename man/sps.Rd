@@ -8,7 +8,7 @@ Draw a stratified sequential Poisson sample
 }
 
 \description{
-Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method in Ohlsson (1998), with the optional of an allocation proportional to size.
+Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method in Ohlsson (1998), with the option of an allocation proportional to size.
 }
 
 \usage{
@@ -74,6 +74,5 @@ strata <- rep(letters[1:4], 5)
 sps(1:20, c(4, 3, 3, 2), strata)
 
 # Proportional allocation
-strata <- rep(letters[1:4], 5)
 sps(1:20, allocate(1:20, 12, strata), strata)
 }
