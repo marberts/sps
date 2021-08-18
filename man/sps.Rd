@@ -8,7 +8,7 @@ Draw a stratified sequential Poisson sample
 }
 
 \description{
-Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method in Ohlsson (1998), with the option of an allocation proportional to size.
+Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method by Ohlsson (1998), with the option of an allocation proportional to size.
 }
 
 \usage{

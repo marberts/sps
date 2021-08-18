@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sps 0.1.0\n"
+"POT-Creation-Date: 2021-08-17 23:35\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "'x' must be a strictly positive and finite numeric vector"
+msgstr ""
+
+msgid "'N' must be a positive and finite number"
+msgstr ""
+
+msgid "sample size 'N' is greater than or equal to population size"
+msgstr ""
+
+msgid "'x' and 's' must be the same length"
+msgstr ""
+
+msgid "sample size 'n' is greater than or equal to population size"
+msgstr ""
+
+msgid "'n' must be a positive and finite numeric vector"
+msgstr ""
+
+msgid "'n' must have a single sample size for each level in 's' (stratum)"
+msgstr ""
+
+msgid "'w' must be a finite numeric vector with each element greater than or equal to 1"
+msgstr ""
+
+msgid "'B' must be a number greater than or equal to 1"
+msgstr ""
+
+msgid "'tau' must be a number greater than or equal to 1"
+msgstr ""
+
+msgid "some replicate weights are negative; try increasing 'tau'"
+msgstr ""

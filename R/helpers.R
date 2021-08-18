@@ -1,19 +1,15 @@
 # None of these functions are exported
 #---- Argument checking ----
-is_positive_numeric <- function(x) {
-  is.numeric(x) && all(is.finite(x)) && all(x >= 0)
+not_positive_vector <- function(x) {
+  !(is.numeric(x) && all(is.finite(x)) && all(x >= 0))
 }
 
-is_positive_numeric1 <- function(x) {
-  is_positive_numeric(x) && all(x >= 1)
+not_strict_positive_vector <- function(x) {
+  !(is.numeric(x) && all(is.finite(x)) && all(x > 0))
 }
 
-is_positive_number <- function(x) {
-  length(x) == 1 && is_positive_numeric(x)
-}
-
-is_positive_number1 <- function(x) {
-  is_positive_number(x) && x >= 1
+not_positive_number <- function(x) {
+  length(x) != 1 || not_positive_vector(x)
 }
 
 #---- Inclusion probability ----

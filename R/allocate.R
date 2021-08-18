@@ -1,8 +1,9 @@
 allocate <- function(x, N, s = rep(1L, length(x))) {
-  if (!is_positive_numeric(x) || !all(x > 0)) {
+  if (not_strict_positive_vector(x)) {
     stop("'x' must be a strictly positive and finite numeric vector")
   }
-  if (!is_positive_number(N)) {
+  N <- trunc(N)
+  if (not_positive_number(N)) {
     stop("'N' must be a positive and finite number")
   }
   if (N > length(x)) {

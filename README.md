@@ -1,8 +1,7 @@
 # sps: Sequential Poisson Sampling
 
-[![Build
-Status](https://travis-ci.com/marberts/sps.svg?branch=master)](https://travis-ci.com/marberts/sps)
-[![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg)](https://codecov.io/gh/marberts/sps)
+[![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
+[![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://codecov.io/gh/marberts/sps)
 
 Sequential Poisson sampling is a method for drawing probability proportional to size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw a stratified sequential Poisson sample according to the method in Ohlsson (1998), and generate bootstrap replicate weights according to the method in Beaumont and Patak (2012).
 

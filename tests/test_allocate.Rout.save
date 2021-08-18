@@ -42,7 +42,15 @@ a b c
 1 2 2 
 > all(replicate(50, sum(allocate(rlnorm(50), 10, sample(letters, 50, TRUE))) == 10))
 [1] TRUE
-> 
+>
+> try(allocate(c(-1, 1), 5))
+Error in allocate(c(-1, 1), 5) : 
+  'x' must be a strictly positive and finite numeric vector
+> try(allocate(1:5, -1))
+Error in allocate(1:5, -1) : 'N' must be a positive and finite number
+> try(allocate(1:4, 5))
+Error in allocate(1:4, 5) : 
+  sample size 'N' is greater than or equal to population size
 > 
 > proc.time()
    user  system elapsed 
