@@ -1,16 +1,16 @@
 allocate <- function(x, N, s = rep(1L, length(x))) {
   if (not_strict_positive_vector(x)) {
-    stop("'x' must be a strictly positive and finite numeric vector")
+    stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }
   N <- trunc(N)
   if (not_positive_number(N)) {
-    stop("'N' must be a positive and finite number")
+    stop(gettext("'N' must be a positive and finite number"))
   }
   if (N > length(x)) {
-    stop("sample size 'N' is greater than or equal to population size")
+    stop(gettext("sample size 'N' is greater than or equal to population size"))
   }
   if (length(x) != length(s)) {
-    stop("'x' and 's' must be the same length")
+    stop(gettext("'x' and 's' must be the same length"))
   }
   s <- as.factor(s)
   ns <- tabulate(s)

@@ -2,7 +2,7 @@
 .sps <- function(x, n) {
   N <- length(x)
   if (n > N) {
-    stop("sample size 'n' is greater than or equal to population size")
+    stop(gettext("sample size 'n' is greater than or equal to population size"))
   }
   # remove the take alls so that inclusion probs are < 1
   stratum <- replace(rep("ts", N), inclusion_prob(x, n) >= 1, "ta")
@@ -28,18 +28,18 @@
 #---- Stratified sequential Poisson sampling (exported)----
 sps <- function(x, n, s = rep(1L, length(x))) {
   if (not_strict_positive_vector(x)) {
-    stop("'x' must be a strictly positive and finite numeric vector")
+    stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }
   n <- trunc(n)
   if (not_positive_vector(n)) {
-    stop("'n' must be a positive and finite numeric vector")
+    stop(gettext("'n' must be a positive and finite numeric vector"))
   }
   if (length(x) != length(s)) {
-    stop("'x' and 's' must be the same length")
+    stop(gettext("'x' and 's' must be the same length"))
   }
   s <- as.factor(s)
   if (length(n) != nlevels(s)) {
-    stop("'n' must have a single sample size for each level in 's' (stratum)")
+    stop(gettext("'n' must have a single sample size for each level in 's' (stratum)"))
   }
   samp <- .mapply(.sps, list(split(x, s), n), list())
   res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
