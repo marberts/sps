@@ -1,0 +1,68 @@
+
+R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(sps)
+> 
+> set.seed(1234)
+> 
+> unclass(sps_repweights(weights(sps(1:10, 0)), 10))
+     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+attr(,"tau")
+[1] 1
+> unclass(sps_repweights(weights(sps(1:10, 10)), 5, tau = 3))
+      [,1] [,2] [,3] [,4] [,5]
+ [1,]    1    1    1    1    1
+ [2,]    1    1    1    1    1
+ [3,]    1    1    1    1    1
+ [4,]    1    1    1    1    1
+ [5,]    1    1    1    1    1
+ [6,]    1    1    1    1    1
+ [7,]    1    1    1    1    1
+ [8,]    1    1    1    1    1
+ [9,]    1    1    1    1    1
+[10,]    1    1    1    1    1
+attr(,"tau")
+[1] 3
+> unclass(sps_repweights(weights(sps(1:10, 10)), 10, dist = rnorm))
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    1    1    1    1    1    1    1    1    1     1
+ [2,]    1    1    1    1    1    1    1    1    1     1
+ [3,]    1    1    1    1    1    1    1    1    1     1
+ [4,]    1    1    1    1    1    1    1    1    1     1
+ [5,]    1    1    1    1    1    1    1    1    1     1
+ [6,]    1    1    1    1    1    1    1    1    1     1
+ [7,]    1    1    1    1    1    1    1    1    1     1
+ [8,]    1    1    1    1    1    1    1    1    1     1
+ [9,]    1    1    1    1    1    1    1    1    1     1
+[10,]    1    1    1    1    1    1    1    1    1     1
+attr(,"tau")
+[1] 1
+> all(sps_repweights(1:5, tau = 2) > 0)
+[1] TRUE
+> all(sps_repweights(1:5, tau = 2)[1, ] == 1)
+[1] TRUE
+> 
+> try(sps_repweights(1:5, B = 0.9))
+Error in sps_repweights(1:5, B = 0.9) : 
+  'B' must be a number greater than or equal to 1
+> try(sps_repweights(1:5, tau = NA))
+Error in sps_repweights(1:5, tau = NA) : 
+  'tau' must be a number greater than or equal to 1
+>
+> proc.time()
+   user  system elapsed 
+  0.317   0.232   0.308 
