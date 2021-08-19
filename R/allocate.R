@@ -1,4 +1,4 @@
-allocate <- function(x, N, s = rep(1L, length(x))) {
+prop_allocation <- function(x, N, s = rep(1L, length(x))) {
   if (not_strict_positive_vector(x)) {
     stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }

@@ -1,14 +1,14 @@
 \name{sps}
 \alias{sps}
 \alias{weights.sps}
-\alias{allocate}
+\alias{prop_allocation}
 
 \title{
-Draw a stratified sequential Poisson sample
+Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability proportional to size sample according to the sequential Poisson sampling method by Ohlsson (1998), with the option of an allocation proportional to size.
+Draw a stratified probability-proportional-to-size sample according to the sequential Poisson sampling method by Ohlsson (1998), with the option of an allocation proportional to size.
 }
 
 \usage{
@@ -16,7 +16,7 @@ sps(x, n, s = rep(1, length(x)))
 
 \method{weights}{sps}(object, ...)
 
-allocate(x, N, s = rep(1, length(x)))
+prop_allocation(x, N, s = rep(1, length(x)))
 }
 
 \arguments{
@@ -38,15 +38,13 @@ The details of the sequential Poisson sampling procedure are in section 2.2 of O
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by PROC SURVEYSELECT in SAS with METHOD = SEQ_POISSON.
 
-The \code{allocate()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
 }
 
 \value{
-\code{sps()} returns an object of class \code{'sps'}. This is a numeric vector of indices for the units in the population that form the sample, along with attributes that give the design weights for each observation in the sample, and the levels (either take-all or take-some).
+\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that give the design weights for each observation in the sample, and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata.
 
-\code{weights()} returns a numeric vector (the design weights attribute of an \code{'sps'} object).
-
-\code{allocate()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
+\code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 }
 
 \references{
@@ -55,6 +53,12 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 
 \seealso{
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
+
+The \code{UPpoisson()} function in the \pkg{sampling} package for regular Poisson sampling.
+
+The \pkg{pps} package for other probability-proportional-to-size sampling methods.
+
+The \code{strAlloc()} function in the \pkg{PracTools} package for other allocation methods.
 }
 
 \examples{
@@ -74,5 +78,5 @@ strata <- rep(letters[1:4], 5)
 sps(1:20, c(4, 3, 3, 2), strata)
 
 # Proportional allocation
-sps(1:20, allocate(1:20, 12, strata), strata)
+sps(1:20, prop_allocation(1:20, 12, strata), strata)
 }
