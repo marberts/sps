@@ -15,10 +15,13 @@
     if (!any(ts_to_ta)) break
   }
   # sample the take somes
-  z <- runif(length(res$ts)) / p
-  keep <- order(z)[seq_len(n_ts)]
+  keep <- if (n_ts) {
+    z <- runif(length(res$ts)) / p
+    order(z)[seq_len(n_ts)]
+  }
   res$ts <- res$ts[keep]
-  res <- as.numeric(unlist(res, use.names = FALSE)) # unlist can return NULL
+  res <- unlist(res, use.names = FALSE) # unlist can return NULL
+  if (!length(res)) res <- integer(0)
   structure(res,
             weights = c(rep(1, n - n_ts), 1 / p[keep]),
             levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
@@ -43,7 +46,8 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   }
   samp <- .mapply(.sps, list(split(x, s), n), list())
   res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
-  res <- as.numeric(unlist(res, use.names = FALSE)) # unlist can return NULL
+  res <- unlist(res, use.names = FALSE) # unlist can return NULL
+  if (!length(res)) res <- integer(0)
   structure(res,
             weights = as.numeric(unlist(lapply(samp, weights), use.names = FALSE)),
             levels = as.character(unlist(lapply(samp, levels), use.names = FALSE)),
