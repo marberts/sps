@@ -7,6 +7,8 @@
 
 There were no ERRORs or WARNINGs or NOTEs.
 
+Possibly misspelled words in DESCRIPTION (ISSN, Ohlsson, Patak) are fine.
+
 ## Downstream dependencies
 
 There are no downstream dependencies at this time.

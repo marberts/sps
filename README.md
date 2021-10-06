@@ -1,7 +1,7 @@
 # sps: Sequential Poisson Sampling
 
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
-[![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
+[![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://codecov.io/gh/marberts/sps)
 
 Sequential Poisson sampling is a method for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw a stratified sequential Poisson sample according to the method in Ohlsson (1998), and generate bootstrap replicate weights according to the method in Beaumont and Patak (2012).
