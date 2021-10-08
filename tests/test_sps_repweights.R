@@ -10,3 +10,5 @@ all(sps_repweights(1:5, tau = 2)[1, ] == 1)
 
 try(sps_repweights(1:5, B = 0.9))
 try(sps_repweights(1:5, tau = NA))
+
+rownames(sps_repweights(structure(1:5, names = letters[1:5]), 5))

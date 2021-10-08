@@ -63,6 +63,9 @@ Error in sps_repweights(1:5, B = 0.9) :
 Error in sps_repweights(1:5, tau = NA) : 
   'tau' must be a number greater than or equal to 1
 >
+> rownames(sps_repweights(structure(1:5, names = letters[1:5]), 5))
+[1] "a" "b" "c" "d" "e"
+>
 > proc.time()
    user  system elapsed 
   0.317   0.232   0.308 

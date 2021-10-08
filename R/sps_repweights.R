@@ -24,6 +24,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
     warning(gettext("some replicate weights are negative; try increasing 'tau'"))
   }
   dim(res) <- c(length(w), B)
+  rownames(res) <- names(w)
   structure(res, tau = tau, class = c("sps_brw", class(res)))
 }
 
