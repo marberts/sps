@@ -32,7 +32,7 @@ These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau \ge 1} to pr
 }
 
 \value{
-An object of class \code{sps_brw}. This is a matrix of bootstrap replicate weights with \code{B} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute.
+An object of class \code{sps_brw}. This is a matrix of bootstrap replicate weights with \code{B} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute. Any names for \code{w} are kept as row names.
 }
 
 \references{
