@@ -1,3 +1,5 @@
 Changes in version 0.1.2
 
 - sps() now returns an integer vector (when possible), rather than a double.
+
+- printing the matrix of replicate weights now shows row names (if any).

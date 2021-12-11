@@ -9,7 +9,7 @@ Sequential Poisson sampling is a method for drawing probability-proportional-to-
 }
 
 \section{Usage}{
-Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the \code{\link[=sps]{sps()}} function. The design weights for a sample can be used to generate bootstrap replicate weights with the \code{\link[=sps_repweights]{sps_repweights()}} function.
+Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the \code{\link[=sps]{sps()}} function. The design weights for a sample can then be used to generate bootstrap replicate weights with the \code{\link[=sps_repweights]{sps_repweights()}} function.
 }
 
 \references{
@@ -25,7 +25,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \author{
 \strong{Maintainer}: Steve Martin \email{stevemartin041@gmail.com}
 
-Other contributiors:
+Other contributors:
 \itemize{
 \item{Justin Francis}
 }

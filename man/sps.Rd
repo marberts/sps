@@ -26,7 +26,7 @@ prop_allocation(x, N, s = rep(1, length(x)))
 
 \item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
-\item{object}{An object of class \code{'sps'}, as made by \code{sps()}.}
+\item{object}{An object of class \code{sps}, as made by \code{sps()}.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
@@ -36,7 +36,7 @@ prop_allocation(x, N, s = rep(1, length(x)))
 \details{
 The details of the sequential Poisson sampling procedure are in section 2.2 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1.
 
-The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by PROC SURVEYSELECT in SAS with METHOD = SEQ_POISSON.
+The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
 }
@@ -67,7 +67,7 @@ x <- c(1:10, 100) # sizes in the population
 # Draw a sample
 (samp <- sps(x, 5))
 
-# Get their design (inverse probability) weights
+# Get the design (inverse probability) weights
 weights(samp)
 
 # All units except 11 are in the take-some (TS) stratum
@@ -78,5 +78,6 @@ strata <- rep(letters[1:4], 5)
 sps(1:20, c(4, 3, 3, 2), strata)
 
 # Proportional allocation
-sps(1:20, prop_allocation(1:20, 12, strata), strata)
+(allocation <- prop_allocation(1:20, 12, strata))
+sps(1:20, allocation, strata)
 }
