@@ -14,7 +14,7 @@ prop_allocation <- function(x, N, s = rep(1L, length(x))) {
   }
   s <- as.factor(s)
   ns <- tabulate(s)
-  p <- vapply(split(x, s), sum, numeric(1)) / sum(x)
+  p <- vapply(split(x, s), sum, numeric(1L)) / sum(x)
   res <- 0 # initialize result for loop
   repeat {
     res <- res + largest_remainder_round(p, N)

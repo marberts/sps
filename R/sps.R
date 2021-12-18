@@ -21,7 +21,7 @@
   }
   res$ts <- res$ts[keep]
   res <- unlist(res, use.names = FALSE) # unlist can return NULL
-  if (!length(res)) res <- integer(0)
+  if (!length(res)) res <- integer(0L)
   structure(res,
             weights = c(rep(1, n - n_ts), 1 / p[keep]),
             levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
@@ -47,7 +47,7 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   samp <- .mapply(.sps, list(split(x, s), n), list())
   res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
   res <- unlist(res, use.names = FALSE) # unlist can return NULL
-  if (!length(res)) res <- integer(0)
+  if (!length(res)) res <- integer(0L)
   structure(res,
             weights = as.numeric(unlist(lapply(samp, weights), use.names = FALSE)),
             levels = as.character(unlist(lapply(samp, levels), use.names = FALSE)),

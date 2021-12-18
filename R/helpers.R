@@ -9,7 +9,7 @@ not_strict_positive_vector <- function(x) {
 }
 
 not_positive_number <- function(x) {
-  length(x) != 1 || not_positive_vector(x)
+  length(x) != 1L || not_positive_vector(x)
 }
 
 #---- Inclusion probability ----
