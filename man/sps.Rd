@@ -12,7 +12,7 @@ Draw a stratified probability-proportional-to-size sample according to the seque
 }
 
 \usage{
-sps(x, n, s = rep(1, length(x)), u = runif(length(x)))
+sps(x, n, s = rep(1, length(x)), prn = NULL)
 
 \method{weights}{sps}(object, ...)
 
@@ -26,7 +26,7 @@ prop_allocation(x, N, s = rep(1, length(x)))
 
 \item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
-\item{u}{A numeric vector of random numbers distributed uniform between 0 and 1, the same length as \code{x}. Specifying these values draws a sequential Poisson sample with permanent random numbers.}
+\item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()}.}
 
@@ -38,13 +38,13 @@ prop_allocation(x, N, s = rep(1, length(x)))
 \details{
 The details of the sequential Poisson sampling procedure are in section 2.2 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1.
 
-The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
+The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}{\xi = u / x}, where \eqn{u}{u} is from \eqn{U(0, 1)}{U(0, 1)}. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi}{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}.
 }
 
 \value{
-\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that give the design weights for each observation in the sample, and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata.
+\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that give the design weights for each observation in the sample (keeping in mind that sequential Poisson sampling is only approximately propbability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata.
 
 \code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 }

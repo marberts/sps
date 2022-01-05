@@ -18,6 +18,7 @@ levels(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 
 is.integer(sps(1:5, 3))
 is.integer(sps(1, 0))
+is.integer(sps(1, 1))
 is.integer(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 
 s <- sample(letters, 100, TRUE)
@@ -27,6 +28,4 @@ all.equal(res, sort(res))
 
 set.seed(4321)
 prn <- runif(10)
-s <- sps(1:10, 5, u = prn)
-set.seed(4321)
-all.equal(s, sps(1:10, 5))
+all.equal(sps(1:10, 5, prn = prn), sps(1:10, 5, prn = prn))

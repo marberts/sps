@@ -58,6 +58,8 @@ character(0)
 [1] TRUE
 > is.integer(sps(1, 0))
 [1] TRUE
+> is.integer(sps(1, 1))
+[1] TRUE
 > is.integer(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 [1] TRUE
 >
@@ -69,9 +71,7 @@ character(0)
 >
 > set.seed(4321)
 > prn <- runif(10)
-> s <- sps(1:10, 5, u = prn)
-> set.seed(4321)
-> all.equal(s, sps(1:10, 5))
+> all.equal(sps(1:10, 5, prn = prn), sps(1:10, 5, prn = prn))
 [1] TRUE
 >
 > proc.time()

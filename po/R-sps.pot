@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sps 0.1.2.9003\n"
-"POT-Creation-Date: 2022-01-05 00:12\n"
+"POT-Creation-Date: 2022-01-05 09:03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,10 +31,10 @@ msgstr ""
 msgid "'n' must have a single sample size for each level in 's' (stratum)"
 msgstr ""
 
-msgid "'x' and 'u' must be the same length"
+msgid "'x' and 'prn' must be the same length"
 msgstr ""
 
-msgid "u' must be a numeric vector between 0 and 1"
+msgid "'prn' must be a numeric vector between 0 and 1"
 msgstr ""
 
 msgid "'w' must be a finite numeric vector with each element greater than or equal to 1"
