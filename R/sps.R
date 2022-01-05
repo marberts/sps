@@ -1,5 +1,5 @@
 #---- Sequential Poisson sampling (internal) ----
-.sps <- function(x, n) {
+.sps <- function(x, n, u = runif(length(x))) {
   N <- length(x)
   if (n > N) {
     stop(gettext("sample size 'n' is greater than or equal to population size"))
@@ -16,7 +16,7 @@
   }
   # sample the take somes
   keep <- if (n_ts) {
-    z <- runif(length(res$ts)) / p
+    z <- u[res$ts] / p
     order(z)[seq_len(n_ts)]
   }
   res$ts <- res$ts[keep]
@@ -29,7 +29,7 @@
 }
 
 #---- Stratified sequential Poisson sampling (exported)----
-sps <- function(x, n, s = rep(1L, length(x))) {
+sps <- function(x, n, s = rep(1L, length(x)), u = runif(length(x))) {
   if (not_strict_positive_vector(x)) {
     stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }
@@ -44,7 +44,13 @@ sps <- function(x, n, s = rep(1L, length(x))) {
   if (length(n) != nlevels(s)) {
     stop(gettext("'n' must have a single sample size for each level in 's' (stratum)"))
   }
-  samp <- .mapply(.sps, list(split(x, s), n), list())
+  if (length(x) != length(u)) {
+    stop(gettext("'x' and 'u' must be the same length"))
+  }
+  if (not_prob(u)) {
+    stop(gettext("u' must be a numeric vector between 0 and 1"))
+  }
+  samp <- .mapply(.sps, list(split(x, s), n, split(u, s)), list())
   res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
   res <- unlist(res, use.names = FALSE) # unlist can return NULL
   if (!length(res)) res <- integer(0L)

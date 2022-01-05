@@ -67,6 +67,13 @@ character(0)
 > all.equal(res, sort(res))
 [1] TRUE
 >
+> set.seed(4321)
+> prn <- runif(10)
+> s <- sps(1:10, 5, u = prn)
+> set.seed(4321)
+> all.equal(s, sps(1:10, 5))
+[1] TRUE
+>
 > proc.time()
    user  system elapsed 
   0.326   0.229   0.354 

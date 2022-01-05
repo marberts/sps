@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sps 0.1.0\n"
-"POT-Creation-Date: 2021-08-17 23:35\n"
+"POT-Creation-Date: 2022-01-05 00:12\n"
 "PO-Revision-Date: 2021-08-17\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -10,7 +10,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-
 msgid "'x' must be a strictly positive and finite numeric vector"
 msgstr "'x' doit être un vecteur numérique strictement positif et fini"
 
@@ -18,22 +17,38 @@ msgid "'N' must be a positive and finite number"
 msgstr "'N' doit être un nombre positif et fini"
 
 msgid "sample size 'N' is greater than or equal to population size"
-msgstr "la taille de l'échantillon 'N' est supérieure ou égale à la taille de la population"
+msgstr ""
+"la taille de l'échantillon 'N' est supérieure ou égale à la taille de la "
+"population"
 
 msgid "'x' and 's' must be the same length"
 msgstr "'x' et 's' doivent avoir la même longueur"
 
 msgid "sample size 'n' is greater than or equal to population size"
-msgstr "la taille de l'échantillon 'n' est supérieure ou égale à la taille de la population"
+msgstr ""
+"la taille de l'échantillon 'n' est supérieure ou égale à la taille de la "
+"population"
 
 msgid "'n' must be a positive and finite numeric vector"
 msgstr "'n' doit être un vecteur numérique positif et fini"
 
 msgid "'n' must have a single sample size for each level in 's' (stratum)"
-msgstr "'n' doit avoir une taille d'échantillon unique pour chaque niveau dans 's' (strate)"
+msgstr ""
+"'n' doit avoir une taille d'échantillon unique pour chaque niveau dans "
+"'s' (strate)"
 
-msgid "'w' must be a finite numeric vector with each element greater than or equal to 1"
-msgstr "'w' doit être un vecteur numérique fini avec chaque élément supérieur ou égal à 1"
+msgid "'x' and 'u' must be the same length"
+msgstr "'x' et 'u' doivent avoir la même longueur"
+
+msgid "u' must be a numeric vector between 0 and 1"
+msgstr "'u' doit être un vecteur numérique compris entre 0 et 1"
+
+msgid ""
+"'w' must be a finite numeric vector with each element greater than or equal "
+"to 1"
+msgstr ""
+"'w' doit être un vecteur numérique fini avec chaque élément supérieur ou "
+"égal à 1"
 
 msgid "'B' must be a number greater than or equal to 1"
 msgstr "'B' doit être un nombre supérieur ou égal à 1"
@@ -42,4 +57,5 @@ msgid "'tau' must be a number greater than or equal to 1"
 msgstr "'tau' doit être un nombre supérieur ou égal à 1"
 
 msgid "some replicate weights are negative; try increasing 'tau'"
-msgstr "certains poids de rééchantillonnage sont négatifs; essayez d'augmenter 'tau'"
+msgstr ""
+"certains poids de rééchantillonnage sont négatifs; essayez d'augmenter 'tau'"

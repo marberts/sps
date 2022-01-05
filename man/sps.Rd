@@ -12,7 +12,7 @@ Draw a stratified probability-proportional-to-size sample according to the seque
 }
 
 \usage{
-sps(x, n, s = rep(1, length(x)))
+sps(x, n, s = rep(1, length(x)), u = runif(length(x)))
 
 \method{weights}{sps}(object, ...)
 
@@ -25,6 +25,8 @@ prop_allocation(x, N, s = rep(1, length(x)))
 \item{n}{A positive vector of integers giving the sample sizes for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
 
 \item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
+
+\item{u}{A numeric vector of random numbers distributed uniform between 0 and 1, the same length as \code{x}. Specifying these values draws a sequential Poisson sample with permanent random numbers.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()}.}
 

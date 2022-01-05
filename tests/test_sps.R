@@ -24,3 +24,9 @@ s <- sample(letters, 100, TRUE)
 x <- runif(100)
 res <- s[sps(x, prop_allocation(x, 50, s), s)]
 all.equal(res, sort(res))
+
+set.seed(4321)
+prn <- runif(10)
+s <- sps(1:10, 5, u = prn)
+set.seed(4321)
+all.equal(s, sps(1:10, 5))
