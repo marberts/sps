@@ -44,7 +44,7 @@ The \code{prop_allocation()} function gives a sample size for each stratum that 
 }
 
 \value{
-\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that give the design weights for each observation in the sample (keeping in mind that sequential Poisson sampling is only approximately propbability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata.
+\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design weights for each observation in the sample (keeping in mind that sequential Poisson sampling is only approximately propbability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata.
 
 \code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 }

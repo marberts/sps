@@ -20,7 +20,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
     dist(n) * sqrt(1 - pi)
   }
   res <- w * (a + tau) / tau
-  if (any(res < 0)) {
+  if (min(res, 0) < 0) {
     warning(gettext("some replicate weights are negative; try increasing 'tau'"))
   }
   dim(res) <- c(length(w), B)
@@ -30,6 +30,6 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
 
 #---- Methods for class 'sps_brw' ----
 print.sps_brw <- function(x, ...) {
-  print(structure(as.numeric(x), dim = dim(x), dimnames = dimnames(x)), ...)
+  print(structure(as.vector(x), dim = dim(x), dimnames = dimnames(x)), ...)
   invisible(x)
 }
