@@ -82,4 +82,10 @@ sps(1:20, c(4, 3, 3, 2), strata)
 # Proportional allocation
 (allocation <- prop_allocation(1:20, 12, strata))
 sps(1:20, allocation, strata)
+
+# It can be useful to set 'prn' in order to extend the sample
+# to get a fixed net sample
+u <- runif(11)
+(samp <- sps(x, 6, prn = u))
+sps(x[-samp[5]], 5, prn = u[-samp[5]]) # removing unit 5 gives the same net sample
 }

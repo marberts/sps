@@ -1,5 +1,5 @@
 
-R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > 
 > set.seed(1234)
 > 
+> # Corner cases
 > unclass(sps(1, 0)) 
 integer(0)
 attr(,"weights")
@@ -39,14 +40,6 @@ character(0)
  [1] 1 1 1 1 1 1 1 1 1 1
 > levels(sps(1:10, 10))
  [1] "TA" "TA" "TA" "TA" "TA" "TA" "TA" "TA" "TA" "TA"
-> sps(c(1:10, 20, 100), 5)[1:2]
-[1] 12 11
-> levels(sps(c(1:10, 20, 100), 5))
-[1] "TA" "TA" "TS" "TS" "TS"
-> sps(c(1:10, 90, 100), 5)[1:2]
-[1] 11 12
-> levels(sps(c(1:10, 90, 100), 5))
-[1] "TA" "TA" "TS" "TS" "TS"
 > all(weights(sps(1:10, 1)) >= 5.5)
 [1] TRUE
 > sps(1:4, c(2, 0), c(1, 1, 2, 2))
@@ -54,6 +47,19 @@ character(0)
 > levels(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 [1] "TS" "TA" "TA"
 > 
+> # Two rounds of TA removal
+> sps(c(1:10, 20, 100), 5)[1:2]
+[1] 12 11
+> levels(sps(c(1:10, 20, 100), 5))
+[1] "TA" "TA" "TS" "TS" "TS"
+> 
+> # One round of TA removal
+> sps(c(1:10, 90, 100), 5)[1:2]
+[1] 11 12
+> levels(sps(c(1:10, 90, 100), 5))
+[1] "TA" "TA" "TS" "TS" "TS"
+> 
+> # Return value should be an integer
 > is.integer(sps(1:5, 3))
 [1] TRUE
 > is.integer(sps(1, 0))
@@ -62,18 +68,33 @@ character(0)
 [1] TRUE
 > is.integer(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 [1] TRUE
->
+> 
+> # Return value should be grouped by strata
 > s <- sample(letters, 100, TRUE)
 > x <- runif(100)
 > res <- s[sps(x, prop_allocation(x, 50, s), s)]
 > all.equal(res, sort(res))
 [1] TRUE
->
+> 
+> # Tests for permanent random numbers
 > set.seed(4321)
 > prn <- runif(10)
-> all.equal(sps(1:10, 5, prn = prn), sps(1:10, 5, prn = prn))
+> all.equal(sps(c(1:9, 100), 5, prn = prn), sps(c(1:9, 100), 5, prn = prn))
 [1] TRUE
->
+> set.seed(4321)
+> all.equal(sps(1:10, 5, prn = prn), sps(1:10, 5))
+[1] TRUE
+> 
+> # Test for extending a stratified sample
+> set.seed(1432)
+> u <- runif(100)
+> x <- c(runif(98), 100, 200)
+> samp <- sps(x, c(5, 6), rep(1:2, each = 50), u)
+> drop <- c(10, 100, 54)
+> samp2 <- sps(x[-drop], c(4, 4), rep(1:2, each = 50)[-drop], u[-drop])
+> all.equal(x[samp[-match(drop, samp)]], x[-drop][samp2])
+[1] TRUE
+> 
 > proc.time()
    user  system elapsed 
-  0.326   0.229   0.354 
+  0.308   0.233   0.375 

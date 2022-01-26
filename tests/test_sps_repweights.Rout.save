@@ -1,5 +1,5 @@
 
-R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > 
 > set.seed(1234)
 > 
+> # Corner cases
 > unclass(sps_repweights(weights(sps(1:10, 0)), 10))
      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
 attr(,"tau")
@@ -51,18 +52,22 @@ attr(,"tau")
 [10,]    1    1    1    1    1    1    1    1    1     1
 attr(,"tau")
 [1] 1
+> 
+> # All rep weights should be positive with the TA strata having all 1s
 > all(sps_repweights(1:5, tau = 2) > 0)
 [1] TRUE
 > all(sps_repweights(1:5, tau = 2)[1, ] == 1)
 [1] TRUE
 > 
+> # Check error messages
 > try(sps_repweights(1:5, B = 0.9))
 Error in sps_repweights(1:5, B = 0.9) : 
   'B' must be a number greater than or equal to 1
 > try(sps_repweights(1:5, tau = NA))
 Error in sps_repweights(1:5, tau = NA) : 
   'tau' must be a number greater than or equal to 1
->
+> 
+> # Printing should preserve names
 > sps_repweights(structure(rep(1, 5), names = letters[1:5]), 5)
   [,1] [,2] [,3] [,4] [,5]
 a    1    1    1    1    1
@@ -70,7 +75,7 @@ b    1    1    1    1    1
 c    1    1    1    1    1
 d    1    1    1    1    1
 e    1    1    1    1    1
->
+> 
 > proc.time()
    user  system elapsed 
-  0.317   0.232   0.308 
+  0.336   0.091   0.361 

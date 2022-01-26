@@ -16,8 +16,8 @@
   }
   # sample the take somes
   keep <- if (n_ts) {
-    z <- if (is.null(prn)) runif(length(res$ts)) else prn[res$ts] / p
-    order(z)[seq_len(n_ts)]
+    z <- if (is.null(prn)) runif(length(res$ts)) else prn[res$ts]
+    order(z / p)[seq_len(n_ts)]
   }
   res$ts <- res$ts[keep]
   res <- unlist(res, use.names = FALSE) # unlist can return NULL
