@@ -74,3 +74,14 @@ print.sps <- function(x, ...) {
   print(as.vector(x), ...)
   invisible(x)
 }
+
+Math.sps <- function(x, ...) {
+  x <- as.vector(x)
+  NextMethod()
+}
+
+Ops.sps <- function(e1, e2) {
+  if (inherits(e1, "sps")) e1 <- as.vector(e1)
+  if (nargs() == 2L && inherits(e2, "sps")) e2 <- as.vector(e2)
+  NextMethod()
+}

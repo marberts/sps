@@ -48,3 +48,10 @@ samp <- sps(x, c(5, 6), rep(1:2, each = 50), u)
 drop <- c(10, 100, 54)
 samp2 <- sps(x[-drop], c(4, 4), rep(1:2, each = 50)[-drop], u[-drop])
 all.equal(x[samp[-match(drop, samp)]], x[-drop][samp2])
+
+# Mathematical functions should treat 'sps' objects as numeric vectors
+str(log(samp))
+str(1L + samp)
+str(samp / 2)
+str(samp > samp)
+str(-samp)

@@ -3,5 +3,7 @@ export(sps, sps_repweights, prop_allocation)
 S3method(weights, sps)
 S3method(print, sps)
 S3method(print, sps_brw)
+S3method(Ops, sps)
+S3method(Math, sps)
 
 importFrom(stats, weights, runif, rbinom)

@@ -94,6 +94,18 @@ character(0)
 > samp2 <- sps(x[-drop], c(4, 4), rep(1:2, each = 50)[-drop], u[-drop])
 > all.equal(x[samp[-match(drop, samp)]], x[-drop][samp2])
 [1] TRUE
+>
+> # Mathematical functions should treat 'sps' objects as numeric vectors
+> str(log(samp))
+ num [1:11] 2.83 1.95 1.79 3.43 2.3 ...
+> str(1L + samp)
+ int [1:11] 18 8 7 32 11 100 101 55 61 72 ...
+> str(samp / 2)
+ num [1:11] 8.5 3.5 3 15.5 5 49.5 50 27 30 35.5 ...
+> str(samp > samp)
+ logi [1:11] FALSE FALSE FALSE FALSE FALSE FALSE ...
+> str(-samp)
+ int [1:11] -17 -7 -6 -31 -10 -99 -100 -54 -60 -71 ...
 > 
 > proc.time()
    user  system elapsed 
