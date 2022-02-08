@@ -55,3 +55,7 @@ str(1L + samp)
 str(samp / 2)
 str(samp > samp)
 str(-samp)
+
+# And replacement methods
+samp[1] <- 1
+str(samp)

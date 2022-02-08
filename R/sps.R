@@ -85,3 +85,13 @@ Ops.sps <- function(e1, e2) {
   if (nargs() == 2L && inherits(e2, "sps")) e2 <- as.vector(e2)
   NextMethod()
 }
+
+`[<-.sps` <- function(x, i, value) {
+  x <- as.vector(x)
+  NextMethod()
+}
+
+`[[<-.sps` <- function(x, i, value) {
+  x <- as.vector(x)
+  NextMethod()
+}
