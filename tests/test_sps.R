@@ -59,3 +59,10 @@ str(-samp)
 # And replacement methods
 samp[1] <- 1
 str(samp)
+
+# Tests for error messages
+try(sps(-1, 1))
+try(sps(1, NA))
+try(sps(1:4, 2, c(1, 1, 2, 2)))
+try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
+try(sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)))

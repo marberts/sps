@@ -10,4 +10,4 @@ There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
-There are no downstream dependencies at this time.
+All downstream packages pass R CMD check.

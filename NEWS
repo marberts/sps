@@ -2,6 +2,8 @@ Changes in version 0.1.3
 
 - Added the option to draw samples with permanent random numbers.
 
+- Added methods for Math, Ops, [<-, and [[<- that strip attributes from 'sps' objects so as not to treat the result as a sample.
+
 Changes in version 0.1.2
 
 - sps() now returns an integer vector (when possible), rather than a double.

@@ -28,7 +28,7 @@
             class = c("sps", class(res)))
 }
 
-#---- Stratified sequential Poisson sampling (exported)----
+#---- Stratified sequential Poisson sampling (exported) ----
 sps <- function(x, n, s = rep(1L, length(x)), prn = NULL) {
   if (not_strict_positive_vector(x)) {
     stop(gettext("'x' must be a strictly positive and finite numeric vector"))
@@ -55,8 +55,8 @@ sps <- function(x, n, s = rep(1L, length(x)), prn = NULL) {
   prn <- if (!is.null(prn)) split(prn, s) else vector("list", nlevels(s))
   samp <- .mapply(.sps, list(split(x, s), n, prn), list())
   res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
-  res <- unlist(res, use.names = FALSE) # unlist can return NULL
-  if (!length(res)) res <- integer(0L)
+  res <- unlist(res, use.names = FALSE) 
+  if (!length(res)) res <- integer(0L) # unlist can return NULL
   structure(res,
             weights = as.numeric(unlist(lapply(samp, weights), use.names = FALSE)),
             levels = as.character(unlist(lapply(samp, levels), use.names = FALSE)),

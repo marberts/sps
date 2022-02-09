@@ -11,9 +11,9 @@ status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/pa
 Sequential Poisson sampling is a method for drawing
 probability-proportional-to-size samples with a given number of units,
 and is commonly used for price-index surveys. This package gives
-functions to draw a stratified sequential Poisson sample according to
-the method in Ohlsson (1998), and generate bootstrap replicate weights
-according to the method in Beaumont and Patak (2012).
+functions to draw stratified sequential Poisson samples according to the
+method by Ohlsson (1998), and generate bootstrap replicate weights
+according to the method by Beaumont and Patak (2012).
 
 ## Installation
 
@@ -21,7 +21,7 @@ according to the method in Beaumont and Patak (2012).
 install.packages("sps")
 ```
 
-The latest version can be found on GitHub.
+The development version can be found on GitHub.
 
 ``` r
 devtools::install_github("marberts/sps")
@@ -42,11 +42,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1] 11 12  9 10  3  6
+#> [1] 11 12  5  8  6  9
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 1.000000 1.000000 1.527778 1.375000 4.583333 2.291667
+#> [1] 1.000000 1.000000 2.750000 1.718750 2.291667 1.527778
 levels(samp)
 #> [1] "TA" "TA" "TS" "TS" "TS" "TS"
 ```
@@ -56,7 +56,7 @@ replicate weights with the `sps_repwights()` function.
 
 ## References
 
-Beaumont, J.-F., and Patak, Z. (2012). On the Generalized Bootstrap for
+Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for
 Sample Surveys with Special Attention to Poisson Sampling.
 *International Statistical Review*, 80(1): 127-148.
 
