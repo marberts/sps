@@ -11,13 +11,13 @@ Sequential Poisson sampling is a method for drawing probability-proportional-to-
 \section{Usage}{
 Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the \code{\link[=sps]{sps()}} function. The design weights for a sample can then be used to generate bootstrap replicate weights with the \code{\link[=sps_repweights]{sps_repweights()}} function.
 
-Sequential Poisson sampling is often used to sample data for price indexes. Balk (2008, chapter 5) discusses the construction of price indexes when data are sampled using probability-proportional-to-size methods, and their resulting statistical properties (although these results are not directly application to sequential Poisson sampling because the method is only approximately proportional to size; see Ohlsson (1998, proposition 2.2) for details). The CPI manual (2020, chapter 4) details other sampling methods that are used for price data.
+Sequential Poisson sampling is often used to sample data for price indexes. Balk (2008, chapter 5) discusses the construction of price indexes when data are sampled using probability-proportional-to-size methods, and their resulting statistical properties (although these results are not directly applicable to sequential Poisson sampling because the method is only approximately proportional to size; see Ohlsson (1998, proposition 2.2) for details). The CPI manual (2020, chapter 4) details other sampling methods that are used for price data.
 }
 
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
-Beaumont, J.-F., and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. \emph{International Statistical Review}, 80(1): 127-148.
+Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. \emph{International Statistical Review}, 80(1): 127-148.
 
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 

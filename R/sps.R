@@ -86,12 +86,7 @@ Ops.sps <- function(e1, e2) {
   NextMethod()
 }
 
-`[<-.sps` <- function(x, i, value) {
-  x <- as.vector(x)
-  NextMethod()
-}
-
-`[[<-.sps` <- function(x, i, value) {
+`[<-.sps` <- `[[<-.sps` <- function(x, i, value) {
   x <- as.vector(x)
   NextMethod()
 }
