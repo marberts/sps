@@ -1,10 +1,14 @@
-prop_allocation <- function(x, N, s = rep(1L, length(x))) {
+prop_allocation <- function(x, N, s = rep(1L, length(x)), initial = 0) {
   if (not_strict_positive_vector(x)) {
     stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }
   N <- trunc(N)
   if (not_positive_number(N)) {
     stop(gettext("'N' must be a positive and finite number"))
+  }
+  initial <- trunc(initial)
+  if (not_positive_number(initial)) {
+    stop(gettext("'initial' must be a positive and finite number"))
   }
   if (N > length(x)) {
     stop(gettext("sample size 'N' is greater than or equal to population size"))
@@ -14,8 +18,14 @@ prop_allocation <- function(x, N, s = rep(1L, length(x))) {
   }
   s <- as.factor(s)
   ns <- tabulate(s)
-  p <- vapply(split(x, s), sum, numeric(1L)) / sum(x)
-  res <- 0 # initialize result for loop
+  if (any(initial > ns)) {
+    stop(gettext("'initial' must be smaller than the population size for each stratum"))
+  }
+  if (initial * nlevels(s) > N) {
+    stop(gettext("initial allocation is larger than 'N'"))
+  } 
+  p <- vapply(split(x, s), sum, numeric(1L))
+  res <- initial # initialize result for loop
   repeat {
     res <- res + largest_remainder_round(p, N)
     d <- pmax(res - ns, 0)
@@ -24,7 +34,6 @@ prop_allocation <- function(x, N, s = rep(1L, length(x))) {
     res[over] <- ns[over]
     # redistribute sample units for those that cap out at the stratum size
     p[over] <- 0  
-    p <- p / sum(p)
     N <- sum(d)
   }
   res

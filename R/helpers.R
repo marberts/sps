@@ -29,6 +29,7 @@ rand_round <- function(x, n) {
 
 #---- Largest-remainder rounding ----
 largest_remainder_round <- function(p, n) {
+  p <- p / sum(p)
   np <- n * p
   npf <- floor(np)
   npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
