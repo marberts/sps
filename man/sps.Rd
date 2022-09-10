@@ -16,7 +16,7 @@ sps(x, n, s = rep(1, length(x)), prn = NULL)
 
 \method{weights}{sps}(object, ...)
 
-prop_allocation(x, N, s = rep(1, length(x)), initial = 0)
+prop_allocation(x, N, s = rep(1, length(x)), min = 0)
 }
 
 \arguments{
@@ -32,7 +32,7 @@ prop_allocation(x, N, s = rep(1, length(x)), initial = 0)
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
-\item{initial}{A positive integer giving the initial allocation for each stratum. Non-integers are truncated towards 0. The default does not initially allocate any units.}
+\item{min}{A positive integer giving the smallest allocation for each stratum. Non-integers are truncated towards 0. The default allows no units to be allocated to a stratum.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }

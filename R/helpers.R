@@ -28,9 +28,36 @@ rand_round <- function(x, n) {
 }
 
 #---- Largest-remainder rounding ----
-largest_remainder_round <- function(p, n) {
+largest_remainder_round <- function(p, n, a) {
   p <- p / sum(p)
   np <- n * p
   npf <- floor(np)
-  npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
+  a + npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
+}
+
+highest_averages <- function(
+    divisor = c("D'Hondt", "Webster", "Imperiali", 
+                "Huntington-Hill", "Danish", "Adams", "Dean")
+) {
+  f <- switch(
+    match.arg(divisor),
+    "D'Hondt" = function(x) x + 1,
+    "Webster" = function(x) x + 0.5,
+    "Imperiali" = function(x) x + 2,
+    "Huntington-Hill" = function(x) sqrt(x * (x + 1)),
+    "Danish" = function(x) x + 1 / 3,
+    "Adams" = function(x) x,
+    "Dean" = function(x) x * (x + 1) / (x + 0.5)
+  )
+  function(p, n, a) {
+    if (is.null(names(a))) {
+      names(a) <- names(p)
+    }
+    while (n > 0) {
+      i <- which.max(p / f(a))
+      a[i] <- a[i] + 1
+      n <- n - 1
+    }
+    a
+  }
 }

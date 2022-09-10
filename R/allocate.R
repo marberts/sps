@@ -1,4 +1,4 @@
-prop_allocation <- function(x, N, s = rep(1L, length(x)), initial = 0) {
+prop_allocation <- function(x, N, s = rep(1L, length(x)), min = 0) {
   if (not_strict_positive_vector(x)) {
     stop(gettext("'x' must be a strictly positive and finite numeric vector"))
   }
@@ -6,9 +6,9 @@ prop_allocation <- function(x, N, s = rep(1L, length(x)), initial = 0) {
   if (not_positive_number(N)) {
     stop(gettext("'N' must be a positive and finite number"))
   }
-  initial <- trunc(initial)
-  if (not_positive_number(initial)) {
-    stop(gettext("'initial' must be a positive and finite number"))
+  min <- trunc(min)
+  if (not_positive_number(min)) {
+    stop(gettext("'min' must be a positive and finite number"))
   }
   if (N > length(x)) {
     stop(gettext("sample size 'N' is greater than or equal to population size"))
@@ -18,16 +18,16 @@ prop_allocation <- function(x, N, s = rep(1L, length(x)), initial = 0) {
   }
   s <- as.factor(s)
   ns <- tabulate(s)
-  if (any(initial > ns)) {
-    stop(gettext("'initial' must be smaller than the population size for each stratum"))
+  if (any(min > ns)) {
+    stop(gettext("'min' must be smaller than the population size for each stratum"))
   }
-  if (initial * nlevels(s) > N) {
-    stop(gettext("initial allocation is larger than 'N'"))
+  if (min * nlevels(s) > N) {
+    stop(gettext("min allocation is larger than 'N'"))
   } 
   p <- vapply(split(x, s), sum, numeric(1L))
-  res <- initial # initialize result for loop
+  res <- structure(rep(min, length(p)), names = levels(s)) # initialize result for loop
   repeat {
-    res <- res + largest_remainder_round(p, N)
+    res <- largest_remainder_round(p, N, res)
     d <- pmax(res - ns, 0)
     over <- as.logical(d)
     if (!any(over)) break
