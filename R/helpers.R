@@ -27,20 +27,30 @@ rand_round <- function(x, n) {
   y + (runif(length(x) * n) < x - y)
 }
 
-#---- Largest-remainder rounding ----
-largest_remainder_round <- function(p, n, a) {
+#---- Rounding methods ----
+apportionment <- function(
+    method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
+               "Huntington-Hill", "Danish", "Adams", "Dean")  
+) {
+  method <- match.arg(method)
+  if (method == "Largest-remainder") {
+    largest_remainder
+  } else {
+    highest_averages(method)
+  }
+}
+
+largest_remainder <- function(p, n, initial) {
   p <- p / sum(p)
   np <- n * p
   npf <- floor(np)
-  a + npf + (rank(npf - np, ties.method = "first") <= n - sum(npf))
+  remainder <- rank(npf - np, ties.method = "first") <= n - sum(npf)
+  initial + npf + remainder
 }
 
-highest_averages <- function(
-    divisor = c("D'Hondt", "Webster", "Imperiali", 
-                "Huntington-Hill", "Danish", "Adams", "Dean")
-) {
+highest_averages <- function(divisor) {
   f <- switch(
-    match.arg(divisor),
+    divisor,
     "D'Hondt" = function(x) x + 1,
     "Webster" = function(x) x + 0.5,
     "Imperiali" = function(x) x + 2,
@@ -49,15 +59,18 @@ highest_averages <- function(
     "Adams" = function(x) x,
     "Dean" = function(x) x * (x + 1) / (x + 0.5)
   )
-  function(p, n, a) {
-    if (is.null(names(a))) {
-      names(a) <- names(p)
+  # return function
+  res <- function(p, n, initial) {
+    if (is.null(names(initial))) {
+      names(initial) <- names(p)
     }
     while (n > 0) {
-      i <- which.max(p / f(a))
-      a[i] <- a[i] + 1
+      i <- which.max(p / f(initial))
+      initial[i] <- initial[i] + 1
       n <- n - 1
     }
-    a
+    initial
   }
+  environment(res) <- list2env(list(f = f), parent = getNamespace("sps"))
+  res
 }

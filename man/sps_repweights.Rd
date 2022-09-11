@@ -24,11 +24,11 @@ sps_repweights(w, B = 1000, tau = 1, dist = NULL)
 }
 
 \details{
-The details of the method for generating bootstrap replicates are in sections 4 and 6 of Beaumont and Patak (2012). Briefly, their method involves finding a vector of adjustments \eqn{a}{a} for each bootstrap replicate and calculating the replicate weights as \eqn{a w}{a * w}, where \eqn{w}{w} is a vector of design weights (inverse of the inclusion probabilities). 
+The details of the method for generating bootstrap replicates are in sections 4 and 6 of Beaumont and Patak (2012). Briefly, their method involves finding a vector of adjustments \eqn{a} for each bootstrap replicate and calculating the replicate weights as \eqn{a w}{a * w}, where \eqn{w} is a vector of design weights (inverse of the inclusion probabilities). 
 
-The default pseudo-population method randomly rounds \eqn{w}{w} for each replicate to produce a collection of integer weights \eqn{w'}{w'} that are used to generate a random vector \eqn{b}{b} from a binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} will use this function to make a random vector \eqn{d}{d} that is used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}{a = 1 + d \sqrt(1 - 1 / w)}.
+The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from a binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} will use this function to make a random vector \eqn{d} that is used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}.
 
-These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau \ge 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}{(a + \tau - 1) / \tau}. If \eqn{\tau > 1}{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}{\tau^2}.
+These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau \ge 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 }
 
 \value{
