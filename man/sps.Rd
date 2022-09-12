@@ -44,7 +44,18 @@ The details of the sequential Poisson sampling procedure are in sections 2.2 to 
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is from \eqn{U(0, 1)}. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x} using largest-remainder or highest-averages rounding (so that they add up to \code{N}). In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x}, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic for a given allocation. The following divisor functions are available:
+\tabular{ll}{
+D'Hondt/Jefferson \tab \eqn{d(x) = x + 1}\cr
+Webster/Sainte-Laguë \tab \eqn{d(x) = x + 0.5}\cr
+Imperiali \tab \eqn{d(x) = x + 2}\cr
+Huntington–Hill \tab \eqn{d(x) = \sqrt{x(x + 1)}}{d(x) = (x * (x + 1))^0.5}\cr
+Danish \tab \eqn{d(x) = x + 1 / 3}\cr
+Adams \tab \eqn{d(x) = x}\cr
+Dean \tab \eqn{d(x) = x(x + 1) / (x + 0.5)}{d(x) = x * (x + 1) / (x + 0.5)}
+}
+
+In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 }
 
 \value{
