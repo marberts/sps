@@ -37,6 +37,17 @@ a
 > prop_allocation(rep(1, 10), 4, rep(letters[1:2], 5))
 a b 
 2 2 
+> prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5))
+a b 
+0 4 
+> prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 1)
+a b 
+1 3 
+> prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 2)
+a b 
+2 2 
+>
+> # Multiple iterations
 > prop_allocation(c(1, 1, 1, 1, 1, 1, 1, 10, 10, 10), 5, rep(letters[1:2], c(7, 3)))
 a b 
 2 3 
@@ -44,9 +55,38 @@ a b
 a b c 
 1 2 2 
 > 
-> # Allocation for each strata should add up to total sample size
+> # Allocation for each stratum should add up to total sample size
 > all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE))) == 10))
 [1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "D'Hondt")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Webster")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Imperiali")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Huntington-Hill")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Danish")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Adams")) == 10))
+[1] TRUE
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Dean")) == 10))
+[1] TRUE
+>
+> # Alabama paradox
+> prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2)))
+1 2 3 
+4 4 2 
+> prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2)))
+1 2 3 
+5 5 1 
+> 
+> prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2)), method = "D'Hondt")
+1 2 3 
+5 4 1 
+> prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2)), method = "D'Hondt")
+1 2 3 
+5 5 1 
 > 
 > # Checks for error messages
 > try(prop_allocation(c(-1, 1), 5))
@@ -58,6 +98,9 @@ Error in prop_allocation(1:5, -1) :
 > try(prop_allocation(1:4, 5))
 Error in prop_allocation(1:4, 5) : 
   sample size 'N' is greater than or equal to population size
+> try(prop_allocation(1:4, 2, min = 3))
+Error in prop_allocation(1:4, 2, min = 3) : 
+  minimal allocation is larger than 'N'
 > 
 > proc.time()
    user  system elapsed 

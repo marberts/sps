@@ -87,12 +87,12 @@ prop_allocation <- function(x, N, s = rep(1L, length(x)), min = 0, method = "Lar
   if (any(min > ns)) {
     stop(gettext("'min' must be smaller than the population size for each stratum"))
   }
-  if (min * nlevels(s) > N) {
-    stop(gettext("min allocation is larger than 'N'"))
+  if ((N <- N - min * nlevels(s)) < 0) {
+    stop(gettext("minimal allocation is larger than 'N'"))
   }
   round <- apportionment(method)
   p <- vapply(split(x, s), sum, numeric(1L))
-  res <- structure(rep(min, length(p)), names = levels(s)) # initialize result for loop
+  res <- structure(rep(min, length(p)), names = levels(s))
   repeat {
     res <- round(p, N, res)
     d <- pmax(res - ns, 0)

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sps 0.1.0\n"
-"POT-Creation-Date: 2022-01-05 00:12\n"
+"POT-Creation-Date: 2022-09-11 23:23\n"
 "PO-Revision-Date: 2021-08-17\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -10,27 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "'x' must be a strictly positive and finite numeric vector"
-msgstr "'x' doit être un vecteur numérique strictement positif et fini"
-
-msgid "'N' must be a positive and finite number"
-msgstr "'N' doit être un nombre positif et fini"
-
-msgid "sample size 'N' is greater than or equal to population size"
-msgstr ""
-"la taille de l'échantillon 'N' est supérieure ou égale à la taille de la "
-"population"
-
-msgid "'x' and 's' must be the same length"
-msgstr "'x' et 's' doivent avoir la même longueur"
-
 msgid "sample size 'n' is greater than or equal to population size"
 msgstr ""
 "la taille de l'échantillon 'n' est supérieure ou égale à la taille de la "
 "population"
 
+msgid "'x' must be a strictly positive and finite numeric vector"
+msgstr "'x' doit être un vecteur numérique strictement positif et fini"
+
 msgid "'n' must be a positive and finite numeric vector"
 msgstr "'n' doit être un vecteur numérique positif et fini"
+
+msgid "'x' and 's' must be the same length"
+msgstr "'x' et 's' doivent avoir la même longueur"
 
 msgid "'n' must have a single sample size for each level in 's' (stratum)"
 msgstr ""
@@ -42,6 +34,24 @@ msgstr "'x' et 'prn' doivent avoir la même longueur"
 
 msgid "'prn' must be a numeric vector between 0 and 1"
 msgstr "'prn' doit être un vecteur numérique compris entre 0 et 1"
+
+msgid "'N' must be a positive and finite number"
+msgstr "'N' doit être un nombre positif et fini"
+
+msgid "'min' must be a positive and finite number"
+msgstr "'min' doit être un nombre positif et fini"
+
+msgid "sample size 'N' is greater than or equal to population size"
+msgstr ""
+"la taille de l'échantillon 'N' est supérieure ou égale à la taille de la "
+"population"
+
+msgid "'min' must be smaller than the population size for each stratum"
+msgstr ""
+"'min' doit être inférieur à la taille de la population pour chaque strate"
+
+msgid "minimal allocation is larger than 'N'"
+msgstr "l'allocation minimale est supérieure à 'N'"
 
 msgid ""
 "'w' must be a finite numeric vector with each element greater than or equal "

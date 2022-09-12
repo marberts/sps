@@ -22,7 +22,7 @@ inclusion_prob <- function(x, n) {
 }
 
 #---- Random rounding ----
-rand_round <- function(x, n) {
+random_round <- function(x, n) {
   y <- floor(x)
   y + (runif(length(x) * n) < x - y)
 }
