@@ -16,7 +16,9 @@ sps(x, n, s = rep(1, length(x)), prn = NULL)
 
 \method{weights}{sps}(object, ...)
 
-prop_allocation(x, N, s = rep(1, length(x)), min = 0, method = "Largest-remainder")
+prop_allocation(
+  x, N, s = rep(1, length(x)), min = 0, method = "Largest-remainder"
+)
 }
 
 \arguments{
@@ -34,7 +36,7 @@ prop_allocation(x, N, s = rep(1, length(x)), min = 0, method = "Largest-remainde
 
 \item{min}{A positive integer giving the smallest allocation for each stratum. Non-integers are truncated towards 0. The default allows no units to be allocated to a stratum.}
 
-\item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages methods are available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
+\item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -45,6 +47,7 @@ The details of the sequential Poisson sampling procedure are in sections 2.2 to 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is from \eqn{U(0, 1)}. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to \code{x}, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic for a given allocation. The following divisor functions are available:
+
 \tabular{ll}{
 D'Hondt/Jefferson \tab \eqn{d(x) = x + 1}\cr
 Webster/Sainte-Laguë \tab \eqn{d(x) = x + 0.5}\cr
@@ -102,5 +105,7 @@ sps(1:20, allocation, strata)
 # to get a fixed net sample
 u <- runif(11)
 (samp <- sps(x, 6, prn = u))
-sps(x[-samp[5]], 5, prn = u[-samp[5]]) # removing unit 5 gives the same net sample
+
+# Removing unit 5 gives the same net sample
+sps(x[-samp[5]], 5, prn = u[-samp[5]]) 
 }

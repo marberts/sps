@@ -29,6 +29,8 @@ The details of the method for generating bootstrap replicates are in sections 4 
 The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from a binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} will use this function to make a random vector \eqn{d} that is used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}.
 
 These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau \ge 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
+
+As an alternative to the bootstrap, Ohlsson (1998, equation 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{\hat Y = \sum y * w} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(\hat Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - \hat Y / n)^2}
 }
 
 \value{
@@ -39,6 +41,8 @@ There are currently no interesting methods for this class.
 
 \references{
 Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. \emph{International Statistical Review}, 80(1): 127-148.
+
+Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
 }
 
 \seealso{
@@ -52,9 +56,12 @@ x <- c(1:10, 100) # sizes in the population
 (samp <- sps(x, 5))
 
 # Make some bootstrap replicates
-sps_repweights(weights(samp), B = 5) # pseudo-population method
+# ...pseudo-population method
+sps_repweights(weights(samp), B = 5) 
 
-sps_repweights(weights(samp), B = 5, dist = rnorm) # standard-normal method
+# ...standard-normal method
+sps_repweights(weights(samp), B = 5, dist = rnorm) 
 
-sps_repweights(weights(samp), B = 5, dist = function(x) rexp(x) - 1) # exponential method
+# ...exponential method
+sps_repweights(weights(samp), B = 5, dist = function(x) rexp(x) - 1) 
 }

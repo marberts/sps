@@ -54,6 +54,9 @@ a b
 > prop_allocation(c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5, rep(letters[1:3], c(6, 2, 2)))
 a b c 
 1 2 2 
+> prop_allocation(c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5, rep(letters[1:3], c(6, 2, 2)), method = "Adams")
+a b c 
+1 2 2
 > 
 > # Allocation for each stratum should add up to total sample size
 > all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE))) == 10))

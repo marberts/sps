@@ -120,7 +120,7 @@ Error in sps(-1, 1) :
 Error in sps(1, NA) : 'n' must be a positive and finite numeric vector
 > try(sps(1:4, 2, c(1, 1, 2, 2)))
 Error in sps(1:4, 2, c(1, 1, 2, 2)) : 
-  'n' must have a single sample size for each level in 's' (stratum)
+  'n' must have a single sample size for each level in 's'
 > try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
 Error in (function (x, n, prn = NULL)  : 
   sample size 'n' is greater than or equal to population size
