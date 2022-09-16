@@ -6,7 +6,7 @@
 
     2. `method` selects the apportionment method used to round a proportional allocation to integer values. In particular, highest-averages methods can be used in place of the largest-remainder method.
 
-    The defaults for these arguments do not change the behavior of the function.
+    The defaults for these arguments do not change the behavior of the function from previous versions.
 
 ## Changes in version 0.1.3
 

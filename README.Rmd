@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
+[![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://app.codecov.io/gh/marberts/sps)
 
@@ -50,7 +51,27 @@ weights(samp)
 levels(samp)
 ```
 
+Allocations are often proportional to size when drawing such samples, and the `prop_allocation()` function provides a variety of methods for generating proportional-to-size allocations.
+
+```{r}
+# Add some strata
+stratum <- rep(c("a", "b"), c(9, 3))
+
+# Make an allocation
+(allocation <- prop_allocation(revenue, 6, stratum))
+
+# Draw a stratified sample
+(samp <- sps(revenue, allocation, stratum))
+
+weights(samp)
+levels(samp)
+```
+
 The design weights for a sample can then be used to generate bootstrap replicate weights with the `sps_repwights()` function.
+
+```{r}
+sps_repweights(weights(samp), 5, tau = 2)
+```
 
 ## References
 
