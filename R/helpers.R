@@ -28,18 +28,6 @@ random_round <- function(x, n) {
 }
 
 #---- Rounding methods ----
-apportionment <- function(
-    method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
-               "Huntington-Hill", "Danish", "Adams", "Dean")  
-) {
-  method <- match.arg(method)
-  if (method == "Largest-remainder") {
-    largest_remainder
-  } else {
-    highest_averages(method)
-  }
-}
-
 largest_remainder <- function(p, n, initial) {
   p <- p / sum(p)
   np <- n * p

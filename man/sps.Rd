@@ -17,7 +17,9 @@ sps(x, n, s = rep(1, length(x)), prn = NULL)
 \method{weights}{sps}(object, ...)
 
 prop_allocation(
-  x, N, s = rep(1, length(x)), min = 0, method = "Largest-remainder"
+  x, N, s = rep(1, length(x)), min = 0, 
+  method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
+             "Huntington-Hill", "Danish", "Adams", "Dean") 
 )
 }
 
@@ -44,7 +46,7 @@ prop_allocation(
 \details{
 The details of the sequential Poisson sampling procedure are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1.
 
-The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is from \eqn{U(0, 1)}. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
+The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic. The following divisor functions \eqn{d(a)} are available:
 
@@ -92,6 +94,10 @@ weights(samp)
 
 # All units except 11 are in the take-some (TS) stratum
 levels(samp)
+
+# Ordinary Poisson sampling gives a random sample size for the 
+# take-some stratum
+which(runif(10) / x[1:10] * sum(x[1:10]) <= 4)
 
 # Example of a stratified sample
 strata <- rep(letters[1:4], 5)

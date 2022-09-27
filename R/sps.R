@@ -84,7 +84,9 @@ sps <- function(x, n, s = rep(1L, length(x)), prn = NULL) {
 
 #---- Proportional allocation ----
 prop_allocation <- function(
-    x, N, s = rep(1L, length(x)), min = 0, method = "Largest-remainder"
+    x, N, s = rep(1L, length(x)), min = 0, 
+    method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
+               "Huntington-Hill", "Danish", "Adams", "Dean")  
 ) {
   if (not_strict_positive_vector(x)) {
     stop(
@@ -113,6 +115,7 @@ prop_allocation <- function(
       gettext("'x' and 's' must be the same length")
     )
   }
+  method <- match.arg(method)
   s <- as.factor(s)
   ns <- tabulate(s)
   if (any(min > ns)) {
@@ -125,7 +128,12 @@ prop_allocation <- function(
       gettext("minimal allocation is larger than 'N'")
     )
   }
-  round <- apportionment(method)
+  # apportionment method
+  round <- if (method == "Largest-remainder") {
+    largest_remainder
+  } else {
+    highest_averages(method)
+  }
   p <- vapply(split(x, s), sum, numeric(1L))
   res <- structure(rep(min, length(p)), names = levels(s))
   # redistribute sample units for those that cap out at the stratum size
