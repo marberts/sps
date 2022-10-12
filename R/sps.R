@@ -6,28 +6,20 @@
       gettext("sample size 'n' is greater than or equal to population size")
     )
   }
-  # remove the take alls so that inclusion probs are < 1
-  stratum <- replace(rep("ts", N), inclusion_prob(x, n) >= 1, "ta")
-  res <- split(seq_len(N), factor(stratum, levels = c("ta", "ts")))
-  # repeat until all inclusion probs are < 1
-  repeat {
-    n_ts <- n - length(res$ta) # always >= 0
-    ts_to_ta <- (p <- inclusion_prob(x[res$ts], n_ts)) >= 1
-    res$ta <- c(res$ta, res$ts[ts_to_ta])
-    res$ts <- res$ts[!ts_to_ta]
-    if (!any(ts_to_ta)) break
-  }
+  p <- inclusion_prob(x, n)
+  ts <- p < 1
+  ta <- which(!ts)
+  ts <- which(ts)
+  n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
-    z <- if (is.null(prn)) runif(length(res$ts)) else prn[res$ts]
-    order(z / p)[seq_len(n_ts)]
+    z <- if (is.null(prn)) runif(length(ts)) else prn[ts]
+    order(z / p[ts])[seq_len(n_ts)]
   }
-  res$ts <- res$ts[keep]
-  res <- unlist(res, use.names = FALSE) # unlist can return NULL
-  if (!length(res)) res <- integer(0L)
+  res <- c(ta, ts[keep])
   structure(
     res,
-    weights = c(rep(1, n - n_ts), 1 / p[keep]),
+    weights = 1 / p[res],
     levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
     class = c("sps", class(res))
   )

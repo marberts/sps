@@ -17,8 +17,20 @@ not_prob <- function(x) {
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n) {
+pi <- function(x, n) {
   x / sum(x) * n
+}
+
+inclusion_prob <- function(x, n) {
+  res <- pi(x, n)
+  repeat {
+    to_ta <- which(res > 1)
+    if (length(to_ta) == 0L) break
+    res[to_ta] <- 1
+    ts <- which(res < 1)
+    res[ts] <- pi(res[ts], n - length(x) + length(ts))
+  }
+  res
 }
 
 #---- Random rounding ----

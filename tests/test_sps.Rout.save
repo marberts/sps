@@ -43,13 +43,13 @@ character(0)
 > all(weights(sps(1:10, 1)) >= 5.5)
 [1] TRUE
 > sps(1:4, c(2, 0), c(1, 1, 2, 2))
-[1] 2 1
+[1] 1 2
 > levels(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 [1] "TS" "TA" "TA"
 > 
 > # Two rounds of TA removal
 > sps(c(1:10, 20, 100), 5)[1:2]
-[1] 12 11
+[1] 11 12
 > levels(sps(c(1:10, 20, 100), 5))
 [1] "TA" "TA" "TS" "TS" "TS"
 > 
