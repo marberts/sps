@@ -27,8 +27,8 @@ inclusion_prob <- function(x, n) {
     to_ta <- which(res > 1)
     if (length(to_ta) == 0L) break
     res[to_ta] <- 1
-    ts <- which(res < 1)
-    res[ts] <- pi(res[ts], n - length(x) + length(ts))
+    keep_ts <- which(res < 1)
+    res[keep_ts] <- pi(x[keep_ts], n - length(x) + length(keep_ts))
   }
   res
 }

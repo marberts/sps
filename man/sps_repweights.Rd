@@ -2,11 +2,11 @@
 \alias{sps_repweights}
 
 \title{
-Bootstrap replicate weights for sequential Poisson sampling
+Bootstrap replicate weights for Poisson sampling
 }
 
 \description{
-Produce bootstrap replicate weights that are appropriate for sequential Poisson sampling using the generalized bootstrap method by Beaumont and Patak (2012).
+Produce bootstrap replicate weights that are appropriate for Poisson sampling, and therefore approximately correct for sequential Poisson sampling, using the generalized bootstrap method by Beaumont and Patak (2012).
 }
 
 \usage{
@@ -14,7 +14,7 @@ sps_repweights(w, B = 1000, tau = 1, dist = NULL)
 }
 
 \arguments{
-\item{w}{A numeric vector of design weights for a sequential Poisson sample.}
+\item{w}{A numeric vector of design weights for a (sequential) Poisson sample.}
 
 \item{B}{An integer that gives the number of bootstrap replicates (1,000 by default). Non-integers are truncated towards 0.}
 

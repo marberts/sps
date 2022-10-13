@@ -14,11 +14,11 @@ sps(1:4, c(2, 0), c(1, 1, 2, 2))
 levels(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 
 # Two rounds of TA removal
-sps(c(1:10, 20, 100), 5)[1:2]
-levels(sps(c(1:10, 20, 100), 5))
+sps(c(20, 1:10, 100), 5)[c(1, 5)]
+levels(sps(c(20, 1:10, 100), 5))
 
 # One round of TA removal
-sps(c(1:10, 90, 100), 5)[1:2]
+sps(c(1:10, 90, 100), 5)[4:5]
 levels(sps(c(1:10, 90, 100), 5))
 
 # Return value should be an integer
@@ -27,11 +27,12 @@ is.integer(sps(1, 0))
 is.integer(sps(1, 1))
 is.integer(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 
-# Return value should be grouped by strata
+# Strata sizes should add up
 s <- sample(letters, 100, TRUE)
 x <- runif(100)
-res <- s[sps(x, prop_allocation(x, 50, s), s)]
-all.equal(res, sort(res))
+alloc <- prop_allocation(x, 50, s)
+res <- s[sps(x, alloc, s)]
+all.equal(tabulate(factor(res, letters)), as.vector(alloc))
 
 # Tests for permanent random numbers
 set.seed(4321)

@@ -1,11 +1,5 @@
 #---- Sequential Poisson sampling (internal) ----
 .sps <- function(x, n, prn = NULL) {
-  N <- length(x)
-  if (n > N) {
-    stop(
-      gettext("sample size 'n' is greater than or equal to population size")
-    )
-  }
   p <- inclusion_prob(x, n)
   ts <- p < 1
   ta <- which(!ts)
@@ -25,53 +19,89 @@
   )
 }
 
-#---- Stratified sequential Poisson sampling (exported) ----
-sps <- function(x, n, s = rep(1L, length(x)), prn = NULL) {
-  if (not_strict_positive_vector(x)) {
-    stop(
-      gettext("'x' must be a strictly positive and finite numeric vector")
-    )
-  }
-  n <- trunc(n)
-  if (not_positive_vector(n)) {
-    stop(
-      gettext("'n' must be a positive and finite numeric vector")
-    )
-  }
-  if (length(x) != length(s)) {
-    stop(
-      gettext("'x' and 's' must be the same length")
-    )
-  }
-  s <- as.factor(s)
-  if (length(n) != nlevels(s)) {
-    stop(
-      gettext("'n' must have a single sample size for each level in 's'")
-    )
-  }
-  if (!is.null(prn)) {
-    if (length(x) != length(prn)) {
-      stop(
-        gettext("'x' and 'prn' must be the same length")
-      )
-    }
-    if (not_prob(prn)) {
-      stop(
-        gettext("'prn' must be a numeric vector between 0 and 1")
-      )
-    }
-  }
-  prn <- if (!is.null(prn)) split(prn, s) else vector("list", nlevels(s))
-  samp <- .mapply(.sps, list(split(x, s), n, prn), list())
-  res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
-  res <- unlist(res, use.names = FALSE) 
-  if (!length(res)) res <- integer(0L) # unlist can return NULL
+#---- Ordinary Poisson sampling (internal) ----
+.ps <- function(x, n, prn = NULL) {
+  N <- length(x)
+  p <- inclusion_prob(x, n)
+  z <- if (is.null(prn)) runif(N) else prn
+  res <- which(z < p)
   structure(
     res,
-    weights = as.numeric(unlist(lapply(samp, weights), use.names = FALSE)),
-    levels = as.character(unlist(lapply(samp, levels), use.names = FALSE)),
+    weights = 1 / p[res],
+    levels = replace(rep("TA", N), p[res] < 1, "TS"),
     class = c("sps", class(res))
   )
+}
+
+#---- Stratified sampling (exported) ----
+stratify <- function(f) {
+  f <- match.fun(f)
+  # return function
+  function(x, n, s = rep(1L, length(x)), prn = NULL) {
+    if (not_strict_positive_vector(x)) {
+      stop(
+        gettext("'x' must be a strictly positive and finite numeric vector")
+      )
+    }
+    n <- trunc(n)
+    if (not_positive_vector(n)) {
+      stop(
+        gettext("'n' must be a positive and finite numeric vector")
+      )
+    }
+    if (length(x) != length(s)) {
+      stop(
+        gettext("'x' and 's' must be the same length")
+      )
+    }
+    s <- as.factor(s)
+    if (length(n) != nlevels(s)) {
+      stop(
+        gettext("'n' must have a single sample size for each level in 's'")
+      )
+    }
+    if (any(tabulate(s) < n)) {
+      stop(
+        gettext("sample size 'n' is greater than or equal to population size")
+      )
+    }
+    if (!is.null(prn)) {
+      if (length(x) != length(prn)) {
+        stop(
+          gettext("'x' and 'prn' must be the same length")
+        )
+      }
+      if (not_prob(prn)) {
+        stop(
+          gettext("'prn' must be a numeric vector between 0 and 1")
+        )
+      }
+    }
+    prn <- if (!is.null(prn)) split(prn, s) else vector("list", nlevels(s))
+    samp <- .mapply(f, list(split(x, s), n, prn), list())
+    res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
+    res <- unlist(res, use.names = FALSE) 
+    if (!length(res)) res <- integer(0L) # unlist can return NULL
+    weights <- as.numeric(unlist(lapply(samp, weights), use.names = FALSE))
+    levels <- as.character(unlist(lapply(samp, levels), use.names = FALSE))
+    ord <- order(res)
+    structure(
+      res[ord],
+      weights = weights[ord],
+      levels = levels[ord],
+      class = c("sps", class(res))
+    )
+  }
+}
+
+sps <- stratify(.sps)
+
+ps <- stratify(.ps)
+
+#---- Coverage ----
+sps_coverage <- function(x, n, g) {
+  p <- split(inclusion_prob(x, n), g)
+  sum(1 - vapply(p, function(x) prod(1 - x), numeric(1)))
 }
 
 #---- Proportional allocation ----
