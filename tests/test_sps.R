@@ -28,7 +28,7 @@ is.integer(sps(1, 1))
 is.integer(sps(1:4, c(1, 2), c(1, 1, 2, 2)))
 
 # Strata sizes should add up
-s <- sample(letters, 100, TRUE)
+s <- factor(sample(letters, 100, TRUE), letters)
 x <- runif(100)
 alloc <- prop_allocation(x, 50, s)
 res <- s[sps(x, alloc, s)]

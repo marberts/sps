@@ -1,11 +1,11 @@
 # None of these functions are exported
 #---- Argument checking ----
 not_positive_vector <- function(x) {
-  !(is.numeric(x) && all(is.finite(x)) && all(x >= 0))
+  !(length(x) > 0 && is.numeric(x) && all(is.finite(x)) && all(x >= 0))
 }
 
 not_strict_positive_vector <- function(x) {
-  !(is.numeric(x) && all(is.finite(x)) && all(x > 0))
+  !(length(x) > 0 && is.numeric(x) && all(is.finite(x)) && all(x > 0))
 }
 
 not_positive_number <- function(x) {
