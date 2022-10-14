@@ -15,21 +15,21 @@ Draw a stratified probability-proportional-to-size sample according to the seque
 }
 
 \usage{
-sps(x, n, s = single_stratum(x), prn = NULL)
+sps(x, n, s = gl(1, length(x)), prn = NULL)
 
-ps(x, n, s = single_stratum(x), prn = NULL)
+ps(x, n, s = gl(1, length(x)), prn = NULL)
 
 \method{weights}{sps}(object, ...)
 
-inclusion_prob(x, n, s = single_stratum(x))
+inclusion_prob(x, n, s = gl(1, length(x)))
 
 prop_allocation(
-  x, N, s = single_stratum(x), min = 0, 
+  x, N, s = gl(1, length(x)), min = 0, 
   method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
              "Huntington-Hill", "Danish", "Adams", "Dean") 
 )
 
-expected_coverage(x, N, s = single_stratum(x))
+expected_coverage(x, N, s = gl(1, length(x)))
 }
 
 \arguments{
