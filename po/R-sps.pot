@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sps 0.1.3.9004\n"
-"POT-Creation-Date: 2022-09-11 23:26\n"
+"Project-Id-Version: sps 0.1.4.9004\n"
+"POT-Creation-Date: 2022-10-14 16:05\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9,9 +9,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "sample size 'n' is greater than or equal to population size"
-msgstr ""
 
 msgid "'x' must be a strictly positive and finite numeric vector"
 msgstr ""
@@ -22,10 +19,16 @@ msgstr ""
 msgid "'x' and 's' must be the same length"
 msgstr ""
 
-msgid "'n' must have a single sample size for each level in 's' (stratum)"
+msgid "'n' must have a single sample size for each level in 's'"
 msgstr ""
 
-msgid "'x' and 'prn' must be the same length"
+msgid "'s' cannot contain NAs"
+msgstr ""
+
+msgid "sample size 'n' is greater than or equal to population size"
+msgstr ""
+
+msgid "'s' and 'prn' must be the same length"
 msgstr ""
 
 msgid "'prn' must be a numeric vector between 0 and 1"
@@ -34,10 +37,10 @@ msgstr ""
 msgid "'N' must be a positive and finite number"
 msgstr ""
 
-msgid "'min' must be a positive and finite number"
+msgid "sample size 'N' is greater than or equal to population size"
 msgstr ""
 
-msgid "sample size 'N' is greater than or equal to population size"
+msgid "'min' must be a positive and finite number"
 msgstr ""
 
 msgid "'min' must be smaller than the population size for each stratum"

@@ -1,3 +1,9 @@
+#---- Internal helpers ----
+random_round <- function(x, n) {
+  y <- floor(x)
+  y + (runif(length(x) * n) < x - y)
+}
+
 #---- Bootstrap replicate weights ----
 sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
   if (not_positive_vector(w - 1)) {

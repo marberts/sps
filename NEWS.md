@@ -1,4 +1,4 @@
-## Changes in version 0.1.4
+## Changes in version 0.2.0
 
 - `prop_allocation()` gains two new arguments:
 
@@ -7,6 +7,18 @@
     2. `method` selects the apportionment method used to round a proportional allocation to integer values. In particular, highest-averages methods can be used in place of the largest-remainder method.
 
     The defaults for these arguments do not change the behavior of the function from previous versions.
+    
+- A few convenience functions have been added:
+
+    1. `ps()` for drawing ordinary Poisson samples with the same interface as `sps()`.
+    
+    2. `inclusion_prob()` for generating inclusion probabilities for a frame.
+    
+    3. `expected_coverage()` for calculating the expected number of strata when sampling from a frame.
+    
+- Some of the internals have been updated to improve performance with large frames.
+
+- It is no longer possible to pass length 0 arguments to `sps()`, `prop_allocation()`, or `sps_repweights()`. 
 
 ## Changes in version 0.1.3
 

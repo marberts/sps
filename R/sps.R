@@ -1,5 +1,5 @@
-#---- Internal functions ----
-# Inclusion probability
+#---- Inclusion probability ----
+# Internal helpers
 pi <- function(x, n) {
   x / sum(x) * n
 }
@@ -54,7 +54,15 @@ pi <- function(x, n) {
   Map(.inclusion_prob, split(x, s), n)
 }
 
-# Sequential Poisson sampling
+# Exported 
+inclusion_prob <- function(x, n, s = gl(1, length(x))) {
+  res <- unsplit(.inclusion_prob_list(x, n, s), s)
+  attributes(res) <- NULL # unsplit() mangles attributes
+  res
+}
+
+#---- Sampling ----
+# Internal helpers
 .sps <- function(p, n, prn = NULL) {
   ts <- p < 1
   ta <- which(!ts)
@@ -87,15 +95,7 @@ pi <- function(x, n) {
   )
 }
 
-#---- Exported functions ----
-# Inclusion probability
-inclusion_prob <- function(x, n, s = gl(1, length(x))) {
-  res <- unsplit(.inclusion_prob_list(x, n, s), s)
-  attributes(res) <- NULL # unsplit() mangles attributes
-  res
-}
-
-# Sampling
+# Exported
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
@@ -120,8 +120,7 @@ stratify <- function(f) {
       vector("list", nlevels(s))
     }
     samp <- Map(f, .inclusion_prob_list(x, n, s), n, prn)
-    res <- Map(`[`, split(seq_along(x), s), samp)
-    res <- unlist(res, use.names = FALSE) 
+    res <- unlist(Map(`[`, split(seq_along(x), s), samp), use.name = FALSE)
     weights <- unlist(lapply(samp, weights), use.names = FALSE)
     levels <- unlist(lapply(samp, levels), use.names = FALSE)
     ord <- order(res)
@@ -138,6 +137,45 @@ sps <- stratify(.sps)
 
 ps <- stratify(.ps)
 
+#---- Allocation ----
+# Internal helpers
+# Rounding methods
+largest_remainder <- function(p, n, initial) {
+  p <- p / sum(p)
+  np <- n * p
+  npf <- floor(np)
+  remainder <- rank(npf - np, ties.method = "first") <= n - sum(npf)
+  initial + npf + remainder
+}
+
+highest_averages <- function(divisor) {
+  f <- switch(
+    divisor,
+    "D'Hondt" = function(x) x + 1,
+    "Webster" = function(x) x + 0.5,
+    "Imperiali" = function(x) x + 2,
+    "Huntington-Hill" = function(x) sqrt(x * (x + 1)),
+    "Danish" = function(x) x + 1 / 3,
+    "Adams" = function(x) x,
+    "Dean" = function(x) x * (x + 1) / (x + 0.5)
+  )
+  # return function
+  res <- function(p, n, initial) {
+    if (is.null(names(initial))) {
+      names(initial) <- names(p)
+    }
+    while (n > 0) {
+      i <- which.max(p / f(initial))
+      initial[i] <- initial[i] + 1
+      n <- n - 1
+    }
+    initial
+  }
+  environment(res) <- list2env(list(f = f), parent = getNamespace("sps"))
+  res
+}
+
+# Exported
 # Expected coverage
 expected_coverage <- function(x, N, s = gl(1, length(x))) {
   if (not_strict_positive_vector(x)) {
@@ -217,7 +255,8 @@ prop_allocation <- function(
       gettext("'min' must be smaller than the population size for each stratum")
     )
   }
-  if ((N <- N - min * nlevels(s)) < 0) {
+  N <- N - min * nlevels(s)
+  if (N < 0) {
     stop(
       gettext("minimal allocation is larger than 'N'")
     )

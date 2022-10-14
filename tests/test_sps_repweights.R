@@ -3,7 +3,7 @@ library(sps)
 set.seed(1234)
 
 # Corner cases
-unclass(sps_repweights(weights(sps(1:10, 0)), 10))
+# unclass(sps_repweights(weights(sps(1:10, 0)), 10))
 unclass(sps_repweights(weights(sps(1:10, 10)), 5, tau = 3))
 unclass(sps_repweights(weights(sps(1:10, 10)), 10, dist = rnorm))
 
