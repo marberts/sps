@@ -1,7 +1,10 @@
 \name{sps}
 \alias{sps}
+\alias{ps}
 \alias{weights.sps}
 \alias{prop_allocation}
+\alias{expected_coverage}
+\alias{inclusion_prob}
 
 \title{
 Stratified sequential Poisson sampling
@@ -12,15 +15,21 @@ Draw a stratified probability-proportional-to-size sample according to the seque
 }
 
 \usage{
-sps(x, n, s = rep(1, length(x)), prn = NULL)
+sps(x, n, s = single_stratum(x), prn = NULL)
+
+ps(x, n, s = single_stratum(x), prn = NULL)
 
 \method{weights}{sps}(object, ...)
 
+inclusion_prob(x, n, s = single_stratum(x))
+
 prop_allocation(
-  x, N, s = rep(1, length(x)), min = 0, 
+  x, N, s = single_stratum(x), min = 0, 
   method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
              "Huntington-Hill", "Danish", "Adams", "Dean") 
 )
+
+expected_coverage(x, N, s = single_stratum(x))
 }
 
 \arguments{
@@ -44,11 +53,11 @@ prop_allocation(
 }
 
 \details{
-The details of the sequential Poisson sampling procedure are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1.
+The \code{sps()} function draws a sample according to the sequential Poission procedure, the details of which are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not draw a fixed number of units. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic. The following divisor functions \eqn{d(a)} are available:
 
@@ -63,12 +72,18 @@ Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
 }
 
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
+
+The \code{expected_coverage()} function gives the average number of strata covered with an ordinary Poisson sample. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation to the coverage under sequential Poisson sampling.
 }
 
 \value{
-\code{sps()} returns an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
+\code{sps()} and \code{ps()} return an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
+
+\code{inclusion_prob()} returns a numeric vector of inclusion probabilies for each unit in the population.
 
 \code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
+
+\code{expected_coverage()} returns a number giving the expected number of strata covered by the sample design.
 }
 
 \references{
@@ -78,7 +93,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \seealso{
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson()} function in the \pkg{sampling} package for regular Poisson sampling.
+The \code{UPpoisson()} function in the \pkg{sampling} package for regular Poisson sampling. It is largely the same as \code{ps()}.
 
 The \pkg{pps} package for other probability-proportional-to-size sampling methods.
 

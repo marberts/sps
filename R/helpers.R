@@ -16,23 +16,6 @@ not_prob <- function(x) {
   not_strict_positive_vector(x) || any(x >= 1)
 }
 
-#---- Inclusion probability ----
-pi <- function(x, n) {
-  x / sum(x) * n
-}
-
-inclusion_prob <- function(x, n) {
-  res <- pi(x, n)
-  repeat {
-    to_ta <- which(res > 1)
-    if (length(to_ta) == 0L) break
-    res[to_ta] <- 1
-    keep_ts <- which(res < 1)
-    res[keep_ts] <- pi(x[keep_ts], n - length(x) + length(keep_ts))
-  }
-  res
-}
-
 #---- Random rounding ----
 random_round <- function(x, n) {
   y <- floor(x)

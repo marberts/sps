@@ -1,6 +1,28 @@
-#---- Sequential Poisson sampling (internal) ----
-.sps <- function(x, n, prn = NULL) {
-  p <- inclusion_prob(x, n)
+#---- Internal functions ----
+# Helpers
+single_stratum <- function(x) {
+  structure(rep(1L, length(x)), levels = "1"[length(x) > 0L], class = "factor")
+}
+
+pi <- function(x, n) {
+  x / sum(x) * n
+}
+
+# Inclusion probability
+.inclusion_prob <- function(x, n) {
+  res <- pi(x, n)
+  repeat {
+    to_ta <- which(res > 1)
+    if (length(to_ta) == 0L) break
+    res[to_ta] <- 1
+    keep_ts <- which(res < 1)
+    res[keep_ts] <- pi(x[keep_ts], n - length(x) + length(keep_ts))
+  }
+  res
+}
+
+# Sequential Poisson sampling
+.sps <- function(p, n, prn = NULL) {
   ts <- p < 1
   ta <- which(!ts)
   ts <- which(ts)
@@ -19,52 +41,63 @@
   )
 }
 
-#---- Ordinary Poisson sampling (internal) ----
-.ps <- function(x, n, prn = NULL) {
-  N <- length(x)
-  p <- inclusion_prob(x, n)
-  z <- if (is.null(prn)) runif(N) else prn
+# Ordinary Poisson sampling
+.ps <- function(p, n, prn = NULL) {
+  z <- if (is.null(prn)) runif(length(p)) else prn
   res <- which(z < p)
   structure(
     res,
     weights = 1 / p[res],
-    levels = replace(rep("TA", N), p[res] < 1, "TS"),
+    levels = replace(rep("TA", length(res)), p[res] < 1, "TS"),
     class = c("sps", class(res))
   )
 }
 
-#---- Stratified sampling (exported) ----
+#---- Exported functions ----
+# Inclusion probability
+inclusion_prob <- function(x, n, s = single_stratum(x)) {
+  if (not_strict_positive_vector(x)) {
+    stop(
+      gettext("'x' must be a strictly positive and finite numeric vector")
+    )
+  }
+  n <- trunc(n)
+  if (not_positive_vector(n)) {
+    stop(
+      gettext("'n' must be a positive and finite numeric vector")
+    )
+  }
+  s <- as.factor(s)
+  if (length(x) != length(s)) {
+    stop(
+      gettext("'x' and 's' must be the same length")
+    )
+  }
+  if (length(n) != nlevels(s)) {
+    stop(
+      gettext("'n' must have a single sample size for each level in 's'")
+    )
+  }
+  # bins isn't wide enough by default to catch factors with unused levels
+  # at the end
+  if (any(tabulate(s, nbins = nlevels(s)) < n)) {
+    stop(
+      gettext("sample size 'n' is greater than or equal to population size")
+    )
+  }
+  if (length(x) == 0L) return(numeric(0))
+  res <- unsplit(Map(.inclusion_prob, split(x, s), n), s)
+  attributes(res) <- NULL # unsplit() mangles attributes
+  res
+}
+
+# Sampling
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, s = rep(1L, length(x)), prn = NULL) {
-    if (not_strict_positive_vector(x)) {
-      stop(
-        gettext("'x' must be a strictly positive and finite numeric vector")
-      )
-    }
+  function(x, n, s = single_stratum(x), prn = NULL) {
     n <- trunc(n)
-    if (not_positive_vector(n)) {
-      stop(
-        gettext("'n' must be a positive and finite numeric vector")
-      )
-    }
-    if (length(x) != length(s)) {
-      stop(
-        gettext("'x' and 's' must be the same length")
-      )
-    }
     s <- as.factor(s)
-    if (length(n) != nlevels(s)) {
-      stop(
-        gettext("'n' must have a single sample size for each level in 's'")
-      )
-    }
-    if (any(tabulate(s) < n)) {
-      stop(
-        gettext("sample size 'n' is greater than or equal to population size")
-      )
-    }
     if (!is.null(prn)) {
       if (length(x) != length(prn)) {
         stop(
@@ -77,11 +110,15 @@ stratify <- function(f) {
         )
       }
     }
-    prn <- if (!is.null(prn)) split(prn, s) else vector("list", nlevels(s))
-    samp <- .mapply(f, list(split(x, s), n, prn), list())
-    res <- .mapply(`[`, list(split(seq_along(x), s), samp), list())
+    prn <- if (!is.null(prn)) {
+      split(prn, s)
+    } else {
+      vector("list", nlevels(s))
+    }
+    samp <- Map(f, split(inclusion_prob(x, n, s), s), n, prn)
+    res <- Map(`[`, split(seq_along(x), s), samp)
     res <- unlist(res, use.names = FALSE) 
-    if (!length(res)) res <- integer(0L) # unlist can return NULL
+    if (length(res) == 0L) res <- integer(0L) # unlist can return NULL
     weights <- as.numeric(unlist(lapply(samp, weights), use.names = FALSE))
     levels <- as.character(unlist(lapply(samp, levels), use.names = FALSE))
     ord <- order(res)
@@ -98,15 +135,21 @@ sps <- stratify(.sps)
 
 ps <- stratify(.ps)
 
-#---- Coverage ----
-sps_coverage <- function(x, n, g) {
-  p <- split(inclusion_prob(x, n), g)
-  sum(1 - vapply(p, function(x) prod(1 - x), numeric(1)))
+# Expected coverage
+expected_coverage <- function(x, N, s = single_stratum(x)) {
+  s <- as.factor(s)
+  if (length(x) != length(s)) {
+    stop(
+      gettext("'x' and 's' must be the same length")
+    )
+  }
+  p <- split(inclusion_prob(x, N), s)
+  sum(1 - vapply(p, function(x) prod(1 - x), numeric(1L)))
 }
 
-#---- Proportional allocation ----
+# Proportional allocation
 prop_allocation <- function(
-    x, N, s = rep(1L, length(x)), min = 0, 
+    x, N, s = single_stratum(x), min = 0, 
     method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
                "Huntington-Hill", "Danish", "Adams", "Dean")  
 ) {
@@ -132,14 +175,14 @@ prop_allocation <- function(
       gettext("sample size 'N' is greater than or equal to population size")
     )
   }
+  s <- as.factor(s)
   if (length(x) != length(s)) {
     stop(
       gettext("'x' and 's' must be the same length")
     )
   }
   method <- match.arg(method)
-  s <- as.factor(s)
-  ns <- tabulate(s)
+  ns <- tabulate(s, nbins = nlevels(s))
   if (any(min > ns)) {
     stop(
       gettext("'min' must be smaller than the population size for each stratum")
