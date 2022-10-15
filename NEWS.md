@@ -18,7 +18,7 @@
     
 - Some of the internals have been updated to improve performance with large frames.
 
-- It is no longer possible to pass length 0 arguments to `sps()`, `prop_allocation()`, or `sps_repweights()`. 
+- It is no longer possible to pass length 0 arguments to `sps()`, `prop_allocation()`, or `sps_repweights()`.
 
 ## Changes in version 0.1.3
 

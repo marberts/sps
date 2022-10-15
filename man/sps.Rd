@@ -41,7 +41,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers.}
 
-\item{object}{An object of class \code{sps}, as made by \code{sps()}.}
+\item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
@@ -57,7 +57,7 @@ The \code{sps()} function draws a sample according to the sequential Poission pr
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not draw a fixed number of units. The \code{ps()} function draws a sample using the ordinary Poisson method.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic. The following divisor functions \eqn{d(a)} are available:
 
@@ -73,7 +73,7 @@ Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
 
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 
-The \code{expected_coverage()} function gives the average number of strata covered with an ordinary Poisson sample. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation to the coverage under sequential Poisson sampling.
+The \code{expected_coverage()} function gives the average number of strata covered with an ordinary Poisson sample. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation to the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.
 }
 
 \value{
@@ -114,7 +114,7 @@ levels(samp)
 
 # Ordinary Poisson sampling gives a random sample size for the 
 # take-some stratum
-which(runif(10) / x[1:10] * sum(x[1:10]) <= 4)
+ps(x, 5)
 
 # Example of a stratified sample
 strata <- rep(letters[1:4], 5)

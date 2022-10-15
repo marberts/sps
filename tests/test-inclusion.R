@@ -1,8 +1,8 @@
 library(sps)
 
+set.seed(14235)
+
 # Corner cases
-#all.equal(inclusion_prob(numeric(0), integer(0)), numeric(0))
-#all.equal(inclusion_prob(numeric(0), 0, gl(1, 0)), numeric(0))
 all.equal(
   inclusion_prob(1:3, c(0, 1, 0), factor(c(2, 2, 2), levels = 1:3)),
   1:3 / 6
@@ -21,8 +21,8 @@ x <- c(x, 100)
 all.equal(inclusion_prob(x, 4), c(x[1:10] / 55 * 3, 1))
 
 # Two rounds
-x <- c(90, x)
-all.equal(inclusion_prob(x, 4), c(1, x[2:11] / 55 * 2, 1))
+x <- c(20, x)
+all.equal(inclusion_prob(x, 5), c(1, x[2:11] / 55 * 3, 1))
 
 # Strata should be independent
 all.equal(
@@ -34,4 +34,11 @@ all.equal(
 all.equal(
   inclusion_prob(1:20, 12),
   c(1:16 / 136 * 8, rep(1, 4))
+)
+
+# Should agree with design weights
+samp <- sps(x, c(4, 3), gl(2, 6))
+all.equal(
+  1 / inclusion_prob(x, c(4, 3), gl(2, 6))[samp],
+  weights(samp)
 )

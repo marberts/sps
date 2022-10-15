@@ -10,12 +10,13 @@ badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://app.codecov.io/gh/marberts/sps)
 
-Sequential Poisson sampling is a method for drawing
-probability-proportional-to-size samples with a given number of units,
-and is commonly used for price-index surveys. This package gives
+Sequential Poisson sampling is a variation of Poisson sampling for
+drawing probability-proportional-to-size samples with a given number of
+units, and is commonly used for price-index surveys. This package gives
 functions to draw stratified sequential Poisson samples according to the
-method by Ohlsson (1998), and generate bootstrap replicate weights
-according to the method by Beaumont and Patak (2012).
+method by Ohlsson (1998), and generate appropriate bootstrap replicate
+weights according to the generalized bootstrap method by Beaumont and
+Patak (2012).
 
 ## Installation
 
@@ -44,13 +45,13 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1] 11 12  5  7  9 10
+#> [1]  4  5  7 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 1.000000 1.000000 2.750000 1.964286 1.527778 1.375000
+#> [1] 3.437500 2.750000 1.964286 1.375000 1.000000 1.000000
 levels(samp)
-#> [1] "TA" "TA" "TS" "TS" "TS" "TS"
+#> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
 
 Allocations are often proportional to size when drawing such samples,
@@ -68,10 +69,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  9  5  2 11 12 10
+#> [1]  2  7  9 10 11 12
 
 weights(samp)
-#> [1] 1.666667 3.000000 7.500000 1.000000 1.000000 1.000000
+#> [1] 7.500000 2.142857 1.666667 1.000000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -81,13 +82,13 @@ replicate weights with the `sps_repwights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>          [,1] [,2]      [,3] [,4] [,5]
-#> [1,] 1.166667 1.50  1.166667  2.0  2.0
-#> [2,] 3.000000 3.00  1.500000  4.5  1.5
-#> [3,] 7.750000 7.75 11.000000  3.5  4.0
-#> [4,] 1.000000 1.00  1.000000  1.0  1.0
-#> [5,] 1.000000 1.00  1.000000  1.0  1.0
-#> [6,] 1.000000 1.00  1.000000  1.0  1.0
+#>           [,1]      [,2]     [,3]     [,4]       [,5]
+#> [1,] 3.5000000 11.000000 4.000000 4.000000 11.0000000
+#> [2,] 0.6428571  2.214286 2.214286 2.214286  1.1428571
+#> [3,] 1.5000000  1.500000 1.166667 2.333333  0.6666667
+#> [4,] 1.0000000  1.000000 1.000000 1.000000  1.0000000
+#> [5,] 1.0000000  1.000000 1.000000 1.000000  1.0000000
+#> [6,] 1.0000000  1.000000 1.000000 1.000000  1.0000000
 ```
 
 ## References

@@ -32,7 +32,5 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \strong{Maintainer}: Steve Martin \email{stevemartin041@gmail.com}
 
 Other contributors:
-\itemize{
-\item{Justin Francis}
-}
+\itemize{\item{Justin Francis}}
 }
