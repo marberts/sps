@@ -1,8 +1,7 @@
 #---- Internal helpers ----
 # Rounding methods
 largest_remainder <- function(p, n, initial) {
-  p <- p / sum(p)
-  np <- n * p
+  np <- p * (n / sum(p))
   npf <- floor(np)
   remainder <- rank(npf - np, ties.method = "first") <= n - sum(npf)
   initial + npf + remainder

@@ -1,18 +1,18 @@
 #---- Internal helpers ----
 pi <- function(x, n) {
-  x / sum(x) * n
+  x * (n / sum(x))
 }
 
 .inclusion_prob <- function(x, n) {
   res <- pi(x, n)
+  if (length(res) == 0L || max(res) <= 1) return(res)
   repeat {
-    to_ta <- which(res > 1)
-    if (length(to_ta) == 0L) break
-    res[to_ta] <- 1
     keep_ts <- which(res < 1)
-    res[keep_ts] <- pi(x[keep_ts], n - length(x) + length(keep_ts))
+    n_ts <- n - length(x) + length(keep_ts)
+    res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
+    if (max(ts) <= 1) break
   }
-  res
+  pmin.int(res, 1)
 }
 
 .inclusion_prob_list <- function(x, n, s) {
