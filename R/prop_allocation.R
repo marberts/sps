@@ -3,8 +3,10 @@
 largest_remainder <- function(p, n, initial) {
   np <- p * (n / sum(p))
   npf <- floor(np)
-  remainder <- rank(npf - np, ties.method = "first") <= n - sum(npf)
-  initial + npf + remainder
+  res <- initial + npf
+  remainder <- order(npf - np)[seq_len(n - sum(npf))]
+  res[remainder] <- res[remainder] + 1
+  res
 }
 
 highest_averages <- function(divisor) {
@@ -47,7 +49,7 @@ expected_coverage <- function(x, N, s = gl(1, length(x))) {
   }
   if (N > length(x)) {
     stop(
-      gettext("sample size 'N' is greater than or equal to population size")
+      gettext("sample size 'N' is greater than population size")
     )
   }
   s <- as.factor(s)
@@ -90,7 +92,7 @@ prop_allocation <- function(
   }
   if (N > length(x)) {
     stop(
-      gettext("sample size 'N' is greater than or equal to population size")
+      gettext("sample size 'N' is greater than population size")
     )
   }
   s <- as.factor(s)
@@ -129,8 +131,8 @@ prop_allocation <- function(
   repeat {
     res <- round(p, N, res)
     d <- pmax(res - ns, 0)
-    over <- as.logical(d)
-    if (!any(over)) break
+    over <- which(as.logical(d))
+    if (length(over) == 0L) break
     res[over] <- ns[over]
     p[over] <- 0  
     N <- sum(d)

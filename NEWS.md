@@ -2,7 +2,7 @@
 
 - `prop_allocation()` gains two new arguments:
 
-    1. `min` sets the minimum allocation for each stratum. This saves from having to manually keep track of an initial allocation and adjusting the sample size passed to `prop_allocation()`.
+    1. `min` sets the minimum allocation for each stratum. This saves from having to manually keep track of an initial allocation and adjust the sample size passed to `prop_allocation()`.
 
     2. `method` selects the apportionment method used to round a proportional allocation to integer values. In particular, highest-averages methods can be used in place of the largest-remainder method.
 
@@ -18,7 +18,7 @@
     
 - Some of the internals have been updated to improve performance with large frames.
 
-- It is no longer possible to pass length 0 arguments to `sps()`, `prop_allocation()`, or `sps_repweights()`.
+- Most functions do a little more argument checking. In particular, it is no longer possible to pass length 0 arguments to `sps()`, `prop_allocation()`, or `sps_repweights()`.
 
 ## Changes in version 0.1.3
 

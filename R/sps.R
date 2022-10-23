@@ -55,7 +55,8 @@ stratify <- function(f) {
       prn <- vector("list", nlevels(s))
     }
     samp <- Map(f, .inclusion_prob_list(x, n, s), n, prn)
-    res <- unlist(Map(`[`, split(seq_along(x), s), samp), use.names = FALSE)
+    pos <- if (nlevels(s) == 1L) list(seq_along(x)) else split(seq_along(x), s)
+    res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
     weights <- unlist(lapply(samp, weights), use.names = FALSE)
     levels <- unlist(lapply(samp, levels), use.names = FALSE)
     ord <- order(res)

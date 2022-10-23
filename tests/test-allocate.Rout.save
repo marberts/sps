@@ -129,7 +129,7 @@ Error in prop_allocation(1:5, -1) :
   'N' must be a positive and finite number
 > try(prop_allocation(1:4, 5))
 Error in prop_allocation(1:4, 5) : 
-  sample size 'N' is greater than or equal to population size
+  sample size 'N' is greater than population size
 > try(prop_allocation(1:4, 2, min = 3))
 Error in prop_allocation(1:4, 2, min = 3) : 
   minimal allocation is larger than 'N'

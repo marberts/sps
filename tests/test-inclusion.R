@@ -11,6 +11,10 @@ all.equal(
   inclusion_prob(1:6, c(0, 3), c(1, 1, 2, 1, 2, 2)),
   c(0, 0, 1, 0, 1, 1)
 )
+all.equal(
+  inclusion_prob(rep(1, 6), c(2, 1), c(1, 1, 2, 1, 2, 2)),
+  c(2, 2, 1, 2, 1, 1) / 3
+)
 
 # No rounds
 x <- c(1:4, 10:8, 5:7)

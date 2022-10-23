@@ -140,7 +140,7 @@ Error in .inclusion_prob_list(x, n, s) :
   'n' must have a single sample size for each level in 's'
 > try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
 Error in .inclusion_prob_list(x, n, s) : 
-  sample size 'n' is greater than or equal to population size
+  sample size 'n' is greater than population size
 > try(sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)))
 Error in sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)) : 
   'prn' must be a numeric vector between 0 and 1
