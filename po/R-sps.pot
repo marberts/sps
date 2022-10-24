@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sps 0.1.4.9007\n"
-"POT-Creation-Date: 2022-10-22 21:52\n"
+"Project-Id-Version: sps 0.1.4.9008\n"
+"POT-Creation-Date: 2022-10-23 22:36\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,13 +34,16 @@ msgstr ""
 msgid "sample size 'N' is greater than population size"
 msgstr ""
 
-msgid "'min' must be a positive and finite number"
+msgid "'initial' must be a positive and finite numeric vector"
 msgstr ""
 
-msgid "'min' must be smaller than the population size for each stratum"
+msgid "'initial' must have a single allocation size for each level in 's'"
 msgstr ""
 
-msgid "minimal allocation is larger than 'N'"
+msgid "'initial' must be smaller than the population size for each stratum"
+msgstr ""
+
+msgid "initial allocation is larger than 'N'"
 msgstr ""
 
 msgid "'s' and 'prn' must be the same length"

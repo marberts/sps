@@ -40,6 +40,11 @@ Type 'q()' to quit R.
 +   c(a = 4)
 + )
 [1] TRUE
+> all.equal(
++     prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
++     c(a = 4, b = 0)
++ )
+[1] TRUE
 > 
 > # Simple allocations
 > all.equal(
@@ -53,13 +58,23 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 1),
++   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = 1),
 +   c(a = 1, b = 3)
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 2),
++   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = 2),
 +   c(a = 2, b = 2)
++ )
+[1] TRUE
+> all.equal(
++     prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)),
++     c(a = 3, b = 1)
++ )
+[1] TRUE
+> all.equal(
++     prop_allocation(rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]), initial = c(2, 1, 0)),
++     c(a = 2, b = 2, c = 0)
 + )
 [1] TRUE
 > 
@@ -122,20 +137,28 @@ Type 'q()' to quit R.
 > 
 > # Checks for error messages
 > try(prop_allocation(c(-1, 1), 5))
-Error in prop_allocation(c(-1, 1), 5) : 
+Error in check_allocation(x, N, s) : 
   'x' must be a strictly positive and finite numeric vector
 > try(prop_allocation(1:5, -1))
-Error in prop_allocation(1:5, -1) : 
+Error in check_allocation(x, N, s) : 
   'N' must be a positive and finite number
 > try(prop_allocation(1:4, 5))
-Error in prop_allocation(1:4, 5) : 
+Error in check_allocation(x, N, s) : 
   sample size 'N' is greater than population size
-> try(prop_allocation(1:4, 2, min = 3))
-Error in prop_allocation(1:4, 2, min = 3) : 
-  minimal allocation is larger than 'N'
+> try(prop_allocation(1:4, 2, initial = 3))
+Error in prop_allocation(1:4, 2, initial = 3) : 
+  initial allocation is larger than 'N'
+> try(prop_allocation(1:4, 2, initial = c(3, 0)))
+Error in prop_allocation(1:4, 2, initial = c(3, 0)) : 
+  'initial' must have a single allocation size for each level in 's'
+> try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
+Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)) : 
+  'initial' must be smaller than the population size for each stratum
+> try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
+Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)) : 
+  initial allocation is larger than 'N'
 > try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
-Error in prop_allocation(1:4, 0, factor(1:4, levels = integer(0))) : 
-  's' cannot contain NAs
+Error in check_allocation(x, N, s) : 's' cannot contain NAs
 > 
 > # Test coverage
 > all.equal(expected_coverage(1:6, 6), 1)

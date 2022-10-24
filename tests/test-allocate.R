@@ -19,6 +19,10 @@ all.equal(
   prop_allocation(rep(1, 10), 4, rep(letters[1], 10)),
   c(a = 4)
 )
+all.equal(
+  prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
+  c(a = 4, b = 0)
+)
 
 # Simple allocations
 all.equal(
@@ -30,12 +34,20 @@ all.equal(
   c(a = 0, b = 4)
 )
 all.equal(
-  prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 1),
+  prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = 1),
   c(a = 1, b = 3)
 )
 all.equal(
-  prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), min = 2),
+  prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = 2),
   c(a = 2, b = 2)
+)
+all.equal(
+  prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)),
+  c(a = 3, b = 1)
+)
+all.equal(
+  prop_allocation(rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]), initial = c(2, 1, 0)),
+  c(a = 2, b = 2, c = 0)
 )
 
 # Multiple iterations
@@ -84,7 +96,10 @@ all.equal(
 try(prop_allocation(c(-1, 1), 5))
 try(prop_allocation(1:5, -1))
 try(prop_allocation(1:4, 5))
-try(prop_allocation(1:4, 2, min = 3))
+try(prop_allocation(1:4, 2, initial = 3))
+try(prop_allocation(1:4, 2, initial = c(3, 0)))
+try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
+try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
 try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
 
 # Test coverage

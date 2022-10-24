@@ -24,7 +24,7 @@ ps(x, n, s = gl(1, length(x)), prn = NULL)
 inclusion_prob(x, n, s = gl(1, length(x)))
 
 prop_allocation(
-  x, N, s = gl(1, length(x)), min = 0, 
+  x, N, s = gl(1, length(x)), initial = 0, 
   method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
              "Huntington-Hill", "Danish", "Adams", "Dean") 
 )
@@ -45,7 +45,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
-\item{min}{A positive integer giving the smallest allocation for each stratum. Non-integers are truncated towards 0. The default allows no units to be allocated to a stratum.}
+\item{initial}{A positive vector of integers giving the initial allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
 
 \item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
 
@@ -53,7 +53,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 }
 
 \details{
-The \code{sps()} function draws a sample according to the sequential Poission procedure, the details of which are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
+The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
@@ -79,7 +79,7 @@ The \code{expected_coverage()} function gives the average number of strata cover
 \value{
 \code{sps()} and \code{ps()} return an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
 
-\code{inclusion_prob()} returns a numeric vector of inclusion probabilies for each unit in the population.
+\code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
 
 \code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 
