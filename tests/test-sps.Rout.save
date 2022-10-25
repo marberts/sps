@@ -61,11 +61,26 @@ Type 'q()' to quit R.
 [1] TRUE
 > all(weights(samp)[-c(1, 5)] > 1)
 [1] TRUE
+>
+> samp <- ps(c(20, 1:10, 100), 5)
+> last <- length(samp)
+> all(samp[c(1, last)] == c(1, 12))
+[1] TRUE
+> all(levels(samp) == c("TA", rep("TS", last - 2), "TA"))
+[1] TRUE
+> all(weights(samp)[c(1, last)] == 1)
+[1] TRUE
+> all(weights(samp)[-c(1, last)] > 1)
+[1] TRUE
 > 
 > # Return value should be an integer
 > is.integer(sps(1:5, 3))
 [1] TRUE
 > is.integer(sps(1:5, 0))
+[1] TRUE
+> is.integer(ps(1:5, 3))
+[1] TRUE
+> is.integer(ps(1:5, 0))
 [1] TRUE
 > 
 > # Strata sizes should add up
@@ -91,6 +106,12 @@ Type 'q()' to quit R.
 > all.equal(
 +   sps(1:10, 5, prn = prn), 
 +   sps(1:10, 5)
++ )
+[1] TRUE
+> set.seed(4321)
+> all.equal(
++   ps(c(1:9, 100), 5, prn = prn), 
++   ps(c(1:9, 100), 5)
 + )
 [1] TRUE
 > 
@@ -130,16 +151,16 @@ Type 'q()' to quit R.
 > 
 > # Tests for error messages
 > try(sps(-1, 1))
-Error in .inclusion_prob_list(x, n, s) : 
+Error in check_inclusion_prob(x, n, s) : 
   'x' must be a strictly positive and finite numeric vector
 > try(sps(1, NA))
-Error in .inclusion_prob_list(x, n, s) : 
+Error in check_inclusion_prob(x, n, s) : 
   'n' must be a positive and finite numeric vector
 > try(sps(1:4, 2, c(1, 1, 2, 2)))
-Error in .inclusion_prob_list(x, n, s) : 
+Error in check_inclusion_prob(x, n, s) : 
   'n' must have a single sample size for each level in 's'
 > try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
-Error in .inclusion_prob_list(x, n, s) : 
+Error in check_inclusion_prob(x, n, s) : 
   sample size 'n' is greater than population size
 > try(sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)))
 Error in sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)) : 

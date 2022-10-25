@@ -35,9 +35,18 @@ all(levels(samp) == c("TA", rep("TS", 3), "TA"))
 all(weights(samp)[c(1, 5)] == 1)
 all(weights(samp)[-c(1, 5)] > 1)
 
+samp <- ps(c(20, 1:10, 100), 5)
+last <- length(samp)
+all(samp[c(1, last)] == c(1, 12))
+all(levels(samp) == c("TA", rep("TS", last - 2), "TA"))
+all(weights(samp)[c(1, last)] == 1)
+all(weights(samp)[-c(1, last)] > 1)
+
 # Return value should be an integer
 is.integer(sps(1:5, 3))
 is.integer(sps(1:5, 0))
+is.integer(ps(1:5, 3))
+is.integer(ps(1:5, 0))
 
 # Strata sizes should add up
 s <- factor(sample(letters, 100, TRUE), letters)
@@ -60,6 +69,11 @@ set.seed(4321)
 all.equal(
   sps(1:10, 5, prn = prn), 
   sps(1:10, 5)
+)
+set.seed(4321)
+all.equal(
+  ps(c(1:9, 100), 5, prn = prn), 
+  ps(c(1:9, 100), 5)
 )
 
 # Test for extending a stratified sample

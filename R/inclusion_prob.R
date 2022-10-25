@@ -1,21 +1,6 @@
 #---- Internal helpers ----
-pi <- function(x, n) {
-  x * (n / sum(x))
-}
-
-.inclusion_prob <- function(x, n) {
-  res <- pi(x, n)
-  if (length(res) == 0L || max(res) <= 1) return(res)
-  repeat {
-    keep_ts <- which(res < 1)
-    n_ts <- n - length(x) + length(keep_ts)
-    res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
-    if (max(ts) <= 1) break
-  }
-  pmin.int(res, 1)
-}
-
-.inclusion_prob_list <- function(x, n, s) {
+# Argument checking
+check_inclusion_prob <- function(x, n, s) {
   # sampling::inclusionprobabilities() gives a warning with 0s; I think
   # an error makes more sense
   if (not_strict_positive_vector(x)) {
@@ -23,13 +8,11 @@ pi <- function(x, n) {
       gettext("'x' must be a strictly positive and finite numeric vector")
     )
   }
-  n <- trunc(n)
   if (not_positive_vector(n)) {
     stop(
       gettext("'n' must be a positive and finite numeric vector")
     )
   }
-  s <- as.factor(s)
   if (length(x) != length(s)) {
     stop(
       gettext("'x' and 's' must be the same length")
@@ -52,6 +35,25 @@ pi <- function(x, n) {
       gettext("sample size 'n' is greater than population size")
     )
   }
+}
+
+pi <- function(x, n) {
+  x * (n / sum(x))
+}
+
+.inclusion_prob <- function(x, n) {
+  res <- pi(x, n)
+  if (length(res) == 0L || max(res) <= 1) return(res)
+  repeat {
+    keep_ts <- which(res < 1)
+    n_ts <- n - length(x) + length(keep_ts)
+    res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
+    if (max(ts) <= 1) break
+  }
+  pmin.int(res, 1)
+}
+
+.inclusion_prob_list <- function(x, n, s) {
   # the single stratum case is common enough to warrant the optimization
   if (nlevels(s) == 1L) {
     list(.inclusion_prob(x, n))
@@ -63,6 +65,8 @@ pi <- function(x, n) {
 #---- Inclusion probability ----
 inclusion_prob <- function(x, n, s = gl(1, length(x))) {
   s <- as.factor(s)
+  n <- trunc(n)
+  check_inclusion_prob(x, n, s)
   p <- .inclusion_prob_list(x, n, s)
   res <- if (nlevels(s) == 1L) p[[1L]] else unsplit(p, s)
   attributes(res) <- NULL # unsplit() mangles attributes

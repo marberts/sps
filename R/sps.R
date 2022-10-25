@@ -39,6 +39,7 @@ stratify <- function(f) {
   function(x, n, s = gl(1, length(x)), prn = NULL) {
     n <- trunc(n)
     s <- as.factor(s)
+    check_inclusion_prob(x, n, s)
     if (!is.null(prn)) {
       if (length(s) != length(prn)) {
         stop(
