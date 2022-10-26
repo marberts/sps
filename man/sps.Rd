@@ -35,7 +35,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 \arguments{
 \item{x}{A strictly positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive vector of integers giving the sample sizes for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
+\item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
 
 \item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
@@ -93,7 +93,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \seealso{
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson()} function in the \pkg{sampling} package for regular Poisson sampling. It is largely the same as \code{ps()}.
+The \code{UPpoisson()} and \code{inclusionprobabilities()} functions in the \pkg{sampling} package for regular Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps()} and \code{inclusion_prob()} for a single stratum.
 
 The \pkg{pps} package for other probability-proportional-to-size sampling methods.
 
