@@ -47,6 +47,8 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 
 \seealso{
 \code{\link{sps}} for drawing a sequential Poisson sample.
+
+The \code{bootstrapFP(method = "wGeneralised")} function in the \pkg{bootstrapFP} package for calculating the variance of the Horvitz-Thompson estimator using the generalized bootstrap.
 }
 
 \examples{
