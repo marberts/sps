@@ -54,7 +54,7 @@ x <- rlnorm(100)
 alloc <- prop_allocation(x, 50, s)
 samp <- sps(x, alloc, s)
 all.equal(
-  tabulate(factor(s[samp], letters)), 
+  tabulate(s[samp], nbins = 26), 
   as.vector(alloc)
 )
 

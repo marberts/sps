@@ -33,7 +33,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
     dist(n) * sqrt(1 - pi)
   }
   res <- w * (a + tau) / tau
-  if (any(res < 0)) {
+  if (min(res) < 0) {
     warning(
       gettext("some replicate weights are negative; try increasing 'tau'")
     )

@@ -57,7 +57,7 @@ The \code{sps()} function draws a sample according to the sequential Poisson pro
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. The \code{ps()} function draws a sample using the ordinary Poisson method.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
 The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic. The following divisor functions \eqn{d(a)} are available:
 
@@ -83,7 +83,7 @@ The \code{expected_coverage()} function gives the average number of strata cover
 
 \code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{s}.
 
-\code{expected_coverage()} returns a number giving the expected number of strata covered by the sample design.
+\code{expected_coverage()} returns the expected number of strata covered by the sample design.
 }
 
 \references{
@@ -93,11 +93,11 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \seealso{
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson()} and \code{inclusionprobabilities()} functions in the \pkg{sampling} package for regular Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps()} and \code{inclusion_prob()} for a single stratum.
+\code{UPpoisson} and \code{inclusionprobabilities} in the \pkg{sampling} package for regular Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps} and \code{inclusion_prob}, but for a single stratum.
+
+\code{strAlloc} in the \pkg{PracTools} package for other allocation methods.
 
 The \pkg{pps} package for other probability-proportional-to-size sampling methods.
-
-The \code{strAlloc()} function in the \pkg{PracTools} package for other allocation methods.
 }
 
 \examples{

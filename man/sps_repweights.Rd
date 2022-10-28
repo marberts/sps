@@ -30,7 +30,7 @@ The default pseudo-population method randomly rounds \eqn{w} for each replicate 
 
 These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 
-As an alternative to the bootstrap, Ohlsson (1998, equation 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum y * w} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.}
+As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum y * w} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for regular Poisson sampling.
 }
 
 \value{
@@ -48,7 +48,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \seealso{
 \code{\link{sps}} for drawing a sequential Poisson sample.
 
-The \code{bootstrapFP(method = "wGeneralised")} function in the \pkg{bootstrapFP} package for calculating the variance of the Horvitz-Thompson estimator using the generalized bootstrap.
+\code{bootstrapFP} (with \code{method = "wGeneralised"}) in the \pkg{bootstrapFP} package for calculating the variance of Horvitz-Thompson estimators using the generalized bootstrap.
 }
 
 \examples{
@@ -58,12 +58,12 @@ x <- c(1:10, 100) # sizes in the population
 (samp <- sps(x, 5))
 
 # Make some bootstrap replicates
-# ...pseudo-population method
-sps_repweights(weights(samp), B = 5) 
+dist <- list(
+  pseudo_population = NULL,
+  standard_normal = rnorm,
+  exponential = function(x) rexp(x) - 1,
+  uniform = function(x) runif(x, -sqrt(3), sqrt(3))
+)
 
-# ...standard-normal method
-sps_repweights(weights(samp), B = 5, dist = rnorm) 
-
-# ...exponential method
-sps_repweights(weights(samp), B = 5, dist = function(x) rexp(x) - 1) 
+lapply(dist, sps_repweights, w = weights(samp), B = 5, tau = 2)
 }
