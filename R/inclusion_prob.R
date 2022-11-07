@@ -67,11 +67,10 @@ inclusion_prob <- function(x, n, s = gl(1, length(x))) {
   s <- as.factor(s)
   n <- trunc(n)
   check_inclusion_prob(x, n, s)
-  res <- if (nlevels(s) == 1L) {
+  if (nlevels(s) == 1L) {
     .inclusion_prob(x, n)
   } else {
-    unsplit(.inclusion_prob_list(x, n, s), s)
+    split(x, s) <- .inclusion_prob_list(x, n, s)
+    x
   }
-  attributes(res) <- NULL # unsplit() mangles attributes
-  res
 }
