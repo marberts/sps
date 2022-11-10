@@ -70,6 +70,12 @@ expected_coverage <- function(x, N, s = gl(1, length(x))) {
 }
 
 #---- Proportional allocation ----
+initial <- function(m, N, s) {
+  s <- as.factor(s)
+  ns <- tabulate(s, nbins = nlevels(s))
+  pmin(ns, min(N %/% nlevels(s), m))
+}
+
 prop_allocation <- function(
     x, N, s = gl(1, length(x)), initial = 0, 
     method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
@@ -84,13 +90,15 @@ prop_allocation <- function(
       gettext("'initial' must be a positive and finite numeric vector")
     )
   }
-  if (length(initial) == 1L) initial <- rep.int(initial, nlevels(s))
+  ns <- tabulate(s, nbins = nlevels(s))
+  if (length(initial) == 1L) {
+    initial <- pmin(ns, min(N %/% nlevels(s), initial))
+  }
   if (length(initial) != nlevels(s)) {
     stop(
       gettext("'initial' must have a single allocation size for each level in 's'")
     )
   }
-  ns <- tabulate(s, nbins = nlevels(s))
   if (any(initial > ns)) {
     stop(
       gettext("'initial' must be smaller than the population size for each stratum")

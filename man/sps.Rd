@@ -45,7 +45,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
-\item{initial}{A positive vector of integers giving the initial allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
+\item{initial}{A positive vector of integers giving the initial allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
 
 \item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
 
@@ -72,6 +72,8 @@ Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
 }
 
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
+
+Passing a single integer for the initial allocation first checks that recycling this value for each stratum does not result in an allocation larger than the sample size. If it does, then the value is reduced so that recycling does not exceed the sample size. This recycled vector can be further reduced in cases where it exceeds the number of units in a stratum, the result of which is the initial allocation. This special recycling ensures that the initial allocation is feasible.
 
 The \code{expected_coverage()} function gives the average number of strata covered with an ordinary Poisson sample. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation to the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.
 }

@@ -23,6 +23,10 @@ all.equal(
   prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
   c(a = 4, b = 0)
 )
+all.equal(
+  prop_allocation(1:4, 2, initial = 3),
+  c("1" = 2)
+)
 
 # Simple allocations
 all.equal(
@@ -40,6 +44,10 @@ all.equal(
 all.equal(
   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = 2),
   c(a = 2, b = 2)
+)
+all.equal(
+  prop_allocation(c(rep(10, 8), 1, 1), 5, c(rep("a", 8), "b", "b"), initial = 3),
+  c(a = 3, b = 2)
 )
 all.equal(
   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)),
@@ -96,7 +104,6 @@ all.equal(
 try(prop_allocation(c(-1, 1), 5))
 try(prop_allocation(1:5, -1))
 try(prop_allocation(1:4, 5))
-try(prop_allocation(1:4, 2, initial = 3))
 try(prop_allocation(1:4, 2, initial = c(3, 0)))
 try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
 try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
