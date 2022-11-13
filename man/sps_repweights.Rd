@@ -14,7 +14,7 @@ sps_repweights(w, B = 1000, tau = 1, dist = NULL)
 }
 
 \arguments{
-\item{w}{A numeric vector of design weights for a (sequential) Poisson sample.}
+\item{w}{A numeric vector of design (inverse probability) weights for a (sequential) Poisson sample.}
 
 \item{B}{An integer that gives the number of bootstrap replicates (1,000 by default). Non-integers are truncated towards 0.}
 
