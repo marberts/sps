@@ -1,6 +1,6 @@
 ## Changes in version 0.2.1
 
-- The `initial` argument in `prop_allocation()` ensures the initial allocation is feasible when supplying a single value.
+- The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value.
 
 ## Changes in version 0.2.0
 

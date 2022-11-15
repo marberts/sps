@@ -53,15 +53,6 @@ pi <- function(x, n) {
   pmin.int(res, 1)
 }
 
-.inclusion_prob_list <- function(x, n, s) {
-  # the single stratum case is common enough to warrant the optimization
-  if (nlevels(s) == 1L) {
-    list(.inclusion_prob(x, n))
-  } else {
-    .mapply(.inclusion_prob, list(split(x, s), n), list())
-  }
-}
-
 #---- Inclusion probability ----
 inclusion_prob <- function(x, n, s = gl(1, length(x))) {
   s <- as.factor(s)
@@ -70,7 +61,7 @@ inclusion_prob <- function(x, n, s = gl(1, length(x))) {
   if (nlevels(s) == 1L) {
     .inclusion_prob(x, n)
   } else {
-    split(x, s) <- .inclusion_prob_list(x, n, s)
+    split(x, s) <- Map(.inclusion_prob, split(x, s), n)
     x
   }
 }

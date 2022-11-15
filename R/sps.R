@@ -10,26 +10,13 @@
     z <- if (is.null(prn)) runif(length(ts)) else prn[ts]
     order(z / p[ts])[seq_len(n_ts)]
   }
-  res <- c(ta, ts[keep])
-  structure(
-    res,
-    weights = 1 / p[res],
-    levels = rep(c("TA", "TS"), c(n - n_ts, n_ts)),
-    class = c("sps", class(res))
-  )
+  c(ta, ts[keep])
 }
 
 # Ordinary Poisson sampling
 .ps <- function(p, n, prn = NULL) {
   z <- if (is.null(prn)) runif(length(p)) else prn
-  res <- which(z < p)
-  weights = 1 / p[res]
-  structure(
-    res,
-    weights = weights,
-    levels = replace(rep("TA", length(res)), weights > 1, "TS"),
-    class = c("sps", class(res))
-  )
+  which(z < p)
 }
 
 #---- Stratified sampling ----
@@ -51,16 +38,23 @@ stratify <- function(f) {
           gettext("'prn' must be a numeric vector between 0 and 1")
         )
       }
-      prn <- split(prn, s)
-    } else {
-      prn <- vector("list", nlevels(s))
     }
-    samp <- Map(f, .inclusion_prob_list(x, n, s), n, prn)
-    pos <- if (nlevels(s) == 1L) list(seq_along(x)) else split(seq_along(x), s)
-    res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
-    weights <- unlist(lapply(samp, weights), use.names = FALSE)
-    levels <- unlist(lapply(samp, levels), use.names = FALSE)
+    # the single-stratum case is common enough to warrant the optimization
+    if (nlevels(s) == 1L) {
+      p <- .inclusion_prob(x, n)
+      res <- f(p, n, prn)
+      weights <- 1 / p[res]
+    } else {
+      p <- Map(.inclusion_prob, split(x, s), n)
+      prn <- if (!is.null(prn)) split(prn, s) else list(NULL)
+      samp <- Map(f, p, n, prn)
+      pos <- split(seq_along(x), s)
+      res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
+      weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
+    }
     ord <- order(res)
+    levels <- rep("TA", length(res))
+    levels[weights > 1] <- "TS"
     structure(
       res[ord],
       weights = weights[ord],

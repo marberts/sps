@@ -70,12 +70,6 @@ expected_coverage <- function(x, N, s = gl(1, length(x))) {
 }
 
 #---- Proportional allocation ----
-initial <- function(m, N, s) {
-  s <- as.factor(s)
-  ns <- tabulate(s, nbins = nlevels(s))
-  pmin(ns, min(N %/% nlevels(s), m))
-}
-
 prop_allocation <- function(
     x, N, s = gl(1, length(x)), initial = 0, 
     method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
