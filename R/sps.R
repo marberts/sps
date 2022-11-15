@@ -1,21 +1,19 @@
 #---- Internal helpers ----
 # Sequential Poisson sampling
-.sps <- function(p, n, prn = NULL) {
+.sps <- function(p, n, z) {
   ts <- p < 1
   ta <- which(!ts)
   ts <- which(ts)
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
-    z <- if (is.null(prn)) runif(length(ts)) else prn[ts]
-    order(z / p[ts])[seq_len(n_ts)]
+    order(z[ts] / p[ts])[seq_len(n_ts)]
   }
   c(ta, ts[keep])
 }
 
 # Ordinary Poisson sampling
-.ps <- function(p, n, prn = NULL) {
-  z <- if (is.null(prn)) runif(length(p)) else prn
+.ps <- function(p, n, z) {
   which(z < p)
 }
 
@@ -38,6 +36,8 @@ stratify <- function(f) {
           gettext("'prn' must be a numeric vector between 0 and 1")
         )
       }
+    } else {
+      prn <- runif(length(x))
     }
     # the single-stratum case is common enough to warrant the optimization
     if (nlevels(s) == 1L) {
@@ -46,8 +46,7 @@ stratify <- function(f) {
       weights <- 1 / p[res]
     } else {
       p <- Map(.inclusion_prob, split(x, s), n)
-      prn <- if (!is.null(prn)) split(prn, s) else list(NULL)
-      samp <- Map(f, p, n, prn)
+      samp <- Map(f, p, n, split(prn, s))
       pos <- split(seq_along(x), s)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
       weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)

@@ -60,20 +60,20 @@ all.equal(
 
 # Tests for permanent random numbers
 set.seed(4321)
-prn <- runif(10)
+prn <- runif(11)
 all.equal(
-  sps(c(1:9, 100), 5, prn = prn), 
-  sps(c(1:9, 100), 5, prn = prn)
+  sps(c(100, 1:9, 100), 5, prn = prn), 
+  sps(c(100, 1:9, 100), 5, prn = prn)
 )
 set.seed(4321)
 all.equal(
-  sps(1:10, 5, prn = prn), 
-  sps(1:10, 5)
+  sps(c(100, 1:9, 100), 5, prn = prn), 
+  sps(c(100, 1:9, 100), 5)
 )
 set.seed(4321)
 all.equal(
-  ps(c(1:9, 100), 5, prn = prn), 
-  ps(c(1:9, 100), 5)
+  ps(c(100, 1:9, 100), 5, prn = prn), 
+  ps(c(100, 1:9, 100), 5)
 )
 
 # Test for extending a stratified sample
