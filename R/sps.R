@@ -1,20 +1,20 @@
 #---- Internal helpers ----
 # Sequential Poisson sampling
-.sps <- function(p, n, z) {
+.sps <- function(p, n, u) {
   ts <- p < 1
   ta <- which(!ts)
   ts <- which(ts)
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
-    order(z[ts] / p[ts])[seq_len(n_ts)]
+    order(u[ts] / p[ts])[seq_len(n_ts)]
   }
   c(ta, ts[keep])
 }
 
 # Ordinary Poisson sampling
-.ps <- function(p, n, z) {
-  which(z < p)
+.ps <- function(p, n, u) {
+  which(u < p)
 }
 
 #---- Stratified sampling ----

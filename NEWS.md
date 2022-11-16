@@ -1,6 +1,6 @@
-## Changes in version 0.2.1
+## Changes in version 0.3.0
 
-- The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value.
+- The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value. This change is not strictly backwards compatible as values that could not be ordinarily recycled no longer gives an error.
 
 - Supplying a vector of permanent random numbers to `sps()` or `ps()` that are generated with a given seed now gives the same result when setting that seed prior to calling `sps()` or `ps()`. This means that setting the seed to a given value can give a different sample compared to older versions, although permanent random numbers should be used for reproducible samples.
 

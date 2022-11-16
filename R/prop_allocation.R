@@ -60,13 +60,17 @@ check_allocation <- function(x, N, s) {
   }
 }
 
+coverage_prob <- function(x, N, s) {
+  p <- split(log(1 - .inclusion_prob(x, N)), s)
+  1 - vapply(p, function(x) exp(sum(x)), numeric(1L))
+}
+
 #---- Expected coverage ----
 expected_coverage <- function(x, N, s = gl(1, length(x))) {
   N <- trunc(N)
   s <- as.factor(s)
   check_allocation(x, N, s)
-  p <- split(log(1 - .inclusion_prob(x, N)), s)
-  sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
+  sum(coverage_prob(x, N, s))
 }
 
 #---- Proportional allocation ----
