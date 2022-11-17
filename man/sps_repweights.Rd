@@ -6,7 +6,7 @@ Bootstrap replicate weights for Poisson sampling
 }
 
 \description{
-Produce bootstrap replicate weights that are appropriate for Poisson sampling, and therefore approximately correct for sequential Poisson sampling, using the generalized bootstrap method by Beaumont and Patak (2012).
+Produce bootstrap replicate weights that are appropriate for Poisson sampling, and therefore approximately correct for sequential Poisson sampling.
 }
 
 \usage{

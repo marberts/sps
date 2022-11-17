@@ -11,7 +11,7 @@ Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability-proportional-to-size sample according to the sequential Poisson sampling method by Ohlsson (1998), with the option of an allocation proportional to size.
+Draw a stratified probability-proportional-to-size sample according to the (sequential) Poisson sampling method, with the option of an allocation proportional to size.
 }
 
 \usage{
@@ -47,19 +47,21 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{initial}{A positive vector of integers giving the initial allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
 
-\item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
+\item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages (divisor) methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
 
 \details{
+\subsection{Sampling}{
 The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.}
 
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead if, e.g., the Alabama paradox is problematic. The following divisor functions \eqn{d(a)} are available:
+\subsection{Allocations}{
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead with one of the following divisor functions \eqn{d(a)}:
 
 \tabular{ll}{
 D'Hondt/Jefferson \tab \eqn{a + 1}\cr
@@ -71,11 +73,15 @@ Adams \tab \eqn{a}\cr
 Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
 }
 
+In all cases, ties are broken according to the levels of \code{s}; reordering the levels of \code{s} can result in a different allocation.
+
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 
 Passing a single integer for the initial allocation first checks that recycling this value for each stratum does not result in an allocation larger than the sample size. If it does, then the value is reduced so that recycling does not exceed the sample size. This recycled vector can be further reduced in cases where it exceeds the number of units in a stratum, the result of which is the initial allocation. This special recycling ensures that the initial allocation is feasible.
 
-The \code{expected_coverage()} function gives the average number of strata covered with an ordinary Poisson sample. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation to the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.
+The current algorithm for largest-remainder rounding is designed for initial allocations with the same number of units. One of the highest-averages methods is usually better for non-uniform initial allocations. 
+
+The \code{expected_coverage()} function gives the average number of strata covered by an ordinary Poisson sample without stratification. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation for the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.}
 }
 
 \value{
