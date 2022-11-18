@@ -4,6 +4,8 @@
 
 - Supplying a vector of permanent random numbers to `sps()` or `ps()` that are generated with a given seed now gives the same result when setting that seed prior to calling `sps()` or `ps()`. This means that setting the seed to a given value can give a different sample compared to older versions, although permanent random numbers should be used for reproducible samples.
 
+- The default apportionment method has changed if an initial allocation is given in `prop_allocation()`, as largest-remainder rounding could give skewed allocations.
+
 ## Changes in version 0.2.0
 
 - `prop_allocation()` gains two new arguments:

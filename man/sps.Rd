@@ -25,8 +25,7 @@ inclusion_prob(x, n, s = gl(1, length(x)))
 
 prop_allocation(
   x, N, s = gl(1, length(x)), initial = 0, 
-  method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
-             "Huntington-Hill", "Danish", "Adams", "Dean") 
+  method = if (sum(initial) == 0) "Largest-remainder" else "D'Hondt"
 )
 
 expected_coverage(x, N, s = gl(1, length(x)))
@@ -45,9 +44,9 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
-\item{initial}{A positive vector of integers giving the initial allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
+\item{initial}{A positive vector of integers giving the initial (minimal) allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
 
-\item{method}{The apportionment method used to round a proportional allocation to integer values. The default uses largest-remainder rounding; various highest-averages (divisor) methods are also available, namely D'Hondt (Jefferson), Webster (Sainte-Laguë), Imperiali, Huntington–Hill, Danish, Adams's, and Dean's.}
+\item{method}{The apportionment method used to round a proportional allocation to integer values. One of \code{"Largest-remainder"} (the default with no initial allocation), \code{"D'Hondt"} (the default with an initial allocation), \code{"Webster"}, \code{"Imperiali"}, \code{"Huntington-Hill"}, \code{"Danish"}, \code{"Adams"}, or \code{"Dean"}.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -61,7 +60,7 @@ The remaining units in the sample belong to the take-some stratum, and are drawn
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.}
 
 \subsection{Allocations}{
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}, using largest-remainder rounding by default. The highest-averages (divisor) method can be used instead with one of the following divisor functions \eqn{d(a)}:
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using an apportionment method (Balinksi and Young, 1982, Appendix A), either the largest-remainder (Hamilton) or a highest-averages (divisor) method with one of the following divisor functions \eqn{d(a)}:
 
 \tabular{ll}{
 D'Hondt/Jefferson \tab \eqn{a + 1}\cr
@@ -75,11 +74,11 @@ Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
 
 In all cases, ties are broken according to the levels of \code{s}; reordering the levels of \code{s} can result in a different allocation.
 
-In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units in that stratum, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
+In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 
 Passing a single integer for the initial allocation first checks that recycling this value for each stratum does not result in an allocation larger than the sample size. If it does, then the value is reduced so that recycling does not exceed the sample size. This recycled vector can be further reduced in cases where it exceeds the number of units in a stratum, the result of which is the initial allocation. This special recycling ensures that the initial allocation is feasible.
 
-The current algorithm for largest-remainder rounding is designed for initial allocations with the same number of units. One of the highest-averages methods is usually better for non-uniform initial allocations. 
+The current algorithm for largest-remainder rounding is designed for cases without an initial allocation. One of the highest-averages methods is usually better if there are units pre-allocated to strata, at the expense of proportionality with no initial allocation. The default method is then largest-remainder rounding when there is no initial allocation, D'Hondt/Jefferson's method otherwise.
 
 The \code{expected_coverage()} function gives the average number of strata covered by an ordinary Poisson sample without stratification. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation for the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.}
 }
@@ -95,6 +94,8 @@ The \code{expected_coverage()} function gives the average number of strata cover
 }
 
 \references{
+Balinksi, M. L. and Young, H. P. (1982). \emph{Fair Representation: Meeting the Ideal of One Man, One Vote}. Yale University Press.
+
 Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
 }
 

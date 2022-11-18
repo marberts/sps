@@ -76,8 +76,7 @@ expected_coverage <- function(x, N, s = gl(1, length(x))) {
 #---- Proportional allocation ----
 prop_allocation <- function(
     x, N, s = gl(1, length(x)), initial = 0, 
-    method = c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
-               "Huntington-Hill", "Danish", "Adams", "Dean")  
+    method = if (sum(initial) == 0) "Largest-remainder" else "D'Hondt"
 ) {
   N <- trunc(N)
   s <- as.factor(s)
@@ -108,7 +107,11 @@ prop_allocation <- function(
       gettext("initial allocation is larger than 'N'")
     )
   }
-  method <- match.arg(method)
+  method <- match.arg(
+    method, 
+    c("Largest-remainder", "D'Hondt", "Webster", "Imperiali", 
+      "Huntington-Hill", "Danish", "Adams", "Dean")
+  )
   apportionment <- if (method == "Largest-remainder") {
     largest_remainder
   } else {
