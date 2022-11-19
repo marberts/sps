@@ -25,7 +25,7 @@ inclusion_prob(x, n, s = gl(1, length(x)))
 
 prop_allocation(
   x, N, s = gl(1, length(x)), initial = 0, 
-  method = if (sum(initial) == 0) "Largest-remainder" else "D'Hondt"
+  divisor = function(a) a + 1
 )
 
 expected_coverage(x, N, s = gl(1, length(x)))
@@ -46,7 +46,7 @@ expected_coverage(x, N, s = gl(1, length(x)))
 
 \item{initial}{A positive vector of integers giving the initial (minimal) allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
 
-\item{method}{The apportionment method used to round a proportional allocation to integer values. One of \code{"Largest-remainder"} (the default with no initial allocation), \code{"D'Hondt"} (the default with an initial allocation), \code{"Webster"}, \code{"Imperiali"}, \code{"Huntington-Hill"}, \code{"Danish"}, \code{"Adams"}, or \code{"Dean"}.}
+\item{divisor}{A divisor function for the highest-averages apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other common functions.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -60,10 +60,10 @@ The remaining units in the sample belong to the take-some stratum, and are drawn
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.}
 
 \subsection{Allocations}{
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using an apportionment method (Balinksi and Young, 1982, Appendix A), either the largest-remainder (Hamilton) or a highest-averages (divisor) method with one of the following divisor functions \eqn{d(a)}:
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using the highest-averages (divisor) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions \eqn{d(a)}:
 
 \tabular{ll}{
-D'Hondt/Jefferson \tab \eqn{a + 1}\cr
+Jefferson/D'Hondt \tab \eqn{a + 1}\cr
 Webster/Sainte-Laguë \tab \eqn{a + 0.5}\cr
 Imperiali \tab \eqn{a + 2}\cr
 Huntington–Hill \tab \eqn{\sqrt{a(a + 1)}}{(a * (a + 1))^0.5}\cr
@@ -77,8 +77,6 @@ In all cases, ties are broken according to the levels of \code{s}; reordering th
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 
 Passing a single integer for the initial allocation first checks that recycling this value for each stratum does not result in an allocation larger than the sample size. If it does, then the value is reduced so that recycling does not exceed the sample size. This recycled vector can be further reduced in cases where it exceeds the number of units in a stratum, the result of which is the initial allocation. This special recycling ensures that the initial allocation is feasible.
-
-The current algorithm for largest-remainder rounding is designed for cases without an initial allocation. One of the highest-averages methods is usually better if there are units pre-allocated to strata, at the expense of proportionality with no initial allocation. The default method is then largest-remainder rounding when there is no initial allocation, D'Hondt/Jefferson's method otherwise.
 
 The \code{expected_coverage()} function gives the average number of strata covered by an ordinary Poisson sample without stratification. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation for the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.}
 }

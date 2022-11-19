@@ -58,6 +58,7 @@ inclusion_prob <- function(x, n, s = gl(1, length(x))) {
   s <- as.factor(s)
   n <- trunc(n)
   check_inclusion_prob(x, n, s)
+  # the single stratum case is common enough to warrant the optimization
   if (nlevels(s) == 1L) {
     .inclusion_prob(x, n)
   } else {

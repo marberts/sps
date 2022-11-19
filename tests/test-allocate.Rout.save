@@ -1,5 +1,5 @@
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+R version 4.2.2 Patched (2022-11-10 r83330) -- "Innocent and Trusting"
 Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -41,8 +41,8 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+     prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
-+     c(a = 4, b = 0)
++   prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
++   c(a = 4, b = 0)
 + )
 [1] TRUE
 > all.equal(
@@ -78,13 +78,18 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+     prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)),
-+     c(a = 3, b = 1)
++   prop_allocation(rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)),
++   c(a = 3, b = 1)
 + )
 [1] TRUE
 > all.equal(
-+     prop_allocation(rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]), initial = c(2, 1, 0)),
-+     c(a = 2, b = 2, c = 0)
++   prop_allocation(rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]), initial = c(2, 1, 0)),
++   c(a = 2, b = 2, c = 0)
++ )
+[1] TRUE
+> all.equal(
++   prop_allocation(rep(1, 100), 10, rep(1:4, c(10, 20, 30, 40))),
++   c("1" = 1, "2" = 2, "3" = 3, "4" = 4)
 + )
 [1] TRUE
 > 
@@ -100,7 +105,7 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5, rep(letters[1:3], c(6, 2, 2)), method = "Adams"),
++   prop_allocation(c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5, rep(letters[1:3], c(6, 2, 2)), divisor = identity),
 +   c(a = 1, b = 2, c = 2)
 + )
 [1] TRUE
@@ -108,39 +113,27 @@ Type 'q()' to quit R.
 > # Allocation for each stratum should add up to total sample size
 > all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE))) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "D'Hondt")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 0.5)) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Webster")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 2)) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Imperiali")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 30, sample(letters, 50, TRUE), initial = 1, divisor = function(x) x * (x + 1) / sqrt(x * (x + 1)))) == 30))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Huntington-Hill")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 1 / 3)) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Danish")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = identity)) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Adams")) == 10))
-[1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), method = "Dean")) == 10))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x * (x + 1) / (x + 0.5))) == 10))
 [1] TRUE
 > 
 > # Alabama paradox
 > all.equal(
 +   prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2))),
-+   c("1" = 4, "2" = 4, "3" = 2)
-+ )
-[1] TRUE
-> all.equal(
-+   prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2))),
-+   c("1" = 5, "2" = 5, "3" = 1)
-+ )
-[1] TRUE
-> all.equal(
-+   prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2)), method = "D'Hondt"),
 +   c("1" = 5, "2" = 4, "3" = 1)
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2)), method = "D'Hondt"),
++   prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2))),
 +   c("1" = 5, "2" = 5, "3" = 1)
 + )
 [1] TRUE
@@ -183,4 +176,4 @@ Error in check_allocation(x, N, s) : 's' cannot contain NAs
 > 
 > proc.time()
    user  system elapsed 
-  0.585   0.191   0.762 
+  0.516   0.247   0.592 

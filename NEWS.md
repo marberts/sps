@@ -1,10 +1,12 @@
 ## Changes in version 0.3.0
 
+This version has a number of non-backwards compatible changes to address erroneous behavior with some functions.
+
 - The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value. This change is not strictly backwards compatible as values that could not be ordinarily recycled no longer gives an error.
 
 - Supplying a vector of permanent random numbers to `sps()` or `ps()` that are generated with a given seed now gives the same result when setting that seed prior to calling `sps()` or `ps()`. This means that setting the seed to a given value can give a different sample compared to older versions, although permanent random numbers should be used for reproducible samples.
 
-- The default apportionment method has changed if an initial allocation is given in `prop_allocation()`, as largest-remainder rounding could give skewed allocations.
+- Largest-remainder rounding could result in `prop_allocation()` giving visibly non-proportional allocations, so it has been removed. One can now specify the divisor function, the default being the Jefferson/D'Hondt method.
 
 ## Changes in version 0.2.0
 
