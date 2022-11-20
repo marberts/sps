@@ -3,6 +3,8 @@
 check_inclusion_prob <- function(x, n, s) {
   # sampling::inclusionprobabilities() gives a warning with 0s; I think
   # an error makes more sense
+  # e.g., x = c(0, 0, 1, 1) and n = 3 => units 1 and 2 have inclusion probs
+  # of 0, but at least one must be included in the sample
   if (not_strict_positive_vector(x)) {
     stop(
       gettext("'x' must be a strictly positive and finite numeric vector")
@@ -13,26 +15,28 @@ check_inclusion_prob <- function(x, n, s) {
       gettext("'n' must be a positive and finite numeric vector")
     )
   }
+  # needs to be the same length of tabulate()
   if (length(x) != length(s)) {
     stop(
-      gettext("'x' and 's' must be the same length")
+      gettext("'x' and 'strata' must be the same length")
     )
   }
   if (length(n) != nlevels(s)) {
     stop(
-      gettext("'n' must have a single sample size for each level in 's'")
+      gettext("'n' must have a single sample size for each level in 'strata'")
     )
   }
+  # missing strata means inclusion probs are all missing
   if (anyNA(s)) {
     stop(
-      gettext("'s' cannot contain NAs")
+      gettext("'strata' cannot contain NAs")
     )
   }
   # bins isn't wide enough by default to catch factors with unused levels
   # at the end
   if (any(tabulate(s, nbins = nlevels(s)) < n)) {
     stop(
-      gettext("sample size 'n' is greater than population size")
+      gettext("sample size 'n' is greater than population size for some strata")
     )
   }
 }
@@ -54,15 +58,15 @@ pi <- function(x, n) {
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, s = gl(1, length(x))) {
-  s <- as.factor(s)
+inclusion_prob <- function(x, n, strata = gl(1, length(x))) {
+  strata <- as.factor(strata)
   n <- trunc(n)
-  check_inclusion_prob(x, n, s)
+  check_inclusion_prob(x, n, strata)
   # the single stratum case is common enough to warrant the optimization
-  if (nlevels(s) == 1L) {
+  if (nlevels(strata) == 1L) {
     .inclusion_prob(x, n)
   } else {
-    split(x, s) <- Map(.inclusion_prob, split(x, s), n)
+    split(x, strata) <- Map(.inclusion_prob, split(x, strata), n)
     x
   }
 }

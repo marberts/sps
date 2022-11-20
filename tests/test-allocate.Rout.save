@@ -117,7 +117,7 @@ Type 'q()' to quit R.
 [1] TRUE
 > all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 2)) == 10))
 [1] TRUE
-> all(replicate(50, sum(prop_allocation(rlnorm(50), 30, sample(letters, 50, TRUE), initial = 1, divisor = function(x) x * (x + 1) / sqrt(x * (x + 1)))) == 30))
+> all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) sqrt(x * (x + 1)))) == 10))
 [1] TRUE
 > all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 1 / 3)) == 10))
 [1] TRUE
@@ -137,20 +137,48 @@ Type 'q()' to quit R.
 +   c("1" = 5, "2" = 5, "3" = 1)
 + )
 [1] TRUE
+>
+> # example from https://en.wikipedia.org/wiki/Highest_averages_method
+> x <- rep(1, 1e5)
+> s <- as.factor(rep(1:6, c(47000, 16000, 15900, 12000, 6000, 3100)))
+> 
+> all.equal(
++   prop_allocation(x, 10, s),
++   c("1" = 5, "2" = 2, "3" = 2, "4" = 1, "5" = 0, "6" = 0)
++ )
+[1] TRUE
+> 
+> all.equal(
++   prop_allocation(x, 10, s, divisor = function(a) a + 0.5),
++   c("1" = 4, "2" = 2, "3" = 2, "4" = 1, "5" = 1, "6" = 0)
++ )
+[1] TRUE
+> 
+> all.equal(
++   prop_allocation(x, 10, s, divisor = function(a) sqrt(a * (a + 1))),
++   c("1" = 4, "2" = 2, "3" = 1, "4" = 1, "5" = 1, "6" = 1)
++ )
+[1] TRUE
+> 
+> all.equal(
++   prop_allocation(x, 10, s, divisor = function(a) a),
++   c("1" = 3, "2" = 2, "3" = 2, "4" = 1, "5" = 1, "6" = 1)
++ )
+[1] TRUE
 > 
 > # Checks for error messages
 > try(prop_allocation(c(-1, 1), 5))
-Error in check_allocation(x, N, s) : 
+Error in check_allocation(x, N, strata) : 
   'x' must be a strictly positive and finite numeric vector
 > try(prop_allocation(1:5, -1))
-Error in check_allocation(x, N, s) : 
+Error in check_allocation(x, N, strata) : 
   'N' must be a positive and finite number
 > try(prop_allocation(1:4, 5))
-Error in check_allocation(x, N, s) : 
+Error in check_allocation(x, N, strata) : 
   sample size 'N' is greater than population size
 > try(prop_allocation(1:4, 2, initial = c(3, 0)))
 Error in prop_allocation(1:4, 2, initial = c(3, 0)) : 
-  'initial' must have a single allocation size for each level in 's'
+  'initial' must have a single allocation size for each level in 'strata'
 > try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
 Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)) : 
   'initial' must be smaller than the population size for each stratum
@@ -158,7 +186,7 @@ Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)) :
 Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)) : 
   initial allocation is larger than 'N'
 > try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
-Error in check_allocation(x, N, s) : 's' cannot contain NAs
+Error in check_allocation(x, N, strata) : 'strata' cannot contain NAs
 > 
 > # Test coverage
 > all.equal(expected_coverage(1:6, 6), 1)

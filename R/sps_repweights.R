@@ -22,15 +22,15 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
       gettext("'tau' must be a number greater than or equal to 1")
     )
   }
-  pi <- 1 / w
+  p <- 1 / w
   n <- length(w) * B
   a <- if (is.null(dist)) {
     # pseudo-population method
     wr <- random_round(w, B)
-    rbinom(n, wr, pi) - pi * wr
+    rbinom(n, wr, p) - p * wr
   } else {
     dist <- match.fun(dist)
-    dist(n) * sqrt(1 - pi)
+    dist(n) * sqrt(1 - p)
   }
   res <- w * (a + tau) / tau
   if (min(res) < 0) {

@@ -1,12 +1,16 @@
 ## Changes in version 0.3.0
 
-This version has a number of non-backwards compatible changes to address erroneous behavior with some functions.
+This version has a number of non-backwards compatible changes to address undesirable behavior with some functions.
 
-- The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value. This change is not strictly backwards compatible as values that could not be ordinarily recycled no longer gives an error.
+- Largest-remainder rounding could result in `prop_allocation()` giving visibly non-proportional allocations, so it has been removed. The default is now the Jefferson/D'Hondt method.
+
+- The `method` argument in `prop_allocation()` has been replaced with the `divisor` argument to supply a divisor *function* for rounding.
+
+- The `initial` argument in `prop_allocation()` is recycled to ensure the initial allocation is feasible when supplying a single value. This change is not strictly backwards compatible as values that could not be ordinarily recycled no longer give an error.
 
 - Supplying a vector of permanent random numbers to `sps()` or `ps()` that are generated with a given seed now gives the same result when setting that seed prior to calling `sps()` or `ps()`. This means that setting the seed to a given value can give a different sample compared to older versions, although permanent random numbers should be used for reproducible samples.
 
-- Largest-remainder rounding could result in `prop_allocation()` giving visibly non-proportional allocations, so it has been removed. One can now specify the divisor function, the default being the Jefferson/D'Hondt method.
+- The argument name for specifying strata is now `strata` instead of `s` in all functions. Partial matching means this change won't break existing code.
 
 ## Changes in version 0.2.0
 

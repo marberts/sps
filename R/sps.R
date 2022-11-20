@@ -21,33 +21,29 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, s = gl(1, length(x)), prn = NULL) {
+  function(x, n, strata = gl(1, length(x)), prn = runif(length(x))) {
     n <- trunc(n)
-    s <- as.factor(s)
-    check_inclusion_prob(x, n, s)
-    if (!is.null(prn)) {
-      if (length(s) != length(prn)) {
-        stop(
-          gettext("'s' and 'prn' must be the same length")
-        )
-      }
-      if (not_prob(prn)) {
-        stop(
-          gettext("'prn' must be a numeric vector between 0 and 1")
-        )
-      }
-    } else {
-      prn <- runif(length(x))
+    strata <- as.factor(strata)
+    check_inclusion_prob(x, n, strata)
+    if (length(strata) != length(prn)) {
+      stop(
+        gettext("'strata' and 'prn' must be the same length")
+      )
+    }
+    if (not_prob(prn)) {
+      stop(
+        gettext("'prn' must be a numeric vector between 0 and 1")
+      )
     }
     # the single-stratum case is common enough to warrant the optimization
-    if (nlevels(s) == 1L) {
+    if (nlevels(strata) == 1L) {
       p <- .inclusion_prob(x, n)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     } else {
-      p <- Map(.inclusion_prob, split(x, s), n)
-      samp <- Map(f, p, n, split(prn, s))
-      pos <- split(seq_along(x), s)
+      p <- Map(.inclusion_prob, split(x, strata), n)
+      samp <- Map(f, p, n, split(prn, strata))
+      pos <- split(seq_along(x), strata)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
       weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
     }

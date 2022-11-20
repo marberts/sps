@@ -15,38 +15,42 @@ Draw a stratified probability-proportional-to-size sample according to the (sequ
 }
 
 \usage{
-sps(x, n, s = gl(1, length(x)), prn = NULL)
+## Sampling
+sps(x, n, strata = gl(1, length(x)), prn = runif(length(x)))
 
-ps(x, n, s = gl(1, length(x)), prn = NULL)
+ps(x, n, strata = gl(1, length(x)), prn = runif(length(x)))
 
-\method{weights}{sps}(object, ...)
+inclusion_prob(x, n, strata = gl(1, length(x)))
 
-inclusion_prob(x, n, s = gl(1, length(x)))
-
+## Allocations
 prop_allocation(
-  x, N, s = gl(1, length(x)), initial = 0, 
+  x, N, 
+  strata = gl(1, length(x)), 
+  initial = 0, 
   divisor = function(a) a + 1
 )
 
-expected_coverage(x, N, s = gl(1, length(x)))
+expected_coverage(x, N, strata = gl(1, length(x)))
+
+\method{weights}{sps}(object, ...)
 }
 
 \arguments{
 \item{x}{A strictly positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{s}. Non-integers are truncated towards 0.}
+\item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
-\item{s}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
+\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
-\item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers.}
-
-\item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
+\item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
-\item{initial}{A positive vector of integers giving the initial (minimal) allocation for each stratum, ordered according to the levels of \code{s}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default does not pre-allocate any units.}
+\item{initial}{A positive vector of integers giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for strata with no units.}
 
-\item{divisor}{A divisor function for the highest-averages apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other common functions.}
+\item{divisor}{A divisor function for the highest-averages (divisor) apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other common functions.}
+
+\item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -55,24 +59,24 @@ expected_coverage(x, N, s = gl(1, length(x)))
 \subsection{Sampling}{
 The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are in sections 2.2 to 2.4 of Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. This process is repeated until all the inclusion probabilities are less than 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
-The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. If \code{prn != NULL}, then the corresponding values for \code{prn} are used instead of generating random values. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
+The remaining units in the sample belong to the take-some stratum, and are drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, it does not contain a fixed number of units. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.}
 
 \subsection{Allocations}{
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using the highest-averages (divisor) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions \eqn{d(a)}:
+The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using the highest-averages (divisor) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions:
 
 \tabular{ll}{
-Jefferson/D'Hondt \tab \eqn{a + 1}\cr
-Webster/Sainte-Laguë \tab \eqn{a + 0.5}\cr
-Imperiali \tab \eqn{a + 2}\cr
-Huntington–Hill \tab \eqn{\sqrt{a(a + 1)}}{(a * (a + 1))^0.5}\cr
-Danish \tab \eqn{a + 1 / 3}\cr
-Adams \tab \eqn{a}\cr
-Dean \tab \eqn{a(a + 1) / (a + 0.5)}{a * (a + 1) / (a + 0.5)}
+Jefferson/D'Hondt \tab \code{function(a) a + 1}\cr
+Webster/Sainte-Laguë \tab \code{function(a) a + 0.5}\cr
+Imperiali \tab \code{function(a) a + 2}\cr
+Huntington–Hill \tab \code{function(a) sqrt(a * (a + 1))}\cr
+Danish \tab \code{function(a) a + 1 / 3}\cr
+Adams \tab \code{function(a) a}\cr
+Dean \tab \code{function(a) a * (a + 1) / (a + 0.5)}
 }
 
-In all cases, ties are broken according to the levels of \code{s}; reordering the levels of \code{s} can result in a different allocation.
+Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill, Adams, Dean) requires an initial allocation of at least 1 for all strata. In all cases, ties are broken according to the levels of \code{strata}; reordering the levels of \code{strata} can therefore result in a different allocation.
 
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 

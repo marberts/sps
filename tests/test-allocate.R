@@ -80,7 +80,7 @@ all.equal(
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE))) == 10))
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 0.5)) == 10))
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 2)) == 10))
-all(replicate(50, sum(prop_allocation(rlnorm(50), 30, sample(letters, 50, TRUE), initial = 1, divisor = function(x) x * (x + 1) / sqrt(x * (x + 1)))) == 30))
+all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) sqrt(x * (x + 1)))) == 10))
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x + 1 / 3)) == 10))
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = identity)) == 10))
 all(replicate(50, sum(prop_allocation(rlnorm(50), 10, sample(letters, 50, TRUE), divisor = function(x) x * (x + 1) / (x + 0.5))) == 10))
@@ -93,6 +93,30 @@ all.equal(
 all.equal(
   prop_allocation(rep(1, 14), 11, rep(1:3, c(6, 6, 2))),
   c("1" = 5, "2" = 5, "3" = 1)
+)
+
+# example from https://en.wikipedia.org/wiki/Highest_averages_method
+x <- rep(1, 1e5)
+s <- as.factor(rep(1:6, c(47000, 16000, 15900, 12000, 6000, 3100)))
+
+all.equal(
+  prop_allocation(x, 10, s),
+  c("1" = 5, "2" = 2, "3" = 2, "4" = 1, "5" = 0, "6" = 0)
+)
+
+all.equal(
+  prop_allocation(x, 10, s, divisor = function(a) a + 0.5),
+  c("1" = 4, "2" = 2, "3" = 2, "4" = 1, "5" = 1, "6" = 0)
+)
+
+all.equal(
+  prop_allocation(x, 10, s, divisor = function(a) sqrt(a * (a + 1))),
+  c("1" = 4, "2" = 2, "3" = 1, "4" = 1, "5" = 1, "6" = 1)
+)
+
+all.equal(
+  prop_allocation(x, 10, s, divisor = function(a) a),
+  c("1" = 3, "2" = 2, "3" = 2, "4" = 1, "5" = 1, "6" = 1)
 )
 
 # Checks for error messages

@@ -1,6 +1,8 @@
 #---- Internal helpers ----
 # Argument checking
 check_allocation <- function(x, N, s) {
+  # this is stricter than it needs to be, but is consistent with the rest
+  # of the API
   if (not_strict_positive_vector(x)) {
     stop(
       gettext("'x' must be a strictly positive and finite numeric vector")
@@ -16,14 +18,16 @@ check_allocation <- function(x, N, s) {
       gettext("sample size 'N' is greater than population size")
     )
   }
+  # needed for tabulate()
   if (length(x) != length(s)) {
     stop(
-      gettext("'x' and 's' must be the same length")
+      gettext("'x' and 'strata' must be the same length")
     )
   }
+  # missing strata means allocation and coverage are missing
   if (anyNA(s)) {
     stop(
-      gettext("'s' cannot contain NAs")
+      gettext("'strata' cannot contain NAs")
     )
   }
 }
@@ -50,34 +54,36 @@ coverage_prob <- function(x, N, s) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, N, s = gl(1, length(x))) {
+expected_coverage <- function(x, N, strata = gl(1, length(x))) {
   N <- trunc(N)
-  s <- as.factor(s)
-  check_allocation(x, N, s)
-  sum(coverage_prob(x, N, s))
+  strata <- as.factor(strata)
+  check_allocation(x, N, strata)
+  sum(coverage_prob(x, N, strata))
 }
 
 #---- Proportional allocation ----
 prop_allocation <- function(
-    x, N, s = gl(1, length(x)), initial = 0, 
+    x, N, 
+    strata = gl(1, length(x)), 
+    initial = 0, 
     divisor = function(a) a + 1
 ) {
   N <- trunc(N)
-  s <- as.factor(s)
-  check_allocation(x, N, s)
+  strata <- as.factor(strata)
+  check_allocation(x, N, strata)
   initial <- trunc(initial)
   if (not_positive_vector(initial)) {
     stop(
       gettext("'initial' must be a positive and finite numeric vector")
     )
   }
-  ns <- tabulate(s, nbins = nlevels(s))
+  ns <- tabulate(strata, nbins = nlevels(strata))
   if (length(initial) == 1L) {
-    initial <- pmin.int(ns, min(N %/% nlevels(s), initial))
+    initial <- pmin.int(ns, min(N %/% nlevels(strata), initial))
   }
-  if (length(initial) != nlevels(s)) {
+  if (length(initial) != nlevels(strata)) {
     stop(
-      gettext("'initial' must have a single allocation size for each level in 's'")
+      gettext("'initial' must have a single allocation size for each level in 'strata'")
     )
   }
   if (any(initial > ns)) {
@@ -90,7 +96,8 @@ prop_allocation <- function(
       gettext("initial allocation is larger than 'N'")
     )
   }
-  p <- vapply(split(x, s), sum, numeric(1L))
+  p <- vapply(split(x, strata), sum, numeric(1L))
   res <- highest_averages(divisor)(p, N, initial, ns)
-  structure(res, names = levels(s))
+  names(res) <- levels(strata)
+  res
 }
