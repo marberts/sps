@@ -15,7 +15,7 @@ check_inclusion_prob <- function(x, n, s) {
       gettext("'n' must be a positive and finite numeric vector")
     )
   }
-  # needs to be the same length of tabulate()
+  # needs to be the same length for tabulate()
   if (length(x) != length(s)) {
     stop(
       gettext("'x' and 'strata' must be the same length")
@@ -49,6 +49,8 @@ pi <- function(x, n) {
   res <- pi(x, n)
   if (length(res) == 0L || max(res) <= 1) return(res)
   repeat {
+    # inclusion probs increase with each loop, so only need to recalculate
+    # those strictly less than 1
     keep_ts <- which(res < 1)
     n_ts <- n - length(x) + length(keep_ts)
     res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)

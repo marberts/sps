@@ -52,7 +52,8 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 }
 
 \examples{
-x <- c(1:10, 100) # sizes in the population
+# Make a population with units of different size
+x <- c(1:10, 100)
 
 # Draw a sample
 (samp <- sps(x, 5))

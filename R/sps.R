@@ -25,9 +25,9 @@ stratify <- function(f) {
     n <- trunc(n)
     strata <- as.factor(strata)
     check_inclusion_prob(x, n, strata)
-    if (length(strata) != length(prn)) {
+    if (length(x) != length(prn)) {
       stop(
-        gettext("'strata' and 'prn' must be the same length")
+        gettext("'x' and 'prn' must be the same length")
       )
     }
     if (not_prob(prn)) {
@@ -52,7 +52,7 @@ stratify <- function(f) {
     levels[weights > 1] <- "TS"
     structure(
       res[ord],
-      weights = weights[ord],
+      weights = as.numeric(weights[ord]), # strip names
       levels = levels[ord],
       class = c("sps", class(res))
     )

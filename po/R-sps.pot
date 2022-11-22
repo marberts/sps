@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sps 0.2.0.9010\n"
-"POT-Creation-Date: 2022-11-19 22:03\n"
+"POT-Creation-Date: 2022-11-21 22:27\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "initial allocation is larger than 'N'"
 msgstr ""
 
-msgid "'strata' and 'prn' must be the same length"
+msgid "'x' and 'prn' must be the same length"
 msgstr ""
 
 msgid "'prn' must be a numeric vector between 0 and 1"
