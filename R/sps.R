@@ -14,6 +14,7 @@
 
 # Ordinary Poisson sampling
 .ps <- function(p, n, u) {
+  # u is always < 1, so take alls are always included
   which(u < p)
 }
 

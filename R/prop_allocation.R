@@ -37,14 +37,14 @@ highest_averages <- function(d) {
   d <- match.fun(d)
   # return function
   function(p, n, min, max) {
-    res <- as.numeric(min) # strip attributes
+    res <- as.vector(min) # strip attributes
     n <- n - sum(res)
     # the while condition could be n > sum(res), but the loop below always
     # terminates after at most n steps, even if i is integer(0)
     while (n > 0) {
       i <- which.max(p / d(res) * (res < max))
-      res[i] <- res[i] + 1
-      n <- n - 1
+      res[i] <- res[i] + 1L
+      n <- n - 1L
     }
     res
   }

@@ -30,7 +30,7 @@ The default pseudo-population method randomly rounds \eqn{w} for each replicate 
 
 These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 
-As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum y * w} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for regular Poisson sampling.
+As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum y * w} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for ordinary Poisson sampling.
 }
 
 \value{

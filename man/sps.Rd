@@ -11,7 +11,7 @@ Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability-proportional-to-size sample according to the (sequential) Poisson sampling method, with the option of an allocation proportional to size.
+Draw a stratified probability-proportional-to-size sample using the (sequential) Poisson method, with the option of an allocation proportional to size.
 }
 
 \usage{
@@ -104,7 +104,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 \seealso{
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-\code{UPpoisson} and \code{inclusionprobabilities} in the \pkg{sampling} package for regular Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps} and \code{inclusion_prob}, but for a single stratum.
+\code{UPpoisson} and \code{inclusionprobabilities} in the \pkg{sampling} package for ordinary Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps} and \code{inclusion_prob}, but for a single stratum.
 
 \code{strAlloc} in the \pkg{PracTools} package for other allocation methods.
 
