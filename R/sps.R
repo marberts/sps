@@ -53,7 +53,7 @@ stratify <- function(f) {
     levels[weights > 1] <- "TS"
     structure(
       res[ord],
-      weights = as.numeric(weights[ord]), # strip names
+      weights = weights[ord],
       levels = levels[ord],
       class = c("sps", class(res))
     )

@@ -47,7 +47,7 @@ pi <- function(x, n) {
 
 .inclusion_prob <- function(x, n) {
   res <- pi(x, n)
-  if (length(res) == 0L || max(res) <= 1) return(res)
+  if (length(res) == 0L || max(res) <= 1) return(as.numeric(res))
   repeat {
     # inclusion probs increase with each loop, so only need to recalculate
     # those strictly less than 1
@@ -68,7 +68,6 @@ inclusion_prob <- function(x, n, strata = gl(1, length(x))) {
   if (nlevels(strata) == 1L) {
     .inclusion_prob(x, n)
   } else {
-    split(x, strata) <- Map(.inclusion_prob, split(x, strata), n)
-    x
+    unsplit(Map(.inclusion_prob, split(x, strata), n), strata)
   }
 }

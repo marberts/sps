@@ -1,5 +1,6 @@
 #---- Internal helpers ----
 random_round <- function(x, n) {
+  x <- as.numeric(x) # dims cause problems
   y <- floor(x)
   y + (runif(length(x) * n) < x - y)
 }
@@ -32,7 +33,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
     dist <- match.fun(dist)
     dist(n) * sqrt(1 - p)
   }
-  res <- w * (a + tau) / tau
+  res <- as.numeric(w * (a + tau) / tau) # strip attributes
   if (min(res) < 0) {
     warning(
       gettext("some replicate weights are negative; try increasing 'tau'")
