@@ -1,34 +1,22 @@
 #---- Internal helpers ----
 # Argument checking
-check_allocation <- function(x, N, s) {
-  # this is stricter than it needs to be, but is consistent with the rest
-  # of the API
-  if (not_strict_positive_vector(x)) {
-    stop(
-      gettext("'x' must be a strictly positive and finite numeric vector")
-    )
+check_allocation <- function(x, N, strata) {
+  if (min(x) < 0) {
+    stop(gettext("'x' must be positive"))
   }
-  if (not_positive_number(N)) {
-    stop(
-      gettext("'N' must be a positive and finite number")
-    )
+  if (N < 0) {
+    stop(gettext("'N' must be positive"))
   }
   if (N > length(x)) {
-    stop(
-      gettext("sample size 'N' is greater than population size")
-    )
+    stop(gettext("sample size 'N' is greater than population size"))
   }
   # needed for tabulate()
-  if (length(x) != length(s)) {
-    stop(
-      gettext("'x' and 'strata' must be the same length")
-    )
+  if (length(x) != length(strata)) {
+    stop(gettext("'x' and 'strata' must be the same length"))
   }
   # missing strata means allocation and coverage are missing
-  if (anyNA(s)) {
-    stop(
-      gettext("'strata' cannot contain NAs")
-    )
+  if (anyNA(strata)) {
+    stop(gettext("'strata' cannot contain NAs"))
   }
 }
 
@@ -50,17 +38,26 @@ highest_averages <- function(d) {
   }
 }
 
-coverage_prob <- function(x, N, s) {
-  p <- split(log(1 - .inclusion_prob(x, N)), s)
+coverage_prob <- function(x, N, s, alpha) {
+  p <- split(log(1 - .inclusion_prob(x, N, alpha)), s)
   1 - vapply(p, function(x) exp(sum(x)), numeric(1L))
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, N, strata = gl(1, length(x))) {
-  N <- trunc(N)
+expected_coverage <- function(
+    x, N, 
+    strata = gl(1, length(x)), 
+    alpha = 0
+) {
+  x <- as.numeric(x)
+  N <- trunc(as.numeric(N))
   strata <- as.factor(strata)
+  alpha <- as.numeric(alpha)
   check_allocation(x, N, strata)
-  sum(coverage_prob(x, N, strata))
+  if (alpha < 0 || alpha >= 1) {
+    stop(gettext("'alpha' must be in [0, 1)"))
+  }
+  sum(coverage_prob(x, N, strata, alpha))
 }
 
 #---- Proportional allocation ----
@@ -70,14 +67,13 @@ prop_allocation <- function(
     initial = 0, 
     divisor = function(a) a + 1
 ) {
-  N <- trunc(N)
+  x <- as.numeric(x)
+  N <- trunc(as.numeric(N))
   strata <- as.factor(strata)
+  initial <- trunc(as.numeric(initial))
   check_allocation(x, N, strata)
-  initial <- trunc(initial)
-  if (not_positive_vector(initial)) {
-    stop(
-      gettext("'initial' must be a positive and finite numeric vector")
-    )
+  if (min(initial) < 0) {
+    stop(gettext("'initial' must be positive"))
   }
   ns <- tabulate(strata, nbins = nlevels(strata))
   if (length(initial) == 1L) {
@@ -99,6 +95,9 @@ prop_allocation <- function(
     )
   }
   p <- vapply(split(x, strata), sum, numeric(1L))
+  if (!any(p > 0)) {
+    stop(gettext("all strata have zero size"))
+  }
   res <- highest_averages(divisor)(p, N, initial, ns)
   names(res) <- levels(strata)
   res

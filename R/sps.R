@@ -3,10 +3,13 @@
 .sps <- function(p, n, u) {
   ts <- p < 1
   ta <- which(!ts)
-  ts <- which(ts)
+  ts <- which(ts & p > 0)
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
+    # should be a partial sort, but sort.int() doesn't return indexes
+    # robustHD::partialOrder() is faster, but that package has a ton
+    # of deps
     order(u[ts] / p[ts])[seq_len(n_ts)]
   }
   c(ta, ts[keep])
@@ -14,7 +17,6 @@
 
 # Ordinary Poisson sampling
 .ps <- function(p, n, u) {
-  # u is always < 1, so take alls are always included
   which(u < p)
 }
 
@@ -22,27 +24,26 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, strata = gl(1, length(x)), prn = runif(length(x))) {
-    n <- trunc(n)
+  function(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0) {
+    x <- as.numeric(x)
+    n <- trunc(as.numeric(n))
     strata <- as.factor(strata)
-    check_inclusion_prob(x, n, strata)
+    prn <- as.numeric(prn)
+    alpha <- as.numeric(alpha)
+    check_inclusion_prob(x, n, strata, alpha)
     if (length(x) != length(prn)) {
-      stop(
-        gettext("'x' and 'prn' must be the same length")
-      )
+      stop(gettext("'x' and 'prn' must be the same length"))
     }
-    if (not_prob(prn)) {
-      stop(
-        gettext("'prn' must be a numeric vector between 0 and 1")
-      )
+    if (min(prn) < 0 || max(prn) > 1) {
+      stop(gettext("'prn' must be in (0, 1)"))
     }
     # the single-stratum case is common enough to warrant the optimization
     if (nlevels(strata) == 1L) {
-      p <- .inclusion_prob(x, n)
+      p <- .inclusion_prob(x, n, alpha)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     } else {
-      p <- Map(.inclusion_prob, split(x, strata), n)
+      p <- Map(.inclusion_prob, split(x, strata), n, alpha)
       samp <- Map(f, p, n, split(prn, strata))
       pos <- split(seq_along(x), strata)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)

@@ -1,43 +1,25 @@
 #---- Internal helpers ----
-# Argument checking
-check_inclusion_prob <- function(x, n, s) {
-  # sampling::inclusionprobabilities() gives a warning with 0s; I think
-  # an error makes more sense
-  # e.g., x = c(0, 0, 1, 1) and n = 3 => units 1 and 2 have inclusion probs
-  # of 0, but at least one must be included in the sample
-  if (not_strict_positive_vector(x)) {
-    stop(
-      gettext("'x' must be a strictly positive and finite numeric vector")
-    )
+check_inclusion_prob <- function(x, n, strata, alpha) {
+  if (min(x) < 0) {
+    stop(gettext("'x' must be positive"))
   }
-  if (not_positive_vector(n)) {
-    stop(
-      gettext("'n' must be a positive and finite numeric vector")
-    )
+  if (min(n) < 0) {
+    stop(gettext("'n' must be positive"))
   }
-  # needs to be the same length for tabulate()
-  if (length(x) != length(s)) {
-    stop(
-      gettext("'x' and 'strata' must be the same length")
-    )
+  if (length(x) != length(strata)) {
+    stop(gettext("'x' and 'strata' must be the same length"))
   }
-  if (length(n) != nlevels(s)) {
+  if (length(n) != nlevels(strata)) {
     stop(
       gettext("'n' must have a single sample size for each level in 'strata'")
     )
   }
   # missing strata means inclusion probs are all missing
-  if (anyNA(s)) {
-    stop(
-      gettext("'strata' cannot contain NAs")
-    )
+  if (anyNA(strata)) {
+    stop(gettext("'strata' cannot contain NAs"))
   }
-  # bins isn't wide enough by default to catch factors with unused levels
-  # at the end
-  if (any(tabulate(s, nbins = nlevels(s)) < n)) {
-    stop(
-      gettext("sample size 'n' is greater than population size for some strata")
-    )
+  if (alpha < 0 || alpha >= 1) {
+    stop(gettext("'alpha' must be in [0, 1)"))
   }
 }
 
@@ -45,29 +27,44 @@ pi <- function(x, n) {
   x * (n / sum(x))
 }
 
-.inclusion_prob <- function(x, n) {
-  res <- pi(x, n)
-  if (length(res) == 0L || max(res) <= 1) return(as.numeric(res))
-  repeat {
-    # inclusion probs increase with each loop, so only need to recalculate
-    # those strictly less than 1
-    keep_ts <- which(res < 1)
-    n_ts <- n - length(x) + length(keep_ts)
-    res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
-    if (max(ts) <= 1) break
+.inclusion_prob <- function(x, n, alpha = 0) {
+  if (n > sum(x > 0)) {
+    stop(
+      gettext("sample size is greater than the number of units with non-zero sizes in the population")
+    )
   }
-  pmin.int(res, 1)
+  res <- as.numeric(pi(x, n)) # strip attributes
+  if (length(res) > 0L && max(res) > 1) {
+    repeat {
+      # inclusion probs increase with each loop, so only need to 
+      # recalculate those strictly less than 1
+      keep_ts <- which(res < 1)
+      n_ts <- n - length(x) + length(keep_ts)
+      res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
+      if (max(ts) <= 1) break
+    }
+    res <- pmin.int(res, 1)
+  }
+  if (alpha > 0) {
+    res[res >= 1 - alpha] <- 1
+    if (sum(res == 1) > n) {
+      stop(gettext("'alpha' is too large given 'n'"))
+    }
+  }
+  res
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, strata = gl(1, length(x))) {
+inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 0) {
+  x <- as.numeric(x)
+  n <- trunc(as.numeric(n))
   strata <- as.factor(strata)
-  n <- trunc(n)
-  check_inclusion_prob(x, n, strata)
+  alpha <- as.numeric(alpha)
+  check_inclusion_prob(x, n, strata, alpha)
   # the single stratum case is common enough to warrant the optimization
   if (nlevels(strata) == 1L) {
-    .inclusion_prob(x, n)
+    .inclusion_prob(x, n, alpha)
   } else {
-    unsplit(Map(.inclusion_prob, split(x, strata), n), strata)
+    unsplit(Map(.inclusion_prob, split(x, strata), n, alpha), strata)
   }
 }

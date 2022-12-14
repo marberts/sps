@@ -34,9 +34,7 @@ As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) prop
 }
 
 \value{
-An object of class \code{sps_brw}. This is a matrix of bootstrap replicate weights with \code{B} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute. Any names for \code{w} are kept as row names.
-
-There are currently no interesting methods for this class.
+A matrix of bootstrap replicate weights with \code{B} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute.
 }
 
 \references{

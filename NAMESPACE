@@ -2,7 +2,6 @@ export(sps, ps, inclusion_prob, prop_allocation, expected_coverage, sps_repweigh
 
 S3method(weights, sps)
 S3method(print, sps)
-S3method(print, sps_brw)
 S3method(Ops, sps)
 S3method(Math, sps)
 S3method("[<-", sps)

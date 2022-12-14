@@ -16,12 +16,12 @@ Draw a stratified probability-proportional-to-size sample using the (sequential)
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = gl(1, length(x)), prn = runif(length(x)))
+sps(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = gl(1, length(x)), prn = runif(length(x)))
+ps(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0)
 
-inclusion_prob(x, n, strata = gl(1, length(x)))
+inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 0)
 
 ## Allocations
 prop_allocation(
@@ -31,19 +31,21 @@ prop_allocation(
   divisor = function(a) a + 1
 )
 
-expected_coverage(x, N, strata = gl(1, length(x)))
+expected_coverage(x, N, strata = gl(1, length(x)), alpha = 0)
 
 \method{weights}{sps}(object, ...)
 }
 
 \arguments{
-\item{x}{A strictly positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
+\item{x}{A positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
 \item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
 \item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
+
+\item{alpha}{A number between 0 (the default) and 1 such that units with inclusion probabilities above 1 - \code{alpha} are put in the take-all stratum.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
@@ -58,7 +60,7 @@ expected_coverage(x, N, strata = gl(1, length(x)))
 
 \details{
 \subsection{Sampling}{
-The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
+The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. In some cases it can be useful to put units with an inclusion probability greater than \eqn{1 - \alpha} into the take-all stratum as well. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 A sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
