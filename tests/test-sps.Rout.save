@@ -21,7 +21,7 @@ Type 'q()' to quit R.
 > 
 > # Corner cases
 > all.equal(
-+   unclass(sps(1:5, 0)),
++   unclass(sps(1:10, 0)),
 +   structure(integer(0), weights = numeric(0), levels = character(0))
 + )
 [1] TRUE
@@ -36,7 +36,7 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   unclass(ps(1:5, 0)),
++   unclass(ps(1:10, 0)),
 +   structure(integer(0), weights = numeric(0), levels = character(0))
 + )
 [1] TRUE
@@ -50,9 +50,13 @@ Type 'q()' to quit R.
 +   structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
 + )
 [1] TRUE
+>
+> # Use alpha to make all units TAs
+> all(sps(0:5, 3, alpha = 0.5) == 4:6)
+[1] TRUE
 > 
 > # Two rounds of TA removal
-> samp <- sps(c(20, 1:10, 100), 5)
+> samp <- sps(c(20, 1:10, 100, 0), 5)
 > all(samp[c(1, 5)] == c(1, 12))
 [1] TRUE
 > all(levels(samp) == c("TA", rep("TS", 3), "TA"))
@@ -62,7 +66,7 @@ Type 'q()' to quit R.
 > all(weights(samp)[-c(1, 5)] > 1)
 [1] TRUE
 >
-> samp <- ps(c(20, 1:10, 100), 5)
+> samp <- ps(c(20, 1:10, 100, 0), 5)
 > last <- length(samp)
 > all(samp[c(1, last)] == c(1, 12))
 [1] TRUE
@@ -84,7 +88,7 @@ Type 'q()' to quit R.
 [1] TRUE
 > 
 > # Strata sizes should add up
-> s <- factor(sample(letters, 100, TRUE), letters)
+> s <- factor(sample(letters[-1], 100, TRUE), letters)
 > x <- rlnorm(100)
 > alloc <- prop_allocation(x, 50, s)
 > samp <- sps(x, alloc, s)
@@ -129,7 +133,7 @@ Type 'q()' to quit R.
 [1] TRUE
 >
 > # Weights should be monotonic
-> all(order(weights(sps(1:10, 4))) == 4:1)
+> all(order(weights(sps(0:10, 4))) == 4:1)
 [1] TRUE
 > 
 > # Mathematical functions should treat 'sps' objects as numeric vectors
@@ -148,23 +152,6 @@ Type 'q()' to quit R.
 > samp[1] <- 1
 > inherits(samp, "numeric")
 [1] TRUE
-> 
-> # Tests for error messages
-> try(sps(-1, 1))
-Error in check_inclusion_prob(x, n, strata) : 
-  'x' must be a strictly positive and finite numeric vector
-> try(sps(1, NA))
-Error in check_inclusion_prob(x, n, strata) : 
-  'n' must be a positive and finite numeric vector
-> try(sps(1:4, 2, c(1, 1, 2, 2)))
-Error in check_inclusion_prob(x, n, strata) : 
-  'n' must have a single sample size for each level in 'strata'
-> try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
-Error in check_inclusion_prob(x, n, strata) : 
-  sample size 'n' is greater than population size for some strata
-> try(sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)))
-Error in sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)) : 
-  'prn' must be a numeric vector between 0 and 1
 > 
 > proc.time()
    user  system elapsed 

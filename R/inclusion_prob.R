@@ -33,7 +33,7 @@ pi <- function(x, n) {
       gettext("sample size is greater than the number of units with non-zero sizes in the population")
     )
   }
-  res <- as.numeric(pi(x, n)) # strip attributes
+  res <- pi(x, n)
   if (length(res) > 0L && max(res) > 1) {
     repeat {
       # inclusion probs increase with each loop, so only need to 

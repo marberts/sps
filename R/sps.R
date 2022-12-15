@@ -24,7 +24,12 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0) {
+  function(
+    x, n, 
+    strata = gl(1, length(x)), 
+    prn = runif(length(x)), 
+    alpha = 0
+  ) {
     x <- as.numeric(x)
     n <- trunc(as.numeric(n))
     strata <- as.factor(strata)

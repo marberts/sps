@@ -37,24 +37,24 @@ Type 'q()' to quit R.
 [1] TRUE
 > 
 > # No rounds
-> x <- c(1:4, 10:8, 5:7)
+> x <- c(0:4, 10:8, 5:7, 0)
 > all.equal(inclusion_prob(x, 4), x / 55 * 4)
 [1] TRUE
 > 
 > # One round
 > x <- c(x, 100)
-> all.equal(inclusion_prob(x, 4), c(x[1:10] / 55 * 3, 1))
+> all.equal(inclusion_prob(x, 4), c(x[1:12] / 55 * 3, 1))
 [1] TRUE
 > 
 > # Two rounds
 > x <- c(20, x)
-> all.equal(inclusion_prob(x, 5), c(1, x[2:11] / 55 * 3, 1))
+> all.equal(inclusion_prob(x, 5), c(1, x[2:13] / 55 * 3, 1))
 [1] TRUE
 > 
 > # Strata should be independent
 > all.equal(
-+   inclusion_prob(x, c(4, 3), gl(2, 6)),
-+   c(inclusion_prob(x[1:6], 4), inclusion_prob(x[7:12], 3))
++   inclusion_prob(x, c(4, 3), gl(2, 7)),
++   c(inclusion_prob(x[1:7], 4), inclusion_prob(x[8:14], 3))
 + )
 [1] TRUE
 > 
@@ -65,12 +65,22 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > 
-> # Should agree with design weights
-> samp <- sps(x, c(4, 3), gl(2, 6))
 > all.equal(
-+   1 / inclusion_prob(x, c(4, 3), gl(2, 6))[samp],
++   inclusion_prob(0:20, 12),
++   c(0:16 / 136 * 8, rep(1, 4))
++ )
+[1] TRUE
+> 
+> # Should agree with design weights
+> samp <- sps(x, c(4, 3), gl(2, 7))
+> all.equal(
++   1 / inclusion_prob(x, c(4, 3), gl(2, 7))[samp],
 +   weights(samp)
 + )
+[1] TRUE
+> 
+> # Use alpha to make all units TAs
+> all.equal(inclusion_prob(0:5, 3, alpha = 0.5), c(0, 0.2, 0.4, 1, 1, 1))
 [1] TRUE
 > 
 > proc.time()

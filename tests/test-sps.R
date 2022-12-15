@@ -4,7 +4,7 @@ set.seed(123454)
 
 # Corner cases
 all.equal(
-  unclass(sps(1:5, 0)),
+  unclass(sps(1:10, 0)),
   structure(integer(0), weights = numeric(0), levels = character(0))
 )
 all.equal(
@@ -16,7 +16,7 @@ all.equal(
   structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
 )
 all.equal(
-  unclass(ps(1:5, 0)),
+  unclass(ps(1:10, 0)),
   structure(integer(0), weights = numeric(0), levels = character(0))
 )
 all.equal(
@@ -28,14 +28,17 @@ all.equal(
   structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
 )
 
+# Use alpha to make all units TAs
+all(sps(0:5, 3, alpha = 0.5) == 4:6)
+
 # Two rounds of TA removal
-samp <- sps(c(20, 1:10, 100), 5)
+samp <- sps(c(20, 1:10, 100, 0), 5)
 all(samp[c(1, 5)] == c(1, 12))
 all(levels(samp) == c("TA", rep("TS", 3), "TA"))
 all(weights(samp)[c(1, 5)] == 1)
 all(weights(samp)[-c(1, 5)] > 1)
 
-samp <- ps(c(20, 1:10, 100), 5)
+samp <- ps(c(20, 1:10, 100, 0), 5)
 last <- length(samp)
 all(samp[c(1, last)] == c(1, 12))
 all(levels(samp) == c("TA", rep("TS", last - 2), "TA"))
@@ -49,7 +52,7 @@ is.integer(ps(1:5, 3))
 is.integer(ps(1:5, 0))
 
 # Strata sizes should add up
-s <- factor(sample(letters, 100, TRUE), letters)
+s <- factor(sample(letters[-1], 100, TRUE), letters)
 x <- rlnorm(100)
 alloc <- prop_allocation(x, 50, s)
 samp <- sps(x, alloc, s)
@@ -89,7 +92,7 @@ all.equal(
 )
 
 # Weights should be monotonic
-all(order(weights(sps(1:10, 4))) == 4:1)
+all(order(weights(sps(0:10, 4))) == 4:1)
 
 # Mathematical functions should treat 'sps' objects as numeric vectors
 inherits(log(samp), "numeric") 
@@ -101,10 +104,3 @@ inherits(-samp, "integer")
 # And replacement methods
 samp[1] <- 1
 inherits(samp, "numeric")
-
-# Tests for error messages
-try(sps(-1, 1))
-try(sps(1, NA))
-try(sps(1:4, 2, c(1, 1, 2, 2)))
-try(sps(1:4, c(5, 2), c(1, 1, 2, 2)))
-try(sps(1:4, 2, prn = c(0.1, 0.1, 0.1, NA)))
