@@ -4,7 +4,7 @@ set.seed(4321)
 
 # Corner cases
 all.equal(
-  prop_allocation(1:5, 0),
+  prop_allocation(0, 0),
   c("1" = 0)
 )
 all.equal(
@@ -14,10 +14,6 @@ all.equal(
 all.equal(
   prop_allocation(1:5, 5),
   c("1" = 5)
-)
-all.equal(
-  prop_allocation(rep(1, 10), 4, rep(letters[1], 10)),
-  c(a = 4)
 )
 all.equal(
   prop_allocation(rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))),
@@ -60,6 +56,10 @@ all.equal(
 all.equal(
   prop_allocation(rep(1, 100), 10, rep(1:4, c(10, 20, 30, 40))),
   c("1" = 1, "2" = 2, "3" = 3, "4" = 4)
+)
+all.equal(
+  prop_allocation(c(0, 0, 100, 1, 1, 1), 3, gl(2, 3)),
+  c("1" = 1, "2" = 2)
 )
 
 # Multiple iterations
