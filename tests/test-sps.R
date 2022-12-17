@@ -29,7 +29,16 @@ all.equal(
 )
 
 # Use alpha to make all units TAs
-all(sps(0:5, 3, alpha = 0.5) == 4:6)
+all.equal(
+  unclass(sps(0:5, 3, alpha = 0.5)),
+  structure(4:6, weights = rep(1, 3), levels = rep("TA", 3))
+)
+
+# Does noting when units are already TAs
+all.equal(
+  sps(0:5, 5),
+  sps(0:5, 5, alpha = 0.9)
+)
 
 # Two rounds of TA removal
 samp <- sps(c(20, 1:10, 100, 0), 5)

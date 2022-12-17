@@ -21,12 +21,12 @@ Type 'q()' to quit R.
 > 
 > # Corner cases
 > all.equal(
-+   unclass(sps_repweights(weights(sps(1:10, 10)), 5, tau = 3)),
++   sps_repweights(weights(sps(1:10, 10)), 5, tau = 3),
 +   structure(matrix(1, 10, 5), tau = 3)
 + )
 [1] TRUE
 > all.equal(
-+   unclass(sps_repweights(weights(sps(1:10, 10)), 10, dist = rnorm)),
++   sps_repweights(weights(sps(1:10, 10)), 10, dist = rnorm),
 +   structure(matrix(1, 10, 10), tau = 1)
 + )
 [1] TRUE
@@ -36,23 +36,6 @@ Type 'q()' to quit R.
 [1] TRUE
 > all(sps_repweights(1:5, tau = 2)[1, ] == 1)
 [1] TRUE
-> 
-> # Check error messages
-> try(sps_repweights(1:5, B = 0.9))
-Error in sps_repweights(1:5, B = 0.9) : 
-  'B' must be a number greater than or equal to 1
-> try(sps_repweights(1:5, tau = NA))
-Error in sps_repweights(1:5, tau = NA) : 
-  'tau' must be a number greater than or equal to 1
-> 
-> # Printing should preserve names
-> sps_repweights(structure(rep(1, 5), names = letters[1:5]), 5)
-  [,1] [,2] [,3] [,4] [,5]
-a    1    1    1    1    1
-b    1    1    1    1    1
-c    1    1    1    1    1
-d    1    1    1    1    1
-e    1    1    1    1    1
 >
 > # Check against bootstrapFP:::generalised()
 > # Fixed a bug with the exponential case by replaing exp() with rexp()
