@@ -22,10 +22,11 @@ pi <- function(x, n) {
     res <- pmin.int(res, 1)
   }
   if (alpha > 0) {
-    res[res >= 1 - alpha] <- 1
-    if (sum(res == 1) > n) {
+    ta <- which(res >= 1 - alpha)
+    if (length(ta) > n) {
       stop(gettext("'alpha' is too large given 'n'"))
     }
+    res[ta] <- 1
   }
   res
 }
