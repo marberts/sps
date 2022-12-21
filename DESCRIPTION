@@ -1,13 +1,14 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.3.0.9005
+Version: 0.3.0.9006
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com", comment = c(ORCID = "0000-0003-2544-9480")),
     person("Justin", "Francis", role = "ctb")
     )
 Description: Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw stratified sequential Poisson samples according to the method by Ohlsson (1998, ISSN:0282-423X), and generate appropriate bootstrap replicate weights according to the generalized bootstrap method by Beaumont and Patak (2012, <doi:10.1111/j.1751-5823.2011.00166.x>).
 Depends: R (>= 3.5)
-Imports: stats
+Imports: stats, Rcpp
+LinkingTo: Rcpp
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/marberts/sps

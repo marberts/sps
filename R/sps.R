@@ -7,10 +7,7 @@
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
-    # should be a partial sort, but sort.int() doesn't return indexes
-    # robustHD::partialOrder() is faster, but that package has a ton
-    # of deps
-    order(u[ts] / p[ts])[seq_len(n_ts)]
+    partition_index(u[ts] / p[ts], n_ts)[seq_len(n_ts)]
   }
   c(ta, ts[keep])
 }
