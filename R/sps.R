@@ -7,6 +7,7 @@
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
+    # order(u[ts] / p[ts])[seq_len(n_ts)]
     partition_index(u[ts] / p[ts], n_ts)[seq_len(n_ts)]
   }
   c(ta, ts[keep])
@@ -32,8 +33,8 @@ stratify <- function(f) {
       stop(gettext("'x' must be positive"))
     }
     
-    n <- trunc(as.numeric(n))
-    if (min(n) < 0) {
+    n <- as.integer(n)
+    if (min(n) < 0L) {
       stop(gettext("'n' must be positive"))
     }
     

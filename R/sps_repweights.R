@@ -1,12 +1,12 @@
 #---- Bootstrap replicate weights ----
-sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
+sps_repweights <- function(w, B = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)
-  B <- trunc(as.numeric(B))
+  B <- as.integer(B)
   tau <- as.numeric(tau)
   if (min(w) < 1) {
     stop(gettext("'w' must be greater than 1")) 
   }
-  if (B < 1) {
+  if (B < 1L) {
     stop(gettext("'B' must be greater than 1"))
   }
   if (tau < 1) {
@@ -17,7 +17,7 @@ sps_repweights <- function(w, B = 1000, tau = 1, dist = NULL) {
   a <- if (is.null(dist)) {
     # pseudo-population method
     wf <- floor(w)
-    wr <- wf + (runif(length(w) * B) < w - wf)
+    wr <- wf + (runif(n) < w - wf)
     rbinom(n, wr, p) - p * wr
   } else {
     dist <- match.fun(dist)

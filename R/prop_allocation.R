@@ -28,8 +28,8 @@ expected_coverage <- function(
     stop(gettext("'x' must be positive"))
   }
   
-  N <- trunc(as.numeric(N))
-  if (N < 0) {
+  N <- as.integer(N)
+  if (N < 0L) {
     stop(gettext("'N' must be positive"))
   }
   
@@ -62,8 +62,8 @@ prop_allocation <- function(
     stop(gettext("'x' must be positive"))
   }
   
-  N <- trunc(as.numeric(N))
-  if (N < 0) {
+  N <- as.integer(N)
+  if (N < 0L) {
     stop(gettext("'N' must be positive"))
   }
   if (N > sum(x > 0)) {
@@ -81,10 +81,10 @@ prop_allocation <- function(
     stop(gettext("'strata' cannot contain NAs"))
   }
   x <- split(x, strata)
-  ns <- vapply(x, function(x) sum(x > 0), numeric(1L))
+  ns <- vapply(x, function(x) sum(x > 0), integer(1L))
   
-  initial <- trunc(as.numeric(initial))
-  if (min(initial) < 0) {
+  initial <- as.integer(initial)
+  if (min(initial) < 0L) {
     stop(gettext("'initial' must be positive"))
   }
   if (length(initial) == 1L) {

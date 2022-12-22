@@ -4,6 +4,8 @@
 
 - All functions can now accept size vectors with zeros.
 
+- `sps()` is now faster, especially for large populations.
+
 ## Changes in version 0.3.0
 
 This version has a number of non-backwards compatible changes to address undesirable behavior with some functions.
