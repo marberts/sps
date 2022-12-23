@@ -18,13 +18,9 @@ highest_averages <- function(d) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(
-    x, N, 
-    strata = gl(1, length(x)), 
-    alpha = 0
-) {
+expected_coverage <- function(x, N, strata, alpha = 0) {
   x <- as.numeric(x)
-  if (min(x) < 0) {
+  if (.min(x) < 0) {
     stop(gettext("'x' must be positive"))
   }
   
@@ -52,13 +48,12 @@ expected_coverage <- function(
 
 #---- Proportional allocation ----
 prop_allocation <- function(
-    x, N, 
-    strata = gl(1, length(x)), 
+    x, N, strata,
     initial = 0, 
     divisor = function(a) a + 1
 ) {
   x <- as.numeric(x)
-  if (min(x) < 0) {
+  if (.min(x) < 0) {
     stop(gettext("'x' must be positive"))
   }
   
@@ -75,6 +70,9 @@ prop_allocation <- function(
   strata <- as.factor(strata)
   if (length(x) != length(strata)) {
     stop(gettext("'x' and 'strata' must be the same length"))
+  }
+  if (nlevels(strata) < 1L) {
+    stop(gettext("cannot allocate to no strata"))
   }
   # missing strata means allocation and coverage are missing
   if (anyNA(strata)) {

@@ -22,41 +22,25 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(
-    x, n, 
-    strata = gl(1, length(x)), 
-    prn = runif(length(x)), 
-    alpha = 0
-  ) {
+  function(x, n, strata, prn = runif(length(x)), alpha = 0) {
     x <- as.numeric(x)
-    if (min(x) < 0) {
+    if (.min(x) < 0) {
       stop(gettext("'x' must be positive"))
     }
     
     n <- as.integer(n)
+    if (length(n) == 0L) {
+      stop(gettext("'n' cannot be length 0"))
+    }
     if (min(n) < 0L) {
       stop(gettext("'n' must be positive"))
-    }
-    
-    strata <- as.factor(strata)
-    if (length(x) != length(strata)) {
-      stop(gettext("'x' and 'strata' must be the same length"))
-    }
-    if (length(n) != nlevels(strata)) {
-      stop(
-        gettext("'n' must have a single sample size for each level in 'strata'")
-      )
-    }
-    # missing strata means inclusion probs are all missing
-    if (anyNA(strata)) {
-      stop(gettext("'strata' cannot contain NAs"))
     }
     
     prn <- as.numeric(prn)
     if (length(x) != length(prn)) {
       stop(gettext("'x' and 'prn' must be the same length"))
     }
-    if (min(prn) <= 0 || max(prn) >= 1) {
+    if (.min(prn) <= 0 || .max(prn) >= 1) {
       stop(gettext("'prn' must be in (0, 1)"))
     }
     
@@ -65,18 +49,35 @@ stratify <- function(f) {
       stop(gettext("'alpha' must be in [0, 1)"))
     }
     
-    # the single-stratum case is common enough to warrant the optimization
-    if (nlevels(strata) == 1L) {
+    if (missing(strata)) {
+      if (length(n) != 1L) {
+        stop(gettext("cannot supply multiple sample sizes without strata"))
+      }
       p <- .inclusion_prob(x, n, alpha)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     } else {
+      strata <- as.factor(strata)
+      if (length(x) != length(strata)) {
+        stop(gettext("'x' and 'strata' must be the same length"))
+      }
+      if (length(n) != nlevels(strata)) {
+        stop(
+          gettext("'n' must have a single sample size for each level in 'strata'")
+        )
+      }
+      # missing strata means inclusion probs are all missing
+      if (anyNA(strata)) {
+        stop(gettext("'strata' cannot contain NAs"))
+      }
+      
       p <- Map(.inclusion_prob, split(x, strata), n, alpha)
       samp <- Map(f, p, n, split(prn, strata))
       pos <- split(seq_along(x), strata)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
       weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
     }
+    
     ord <- order(res)
     levels <- rep("TA", length(res))
     levels[weights > 1] <- "TS"

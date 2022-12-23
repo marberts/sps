@@ -4,7 +4,7 @@ set.seed(4321)
 
 # Corner cases
 all.equal(
-  prop_allocation(0, 0),
+  prop_allocation(0, 0, 1),
   c("1" = 0)
 )
 all.equal(
@@ -12,7 +12,7 @@ all.equal(
   c("1" = 0, "2" = 0, "3" = 0)
 )
 all.equal(
-  prop_allocation(1:5, 5),
+  prop_allocation(1:5, 5, gl(1, 5)),
   c("1" = 5)
 )
 all.equal(
@@ -20,7 +20,7 @@ all.equal(
   c(a = 4, b = 0)
 )
 all.equal(
-  prop_allocation(1:4, 2, initial = 3),
+  prop_allocation(1:4, 2, gl(1, 4), initial = 3),
   c("1" = 2)
 )
 
@@ -129,8 +129,8 @@ try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
 try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
 
 # Test coverage
-all.equal(expected_coverage(1:6, 6), 1)
-all.equal(expected_coverage(1:6, 0), 0)
+all.equal(expected_coverage(1:6, 6, gl(1, 6)), 1)
+all.equal(expected_coverage(1:6, 0, gl(1, 6)), 0)
 all.equal(expected_coverage(1:6, 3, 1:6), 3)
 
 all.equal(

@@ -16,22 +16,17 @@ Draw a stratified probability-proportional-to-size sample using the (sequential)
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0)
+sps(x, n, strata, prn = runif(length(x)), alpha = 0)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = gl(1, length(x)), prn = runif(length(x)), alpha = 0)
+ps(x, n, strata, prn = runif(length(x)), alpha = 0)
 
-inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 0)
+inclusion_prob(x, n, strata, alpha = 0)
 
 ## Allocations
-prop_allocation(
-  x, N, 
-  strata = gl(1, length(x)), 
-  initial = 0, 
-  divisor = function(a) a + 1
-)
+prop_allocation(x, N, strata, initial = 0, divisor = function(a) a + 1)
 
-expected_coverage(x, N, strata = gl(1, length(x)), alpha = 0)
+expected_coverage(x, N, strata, alpha = 0)
 
 \method{weights}{sps}(object, ...)
 }
@@ -41,7 +36,7 @@ expected_coverage(x, N, strata = gl(1, length(x)), alpha = 0)
 
 \item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
+\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default for the sampling functions is to place all units into a single stratum.}
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
@@ -62,7 +57,7 @@ expected_coverage(x, N, strata = gl(1, length(x)), alpha = 0)
 \subsection{Sampling}{
 The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. In some cases it can be useful to put units with an inclusion probability greater than \eqn{1 - \alpha} into the take-all stratum as well. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
-A sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. In the unlikely event of a tie, the first unit is included in the sample. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
+A sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < n / \sum x} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. It is in this sense that sequential Poisson sampling is approximately probability-proportional-to-size. The \code{ps()} function draws a sample using the ordinary Poisson method.}
 
@@ -131,11 +126,8 @@ levels(samp)
 # take-some stratum
 ps(x, 5)
 
-# Example of a stratified sample
+# Example of a stratified sample with a proportional allocation
 strata <- rep(letters[1:4], each = 5)
-sps(1:20, c(4, 3, 3, 2), strata)
-
-# Proportional allocation
 (allocation <- prop_allocation(1:20, 12, strata))
 sps(1:20, allocation, strata)
 
