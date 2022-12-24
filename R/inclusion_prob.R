@@ -14,6 +14,9 @@ pi <- function(x, n) {
     repeat {
       # inclusion probs increase with each loop, so only need to 
       # recalculate those strictly less than 1
+      
+      # if any inclusion prob is > 1 then there must be at least one 
+      # inclusion prob < 1
       keep_ts <- which(res < 1)
       n_ts <- n - length(x) + length(keep_ts)
       res[keep_ts] <- ts <- pi(x[keep_ts], n_ts)
@@ -32,7 +35,7 @@ pi <- function(x, n) {
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, strata, alpha = 0) {
+inclusion_prob <- function(x, n, strata = NULL, alpha = 0) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
     stop(gettext("'x' must be positive"))
@@ -50,8 +53,9 @@ inclusion_prob <- function(x, n, strata, alpha = 0) {
   if (alpha < 0 || alpha >= 1) {
     stop(gettext("'alpha' must be in [0, 1)"))
   }
+  
   # the single stratum case is common enough to warrant the optimization
-  if (missing(strata)) {
+  if (is.null(strata)) {
     if (length(n) != 1L) {
       stop(gettext("cannot supply multiple sample sizes without strata"))
     }

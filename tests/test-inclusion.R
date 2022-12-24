@@ -12,6 +12,10 @@ all.equal(
   c(0, 0, 1, 0, 1, 1)
 )
 all.equal(
+  inclusion_prob(numeric(0), c(0, 0), factor(integer(0), 1:2)),
+  numeric(0)
+)
+all.equal(
   inclusion_prob(rep(1, 6), c(2, 1), c(1, 1, 2, 1, 2, 2)),
   c(2, 2, 1, 2, 1, 1) / 3
 )

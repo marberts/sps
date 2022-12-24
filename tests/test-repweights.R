@@ -3,13 +3,36 @@ library(sps)
 set.seed(1234)
 
 # Corner cases
+w <- rep(1, 10)
+
+# All TA units gives a matrix of 1s
 all.equal(
-  sps_repweights(weights(sps(1:10, 10)), 5, tau = 3),
+  sps_repweights(w, 5, tau = 3),
   structure(matrix(1, 10, 5), tau = 3)
 )
 all.equal(
-  sps_repweights(weights(sps(1:10, 10)), 10, dist = rnorm),
-  structure(matrix(1, 10, 10), tau = 1)
+  sps_repweights(w, 5, dist = rnorm),
+  structure(matrix(1, 10, 5), tau = 1)
+)
+
+# Asking for 0 repweights gives a matrix with no columns
+all.equal(
+  sps_repweights(w, 0),
+  structure(matrix(numeric(0), 10, 0), tau = 1)
+)
+all.equal(
+  sps_repweights(w, 0, dist = rnorm),
+  structure(matrix(numeric(0), 10, 0), tau = 1)
+)
+
+# Supply no weights gives a matrix with no rows
+all.equal(
+  sps_repweights(integer(0), 5),
+  structure(matrix(numeric(0), 0, 5), tau = 1)
+)
+all.equal(
+  sps_repweights(integer(0), 5, dist = rnorm),
+  structure(matrix(numeric(0), 0, 5), tau = 1)
 )
 
 # All rep weights should be positive with the TA strata having all 1s

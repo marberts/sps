@@ -22,7 +22,7 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, strata, prn = runif(length(x)), alpha = 0) {
+  function(x, n, strata = NULL, prn = NULL, alpha = 0) {
     x <- as.numeric(x)
     if (.min(x) < 0) {
       stop(gettext("'x' must be positive"))
@@ -36,12 +36,16 @@ stratify <- function(f) {
       stop(gettext("'n' must be positive"))
     }
     
-    prn <- as.numeric(prn)
-    if (length(x) != length(prn)) {
-      stop(gettext("'x' and 'prn' must be the same length"))
-    }
-    if (.min(prn) <= 0 || .max(prn) >= 1) {
-      stop(gettext("'prn' must be in (0, 1)"))
+    if (is.null(prn)) {
+      prn <- runif(length(x))
+    } else {
+      prn <- as.numeric(prn)
+      if (length(x) != length(prn)) {
+        stop(gettext("'x' and 'prn' must be the same length"))
+      }
+      if (.min(prn) <= 0 || .max(prn) >= 1) {
+        stop(gettext("'prn' must be in (0, 1)"))
+      }
     }
     
     alpha <- as.numeric(alpha)
@@ -49,7 +53,7 @@ stratify <- function(f) {
       stop(gettext("'alpha' must be in [0, 1)"))
     }
     
-    if (missing(strata)) {
+    if (is.null(strata)) {
       if (length(n) != 1L) {
         stop(gettext("cannot supply multiple sample sizes without strata"))
       }

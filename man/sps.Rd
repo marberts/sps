@@ -16,12 +16,12 @@ Draw a stratified probability-proportional-to-size sample using the (sequential)
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata, prn = runif(length(x)), alpha = 0)
+sps(x, n, strata = NULL, prn = NULL, alpha = 0)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata, prn = runif(length(x)), alpha = 0)
+ps(x, n, strata = NULL, prn = NULL, alpha = 0)
 
-inclusion_prob(x, n, strata, alpha = 0)
+inclusion_prob(x, n, strata = NULL, alpha = 0)
 
 ## Allocations
 prop_allocation(x, N, strata, initial = 0, divisor = function(a) a + 1)
