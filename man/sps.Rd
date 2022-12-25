@@ -40,7 +40,7 @@ expected_coverage(x, N, strata, alpha = 0)
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
-\item{alpha}{A number between 0 (the default) and 1 such that units with inclusion probabilities above 1 - \code{alpha} are put in the take-all stratum.}
+\item{alpha}{A number between 0 (the default) and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are put in the take-all stratum.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
@@ -55,7 +55,7 @@ expected_coverage(x, N, strata, alpha = 0)
 
 \details{
 \subsection{Sampling}{
-The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. In some cases it can be useful to put units with an inclusion probability greater than \eqn{1 - \alpha} into the take-all stratum as well. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
+The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. In some cases it can be useful to put units with an inclusion probability greater than or equal to \eqn{1 - \alpha} into the take-all stratum as well. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 A sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
@@ -84,7 +84,7 @@ The \code{expected_coverage()} function gives the average number of strata cover
 }
 
 \value{
-\code{sps()} and \code{ps()} return an object of class \code{sps}. This is a numeric vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
+\code{sps()} and \code{ps()} return an object of class \code{sps}. This is an integer vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
 
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
 

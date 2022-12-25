@@ -2,17 +2,17 @@
 sps_repweights <- function(w, B = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)
   if (.min(w) < 1) {
-    stop(gettext("'w' must be greater than 1")) 
+    stop(gettext("'w' must be greater than or equal to 1")) 
   }
   
   B <- as.integer(B)
   if (B < 0L) {
-    stop(gettext("'B' must be greater than 1"))
+    stop(gettext("'B' must be greater than or equal to 0"))
   }
   
   tau <- as.numeric(tau)
   if (tau < 1) {
-    stop(gettext("'tau' must be greater than 1"))
+    stop(gettext("'tau' must be greater than or equal to 1"))
   }
   
   p <- 1 / w

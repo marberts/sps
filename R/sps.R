@@ -25,7 +25,7 @@ stratify <- function(f) {
   function(x, n, strata = NULL, prn = NULL, alpha = 0) {
     x <- as.numeric(x)
     if (.min(x) < 0) {
-      stop(gettext("'x' must be positive"))
+      stop(gettext("'x' must be greater than or equal to 0"))
     }
     
     n <- as.integer(n)
@@ -33,7 +33,7 @@ stratify <- function(f) {
       stop(gettext("'n' cannot be length 0"))
     }
     if (min(n) < 0L) {
-      stop(gettext("'n' must be positive"))
+      stop(gettext("'n' must be greater than or equal to 0"))
     }
     
     if (is.null(prn)) {

@@ -21,12 +21,12 @@ highest_averages <- function(d) {
 expected_coverage <- function(x, N, strata, alpha = 0) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
-    stop(gettext("'x' must be positive"))
+    stop(gettext("'x' must be greater than or equal to 0"))
   }
   
   N <- as.integer(N)
   if (N < 0L) {
-    stop(gettext("'N' must be positive"))
+    stop(gettext("'N' must be greater than or equal to 0"))
   }
   
   strata <- as.factor(strata)
@@ -54,12 +54,12 @@ prop_allocation <- function(
 ) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
-    stop(gettext("'x' must be positive"))
+    stop(gettext("'x' must be greater than or equal to 0"))
   }
   
   N <- as.integer(N)
   if (N < 0L) {
-    stop(gettext("'N' must be positive"))
+    stop(gettext("'N' must be greater than or equal to 0"))
   }
   if (N > sum(x > 0)) {
     stop(
@@ -83,7 +83,7 @@ prop_allocation <- function(
   
   initial <- as.integer(initial)
   if (min(initial) < 0L) {
-    stop(gettext("'initial' must be positive"))
+    stop(gettext("'initial' must be greater than or equal to 0"))
   }
   if (length(initial) == 1L) {
     initial <- pmin.int(ns, min(N %/% nlevels(strata), initial))
