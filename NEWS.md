@@ -1,7 +1,5 @@
 ## Changes in version 0.3.1
 
-- Added a new argument `alpha` for functions that produce/use inclusion probabilities in order to put units with inclusions probabilities close to 1 in a take-all stratum.
-
 - All functions can now accept size vectors with zeros.
 
 - `sps()` is now faster, especially for large populations.

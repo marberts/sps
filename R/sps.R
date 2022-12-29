@@ -1,9 +1,8 @@
 #---- Internal helpers ----
 # Sequential Poisson sampling
 .sps <- function(p, n, u) {
-  ts <- p < 1
-  ta <- which(!ts)
-  ts <- which(ts & p > 0)
+  ts <- which(!(ta <- p == 1) & p > 0)
+  ta <- which(ta)
   n_ts <- n - length(ta)
   # sample the take somes
   keep <- if (n_ts > 0) {
@@ -22,7 +21,7 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, strata = NULL, prn = NULL, alpha = 0) {
+  function(x, n, strata = NULL, prn = NULL) {
     x <- as.numeric(x)
     if (.min(x) < 0) {
       stop(gettext("'x' must be greater than or equal to 0"))
@@ -48,16 +47,11 @@ stratify <- function(f) {
       }
     }
     
-    alpha <- as.numeric(alpha)
-    if (alpha < 0 || alpha >= 1) {
-      stop(gettext("'alpha' must be in [0, 1)"))
-    }
-    
     if (is.null(strata)) {
       if (length(n) != 1L) {
         stop(gettext("cannot supply multiple sample sizes without strata"))
       }
-      p <- .inclusion_prob(x, n, alpha)
+      p <- .inclusion_prob(x, n)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     } else {
@@ -75,7 +69,7 @@ stratify <- function(f) {
         stop(gettext("'strata' cannot contain NAs"))
       }
       
-      p <- Map(.inclusion_prob, split(x, strata), n, alpha)
+      p <- Map(.inclusion_prob, split(x, strata), n)
       samp <- Map(f, p, n, split(prn, strata))
       pos <- split(seq_along(x), strata)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)

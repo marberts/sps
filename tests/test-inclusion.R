@@ -19,6 +19,10 @@ all.equal(
   inclusion_prob(rep(1, 6), c(2, 1), c(1, 1, 2, 1, 2, 2)),
   c(2, 2, 1, 2, 1, 1) / 3
 )
+all.equal(
+  inclusion_prob(c(0, 1, 1, 1 + .Machine$double.eps), 3),
+  c(0, 1, 1, 1)
+)
 
 # No rounds
 x <- c(0:4, 10:8, 5:7, 0)
@@ -55,6 +59,3 @@ all.equal(
   1 / inclusion_prob(x, c(4, 3), gl(2, 7))[samp],
   weights(samp)
 )
-
-# Use alpha to make all units TAs
-all.equal(inclusion_prob(0:5, 3, alpha = 0.5), c(0, 0.2, 0.4, 1, 1, 1))

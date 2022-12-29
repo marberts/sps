@@ -8,7 +8,7 @@ highest_averages <- function(d) {
     n <- n - sum(res)
     # the while condition could be n > sum(res), but the loop below always
     # terminates after at most n steps, even if i is integer(0)
-    while (n > 0) {
+    while (n > 0L) {
       i <- which.max(p / d(res) * (res < max))
       res[i] <- res[i] + 1L
       n <- n - 1L
@@ -18,7 +18,7 @@ highest_averages <- function(d) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, N, strata, alpha = 0) {
+expected_coverage <- function(x, N, strata) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
     stop(gettext("'x' must be greater than or equal to 0"))
@@ -37,12 +37,7 @@ expected_coverage <- function(x, N, strata, alpha = 0) {
     stop(gettext("'strata' cannot contain NAs"))
   }
   
-  alpha <- as.numeric(alpha)
-  if (alpha < 0 || alpha >= 1) {
-    stop(gettext("'alpha' must be in [0, 1)"))
-  }
-  
-  p <- split(log(1 - .inclusion_prob(x, N, alpha)), strata)
+  p <- split(log(1 - .inclusion_prob(x, N)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }
 
