@@ -42,6 +42,18 @@ all(levels(samp) == c("TA", rep("TS", last - 2), "TA"))
 all(weights(samp)[c(1, last)] == 1)
 all(weights(samp)[-c(1, last)] > 1)
 
+# Use alpha to make all units TAs
+all.equal(
+  unclass(sps(0:5, 3, alpha = 0.51)),
+  structure(4:6, weights = rep(1, 3), levels = rep("TA", 3))
+)
+
+# Does noting when units are already TAs
+all.equal(
+  sps(0:5, 5),
+  sps(0:5, 5, alpha = 0.9)
+)
+
 # Return value should be an integer
 is.integer(sps(1:5, 3))
 is.integer(sps(1:5, 0))

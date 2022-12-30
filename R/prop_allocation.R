@@ -18,7 +18,7 @@ highest_averages <- function(d) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, N, strata) {
+expected_coverage <- function(x, N, strata, alpha = 1e-4) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
     stop(gettext("'x' must be greater than or equal to 0"))
@@ -37,7 +37,12 @@ expected_coverage <- function(x, N, strata) {
     stop(gettext("'strata' cannot contain NAs"))
   }
   
-  p <- split(log(1 - .inclusion_prob(x, N)), strata)
+  alpha <- as.numeric(alpha)
+  if (alpha >= 1 || alpha < 0) {
+    stop(gettext("'alpha' must be in [0, 1)"))
+  }
+  
+  p <- split(log(1 - .inclusion_prob(x, N, alpha)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }
 

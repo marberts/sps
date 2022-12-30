@@ -23,6 +23,10 @@ all.equal(
   inclusion_prob(c(0, 1, 1, 1 + .Machine$double.eps), 3),
   c(0, 1, 1, 1)
 )
+all.equal(
+  inclusion_prob(c(0, 1, 1, 1 - .Machine$double.eps), 3),
+  c(0, 1, 1, 1)
+)
 
 # No rounds
 x <- c(0:4, 10:8, 5:7, 0)
@@ -58,4 +62,22 @@ samp <- sps(x, c(4, 3), gl(2, 7))
 all.equal(
   1 / inclusion_prob(x, c(4, 3), gl(2, 7))[samp],
   weights(samp)
+)
+
+# Add more TAs with alpha
+x <- c(0, 4, 1, 4, 5)
+
+all.equal(
+  inclusion_prob(x, 3, alpha = 0.1),
+  c(x[-5] / 9 * 2, 1)
+)
+
+all.equal(
+  inclusion_prob(x, 3, alpha = 0.2),
+  c(x[-(4:5)] / 5, 1, 1)
+)
+
+all.equal(
+  inclusion_prob(x, 3, alpha = 0.3),
+  c(0, 1, 0, 1, 1)
 )

@@ -11,20 +11,21 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // partition_index
-IntegerVector partition_index(NumericVector x, int n);
-RcppExport SEXP _sps_partition_index(SEXP xSEXP, SEXP nSEXP) {
+IntegerVector partition_index(NumericVector x, int n, bool decreasing);
+RcppExport SEXP _sps_partition_index(SEXP xSEXP, SEXP nSEXP, SEXP decreasingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(partition_index(x, n));
+    Rcpp::traits::input_parameter< bool >::type decreasing(decreasingSEXP);
+    rcpp_result_gen = Rcpp::wrap(partition_index(x, n, decreasing));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_sps_partition_index", (DL_FUNC) &_sps_partition_index, 2},
+    {"_sps_partition_index", (DL_FUNC) &_sps_partition_index, 3},
     {NULL, NULL, 0}
 };
 

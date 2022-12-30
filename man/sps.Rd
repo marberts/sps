@@ -16,17 +16,17 @@ Draw a stratified probability-proportional-to-size sample using the (sequential)
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = NULL, prn = NULL)
+sps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = NULL, prn = NULL)
+ps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
 
-inclusion_prob(x, n, strata = NULL)
+inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 
 ## Allocations
 prop_allocation(x, N, strata, initial = 0, divisor = function(a) a + 1)
 
-expected_coverage(x, N, strata)
+expected_coverage(x, N, strata, alpha = 1e-4)
 
 \method{weights}{sps}(object, ...)
 }
@@ -39,6 +39,8 @@ expected_coverage(x, N, strata)
 \item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default for the sampling functions is to place all units into a single stratum.}
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
+
+\item{alpha}{A number between 0 and 1 such that units with inclusion probabilities greater than 1 - \code{alpha} are set to 1. The default is slightly larger than 0.}
 
 \item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
 
@@ -53,7 +55,7 @@ expected_coverage(x, N, strata)
 
 \details{
 \subsection{Sampling}{
-The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998, section 2). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than or equal to 1 are placed into a take-all stratum. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to 1. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
+The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998). Briefly, for a single stratum, all units in the population with an inclusion probability, \eqn{nx / \sum x}{n * x / \sum x}, greater than \eqn{1 - \alpha} are placed into the take-all stratum and assigned an inclusion probability of 1. The inclusion probabilities for the remaining take-some units are then recalculated, and this process repeats until all the inclusion probabilities are less than or equal to \eqn{1 - \alpha}. As noted by Ohlsson, it can be useful to set \eqn{\alpha} to a small positive value. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 A sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / x}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 

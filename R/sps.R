@@ -7,7 +7,7 @@
   # sample the take somes
   keep <- if (n_ts > 0) {
     # order(u[ts] / p[ts])[seq_len(n_ts)]
-    partition_index(u[ts] / p[ts], n_ts)[seq_len(n_ts)]
+    partition_index(u[ts] / p[ts], n_ts, decreasing = FALSE)[seq_len(n_ts)]
   }
   c(ta, ts[keep])
 }
@@ -21,7 +21,7 @@
 stratify <- function(f) {
   f <- match.fun(f)
   # return function
-  function(x, n, strata = NULL, prn = NULL) {
+  function(x, n, strata = NULL, prn = NULL, alpha = 1e-4) {
     x <- as.numeric(x)
     if (.min(x) < 0) {
       stop(gettext("'x' must be greater than or equal to 0"))
@@ -47,11 +47,17 @@ stratify <- function(f) {
       }
     }
     
+    alpha <- as.numeric(alpha)
+    if (alpha >= 1 || alpha < 0) {
+      stop(gettext("'alpha' must be in [0, 1)"))
+    }
+    
+    
     if (is.null(strata)) {
       if (length(n) != 1L) {
         stop(gettext("cannot supply multiple sample sizes without strata"))
       }
-      p <- .inclusion_prob(x, n)
+      p <- .inclusion_prob(x, n, alpha)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     } else {
@@ -69,7 +75,7 @@ stratify <- function(f) {
         stop(gettext("'strata' cannot contain NAs"))
       }
       
-      p <- Map(.inclusion_prob, split(x, strata), n)
+      p <- Map(.inclusion_prob, split(x, strata), n, alpha)
       samp <- Map(f, p, n, split(prn, strata))
       pos <- split(seq_along(x), strata)
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
