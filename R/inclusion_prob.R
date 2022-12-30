@@ -42,7 +42,7 @@ pi <- function(x, n) {
   if (.max(res) <= 1 - alpha) return(res)
   part <- partition_index(x, n, decreasing = TRUE)
   s <- seq_len(n)
-  possible_ta <- part[s]
+  possible_ta <- sort.int(part[s], decreasing = TRUE)
   definite_ts <- part[seq(n + 1, length.out = length(x) - n)]
   # order possible TA units according to x to make sub assignment easier
   ord <- order(x[possible_ta])

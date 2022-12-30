@@ -74,7 +74,7 @@ all.equal(
 
 all.equal(
   inclusion_prob(x, 3, alpha = 0.2),
-  c(x[-(4:5)] / 5, 1, 1)
+  c(x[1] / 5, 1, x[3:4] / 5, 1)
 )
 
 all.equal(
