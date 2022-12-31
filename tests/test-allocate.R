@@ -12,6 +12,10 @@ all.equal(
   c("1" = 0, "2" = 0, "3" = 0)
 )
 all.equal(
+  prop_allocation(c(1, 1, 0, 0), 2, gl(2, 2), divisor = identity),
+  c("1" = 2, "2" = 0)
+)
+all.equal(
   prop_allocation(1:5, 5, gl(1, 5)),
   c("1" = 5)
 )
@@ -54,7 +58,7 @@ all.equal(
   c(a = 2, b = 2, c = 0)
 )
 all.equal(
-  prop_allocation(rep(1, 100), 10, rep(1:4, c(10, 20, 30, 40))),
+  prop_allocation(c(0, rep(1, 100), 0), 10, rep(1:4, c(11, 20, 30, 41))),
   c("1" = 1, "2" = 2, "3" = 3, "4" = 4)
 )
 all.equal(
@@ -118,15 +122,6 @@ all.equal(
   prop_allocation(x, 10, s, divisor = function(a) a),
   c("1" = 3, "2" = 2, "3" = 2, "4" = 1, "5" = 1, "6" = 1)
 )
-
-# Checks for error messages
-try(prop_allocation(c(-1, 1), 5))
-try(prop_allocation(1:5, -1))
-try(prop_allocation(1:4, 5))
-try(prop_allocation(1:4, 2, initial = c(3, 0)))
-try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
-try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
-try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
 
 # Test coverage
 all.equal(expected_coverage(1:6, 6, gl(1, 6)), 1)

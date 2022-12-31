@@ -1,5 +1,5 @@
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+R version 4.2.2 Patched (2022-11-10 r83330) -- "Innocent and Trusting"
 Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -31,8 +31,23 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
++   inclusion_prob(numeric(0), c(0, 0), factor(integer(0), 1:2)),
++   numeric(0)
++ )
+[1] TRUE
+> all.equal(
 +   inclusion_prob(rep(1, 6), c(2, 1), c(1, 1, 2, 1, 2, 2)),
 +   c(2, 2, 1, 2, 1, 1) / 3
++ )
+[1] TRUE
+> all.equal(
++   inclusion_prob(c(0, 1, 1, 1 + .Machine$double.eps), 3),
++   c(0, 1, 1, 1)
++ )
+[1] TRUE
+> all.equal(
++   inclusion_prob(c(0, 1, 1, 1 - .Machine$double.eps), 3),
++   c(0, 1, 1, 1)
 + )
 [1] TRUE
 > 
@@ -79,10 +94,33 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > 
-> # Use alpha to make all units TAs
-> all.equal(inclusion_prob(0:5, 3, alpha = 0.5), c(0, 0.2, 0.4, 1, 1, 1))
+> # Add more TAs with alpha
+> x <- c(0, 4, 1, 4, 5)
+> 
+> all.equal(
++   inclusion_prob(x, 3, alpha = 0.1),
++   c(x[-5] / 9 * 2, 1)
++ )
+[1] TRUE
+> 
+> all.equal(
++   inclusion_prob(x, 3, alpha = 0.15),
++   c(x[1] / 5, 1, x[3:4] / 5, 1)
++ )
+[1] TRUE
+> 
+> all.equal(
++   inclusion_prob(x, 3, alpha = 0.2),
++   c(0, 1, 0, 1, 1)
++ )
+[1] TRUE
+> 
+> # Adds up to n
+> all(
++   replicate(100, sum(inclusion_prob(sample(0:10, 100, TRUE), 65, alpha = 0.2)) == 65)
++ )
 [1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  0.401   0.152   0.605 
+  0.601   0.125   0.669 

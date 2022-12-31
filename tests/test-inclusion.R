@@ -73,11 +73,16 @@ all.equal(
 )
 
 all.equal(
-  inclusion_prob(x, 3, alpha = 0.2),
+  inclusion_prob(x, 3, alpha = 0.15),
   c(x[1] / 5, 1, x[3:4] / 5, 1)
 )
 
 all.equal(
-  inclusion_prob(x, 3, alpha = 0.3),
+  inclusion_prob(x, 3, alpha = 0.2),
   c(0, 1, 0, 1, 1)
+)
+
+# Adds up to n
+all(
+  replicate(100, sum(inclusion_prob(sample(0:10, 100, TRUE), 65, alpha = 0.2)) == 65)
 )

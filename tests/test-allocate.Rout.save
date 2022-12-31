@@ -21,7 +21,7 @@ Type 'q()' to quit R.
 > 
 > # Corner cases
 > all.equal(
-+   prop_allocation(0, 0),
++   prop_allocation(0, 0, 1),
 +   c("1" = 0)
 + )
 [1] TRUE
@@ -31,7 +31,12 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(1:5, 5),
++   prop_allocation(c(1, 1, 0, 0), 2, gl(2, 2), divisor = identity),
++   c("1" = 2, "2" = 0)
++ )
+[1] TRUE
+> all.equal(
++   prop_allocation(1:5, 5, gl(1, 5)),
 +   c("1" = 5)
 + )
 [1] TRUE
@@ -41,7 +46,7 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(1:4, 2, initial = 3),
++   prop_allocation(1:4, 2, gl(1, 4), initial = 3),
 +   c("1" = 2)
 + )
 [1] TRUE
@@ -83,7 +88,7 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > all.equal(
-+   prop_allocation(rep(1, 100), 10, rep(1:4, c(10, 20, 30, 40))),
++   prop_allocation(c(0, rep(1, 100), 0), 10, rep(1:4, c(11, 20, 30, 41))),
 +   c("1" = 1, "2" = 2, "3" = 3, "4" = 4)
 + )
 [1] TRUE
@@ -166,31 +171,10 @@ Type 'q()' to quit R.
 + )
 [1] TRUE
 > 
-> # Checks for error messages
-> try(prop_allocation(c(-1, 1), 5))
-Error in prop_allocation(c(-1, 1), 5) : 'x' must be positive
-> try(prop_allocation(1:5, -1))
-Error in prop_allocation(1:5, -1) : 'N' must be positive
-> try(prop_allocation(1:4, 5))
-Error in prop_allocation(1:4, 5) : 
-  sample size is greater than the number of units with non-zero sizes in the population
-> try(prop_allocation(1:4, 2, initial = c(3, 0)))
-Error in prop_allocation(1:4, 2, initial = c(3, 0)) : 
-  'initial' must have a single allocation size for each level in 'strata'
-> try(prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)))
-Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(3, 0)) : 
-  'initial' must be smaller than the number of units with non-zero sizes in the population for each stratum
-> try(prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)))
-Error in prop_allocation(1:4, 2, gl(2, 2), initial = c(2, 2)) : 
-  initial allocation is larger than 'N'
-> try(prop_allocation(1:4, 0, factor(1:4, levels = integer(0))))
-Error in prop_allocation(1:4, 0, factor(1:4, levels = integer(0))) : 
-  'strata' cannot contain NAs
-> 
 > # Test coverage
-> all.equal(expected_coverage(1:6, 6), 1)
+> all.equal(expected_coverage(1:6, 6, gl(1, 6)), 1)
 [1] TRUE
-> all.equal(expected_coverage(1:6, 0), 0)
+> all.equal(expected_coverage(1:6, 0, gl(1, 6)), 0)
 [1] TRUE
 > all.equal(expected_coverage(1:6, 3, 1:6), 3)
 [1] TRUE
@@ -203,4 +187,4 @@ Error in prop_allocation(1:4, 0, factor(1:4, levels = integer(0))) :
 > 
 > proc.time()
    user  system elapsed 
-  0.605   0.250   0.671 
+  0.773   0.215   0.921 
