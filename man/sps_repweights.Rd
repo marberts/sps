@@ -24,9 +24,9 @@ sps_repweights(w, B = 1000, tau = 1, dist = NULL)
 }
 
 \details{
-The details of the method for generating bootstrap replicates are presented by Beaumont and Patak (2012, sections 4 and 6). Briefly, their method involves finding a vector of adjustments \eqn{a} for each bootstrap replicate and calculating the replicate weights as \eqn{a w}{a * w}, where \eqn{w} is a vector of design weights (inverse of the inclusion probabilities). 
+The details of the method for generating bootstrap replicates are presented by Beaumont and Patak (2012, sections 4 and 6). Their method takes a vector of design weights \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate, and calculates the replicate weights as \eqn{a w}{a * w}.
 
-The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from the binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} will use this function to make a random vector \eqn{d} that is used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
+There are two ways to calculate the adjustments \eqn{a}. The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from the binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} uses this function to make a random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
 
 These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 
