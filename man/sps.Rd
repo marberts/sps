@@ -2,8 +2,6 @@
 \alias{sps}
 \alias{ps}
 \alias{inclusion_prob}
-\alias{prop_allocation}
-\alias{expected_coverage}
 \alias{weights.sps}
 
 \title{
@@ -11,7 +9,7 @@ Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability-proportional-to-size sample using the (sequential) Poisson method, with the option of an allocation proportional to size.
+Draw a stratified probability-proportional-to-size sample using the sequential and ordinary Poisson methods.
 }
 
 \usage{
@@ -23,11 +21,6 @@ ps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
 
 inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 
-## Allocations
-prop_allocation(x, N, strata, initial = 0, divisor = function(a) a + 1)
-
-expected_coverage(x, N, strata, alpha = 1e-4)
-
 \method{weights}{sps}(object, ...)
 }
 
@@ -36,17 +29,11 @@ expected_coverage(x, N, strata, alpha = 1e-4)
 
 \item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default for the sampling functions is to place all units into a single stratum.}
+\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
 \item{alpha}{A number between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1. The default is slightly larger than 0.}
-
-\item{N}{A positive integer giving the total sample size across all strata (i.e., \code{sum(n)}). Non-integers are truncated towards 0.}
-
-\item{initial}{A positive vector of integers giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for strata with no units.}
-
-\item{divisor}{A divisor function for the divisor (highest-averages) apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other possible functions.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
@@ -54,62 +41,37 @@ expected_coverage(x, N, strata, alpha = 1e-4)
 }
 
 \details{
-\subsection{Sampling}{
-The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998). For each stratum, the procedure starts by stratifying units in the population based on their inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
+The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998). It is also called uniform order sampling, as it is a type of order sampling; see Rosén (1997) for a more general presentation of the method.  This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
+For each stratum, the sequential Poisson procedure starts by stratifying units in the population based on their inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
+
+After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units, resulting in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size.
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. It is in this sense that sequential Poisson sampling is approximately probability-proportional-to-size. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
+A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{1 - u} when drawing different samples from the same frame reduces the number of overlapping units.
+
 Inclusion probabilities can be greater than 1 in practice, and so they are constructed iteratively by taking units with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest) and assigning these units an inclusion probability of 1, with the remaining inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then any ties among units with the same size are broken by their ordering in \code{x}. As noted by Ohlsson, it can be useful to set \eqn{\alpha} to a small positive value, and this is the default behavior. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
-}
-
-\subsection{Allocations}{
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{N}. This is done using the divisor (highest-averages) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions:
-
-\tabular{ll}{
-Jefferson/D'Hondt \tab \code{function(a) a + 1}\cr
-Webster/Sainte-Laguë \tab \code{function(a) a + 0.5}\cr
-Imperiali \tab \code{function(a) a + 2}\cr
-Huntington–Hill \tab \code{function(a) sqrt(a * (a + 1))}\cr
-Danish \tab \code{function(a) a + 1 / 3}\cr
-Adams \tab \code{function(a) a}\cr
-Dean \tab \code{function(a) a * (a + 1) / (a + 0.5)}
-}
-
-Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill, Adams, Dean) should have an initial allocation of at least 1 for all strata. In all cases, ties are broken according to the levels of \code{strata}; reordering the levels of \code{strata} can therefore result in a different allocation.
-
-In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
-
-Passing a single integer for the initial allocation first checks that recycling this value for each stratum does not result in an allocation larger than the sample size. If it does, then the value is reduced so that recycling does not exceed the sample size. This recycled vector can be further reduced in cases where it exceeds the number of units in a stratum, the result of which is the initial allocation. This special recycling ensures that the initial allocation is feasible.
-
-The \code{expected_coverage()} function gives the average number of strata covered by ordinary Poisson sampling without stratification. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation for the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.}
 }
 
 \value{
 \code{sps()} and \code{ps()} return an object of class \code{sps}. This is an integer vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
 
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
-
-\code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{strata}.
-
-\code{expected_coverage()} returns the expected number of strata covered by the sample design.
 }
 
 \references{
-Balinksi, M. L. and Young, H. P. (1982). \emph{Fair Representation: Meeting the Ideal of One Man, One Vote}. Yale University Press.
-
 Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
-}
+
+Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
+} 
 
 \seealso{
+\code{\link{prop_allocation}} for generating proportional-to-size allocations.
+
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-\code{UPpoisson} and \code{inclusionprobabilities} in the \pkg{sampling} package for ordinary Poisson sampling and calculating inclusion probabilities. They are largely the same as \code{ps} and \code{inclusion_prob}, but for a single stratum.
-
-\code{strAlloc} in the \pkg{PracTools} package for other allocation methods.
-
-The \pkg{pps} package for other probability-proportional-to-size sampling methods.
+The \pkg{pps} package and \code{UP*} functions in the \pkg{sampling} package for other probability-proportional-to-size sampling methods.
 }
 
 \examples{
@@ -129,7 +91,7 @@ levels(samp)
 # take-some stratum
 ps(x, 5)
 
-# Use the inclusion probabilities the calculate the variance of the
+# Use the inclusion probabilities to calculate the variance of the
 # sample size
 with(
   list(pi = inclusion_prob(x, 5)), 
