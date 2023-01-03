@@ -44,9 +44,9 @@ pi <- function(x, n) {
   s <- seq_len(n)
   possible_ta <- sort.int(part[s], decreasing = TRUE)
   definite_ts <- part[seq(n + 1, length.out = length(x) - n)]
-  # order possible TA units according to x to make sub assignment easier
-  ord <- order(x[possible_ta])
-  possible_ta <- possible_ta[ord]
+  # order possible TA units according to x to make sub assignment easier,
+  # noting that ties will be in reverse
+  possible_ta <- possible_ta[order(x[possible_ta])]
   y <- x[possible_ta]
   p <- y * s / (sum(x[definite_ts]) + cumsum(y))
   ta <- possible_ta[which(p >= 1 - alpha)]
