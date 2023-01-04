@@ -73,7 +73,11 @@ Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \e
 
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \pkg{pps} package and \code{UP*} functions in the \pkg{sampling} package for other probability-proportional-to-size sampling methods.
+The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is incorrect at present, giving a worse approximation for the inclusion probabilities.
+
+The \code{UP*} functions in the \pkg{sampling} package and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
+
+The \code{pps} function in the \pkg{prnsamplr} package for proportional-to-size sampling with permanent random numbers.
 }
 
 \examples{
