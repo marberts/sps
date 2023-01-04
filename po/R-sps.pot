@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sps 0.3.0.9012\n"
-"POT-Creation-Date: 2022-12-29 22:59\n"
+"Project-Id-Version: sps 0.3.0.9017\n"
+"POT-Creation-Date: 2023-01-03 22:27\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,10 +22,16 @@ msgstr ""
 msgid "'n' must be greater than or equal to 0"
 msgstr ""
 
+msgid "'alpha' cannot be length 0"
+msgstr ""
+
 msgid "'alpha' must be in [0, 1)"
 msgstr ""
 
 msgid "cannot supply multiple sample sizes without strata"
+msgstr ""
+
+msgid "cannot supply multiple values for 'alpha' without strata"
 msgstr ""
 
 msgid "'x' and 'strata' must be the same length"
@@ -35,6 +41,9 @@ msgid "'n' must have a single sample size for each level in 'strata'"
 msgstr ""
 
 msgid "'strata' cannot contain NAs"
+msgstr ""
+
+msgid "'alpha' must have a single value or a value for each level in 'strata'"
 msgstr ""
 
 msgid "'N' must be greater than or equal to 0"

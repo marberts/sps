@@ -1,15 +1,18 @@
 #---- Internal helpers ----
-# Sequential Poisson sampling
-.sps <- function(p, n, u) {
-  ts <- which(!(ta <- p == 1) & p > 0)
-  ta <- which(ta)
-  n_ts <- n - length(ta)
-  # sample the take somes
-  keep <- if (n_ts > 0) {
-    # order(u[ts] / p[ts])[seq_len(n_ts)]
-    partition_index(u[ts] / p[ts], n_ts, decreasing = FALSE)[seq_len(n_ts)]
+# Order sampling
+.order_sampling <- function(f) {
+  f <- match.fun(f)
+  function(p, n, u) {
+    ts <- which(!(ta <- p == 1) & p > 0)
+    ta <- which(ta)
+    n_ts <- n - length(ta)
+    # sample the take somes
+    keep <- if (n_ts > 0) {
+      # order(u[ts] / p[ts])[seq_len(n_ts)]
+      partition_index(f(u[ts], p[ts]), n_ts, decreasing = FALSE)[seq_len(n_ts)]
+    }
+    c(ta, ts[keep])
   }
-  c(ta, ts[keep])
 }
 
 # Ordinary Poisson sampling
@@ -48,14 +51,19 @@ stratify <- function(f) {
     }
     
     alpha <- as.numeric(alpha)
-    if (alpha >= 1 || alpha < 0) {
+    if (length(alpha) == 0L) {
+      stop(gettext("'alpha' cannot be length 0"))
+    }
+    if (min(alpha) < 0 || max(alpha) >= 1) {
       stop(gettext("'alpha' must be in [0, 1)"))
     }
-    
     
     if (is.null(strata)) {
       if (length(n) != 1L) {
         stop(gettext("cannot supply multiple sample sizes without strata"))
+      }
+      if (length(alpha) != 1L) {
+        stop(gettext("cannot supply multiple values for 'alpha' without strata"))
       }
       p <- .inclusion_prob(x, n, alpha)
       res <- f(p, n, prn)
@@ -73,6 +81,9 @@ stratify <- function(f) {
       # missing strata means inclusion probs are all missing
       if (anyNA(strata)) {
         stop(gettext("'strata' cannot contain NAs"))
+      }
+      if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
+        stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
       }
       
       p <- Map(.inclusion_prob, split(x, strata), n, alpha)
@@ -94,7 +105,9 @@ stratify <- function(f) {
   }
 }
 
-sps <- stratify(.sps)
+order_sampling <- function(f) stratify(.order_sampling(f))
+
+sps <- order_sampling(function(u, p) u / p)
 
 ps <- stratify(.ps)
 

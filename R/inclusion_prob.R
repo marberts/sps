@@ -73,7 +73,10 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
   }
   
   alpha <- as.numeric(alpha)
-  if (alpha >= 1 || alpha < 0) {
+  if (length(alpha) == 0L) {
+    stop(gettext("'alpha' cannot be length 0"))
+  }
+  if (min(alpha) < 0 || max(alpha) >= 1) {
     stop(gettext("'alpha' must be in [0, 1)"))
   }
   
@@ -81,6 +84,9 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
   if (is.null(strata)) {
     if (length(n) != 1L) {
       stop(gettext("cannot supply multiple sample sizes without strata"))
+    }
+    if (length(alpha) != 1L) {
+      stop(gettext("cannot supply multiple values for 'alpha' without strata"))
     }
     .inclusion_prob(x, n, alpha)
   } else {
@@ -96,6 +102,9 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
     # missing strata means inclusion probs are all missing
     if (anyNA(strata)) {
       stop(gettext("'strata' cannot contain NAs"))
+    }
+    if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
+      stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
     }
     
     unsplit(Map(.inclusion_prob, split(x, strata), n, alpha), strata)

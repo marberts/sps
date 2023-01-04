@@ -1,4 +1,8 @@
-export(sps, ps, inclusion_prob, prop_allocation, expected_coverage, sps_repweights)
+export(
+  sps, ps, inclusion_prob, order_sampling, 
+  prop_allocation, expected_coverage, 
+  sps_repweights
+)
 
 S3method(weights, sps)
 S3method(print, sps)

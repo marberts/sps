@@ -3,6 +3,7 @@
 \alias{ps}
 \alias{inclusion_prob}
 \alias{weights.sps}
+\alias{order_sampling}
 
 \title{
 Stratified sequential Poisson sampling
@@ -22,6 +23,9 @@ ps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
 inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 
 \method{weights}{sps}(object, ...)
+
+## Function factory
+order_sampling(f)
 }
 
 \arguments{
@@ -33,9 +37,11 @@ inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
-\item{alpha}{A number between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1. The default is slightly larger than 0.}
+\item{alpha}{A vector between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
+
+\item{f}{A function that takes deviates from the unifrom distribution and inclusion probabilities, and returns ranking variables for order sampling. See details.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -52,12 +58,16 @@ Ordinary Poisson sampling follows the same procedure as above, except that all u
 A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{1 - u} when drawing different samples from the same frame reduces the number of overlapping units.
 
 Inclusion probabilities can be greater than 1 in practice, and so they are constructed iteratively by taking units with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest) and assigning these units an inclusion probability of 1, with the remaining inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then any ties among units with the same size are broken by their ordering in \code{x}. As noted by Ohlsson, it can be useful to set \eqn{\alpha} to a small positive value, and this is the default behavior. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
+
+Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variables. A function for sucessive sampling can be had with \code{order_sampling(function(u, p) log(1 - u) / log(1 - p))}; a function for Pareto sampling can be had with \code{order_sampling(function(u, p) u / p * (1 - p) / (1 - u))}.
 }
 
 \value{
 \code{sps()} and \code{ps()} return an object of class \code{sps}. This is an integer vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
 
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
+
+\code{order_sampling} returns a function the with the same interface as \code{sps()} or \code{ps()}.
 }
 
 \references{
@@ -77,7 +87,7 @@ The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package 
 
 The \code{UP*} functions in the \pkg{sampling} package and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
 
-The \code{pps} function in the \pkg{prnsamplr} package for proportional-to-size sampling with permanent random numbers.
+The \code{pps} function in the \pkg{prnsamplr} package for Pareto order sampling with permanent random numbers.
 }
 
 \examples{

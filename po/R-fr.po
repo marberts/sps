@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sps 0.1.0\n"
-"POT-Creation-Date: 2022-12-29 22:59\n"
+"POT-Creation-Date: 2023-01-03 22:27\n"
 "PO-Revision-Date: 2021-08-17\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -26,11 +26,17 @@ msgstr "'n' ne peut pas être de longueur 0"
 msgid "'n' must be greater than or equal to 0"
 msgstr "'n' doit être un nombre supérieur ou égal à 0"
 
+msgid "'alpha' cannot be length 0"
+msgstr "'alpha' ne peut pas être de longueur 0"
+
 msgid "'alpha' must be in [0, 1)"
 msgstr "'alpha' doit être en [0, 1)"
 
 msgid "cannot supply multiple sample sizes without strata"
 msgstr "ne peut pas fournir plusieurs tailles d'échantillon sans strates"
+
+msgid "cannot supply multiple values for 'alpha' without strata"
+msgstr "impossible de fournir plusieurs valeurs pour 'alpha' sans strates"
 
 msgid "'x' and 'strata' must be the same length"
 msgstr "'x' et 'strata' doivent avoir la même longueur"
@@ -42,6 +48,11 @@ msgstr ""
 
 msgid "'strata' cannot contain NAs"
 msgstr "'strata' ne peut pas contenir de NA"
+
+msgid "'alpha' must have a single value or a value for each level in 'strata'"
+msgstr ""
+"alpha' doit avoir une valeur unique ou une valeur pour chaque niveau dans "
+"'strates'"
 
 msgid "'N' must be greater than or equal to 0"
 msgstr "'N' doit être un nombre supérieur ou égal à 0"
@@ -85,6 +96,3 @@ msgstr "'tau' doit être un nombre supérieur ou égal à 1"
 msgid "some replicate weights are negative; try increasing 'tau'"
 msgstr ""
 "certains poids de rééchantillonnage sont négatifs; essayez d'augmenter 'tau'"
-
-#~ msgid "'alpha' is too large given 'n'"
-#~ msgstr "'alpha' est trop grand étant donné 'n'"
