@@ -28,14 +28,22 @@ all.equal(
   structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
 )
 
+# Result should be sorted
+x <- c(20, 1:10, 100, 0, 0)
+samp <- sps(x, c(3, 2, 2), c(1, 1, 2, 1, 3, 1, 2, 3, 2, 1, 3, 3, 3, 1))
+all.equal(
+  as.integer(samp),
+  sort(samp)
+)
+
 # Two rounds of TA removal
-samp <- sps(c(20, 1:10, 100, 0), 5)
+samp <- sps(x, 5)
 all(samp[c(1, 5)] == c(1, 12))
 all(levels(samp) == c("TA", rep("TS", 3), "TA"))
 all(weights(samp)[c(1, 5)] == 1)
 all(weights(samp)[-c(1, 5)] > 1)
 
-samp <- ps(c(20, 1:10, 100, 0), 5)
+samp <- ps(x, 5)
 last <- length(samp)
 all(samp[c(1, last)] == c(1, 12))
 all(levels(samp) == c("TA", rep("TS", last - 2), "TA"))
@@ -44,8 +52,8 @@ all(weights(samp)[-c(1, last)] > 1)
 
 # Use alpha to make all units TAs
 all.equal(
-  unclass(sps(0:5, 3, alpha = 0.51)),
-  structure(4:6, weights = rep(1, 3), levels = rep("TA", 3))
+  levels(sps(c(0:5, 0:5), c(3, 3), rep(1:2, each = 6), alpha = c(0.51, 0))),
+  c(rep("TA", 3), "TS", "TS", "TA")
 )
 
 # Does noting when units are already TAs

@@ -17,7 +17,7 @@
 
 # Ordinary Poisson sampling
 .ps <- function(p, n, u) {
-  which(u < p)
+  which(u <= p)
 }
 
 #---- Stratified sampling ----
@@ -45,8 +45,8 @@ stratify <- function(f) {
       if (length(x) != length(prn)) {
         stop(gettext("'x' and 'prn' must be the same length"))
       }
-      if (.min(prn) <= 0 || .max(prn) >= 1) {
-        stop(gettext("'prn' must be in (0, 1)"))
+      if (.min(prn) < 0 || .max(prn) > 1) {
+        stop(gettext("'prn' must be in [0, 1]"))
       }
     }
     
@@ -105,7 +105,7 @@ stratify <- function(f) {
   }
 }
 
-order_sampling <- function(f) stratify(.order_sampling(f))
+order_sampling <- function(ranking) stratify(.order_sampling(ranking))
 
 sps <- order_sampling(function(u, p) u / p)
 

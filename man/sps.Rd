@@ -25,7 +25,7 @@ inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 \method{weights}{sps}(object, ...)
 
 ## Function factory
-order_sampling(f)
+order_sampling(ranking)
 }
 
 \arguments{
@@ -41,7 +41,7 @@ order_sampling(f)
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
-\item{f}{A function that takes deviates from the unifrom distribution and inclusion probabilities, and returns ranking variables for order sampling. See details.}
+\item{ranking}{A function that takes deviates from the unifrom distribution and inclusion probabilities, and returns ranking variables for order sampling. See details.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -51,15 +51,21 @@ The \code{sps()} function draws a sample according to the sequential Poisson pro
 
 For each stratum, the sequential Poisson procedure starts by stratifying units in the population based on their inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
 
-After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilties from the sample design are close but not exactly equal to \eqn{\pi}).
+After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}).
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
-A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{1 - u} when drawing different samples from the same frame reduces the number of overlapping units.
+A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{u - x \mod 1} or \eqn{1 - (u - x \mod 1)}, for some \eqn{x} between 0 and 1, when drawing different samples from the same frame reduces the number of overlapping units.
 
 Inclusion probabilities can be greater than 1 in practice, and so they are constructed iteratively by taking units with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest) and assigning these units an inclusion probability of 1, with the remaining inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then any ties among units with the same size are broken by their ordering in \code{x}. As noted by Ohlsson, it can be useful to set \eqn{\alpha} to a small positive value, and this is the default behavior. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
-Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variables. A function for sucessive sampling can be had with \code{order_sampling(function(u, p) log(1 - u) / log(1 - p))}; a function for Pareto sampling can be had with \code{order_sampling(function(u, p) u / p * (1 - p) / (1 - u))}.
+Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variables:
+
+\tabular{ll}{
+Sequential Poisson sampling \tab \code{function(u, p) u / p} \cr
+Successive sampling \tab \code{function(u, p) log(1 - u) / log(1 - p)} \cr
+Pareto sampling \tab \code{function(u, p) u / p * (1 - p) / (1 - u)}
+}
 }
 
 \value{
@@ -75,7 +81,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 
 Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
 
-Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
+Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}PS sampling. \emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
 } 
 
 \seealso{
@@ -83,7 +89,7 @@ Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \e
 
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is incorrect at present, giving a worse approximation for the inclusion probabilities.
+The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is incorrect at present, giving a worse approximation for the inclusion probabilities than it should.
 
 The \code{UP*} functions in the \pkg{sampling} package and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
 
