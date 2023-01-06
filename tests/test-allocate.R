@@ -132,3 +132,19 @@ all.equal(
   expected_coverage(1:10, 4, gl(2, 5)),
   expected_coverage(1:10, 4, gl(2, 5, labels = 1:3))
 )
+
+# Bernoulli sampling
+all.equal(
+  expected_coverage(rep(1, 10), 4, c(rep(1, 4), rep(2, 6))),
+  2 - (1 - 0.4)^4 - (1 - 0.4)^6
+)
+
+# Simulation
+x <- c(0, 20, 16, 32, 14, 35, 9, 6, 2, 33, 29, 40, 27, 38, 47, 26, 46, 
+       12, 11, 39, 24, 100, 0, 1, 6, 6, 9, 20, 15, 25, 14, 0, 100)
+s <- c(4, 4, 2, 5, 5, 5, 5, 2, 3, 2, 5, 2, 2, 5, 5, 2, 3, 4, 5, 5, 3, 4, 
+       2, 2, 2, 3, 5, 2, 1, 1, 2, 3, 3)
+
+expected_coverage(x, 10, s)
+
+# mean(replicate(1e3, length(unique(s[ps(x, 10)]))))

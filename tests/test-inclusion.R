@@ -82,7 +82,10 @@ all.equal(
   c(0, 1, 0, 1, 1)
 )
 
-# Adds up to n
+# Adds up to n and respects bounds
 all(
-  replicate(100, sum(inclusion_prob(sample(0:10, 100, TRUE), 65, alpha = 0.2)) == 65)
+  replicate(100, {
+    pi <- inclusion_prob(sample(0:10, 100, TRUE), 65, alpha = 0.2)
+    sum(pi) == 65 & max(pi) <= 1 & min(pi) >= 0 & sum(pi > 0.8 & pi < 1) == 0
+  })
 )

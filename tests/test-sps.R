@@ -121,3 +121,26 @@ inherits(-samp, "integer")
 # And replacement methods
 samp[1] <- 1
 inherits(samp, "numeric")
+
+# Other order sampling
+srs <- order_sampling(function(u, p) u)
+
+u <- runif(20)
+all.equal(
+  as.integer(srs(rep(1, 20), c(5, 6), rep(1:2, 10), u)),
+  sort(c(seq(1, 20, 2)[order(u[seq(1, 20, 2)])[1:5]], seq(2, 20, 2)[order(u[seq(2, 20, 2)])[1:6]]))
+)
+
+# Shift prns
+u <- 1:9 / 10
+v <- (u - 0.5) %% 1
+
+all.equal(
+  as.integer(srs(rep(1, 9), 5, prn = u)),
+  1:5
+)
+
+all.equal(
+  as.integer(srs(rep(1, 9), 5, prn = v)),
+  5:9
+)

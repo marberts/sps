@@ -6,7 +6,7 @@
 
 - `sps()` is now faster, especially for large populations.
 
-- Added a function factory for order sampling methods.
+- Added a function factory to generate other order sampling methods.
 
 ## Changes in version 0.3.0
 
