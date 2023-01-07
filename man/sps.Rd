@@ -25,7 +25,7 @@ inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 \method{weights}{sps}(object, ...)
 
 ## Function factory
-order_sampling(ranking)
+order_sampling(dist)
 }
 
 \arguments{
@@ -41,7 +41,7 @@ order_sampling(ranking)
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
-\item{ranking}{A function that takes deviates from the unifrom distribution and inclusion probabilities, and returns ranking variables for order sampling. See details.}
+\item{dist}{A function that gives the inverse of the fixed distribution shape for an order sampling scheme. See details.}
 
 \item{...}{Further arguments passed to or used by methods.}
 }
@@ -55,16 +55,16 @@ After units are appropriately stratified, a sample of take-some units is drawn b
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
-A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{u - x \mod 1} or \eqn{1 - (u - x \mod 1)}, for some \eqn{x} between 0 and 1, when drawing different samples from the same frame reduces the number of overlapping units.
+A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{u - x \mod 1}{u - x mod 1} or \eqn{1 - (u - x \mod 1)}{1 - (u - x mod 1)}, for some \eqn{x} between 0 and 1, when drawing different samples from the same frame reduces the number of overlapping units.
 
 Inclusion probabilities can be greater than 1 in practice, and so they are constructed iteratively by taking units with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest) and assigning these units an inclusion probability of 1, with the remaining inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then any ties among units with the same size are broken by their ordering in \code{x}. As noted by Ohlsson, it can be useful to set \eqn{\alpha} to a small positive value, and this is the default behavior. The \code{inclusion_prob()} function computes these stratum-wise inclusion probabilities.
 
 Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variables:
 
 \tabular{ll}{
-Sequential Poisson sampling \tab \code{function(u, p) u / p} \cr
-Successive sampling \tab \code{function(u, p) log(1 - u) / log(1 - p)} \cr
-Pareto sampling \tab \code{function(u, p) u / p * (1 - p) / (1 - u)}
+Sequential Poisson sampling \tab \code{function(x) x} \cr
+Successive sampling \tab \code{function(x) log(1 - x)} \cr
+Pareto sampling \tab \code{function(x) x / (1 - x)}
 }
 }
 
@@ -73,7 +73,7 @@ Pareto sampling \tab \code{function(u, p) u / p * (1 - p) / (1 - u)}
 
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
 
-\code{order_sampling} returns a function the with the same interface as \code{sps()} or \code{ps()}.
+\code{order_sampling} returns a function the with the same interface as \code{sps()} and \code{ps()}.
 }
 
 \references{

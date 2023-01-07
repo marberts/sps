@@ -30,7 +30,7 @@ There are two ways to calculate the adjustments \eqn{a}. The default pseudo-popu
 
 These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 
-As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum w * y} under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for ordinary Poisson sampling.
+As an alternative to the bootstrap, Ohlsson (1998, equations 2.12 and 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum w * y} (for the take-some units) under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} See Rosén (1997, equation 3.11) for a more general version of this estimator that can be applied to other order sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for ordinary Poisson sampling.
 }
 
 \value{
@@ -41,6 +41,8 @@ A matrix of bootstrap replicate weights with \code{B} columns (one for each repl
 Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. \emph{International Statistical Review}, 80(1): 127-148.
 
 Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
+
+Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
 }
 
 \seealso{

@@ -9,7 +9,7 @@
     # sample the take somes
     keep <- if (n_ts > 0) {
       # order(u[ts] / p[ts])[seq_len(n_ts)]
-      partition_index(f(u[ts], p[ts]), n_ts, decreasing = FALSE)[seq_len(n_ts)]
+      partition_index(f(u[ts]) / f(p[ts]), n_ts, decreasing = FALSE)[seq_len(n_ts)]
     }
     c(ta, ts[keep])
   }
@@ -105,9 +105,9 @@ stratify <- function(f) {
   }
 }
 
-order_sampling <- function(ranking) stratify(.order_sampling(ranking))
+order_sampling <- function(dist) stratify(.order_sampling(dist))
 
-sps <- order_sampling(function(u, p) u / p)
+sps <- order_sampling(identity)
 
 ps <- stratify(.ps)
 
