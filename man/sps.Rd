@@ -10,7 +10,7 @@ Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability-proportional-to-size sample using the sequential and ordinary Poisson methods.
+Draw a stratified probability-proportional-to-size sample using the sequential and ordinary Poisson methods. Includes functions to calculate inclusion probabilities and generate other order sampling schemes.
 }
 
 \usage{
@@ -31,13 +31,13 @@ order_sampling(dist)
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive vector of integers giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
+\item{n}{A positive integer vector giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
 \item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
 
 \item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
-\item{alpha}{A vector between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
+\item{alpha}{A numeric vector between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
@@ -53,7 +53,7 @@ For each stratum, the sequential Poisson procedure starts by stratifying units i
 
 After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}).
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi \leq 1}{\xi <= 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
 A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{u - x \mod 1}{u - x mod 1} or \eqn{1 - (u - x \mod 1)}{1 - (u - x mod 1)}, for some \eqn{x} between 0 and 1, when drawing different samples from the same frame reduces the number of overlapping units.
 
@@ -120,10 +120,15 @@ with(
   sum(pi * (1 - pi))
 )
 
-# Example of a stratified sample with a proportional allocation
+# Draw a stratified sample with a proportional allocation
 strata <- rep(letters[1:4], each = 5)
 (allocation <- prop_allocation(1:20, 12, strata))
-sps(1:20, allocation, strata)
+(samp <- sps(1:20, allocation, strata))
+
+# Use the Horvitz-Thompson estimator to estimate the total
+y <- runif(20) * 1:20
+
+sum(weights(samp) * y[samp])
 
 # It can be useful to set 'prn' in order to extend the sample
 # to get a fixed net sample

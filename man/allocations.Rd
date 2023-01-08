@@ -23,7 +23,7 @@ expected_coverage(x, N, strata, alpha = 1e-4)
 
 \item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}.}
 
-\item{initial}{A positive vector of integers giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for strata with no units.}
+\item{initial}{A positive integer vector giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for strata with no units.}
 
 \item{divisor}{A divisor function for the divisor (highest-averages) apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other possible functions.}
 
