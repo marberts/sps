@@ -2,6 +2,7 @@
 # Order sampling
 .order_sampling <- function(f) {
   f <- match.fun(f)
+  # return function
   function(p, n, u) {
     ts <- which(!(ta <- p == 1) & p > 0)
     ta <- which(ta)

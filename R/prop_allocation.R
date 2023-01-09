@@ -50,7 +50,7 @@ expected_coverage <- function(x, N, strata, alpha = 1e-4) {
 prop_allocation <- function(
     x, N, strata,
     initial = 0, 
-    divisor = function(a) a + 1
+    divisor = \(a) a + 1
 ) {
   x <- as.numeric(x)
   if (.min(x) < 0) {

@@ -33,11 +33,11 @@ order_sampling(dist)
 
 \item{n}{A positive integer vector giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with \code{x}. The default is to place all units into a single stratum.}
+\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with units in the population. The default is to place all units into a single stratum.}
 
-\item{prn}{A numeric vector of permanent random numbers distributed uniform between 0 and 1, the same length as \code{x}. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
+\item{prn}{A numeric vector of permanent random numbers for units in the population, distributed uniform between 0 and 1. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
-\item{alpha}{A numeric vector between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
+\item{alpha}{A numeric vector with values between 0 and 1 for each stratum, ordered according to the levels of \code{strata}. Units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
 
 \item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
 
@@ -62,9 +62,9 @@ Inclusion probabilities can be greater than 1 in practice, and so they are const
 Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variables:
 
 \tabular{ll}{
-Sequential Poisson sampling \tab \code{function(x) x} \cr
-Successive sampling \tab \code{function(x) log(1 - x)} \cr
-Pareto sampling \tab \code{function(x) x / (1 - x)}
+Sequential Poisson sampling \tab \code{\(x) x} \cr
+Successive sampling \tab \code{\(x) log(1 - x)} \cr
+Pareto sampling \tab \code{\(x) x / (1 - x)}
 }
 }
 
@@ -127,7 +127,6 @@ strata <- rep(letters[1:4], each = 5)
 
 # Use the Horvitz-Thompson estimator to estimate the total
 y <- runif(20) * 1:20
-
 sum(weights(samp) * y[samp])
 
 # It can be useful to set 'prn' in order to extend the sample

@@ -62,8 +62,8 @@ x <- c(1:10, 100)
 dist <- list(
   pseudo_population = NULL,
   standard_normal = rnorm,
-  exponential = function(x) rexp(x) - 1,
-  uniform = function(x) runif(x, -sqrt(3), sqrt(3))
+  exponential = \(x) rexp(x) - 1,
+  uniform = \(x) runif(x, -sqrt(3), sqrt(3))
 )
 
 lapply(dist, sps_repweights, w = weights(samp), B = 5, tau = 2)
