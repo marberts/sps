@@ -28,6 +28,11 @@ expected_coverage <- function(x, N, strata, alpha = 1e-4) {
   if (N < 0L) {
     stop(gettext("'N' must be greater than or equal to 0"))
   }
+  if (N > sum(x > 0)) {
+    stop(
+      gettext("sample size is greater than the number of units with non-zero sizes in the population")
+    )
+  }
   
   strata <- as.factor(strata)
   if (length(x) != length(strata)) {

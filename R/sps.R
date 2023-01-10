@@ -66,6 +66,11 @@ stratify <- function(f) {
       if (length(alpha) != 1L) {
         stop(gettext("cannot supply multiple values for 'alpha' without strata"))
       }
+      if (n > sum(x > 0)) {
+        stop(
+          gettext("sample size is greater than the number of units with non-zero sizes in the population")
+        )
+      }
       p <- .inclusion_prob(x, n, alpha)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
@@ -87,9 +92,18 @@ stratify <- function(f) {
         stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
       }
       
-      p <- Map(.inclusion_prob, split(x, strata), n, alpha)
+      x <- split(x, strata)
+      
+      if (any(unlist(Map(\(x, n) n > sum(x > 0), x, n), use.names = FALSE))) {
+        stop(
+          gettext("sample size is greater than the number of units with non-zero sizes in the population")
+        )
+      }
+      
+      p <- Map(.inclusion_prob, x, n, alpha)
       samp <- Map(f, p, n, split(prn, strata))
-      pos <- split(seq_along(x), strata)
+      pos <- split(seq_along(prn), strata)
+      # strata must have at least one level, so unlist won't return NULL
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
       weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
     }

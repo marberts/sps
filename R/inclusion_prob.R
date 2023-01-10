@@ -33,11 +33,6 @@ pi <- function(x, n) {
 # }
 
 .inclusion_prob <- function(x, n, alpha) {
-  if (n > sum(x > 0)) {
-    stop(
-      gettext("sample size is greater than the number of units with non-zero sizes in the population")
-    )
-  }
   res <- pi(x, n)
   if (.max(res) < 1 - alpha) return(res)
   part <- partition_index(x, n, decreasing = TRUE)
@@ -88,6 +83,11 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
     if (length(alpha) != 1L) {
       stop(gettext("cannot supply multiple values for 'alpha' without strata"))
     }
+    if (n > sum(x > 0)) {
+      stop(
+        gettext("sample size is greater than the number of units with non-zero sizes in the population")
+      )
+    }
     .inclusion_prob(x, n, alpha)
   } else {
     strata <- as.factor(strata)
@@ -107,6 +107,14 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
       stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
     }
     
-    unsplit(Map(.inclusion_prob, split(x, strata), n, alpha), strata)
+    x <- split(x, strata)
+    
+    if (any(unlist(Map(\(x, n) n > sum(x > 0), x, n), use.names = FALSE))) {
+      stop(
+        gettext("sample size is greater than the number of units with non-zero sizes in the population")
+      )
+    }
+    
+    unsplit(Map(.inclusion_prob, x, n, alpha), strata)
   }
 }
