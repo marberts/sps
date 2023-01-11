@@ -44,7 +44,7 @@ pi <- function(x, n) {
   possible_ta <- possible_ta[order(x[possible_ta])]
   y <- x[possible_ta]
   p <- y * s / (sum(x[definite_ts]) + cumsum(y))
-  ta <- possible_ta[which(p >= 1 - alpha)]
+  ta <- possible_ta[p >= 1 - alpha]
   # faster than negative indexing
   ts <- c(definite_ts, setdiff(possible_ta, ta))
   res[ta] <- 1
