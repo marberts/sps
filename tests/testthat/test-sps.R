@@ -2,6 +2,14 @@ set.seed(123454)
 
 test_that("corner cases", {
   expect_identical(
+    unclass(sps(numeric(0), 0)),
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  expect_identical(
+    unclass(sps(0, 0)),
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  expect_identical(
     unclass(sps(1:10, 0)),
     structure(integer(0), weights = numeric(0), levels = character(0))
   )
@@ -12,6 +20,14 @@ test_that("corner cases", {
   expect_identical(
     unclass(sps(1:10, c(5, 0), gl(2, 5))),
     structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
+  )
+  expect_identical(
+    unclass(ps(numeric(0), 0)),
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  expect_identical(
+    unclass(ps(0, 0)),
+    structure(integer(0), weights = numeric(0), levels = character(0))
   )
   expect_identical(
     unclass(ps(1:10, 0)),
@@ -31,6 +47,7 @@ test_that("argument checking", {
   expect_error(sps(-1:6, c(2, 2), gl(2, 3)))
   expect_error(sps(c(NA, 1:6), c(2, 2), gl(2, 3)))
   expect_error(sps(numeric(0), c(2, 2), gl(2, 3)))
+  expect_error(sps(numeric(0), 0, factor(integer(0))))
   expect_error(sps(c(0, 0, 1:4), c(2, 2), gl(2, 3)))
   expect_error(sps(c(0, 0, 1:4), 5))
   expect_error(sps(1:6, c(-2, 2), gl(2, 3)))
@@ -58,7 +75,7 @@ test_that("results should be sorted", {
     as.integer(samp),
     sort(samp)
   )
-  # Weights should be monotonic
+  # weights should be monotonic
   expect_identical(
     order(weights(sps(0:10, 4))), 4:1
   )
@@ -78,12 +95,12 @@ test_that("two rounds of TA removal", {
   expect_equal(levels(samp), c("TA", rep("TS", last - 2), "TA"))
   expect_true(all(weights(samp)[c(1, last)] == 1))
   expect_true(all(weights(samp)[-c(1, last)] > 1))
-  # Use alpha to make all units TAs
+  # use alpha to make all units TAs
   expect_identical(
     levels(sps(c(0:5, 0:5), c(3, 3), rep(1:2, each = 6), alpha = c(0.51, 0))),
     c(rep("TA", 3), "TS", "TS", "TA")
   )
-  # Does noting when units are already TAs
+  # does noting when units are already TAs
   expect_identical(
     sps(0:5, 5),
     sps(0:5, 5, alpha = 0.9)
@@ -141,7 +158,7 @@ test_that("pareto order sampling", {
     as.vector(pareto(rep(1, 20), c(5, 6), rep(1:2, 10), u)),
     sort(c(seq(1L, 20L, 2L)[order(u[seq(1L, 20L, 2L)])[1:5]], seq(2L, 20L, 2L)[order(u[seq(2L, 20L, 2L)])[1:6]]))
   )
-  # Shift prns
+  # shift prns
   u <- 1:9 / 10
   v <- (u - 0.5) %% 1
   
@@ -157,14 +174,14 @@ test_that("pareto order sampling", {
 
 test_that("strip attributes", {
   samp <- sps(1:5, 3)
-  # Mathematical functions should treat 'sps' objects as numeric vectors
+  # mathematical functions should treat 'sps' objects as numeric vectors
   expect_true(inherits(log(samp), "numeric"))
   expect_true(inherits(1L + samp, "integer"))
   expect_true(inherits(samp / 2, "numeric"))
   expect_true(inherits(samp > samp, "logical"))
   expect_true(inherits(-samp, "integer"))
   
-  # And replacement methods
+  # and replacement methods
   expect_true(inherits(replace(samp, 1, 1), "numeric"))
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
 })

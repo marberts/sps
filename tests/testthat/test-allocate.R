@@ -42,7 +42,9 @@ test_that("argument checking for allocations", {
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1)))
   expect_error(prop_allocation(integer(0), 0, factor(integer(0))))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(1, 1)))
+  expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(1, -1)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(2, 0)))
+  expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(2, 0, 1)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), divisor = "a"))
 })
 
@@ -118,21 +120,22 @@ test_that("allocations for voting examples", {
     c("1" = 5L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 0L, "6" = 0L)
   )
   expect_identical(
-    prop_allocation(x, 10, s, divisor = function(a) a + 0.5),
+    prop_allocation(x, 10, s, divisor = \(a) a + 0.5),
     c("1" = 4L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 0L)
   )
   expect_identical(
-    prop_allocation(x, 10, s, divisor = function(a) sqrt(a * (a + 1))),
+    prop_allocation(x, 10, s, divisor = \(a) sqrt(a * (a + 1))),
     c("1" = 4L, "2" = 2L, "3" = 1L, "4" = 1L, "5" = 1L, "6" = 1L)
   )
   expect_identical(
-    prop_allocation(x, 10, s, divisor = function(a) a),
+    prop_allocation(x, 10, s, divisor = \(a) a),
     c("1" = 3L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 1L)
   )
 })
 
 test_that("expected coverage", {
   expect_identical(expected_coverage(numeric(0), 0, integer(0)), 0)
+  expect_identical(expected_coverage(0, 0, 1), 0)
   expect_identical(expected_coverage(1:6, 6, gl(1, 6)), 1)
   expect_identical(expected_coverage(1:6, 0, gl(1, 6)), 0)
   expect_identical(expected_coverage(1:6, 3, 1:6), 3)
@@ -140,12 +143,12 @@ test_that("expected coverage", {
     expected_coverage(1:10, 4, gl(2, 5)),
     expected_coverage(1:10, 4, gl(2, 5, labels = 1:3))
   )
-  # Bernoulli sampling
+  # bernoulli sampling
   expect_equal(
     expected_coverage(rep(1, 10), 4, c(rep(1, 4), rep(2, 6))),
     2 - (1 - 0.4)^4 - (1 - 0.4)^6
   )
-  # Simulation
+  # simulation
   x <- c(0, 20, 16, 32, 14, 35, 9, 6, 2, 33, 29, 40, 27, 38, 47, 26, 46, 
          12, 11, 39, 24, 100, 0, 1, 6, 6, 9, 20, 15, 25, 14, 0, 100)
   s <- c(4, 4, 2, 5, 5, 5, 5, 2, 3, 2, 5, 2, 2, 5, 5, 2, 3, 4, 5, 5, 3, 4, 
@@ -167,7 +170,8 @@ test_that("argument checking for expected coverage", {
   expect_error(expected_coverage(1:6, 3, gl(2, 3)[c(1:5, 7)]))
   expect_error(expected_coverage(1:6, 3, gl(2, 3)[c(1:5, 7)]))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = 1))
-  expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = c(0, 1)))
+  # warning about length > 1 in || for R < 4.2
+  # expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = c(0, 1)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = numeric(0)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = NA))
 })

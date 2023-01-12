@@ -3,7 +3,7 @@ set.seed(1234)
 test_that("corner cases", {
   w <- rep(1, 10)
   
-  # All TA units gives a matrix of 1s
+  # all TA units gives a matrix of 1s
   expect_equal(
     sps_repweights(w, 5, tau = 3),
     structure(matrix(1, 10, 5), tau = 3)
@@ -13,7 +13,7 @@ test_that("corner cases", {
     structure(matrix(1, 10, 5), tau = 1)
   )
   
-  # Asking for 0 repweights gives a matrix with no columns
+  # asking for 0 repweights gives a matrix with no columns
   expect_equal(
     sps_repweights(w, 0),
     structure(matrix(numeric(0), 10, 0), tau = 1)
@@ -23,7 +23,7 @@ test_that("corner cases", {
     structure(matrix(numeric(0), 10, 0), tau = 1)
   )
   
-  # Supply no weights gives a matrix with no rows
+  # supplying no weights gives a matrix with no rows
   expect_equal(
     sps_repweights(integer(0), 5),
     structure(matrix(numeric(0), 0, 5), tau = 1)
@@ -50,7 +50,7 @@ test_that("TA rep weights", {
 })
 
 test_that("test against bootstrapFP:::generalised()", {
-  # Fixed a bug with the exponential case by replaing exp() with rexp()
+  # fixed a bug with the exponential case by replacing exp() with rexp()
   bootstrapFP_fixed <- function(ys, pks, B) {
     n <- length(ys)
     ht <- vector("numeric", length = B)

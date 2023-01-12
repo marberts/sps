@@ -5,7 +5,7 @@
 \title{Sequential Poisson Sampling}
 
 \description{
-Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw stratified sequential Poisson samples according to the method by Ohlsson (1998), and generate appropriate bootstrap replicate weights according to the generalized bootstrap method by Beaumont and Patak (2012).
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw stratified sequential Poisson samples according to the method by Ohlsson (1998), as well as other order sample designs by Rosén (1997), and generate appropriate bootstrap replicate weights according to the generalized bootstrap method by Beaumont and Patak (2012).
 }
 
 \section{Usage}{
@@ -22,6 +22,8 @@ Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Su
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
+
+Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
 
 Tillé, Y. (2023). Remarks on some misconceptions about unequal probability sampling without replacement. \emph{Computer Science Review}, 47: 100533.
 }

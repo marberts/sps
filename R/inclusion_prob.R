@@ -104,11 +104,13 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-4) {
       stop(gettext("'strata' cannot contain NAs"))
     }
     if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
-      stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
+      stop(
+        gettext("'alpha' must have a single value or a value for each level in 'strata'")
+      )
     }
     
     x <- split(x, strata)
-    
+    # there must be at least one level for strata, so unlist can't return NULL
     if (any(unlist(Map(\(x, n) n > sum(x > 0), x, n), use.names = FALSE))) {
       stop(
         gettext("sample size is greater than the number of units with non-zero sizes in the population")

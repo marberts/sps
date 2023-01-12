@@ -2,6 +2,10 @@ set.seed(14235)
 
 test_that("corner cases", {
   expect_equal(
+    inclusion_prob(0, 0),
+    0
+  )
+  expect_equal(
     inclusion_prob(1:3, c(0, 1, 0), factor(c(2, 2, 2), levels = 1:3)),
     1:3 / 6
   )
@@ -31,6 +35,7 @@ test_that("argument checking", {
   expect_error(inclusion_prob(-1:6, c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(c(NA, 1:6), c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(numeric(0), c(2, 2), gl(2, 3)))
+  expect_error(inclusion_prob(numeric(0), 0, factor(integer(0))))
   expect_error(inclusion_prob(c(0, 0, 1:4), c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(c(0, 0, 1:4), 5))
   expect_error(inclusion_prob(1:6, c(-2, 2), gl(2, 3)))
@@ -83,7 +88,7 @@ test_that("compare with sampling::inclusionprobabilities()", {
 })
 
 test_that("add TAs with alpha", {
-  # Add more TAs with alpha
+  # add more TAs with alpha
   x <- c(0, 4, 1, 4, 5)
   
   expect_equal(
