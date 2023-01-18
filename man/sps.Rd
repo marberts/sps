@@ -10,7 +10,7 @@ Stratified sequential Poisson sampling
 }
 
 \description{
-Draw a stratified probability-proportional-to-size sample using the sequential and ordinary Poisson methods. Includes functions to calculate inclusion probabilities and generate other order sampling schemes.
+Draw a stratified probability-proportional-to-size sample using the sequential and ordinary Poisson methods. Includes functions to calculate first-order inclusion probabilities and generate other order sampling schemes.
 }
 
 \usage{
@@ -77,6 +77,8 @@ Pareto sampling \tab \code{\(x) x / (1 - x)}
 }
 
 \references{
+Matei, A., and Tillé, Y. (2007). Computational aspects of order \eqn{\pi}ps sampling schemes. \emph{Computational Statistics & Data Analysis}, 51: 3703-3717.
+
 Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Statistics}, 14(2): 149-162.
 
 Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.

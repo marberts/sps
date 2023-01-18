@@ -45,11 +45,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  5  7  9 10 11 12
+#> [1]  7  8  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 2.750000 1.964286 1.527778 1.375000 1.000000 1.000000
+#> [1] 1.964286 1.718750 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -69,10 +69,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  4  7  9 10 11 12
+#> [1]  4  6  7 10 11 12
 
 weights(samp)
-#> [1] 3.750000 2.142857 1.666667 1.000000 1.000000 1.000000
+#> [1] 3.750000 2.500000 2.142857 1.000000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -82,13 +82,13 @@ replicate weights with the `sps_repwights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>           [,1]     [,2]     [,3]     [,4]     [,5]
-#> [1,] 1.7500000 3.625000 3.625000 1.750000 2.250000
-#> [2,] 0.6428571 2.785714 1.142857 1.142857 1.142857
-#> [3,] 1.5000000 1.500000 2.000000 2.333333 1.166667
-#> [4,] 1.0000000 1.000000 1.000000 1.000000 1.000000
-#> [5,] 1.0000000 1.000000 1.000000 1.000000 1.000000
-#> [6,] 1.0000000 1.000000 1.000000 1.000000 1.000000
+#>          [,1]     [,2]     [,3]     [,4]     [,5]
+#> [1,] 5.500000 1.750000 4.125000 3.625000 3.625000
+#> [2,] 1.000000 2.750000 2.750000 1.000000 2.750000
+#> [3,] 2.214286 1.714286 2.214286 3.285714 2.214286
+#> [4,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#> [6,] 1.000000 1.000000 1.000000 1.000000 1.000000
 #> attr(,"tau")
 #> [1] 2
 ```
@@ -102,5 +102,5 @@ Sample Surveys with Special Attention to Poisson Sampling.
 Ohlsson, E. (1998). Sequential Poisson Sampling. *Journal of Official
 Statistics*, 14(2): 149-162.
 
-Rosén, B. (1997). On sampling with probability proportional to size. ,
-62(2): 159-191.
+Rosén, B. (1997). On sampling with probability proportional to size.
+*Journal of Statistical Planning and Inference*, 62(2): 159-191.

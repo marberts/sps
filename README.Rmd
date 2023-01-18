@@ -79,4 +79,4 @@ Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Su
 
 Ohlsson, E. (1998). Sequential Poisson Sampling. *Journal of Official Statistics*, 14(2): 149-162.
 
-Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
+Rosén, B. (1997). On sampling with probability proportional to size. *Journal of Statistical Planning and Inference*, 62(2): 159-191.
