@@ -53,7 +53,7 @@ For each stratum, the sequential Poisson procedure starts by stratifying units i
 
 After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}).
 
-Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi \leq 1}{\xi <= 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
+Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi \leq 1}{\xi <= 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total (of the take-some stratum) is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 
 A useful feature of sequential and ordinary Poisson sampling is the ability to coordinate samples by using permanent random numbers for \eqn{u}. Keeping \eqn{u} fixed when updating a sample retains a larger number of overlapping units, whereas switching \eqn{u} for \eqn{u - x \mod 1}{u - x mod 1} or \eqn{1 - (u - x \mod 1)}{1 - (u - x mod 1)}, for some \eqn{x} between 0 and 1, when drawing different samples from the same frame reduces the number of overlapping units.
 
@@ -138,4 +138,20 @@ u <- runif(11)
 
 # Removing unit 5 gives the same net sample
 sps(x[-samp[5]], 6, prn = u[-samp[5]]) 
+
+# Generate new order-sampling functions from the parameters of
+# the inverse generalized Pareto distribution
+igpd <- function(a, b) {
+  if (b == 0) {
+    function(x) -a * log(1 - x)
+  } else {
+    function(x) a * (1 - (1 - x)^b) / b
+  }
+}
+
+order_sampling2 <- function(a, b) order_sampling(igpd(a, b))
+
+order_sampling2(1, 1)(x, 6, prn = u) # sequential Poisson
+order_sampling2(1, 0)(x, 6, prn = u) # successive
+order_sampling2(1, -1)(x, 6, prn = u) # Pareto
 }
