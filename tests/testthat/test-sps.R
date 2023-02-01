@@ -100,7 +100,7 @@ test_that("two rounds of TA removal", {
     levels(sps(c(0:5, 0:5), c(3, 3), rep(1:2, each = 6), alpha = c(0.51, 0))),
     c(rep("TA", 3), "TS", "TS", "TA")
   )
-  # does noting when units are already TAs
+  # does nothing when units are already TAs
   expect_identical(
     sps(0:5, 5),
     sps(0:5, 5, alpha = 0.9)
@@ -184,4 +184,63 @@ test_that("strip attributes", {
   # and replacement methods
   expect_true(inherits(replace(samp, 1, 1), "numeric"))
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
+})
+
+test_that("Sampling with weird prns", {
+  u <- rep(0, 6)
+  v <- rep(1, 6)
+  expect_identical(
+    unclass(ps(0:5, 0, prn = u)), 
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  expect_identical(
+    unclass(ps(0:5, 0, prn = v)), 
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  
+  expect_identical(
+    unclass(sps(0:5, 0, prn = u)), 
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  expect_identical(
+    unclass(sps(0:5, 0, prn = v)), 
+    structure(integer(0), weights = numeric(0), levels = character(0))
+  )
+  
+  expect_equal(
+    unclass(ps(0:5, 3, prn = u)), 
+    structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1), levels = c(rep("TS", 4), "TA"))
+  )
+  expect_identical(
+    unclass(ps(0:5, 3, prn = v)), 
+    structure(6L, weights = 1, levels = "TA")
+  )
+  
+  # Order isn't defined when all xi are equal
+  expect_equal(
+    levels(sps(0:5, 3, prn = u)), 
+    c("TS", "TS", "TA")
+  )
+  expect_equal(
+    unclass(sps(0:5, 3, prn = v)), 
+    structure(4:6, weights = c(5 / 3, 1.25, 1), levels = c("TS", "TS", "TA"))
+  )
+  
+  expect_identical(
+    unclass(ps(0:5, 5, prn = u)), 
+    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+  )
+  expect_identical(
+    unclass(ps(0:5, 5, prn = v)), 
+    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+  )
+  
+  expect_identical(
+    unclass(sps(0:5, 5, prn = u)), 
+    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+  )
+  expect_identical(
+    unclass(sps(0:5, 5, prn = v)), 
+    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+  )
 })

@@ -18,7 +18,7 @@
 
 # Ordinary Poisson sampling
 .ps <- function(p, n, u) {
-  which(u <= p)
+  which(u < p | p == 1)
 }
 
 #---- Stratified sampling ----
