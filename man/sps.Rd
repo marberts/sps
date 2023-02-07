@@ -2,8 +2,9 @@
 \alias{sps}
 \alias{ps}
 \alias{inclusion_prob}
-\alias{weights.sps}
 \alias{order_sampling}
+\alias{weights.sps}
+\alias{levels.sps}
 
 \title{
 Stratified sequential Poisson sampling
@@ -22,8 +23,6 @@ ps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
 
 inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
 
-\method{weights}{sps}(object, ...)
-
 ## Function factory
 order_sampling(dist)
 }
@@ -39,11 +38,7 @@ order_sampling(dist)
 
 \item{alpha}{A numeric vector with values between 0 and 1 for each stratum, ordered according to the levels of \code{strata}. Units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
 
-\item{object}{An object of class \code{sps}, as made by \code{sps()} or \code{ps()}.}
-
 \item{dist}{A function that gives the inverse of the fixed distribution shape for an order sampling scheme. See details.}
-
-\item{...}{Further arguments passed to or used by methods.}
 }
 
 \details{
@@ -69,7 +64,7 @@ Pareto sampling \tab \code{\(x) x / (1 - x)}
 }
 
 \value{
-\code{sps()} and \code{ps()} return an object of class \code{sps}. This is an integer vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size), and a \code{levels} attribute that gives whether a sampled unit belongs to the take-all stratum or take-some stratum. \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{\link[=levels]{levels()}} can be used to access the strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip these attributes, as does replacement. 
+\code{sps()} and \code{ps()} return an object of class \code{sps}. This is an integer vector of indices for the units in the population that form the sample, along with a \code{weights} attribute that gives the design (inverse probability) weights for each unit in the sample (keeping in mind that sequential Poisson sampling is only approximately probability-proportional-to-size). \code{weights()} can be used to access the design weights attribute of an \code{sps} object, and \code{levels()} can be used to determine which units are in the take-all or take-some strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip attributes, as does replacement. 
 
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for each unit in the population.
 

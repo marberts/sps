@@ -3,43 +3,43 @@ set.seed(123454)
 test_that("corner cases", {
   expect_identical(
     unclass(sps(numeric(0), 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(sps(0, 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(sps(1:10, 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(sps(1:10, 10)),
-    structure(1:10, weights = rep(1, 10), levels = rep("TA", 10))
+    structure(1:10, weights = rep(1, 10))
   )
   expect_identical(
     unclass(sps(1:10, c(5, 0), gl(2, 5))),
-    structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(1:5, weights = rep(1, 5))
   )
   expect_identical(
     unclass(ps(numeric(0), 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(ps(0, 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(ps(1:10, 0)),
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(ps(1:10, 10)),
-    structure(1:10, weights = rep(1, 10), levels = rep("TA", 10))
+    structure(1:10, weights = rep(1, 10))
   )
   expect_identical(
     unclass(ps(1:10, c(5, 0), gl(2, 5))),
-    structure(1:5, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(1:5, weights = rep(1, 5))
   )
 })
 
@@ -191,29 +191,29 @@ test_that("Sampling with weird prns", {
   v <- rep(1, 6)
   expect_identical(
     unclass(ps(0:5, 0, prn = u)), 
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(ps(0:5, 0, prn = v)), 
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   
   expect_identical(
     unclass(sps(0:5, 0, prn = u)), 
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   expect_identical(
     unclass(sps(0:5, 0, prn = v)), 
-    structure(integer(0), weights = numeric(0), levels = character(0))
+    structure(integer(0), weights = numeric(0))
   )
   
   expect_equal(
     unclass(ps(0:5, 3, prn = u)), 
-    structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1), levels = c(rep("TS", 4), "TA"))
+    structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1))
   )
   expect_identical(
     unclass(ps(0:5, 3, prn = v)), 
-    structure(6L, weights = 1, levels = "TA")
+    structure(6L, weights = 1)
   )
   
   # Order isn't defined when all xi are equal
@@ -223,24 +223,24 @@ test_that("Sampling with weird prns", {
   )
   expect_equal(
     unclass(sps(0:5, 3, prn = v)), 
-    structure(4:6, weights = c(5 / 3, 1.25, 1), levels = c("TS", "TS", "TA"))
+    structure(4:6, weights = c(5 / 3, 1.25, 1))
   )
   
   expect_identical(
     unclass(ps(0:5, 5, prn = u)), 
-    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(2:6, weights = rep(1, 5))
   )
   expect_identical(
     unclass(ps(0:5, 5, prn = v)), 
-    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(2:6, weights = rep(1, 5))
   )
   
   expect_identical(
     unclass(sps(0:5, 5, prn = u)), 
-    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(2:6, weights = rep(1, 5))
   )
   expect_identical(
     unclass(sps(0:5, 5, prn = v)), 
-    structure(2:6, weights = rep(1, 5), levels = rep("TA", 5))
+    structure(2:6, weights = rep(1, 5))
   )
 })

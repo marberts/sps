@@ -109,12 +109,9 @@ stratify <- function(f) {
     }
     
     ord <- order(res)
-    levels <- rep("TA", length(res))
-    levels[weights > 1] <- "TS"
     structure(
       res[ord],
       weights = weights[ord],
-      levels = levels[ord],
       class = c("sps", class(res))
     )
   }
@@ -127,7 +124,11 @@ sps <- order_sampling(identity)
 ps <- stratify(.ps)
 
 #---- Methods for class 'sps' ----
-# levels.default() extracts levels; no need for a method
+levels.sps <- function(x) {
+  res <- rep.int("TS", length(x))
+  res[weights(x) == 1] <- "TA"
+  res
+}
 
 weights.sps <- function(object, ...) {
   attr(object, "weights")
