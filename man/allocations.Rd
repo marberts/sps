@@ -52,7 +52,7 @@ Passing a single integer for the initial allocation first checks that recycling 
 The \code{expected_coverage()} function gives the average number of strata covered by ordinary Poisson sampling without stratification. As sequential and ordinary Poisson sampling have the same sample size on average, this gives an approximation for the coverage under sequential Poisson sampling. This function can also be used to calculate, e.g., the expected number of enterprises covered within a stratum when sampling business establishments.}
 
 \value{
-\code{prop_allocation()} returns a named numeric vector of sample sizes for each stratum in \code{strata}.
+\code{prop_allocation()} returns a named integer vector of sample sizes for each stratum in \code{strata}.
 
 \code{expected_coverage()} returns the expected number of strata covered by the sample design.
 }

@@ -11,7 +11,7 @@ Sequential Poisson sampling is a variation of Poisson sampling for drawing proba
 \section{Usage}{
 Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the \code{\link[=sps]{sps()}} function. Allocations are often proportional to size when drawing such samples, and the \code{\link[=prop_allocation]{prop_allocation()}} function provides a variety of methods for generating proportional-to-size allocations. Once the sample is drawn, the design weights for the sample can then be used to generate bootstrap replicate weights with the \code{\link[=sps_repweights]{sps_repweights()}} function.
 
-Sequential Poisson sampling is often used to sample data for price indexes. Balk (2008, chapter 5) discusses the construction of price indexes when data are sampled using probability-proportional-to-size methods, and their resulting statistical properties. The CPI manual (2020, chapter 4) describes other methods for sampling price data. Tillé (2023) gives a practical overview of different probability-proportional-to-size sampling methods; compared to existing implementations of several of these methods (e.g., Brewer, Sampford, maximum entropy), however, sequential Poisson sampling is relatively fast for larger frames.
+Sequential Poisson sampling is often used to sample data for price indexes. Balk (2008, chapter 5) discusses the construction of price indexes when data are sampled using probability-proportional-to-size methods, and their resulting statistical properties. The CPI manual (2020, chapter 4) describes other methods for sampling price data. Tillé (2020, chapter 5) gives a practical overview of different probability-proportional-to-size sampling methods; compared to existing implementations of several of these methods (e.g., Brewer, Sampford, maximum entropy), however, sequential Poisson sampling is relatively fast for larger frames.
 }
 
 \references{
@@ -25,7 +25,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 
 Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
 
-Tillé, Y. (2023). Remarks on some misconceptions about unequal probability sampling without replacement. \emph{Computer Science Review}, 47: 100533.
+Tillé, Y. (2020). \emph{Sampling and estimation from finite populations}. Wiley.
 }
 
 \seealso{

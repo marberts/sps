@@ -87,7 +87,7 @@ prop_allocation <- function(
   ns <- vapply(x, function(x) sum(x > 0), integer(1L))
   
   initial <- as.integer(initial)
-  if (min(initial) < 0L) {
+  if (.min(initial) < 0L) {
     stop(gettext("'initial' must be greater than or equal to 0"))
   }
   if (length(initial) == 1L) {

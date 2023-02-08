@@ -44,7 +44,7 @@ order_sampling(dist)
 \details{
 The \code{sps()} function draws a sample according to the sequential Poisson procedure, the details of which are given by Ohlsson (1998). It is also called uniform order sampling, as it is a type of order sampling; see Rosén (1997, 2000) for a more general presentation of the method. This is the same method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD = SEQ_POISSON}.
 
-For each stratum, the sequential Poisson procedure starts by stratifying units in the population based on their inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
+For each stratum, the sequential Poisson procedure starts by stratifying units in the population based on their (target) inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
 
 After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}).
 
@@ -78,7 +78,7 @@ Ohlsson, E. (1998). Sequential Poisson Sampling. \emph{Journal of Official Stati
 
 Rosén, B. (1997). On sampling with probability proportional to size. \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
 
-Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}PS sampling. \emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
+Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
 } 
 
 \seealso{

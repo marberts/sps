@@ -35,6 +35,11 @@ pi <- function(x, n) {
 .inclusion_prob <- function(x, n, alpha) {
   res <- pi(x, n)
   if (.max(res) < 1 - alpha) return(res)
+  # if x[n] == x[n + 1] after sorting then it is possible for the result 
+  # to not resolve ties according to x (as documented) when alpha is large 
+  # enough to make all units TAs; this is not practically relevant, as
+  # alpha is usually small enough so that x[n] / sum(x) < 1 - alpha.
+  # part <- order(x, decreasing = TRUE)
   part <- partition_index(x, n, decreasing = TRUE)
   s <- seq_len(n)
   possible_ta <- sort.int(part[s], decreasing = TRUE)
