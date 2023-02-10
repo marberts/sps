@@ -1,6 +1,6 @@
 #---- Internal helpers ----
 # Apportionment (rounding) method
-highest_averages <- function(d) {
+.highest_averages <- function(d) {
   d <- match.fun(d)
   # return function
   function(p, n, min, max) {
@@ -108,7 +108,7 @@ prop_allocation <- function(
   }
   
   p <- vapply(x, sum, numeric(1L))
-  res <- highest_averages(divisor)(p, N, initial, ns)
+  res <- .highest_averages(divisor)(p, N, initial, ns)
   names(res) <- levels(strata)
   res
 }

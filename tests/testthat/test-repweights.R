@@ -32,6 +32,16 @@ test_that("corner cases", {
     sps_repweights(integer(0), 5, dist = rnorm),
     structure(matrix(numeric(0), 0, 5), tau = 1)
   )
+  
+  # intersection of both cases
+  expect_equal(
+    sps_repweights(integer(0), 0),
+    structure(matrix(numeric(0), 0, 0), tau = 1)
+  )
+  expect_equal(
+    sps_repweights(integer(0), 0, dist = rnorm),
+    structure(matrix(numeric(0), 0, 0), tau = 1)
+  )
 })
 
 test_that("argument checking", {
@@ -39,6 +49,7 @@ test_that("argument checking", {
   expect_error(sps_repweights(c(NA, 1:5), 5))
   expect_error(sps_repweights(1:5, -5))
   expect_error(sps_repweights(1:5, NA))
+  expect_error(sps_repweights(1:5, integer(0)))
   expect_error(sps_repweights(1:5, 5, -1))
   expect_error(sps_repweights(1:5, 5, NA))
   expect_error(sps_repweights(1:5, 5, numeric(0)))

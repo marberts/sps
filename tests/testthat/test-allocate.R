@@ -33,7 +33,7 @@ test_that("corner cases for allocations", {
 
 test_that("argument checking for allocations", {
   expect_error(prop_allocation(c(-1, 1, 0), 1, c(1, 1, 2)))
-  expect_error(prop_allocation(c(-1, 1, NA), 1, c(1, 1, 2)))
+  expect_error(prop_allocation(c(1, 1, NA), 1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), -1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), integer(0), c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), NA, c(1, 1, 2)))
@@ -41,6 +41,7 @@ test_that("argument checking for allocations", {
   expect_error(prop_allocation(c(1, 1, 0), 1, c(NA, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1)))
   expect_error(prop_allocation(integer(0), 0, factor(integer(0))))
+  expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = integer(0)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(1, 1)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(1, -1)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(2, 0)))
