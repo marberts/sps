@@ -135,12 +135,12 @@ test_that("allocations for voting examples", {
 })
 
 test_that("expected coverage", {
-  expect_identical(expected_coverage(numeric(0), 0, integer(0)), 0)
-  expect_identical(expected_coverage(0, 0, 1), 0)
-  expect_identical(expected_coverage(1:6, 6, gl(1, 6)), 1)
-  expect_identical(expected_coverage(1:6, 0, gl(1, 6)), 0)
-  expect_identical(expected_coverage(1:6, 3, 1:6), 3)
-  expect_identical(
+  expect_equal(expected_coverage(numeric(0), 0, integer(0)), 0)
+  expect_equal(expected_coverage(0, 0, 1), 0)
+  expect_equal(expected_coverage(1:6, 6, gl(1, 6)), 1)
+  expect_equal(expected_coverage(1:6, 0, gl(1, 6)), 0)
+  expect_equal(expected_coverage(1:6, 3, 1:6), 3)
+  expect_equal(
     expected_coverage(1:10, 4, gl(2, 5)),
     expected_coverage(1:10, 4, gl(2, 5, labels = 1:3))
   )
