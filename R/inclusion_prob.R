@@ -1,5 +1,5 @@
 #---- Internal helpers ----
-pi <- function(x, n) {
+.pi <- function(x, n) {
   # n == 0 should be a strong zero
   if (n == 0L) {
     rep.int(0, length(x))
@@ -33,7 +33,7 @@ pi <- function(x, n) {
 # }
 
 .inclusion_prob <- function(x, n, alpha) {
-  res <- pi(x, n)
+  res <- .pi(x, n)
   if (.max(res) < 1 - alpha) return(res)
   # if x[n] == x[n + 1] after sorting then it is possible for the result 
   # to not resolve ties according to x (as documented) when alpha is large 
@@ -44,7 +44,7 @@ pi <- function(x, n) {
   s <- seq_len(n)
   possible_ta <- sort.int(part[s], decreasing = TRUE)
   definite_ts <- part[seq(n + 1, length.out = length(x) - n)]
-  # order possible TA units according to x to make sub assignment easier,
+  # order possible TA units according to x to make subsetting easier,
   # noting that ties will be in reverse
   possible_ta <- possible_ta[order(x[possible_ta])]
   y <- x[possible_ta]
@@ -53,7 +53,7 @@ pi <- function(x, n) {
   # faster than negative indexing
   ts <- c(definite_ts, setdiff(possible_ta, ta))
   res[ta] <- 1
-  res[ts] <- pi(x[ts], n - length(ta))
+  res[ts] <- .pi(x[ts], n - length(ta))
   res
 }
 

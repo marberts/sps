@@ -62,6 +62,7 @@ test_that("argument checking", {
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
   expect_error(sps(1:6, c(2, 2), gl(2, 2), alpha = integer(0)))
   expect_error(sps(1:6, 2, alpha = c(0, 0)))
+  expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = c(0, runif(4), 1)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = 1:7 / 10))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = -1:4 / 10))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = c(NA, 1:5) / 10))
@@ -160,7 +161,7 @@ test_that("pareto order sampling", {
   )
   # shift prns
   u <- 1:9 / 10
-  v <- (u - 0.5) %% 1
+  v <- (u - 0.49) %% 1
   
   expect_identical(
     as.integer(pareto(rep(1, 9), 5, prn = u)),
@@ -186,61 +187,61 @@ test_that("strip attributes", {
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
 })
 
-test_that("Sampling with weird prns", {
-  u <- rep(0, 6)
-  v <- rep(1, 6)
-  expect_identical(
-    unclass(ps(0:5, 0, prn = u)), 
-    structure(integer(0), weights = numeric(0))
-  )
-  expect_identical(
-    unclass(ps(0:5, 0, prn = v)), 
-    structure(integer(0), weights = numeric(0))
-  )
-  
-  expect_identical(
-    unclass(sps(0:5, 0, prn = u)), 
-    structure(integer(0), weights = numeric(0))
-  )
-  expect_identical(
-    unclass(sps(0:5, 0, prn = v)), 
-    structure(integer(0), weights = numeric(0))
-  )
-  
-  expect_equal(
-    unclass(ps(0:5, 3, prn = u)), 
-    structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1))
-  )
-  expect_identical(
-    unclass(ps(0:5, 3, prn = v)), 
-    structure(6L, weights = 1)
-  )
-  
-  # Order isn't defined when all xi are equal
-  expect_equal(
-    levels(sps(0:5, 3, prn = u)), 
-    c("TS", "TS", "TA")
-  )
-  expect_equal(
-    unclass(sps(0:5, 3, prn = v)), 
-    structure(4:6, weights = c(5 / 3, 1.25, 1))
-  )
-  
-  expect_identical(
-    unclass(ps(0:5, 5, prn = u)), 
-    structure(2:6, weights = rep(1, 5))
-  )
-  expect_identical(
-    unclass(ps(0:5, 5, prn = v)), 
-    structure(2:6, weights = rep(1, 5))
-  )
-  
-  expect_identical(
-    unclass(sps(0:5, 5, prn = u)), 
-    structure(2:6, weights = rep(1, 5))
-  )
-  expect_identical(
-    unclass(sps(0:5, 5, prn = v)), 
-    structure(2:6, weights = rep(1, 5))
-  )
-})
+# test_that("Sampling with weird prns", {
+#   u <- rep(0, 6)
+#   v <- rep(1, 6)
+#   expect_identical(
+#     unclass(ps(0:5, 0, prn = u)), 
+#     structure(integer(0), weights = numeric(0))
+#   )
+#   expect_identical(
+#     unclass(ps(0:5, 0, prn = v)), 
+#     structure(integer(0), weights = numeric(0))
+#   )
+#   
+#   expect_identical(
+#     unclass(sps(0:5, 0, prn = u)), 
+#     structure(integer(0), weights = numeric(0))
+#   )
+#   expect_identical(
+#     unclass(sps(0:5, 0, prn = v)), 
+#     structure(integer(0), weights = numeric(0))
+#   )
+#   
+#   expect_equal(
+#     unclass(ps(0:5, 3, prn = u)), 
+#     structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1))
+#   )
+#   expect_identical(
+#     unclass(ps(0:5, 3, prn = v)), 
+#     structure(6L, weights = 1)
+#   )
+#   
+#   # Order isn't defined when all xi are equal
+#   expect_equal(
+#     levels(sps(0:5, 3, prn = u)), 
+#     c("TS", "TS", "TA")
+#   )
+#   expect_equal(
+#     unclass(sps(0:5, 3, prn = v)), 
+#     structure(4:6, weights = c(5 / 3, 1.25, 1))
+#   )
+#   
+#   expect_identical(
+#     unclass(ps(0:5, 5, prn = u)), 
+#     structure(2:6, weights = rep(1, 5))
+#   )
+#   expect_identical(
+#     unclass(ps(0:5, 5, prn = v)), 
+#     structure(2:6, weights = rep(1, 5))
+#   )
+#   
+#   expect_identical(
+#     unclass(sps(0:5, 5, prn = u)), 
+#     structure(2:6, weights = rep(1, 5))
+#   )
+#   expect_identical(
+#     unclass(sps(0:5, 5, prn = v)), 
+#     structure(2:6, weights = rep(1, 5))
+#   )
+# })
