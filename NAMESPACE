@@ -13,6 +13,5 @@ S3method("[<-", sps)
 S3method("[[<-", sps)
 
 importFrom(stats, weights, runif, rbinom)
-importFrom(Rcpp, evalCpp)
 
 useDynLib(sps, .registration = TRUE)
