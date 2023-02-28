@@ -1,6 +1,6 @@
 set.seed(1234)
 
-test_that("corner cases", {
+test_that("corner cases work as expected", {
   w <- rep(1, 10)
   
   # all TA units gives a matrix of 1s
@@ -44,7 +44,7 @@ test_that("corner cases", {
   )
 })
 
-test_that("argument checking", {
+test_that("argument checking works", {
   expect_error(sps_repweights(0:5, 5))
   expect_error(sps_repweights(c(NA, 1:5), 5))
   expect_error(sps_repweights(1:5, -5))
@@ -55,12 +55,12 @@ test_that("argument checking", {
   expect_error(sps_repweights(1:5, 5, numeric(0)))
 })
 
-test_that("TA rep weights", {
+test_that("rep weights works for TA units", {
   expect_true(all(sps_repweights(1:5, tau = 2) > 0))
   expect_true(all(sps_repweights(1:5, tau = 2)[1, ] == 1))
 })
 
-test_that("test against bootstrapFP:::generalised()", {
+test_that("results agree with bootstrapFP:::generalised()", {
   # fixed a bug with the exponential case by replacing exp() with rexp()
   bootstrapFP_fixed <- function(ys, pks, B) {
     n <- length(ys)

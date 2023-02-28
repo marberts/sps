@@ -1,6 +1,6 @@
 set.seed(4321)
 
-test_that("corner cases for allocations", {
+test_that("corner cases for allocations work as expected", {
   expect_identical(
     prop_allocation(numeric(0), 0, factor(integer(0), levels = 1)),
     c("1" = 0L)
@@ -31,7 +31,7 @@ test_that("corner cases for allocations", {
   )
 })
 
-test_that("argument checking for allocations", {
+test_that("argument checking works for allocations", {
   expect_error(prop_allocation(c(-1, 1, 0), 1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, NA), 1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), -1, c(1, 1, 2)))
@@ -49,7 +49,7 @@ test_that("argument checking for allocations", {
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), divisor = "a"))
 })
 
-test_that("simple allocations", {
+test_that("simple allocations are correct", {
   expect_identical(
     prop_allocation(rep(1, 10), 4, rep(letters[1:2], 5)),
     c(a = 2L, b = 2L)
@@ -100,7 +100,7 @@ test_that("simple allocations", {
   )
 })
 
-test_that("alabama paradox", {
+test_that("alabama paradox doesn't happen", {
   expect_identical(
     prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2))),
     c("1" = 5L, "2" = 4L, "3" = 1L)
@@ -111,7 +111,7 @@ test_that("alabama paradox", {
   )
 })
 
-test_that("allocations for voting examples", {
+test_that("allocations are correct for voting examples", {
   # example from https://en.wikipedia.org/wiki/Highest_averages_method
   x <- rep(1, 1e5)
   s <- as.factor(rep(1:6, c(47000, 16000, 15900, 12000, 6000, 3100)))
@@ -134,7 +134,7 @@ test_that("allocations for voting examples", {
   )
 })
 
-test_that("expected coverage", {
+test_that("expected coverage works", {
   expect_equal(expected_coverage(numeric(0), 0, integer(0)), 0)
   expect_equal(expected_coverage(0, 0, 1), 0)
   expect_equal(expected_coverage(1:6, 6, gl(1, 6)), 1)
@@ -160,7 +160,7 @@ test_that("expected coverage", {
   # mean(replicate(1e3, length(unique(s[ps(x, 10)]))))
 })
 
-test_that("argument checking for expected coverage", {
+test_that("argument checking for expected coverage works", {
   expect_error(expected_coverage(-1:6, 3, gl(2, 3)))
   expect_error(expected_coverage(c(1:6, NA), 3, gl(2, 3)))
   expect_error(expected_coverage(numeric(0), 3, gl(2, 3)))

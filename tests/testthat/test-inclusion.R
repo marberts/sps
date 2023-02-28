@@ -1,6 +1,6 @@
 set.seed(14235)
 
-test_that("corner cases", {
+test_that("corner cases work as expected", {
   expect_equal(
     inclusion_prob(0, 0),
     0
@@ -31,7 +31,7 @@ test_that("corner cases", {
   )
 })
 
-test_that("argument checking", {
+test_that("argument checking works", {
   expect_error(inclusion_prob(-1:6, c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(c(NA, 1:6), c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(numeric(0), c(2, 2), gl(2, 3)))
@@ -52,7 +52,7 @@ test_that("argument checking", {
   expect_error(inclusion_prob(1:6, 2, alpha = c(0, 0)))
 })
 
-test_that("different rounds of TA removal", {
+test_that("inclusion probs are correct with different rounds of TA removal", {
   # no rounds
   x <- c(0:4, 10:8, 5:7, 0)
   expect_equal(inclusion_prob(x, 4), x / 55 * 4)
@@ -75,7 +75,7 @@ test_that("different rounds of TA removal", {
   )
 })
 
-test_that("compare with sampling::inclusionprobabilities()", {
+test_that("results agree with sampling::inclusionprobabilities()", {
   expect_equal(
     inclusion_prob(1:20, 12),
     c(1:16 / 136 * 8, rep(1, 4))
@@ -87,7 +87,7 @@ test_that("compare with sampling::inclusionprobabilities()", {
   )
 })
 
-test_that("add TAs with alpha", {
+test_that("TAs are added with alpha", {
   # add more TAs with alpha
   x <- c(0, 4, 1, 4, 5)
   

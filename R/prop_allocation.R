@@ -2,7 +2,7 @@
 # Apportionment (rounding) method
 .highest_averages <- function(d) {
   d <- match.fun(d)
-  # return function
+
   function(p, n, min, max) {
     res <- min
     n <- n - sum(res)

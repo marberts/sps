@@ -2,15 +2,16 @@
 # Order sampling
 .order_sampling <- function(f) {
   f <- match.fun(f)
-  # return function
+
   function(p, n, u) {
     ts <- which(!(ta <- p == 1) & p > 0)
     ta <- which(ta)
     n_ts <- n - length(ta)
     # sample the take somes
     keep <- if (n_ts > 0) {
-      # order(u[ts] / p[ts])[seq_len(n_ts)]
-      partition_index(f(u[ts]) / f(p[ts]), n_ts, decreasing = FALSE)[seq_len(n_ts)]
+      xi <- f(u[ts]) / f(p[ts])
+      # order(xi)[seq_len(n_ts)]
+      partition_index(xi, n_ts, decreasing = FALSE)[seq_len(n_ts)]
     }
     c(ta, ts[keep])
   }
@@ -24,7 +25,7 @@
 #---- Stratified sampling ----
 stratify <- function(f) {
   f <- match.fun(f)
-  # return function
+
   function(x, n, strata = NULL, prn = NULL, alpha = 1e-4) {
     x <- as.numeric(x)
     if (.min(x) < 0) {

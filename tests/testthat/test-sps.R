@@ -1,6 +1,6 @@
 set.seed(123454)
 
-test_that("corner cases", {
+test_that("corner cases work as expected", {
   expect_identical(
     unclass(sps(numeric(0), 0)),
     structure(integer(0), weights = numeric(0))
@@ -43,7 +43,7 @@ test_that("corner cases", {
   )
 })
 
-test_that("argument checking", {
+test_that("argument checking works", {
   expect_error(sps(-1:6, c(2, 2), gl(2, 3)))
   expect_error(sps(c(NA, 1:6), c(2, 2), gl(2, 3)))
   expect_error(sps(numeric(0), c(2, 2), gl(2, 3)))
@@ -69,7 +69,7 @@ test_that("argument checking", {
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = numeric(0)))
 })
 
-test_that("results should be sorted", {
+test_that("results are sorted", {
   x <- c(20, 1:10, 100, 0, 0)
   samp <- sps(x, c(3, 2, 2), c(1, 1, 2, 1, 3, 1, 2, 3, 2, 1, 3, 3, 3, 1))
   expect_identical(
@@ -82,7 +82,7 @@ test_that("results should be sorted", {
   )
 })
 
-test_that("two rounds of TA removal", {
+test_that("two rounds of TA removal works", {
   x <- c(20, 1:10, 100, 0, 0)
   samp <- sps(x, 5)
   expect_equal(samp[c(1, 5)], c(1, 12))
@@ -108,7 +108,7 @@ test_that("two rounds of TA removal", {
   )
 })
 
-test_that("strata sizes should add up", {
+test_that("strata sizes add up", {
   s <- c(1, 2, 3, 2, 3, 1, 3, 2, 1, 3, 3, 1, 2, 1, 1, 2, 3, 1, 3, 2, 2)
   x <- c(1:10, 10:0)
   alloc <- prop_allocation(x, 11, s)
@@ -119,7 +119,7 @@ test_that("strata sizes should add up", {
   )
 })
 
-test_that("permanent random numbers", {
+test_that("permanent random numbers work", {
   set.seed(4321)
   prn <- runif(11)
   expect_identical(
@@ -138,7 +138,7 @@ test_that("permanent random numbers", {
   )
 })
 
-test_that("extend a stratified sample", {
+test_that("extending a stratified sample works", {
   set.seed(1432)
   u <- runif(100)
   x <- c(runif(98), 100, 200)
@@ -151,7 +151,7 @@ test_that("extend a stratified sample", {
   )
 })
 
-test_that("pareto order sampling", {
+test_that("pareto order sampling works", {
   pareto <- order_sampling(function(x) x / (1 - x))
   
   u <- runif(20)
@@ -173,7 +173,7 @@ test_that("pareto order sampling", {
   )
 })
 
-test_that("strip attributes", {
+test_that("attributes get removed", {
   samp <- sps(1:5, 3)
   # mathematical functions should treat 'sps' objects as numeric vectors
   expect_true(inherits(log(samp), "numeric"))
