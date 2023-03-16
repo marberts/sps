@@ -90,7 +90,7 @@ test_that("results agree with sampling::inclusionprobabilities()", {
 test_that("TAs are added with alpha", {
   # add more TAs with alpha
   x <- c(0, 4, 1, 4, 5)
-  
+
   expect_equal(
     inclusion_prob(x, 3, alpha = 0.1),
     c(x[-5] / 9 * 2, 1)

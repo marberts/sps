@@ -1,77 +1,77 @@
 #---- Internal helpers ----
 # Apportionment (rounding) method
-.highest_averages <- function(d) {
+highest_averages <- function(d) {
   d <- match.fun(d)
 
-  function(p, n, min, max) {
+  function(p, N, min, max) {
+    if (any(min < 0)) {
+      stop("initial allocation must be greater than or equal to 0")
+    }
     res <- min
-    n <- n - sum(res)
+    if (N < sum(min)) {
+      stop("initial allocation is larger than 'N'")
+    }
+    if (any(min > max)) {
+      stop("initial allocation must be smaller than the number of units with ",
+           "non-zero sizes in the population for each stratum")
+    }
+    N <- N - sum(res)
+    ord <- order(p, decreasing = TRUE)
+    p <- p[ord]
+    res <- res[ord]
+    max <- max[ord]
     # the while condition could be n > sum(res), but the loop below always
     # terminates after at most n steps, even if i is integer(0)
-    while (n > 0L) {
+    while (N > 0L) {
       i <- which.max(p / d(res) * (res < max))
       res[i] <- res[i] + 1L
-      n <- n - 1L
+      N <- N - 1L
     }
-    res
+    res[order(ord)]
   }
 }
 
 #---- Expected coverage ----
 expected_coverage <- function(x, N, strata, alpha = 1e-4) {
   x <- as.numeric(x)
-  if (.min(x) < 0) {
-    stop(gettext("'x' must be greater than or equal to 0"))
-  }
-  
   N <- as.integer(N)
-  if (N < 0L) {
-    stop(gettext("'N' must be greater than or equal to 0"))
-  }
-  if (N > sum(x > 0)) {
-    stop(
-      gettext("sample size is greater than the number of units with non-zero sizes in the population")
-    )
-  }
-  
   strata <- as.factor(strata)
+  alpha <- as.numeric(alpha)
+
   if (length(x) != length(strata)) {
     stop(gettext("'x' and 'strata' must be the same length"))
   }
   if (anyNA(strata)) {
     stop(gettext("'strata' cannot contain NAs"))
   }
-  
-  alpha <- as.numeric(alpha)
-  if (alpha >= 1 || alpha < 0) {
-    stop(gettext("'alpha' must be in [0, 1)"))
+  if (nlevels(strata) < 1L) {
+    stop("'strata' must have one or more levels")
   }
-  
-  p <- split(log(1 - .inclusion_prob(x, N, alpha)), strata)
+  p <- split(log(1 - inclusion_prob(x, N, alpha)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }
 
 #---- Proportional allocation ----
 prop_allocation <- function(
     x, N, strata,
-    initial = 0, 
-    divisor = \(a) a + 1
-) {
+    initial = 0,
+    divisor = \(a) a + 1) {
   x <- as.numeric(x)
   if (.min(x) < 0) {
     stop(gettext("'x' must be greater than or equal to 0"))
   }
-  
+
   N <- as.integer(N)
   if (N < 0L) {
     stop(gettext("'N' must be greater than or equal to 0"))
   }
   if (N > sum(x > 0)) {
     stop(
-      gettext("sample size is greater than the number of units with non-zero sizes in the population")
+      gettext("sample size is greater than the number of units with non-zero ",
+              "sizes in the population")
     )
   }
-  
+
   strata <- as.factor(strata)
   if (length(x) != length(strata)) {
     stop(gettext("'x' and 'strata' must be the same length"))
@@ -85,30 +85,20 @@ prop_allocation <- function(
   }
   x <- split(x, strata)
   ns <- vapply(x, function(x) sum(x > 0), integer(1L))
-  
+
   initial <- as.integer(initial)
-  if (.min(initial) < 0L) {
-    stop(gettext("'initial' must be greater than or equal to 0"))
-  }
   if (length(initial) == 1L) {
     initial <- pmin.int(ns, min(N %/% nlevels(strata), initial))
   }
   if (length(initial) != nlevels(strata)) {
     stop(
-      gettext("'initial' must have a single allocation size for each level in 'strata'")
+      gettext("'initial' must have a single allocation size for each level",
+              "in 'strata'")
     )
   }
-  if (any(initial > ns)) {
-    stop(
-      gettext("'initial' must be smaller than the number of units with non-zero sizes in the population for each stratum")
-    )
-  }
-  if (N < sum(initial)) {
-    stop(gettext("initial allocation is larger than 'N'"))
-  }
-  
+
   p <- vapply(x, sum, numeric(1L))
-  res <- .highest_averages(divisor)(p, N, initial, ns)
+  res <- highest_averages(divisor)(p, N, initial, ns)
   names(res) <- levels(strata)
   res
 }

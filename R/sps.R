@@ -1,16 +1,17 @@
 #---- Internal helpers ----
 # Order sampling
-.order_sampling <- function(f) {
+order_sampling_ <- function(f) {
   f <- match.fun(f)
 
   function(p, n, u) {
-    ts <- which(!(ta <- p == 1) & p > 0)
+    ta <- p == 1
+    ts <- which(!ta & p > 0)
     ta <- which(ta)
     n_ts <- n - length(ta)
     # sample the take somes
     keep <- if (n_ts > 0) {
       xi <- f(u[ts]) / f(p[ts])
-      # order(xi)[seq_len(n_ts)]
+      # order(xi)[seq_len(n_ts)] breaks ties by order
       partition_index(xi, n_ts, decreasing = FALSE)[seq_len(n_ts)]
     }
     c(ta, ts[keep])
@@ -18,7 +19,7 @@
 }
 
 # Ordinary Poisson sampling
-.ps <- function(p, n, u) {
+ps_ <- function(p, n, u) {
   which(u < p)
 }
 
@@ -26,89 +27,30 @@
 stratify <- function(f) {
   f <- match.fun(f)
 
-  function(x, n, strata = NULL, prn = NULL, alpha = 1e-4) {
+  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4) {
     x <- as.numeric(x)
-    if (.min(x) < 0) {
-      stop(gettext("'x' must be greater than or equal to 0"))
-    }
-    
     n <- as.integer(n)
-    if (length(n) == 0L) {
-      stop(gettext("'n' cannot be length 0"))
-    }
-    if (min(n) < 0L) {
-      stop(gettext("'n' must be greater than or equal to 0"))
-    }
-    
+    strata <- as.factor(strata)
+    alpha <- as.numeric(alpha)
     if (is.null(prn)) {
       prn <- runif(length(x))
     } else {
       prn <- as.numeric(prn)
       if (length(x) != length(prn)) {
-        stop(gettext("'x' and 'prn' must be the same length"))
+        stop("'x' and 'prn' must be the same length")
       }
-      if (.min(prn) <= 0 || .max(prn) >= 1) {
-        stop(gettext("'prn' must be in (0, 1)"))
+      if (any(prn <= 0) || any(prn >= 1)) {
+        stop("'prn' must be in (0, 1)")
       }
     }
-    
-    alpha <- as.numeric(alpha)
-    if (length(alpha) == 0L) {
-      stop(gettext("'alpha' cannot be length 0"))
-    }
-    if (min(alpha) < 0 || max(alpha) >= 1) {
-      stop(gettext("'alpha' must be in [0, 1)"))
-    }
-    
-    if (is.null(strata)) {
-      if (length(n) != 1L) {
-        stop(gettext("cannot supply multiple sample sizes without strata"))
-      }
-      if (length(alpha) != 1L) {
-        stop(gettext("cannot supply multiple values for 'alpha' without strata"))
-      }
-      if (n > sum(x > 0)) {
-        stop(
-          gettext("sample size is greater than the number of units with non-zero sizes in the population")
-        )
-      }
-      p <- .inclusion_prob(x, n, alpha)
-      res <- f(p, n, prn)
-      weights <- 1 / p[res]
-    } else {
-      strata <- as.factor(strata)
-      if (length(x) != length(strata)) {
-        stop(gettext("'x' and 'strata' must be the same length"))
-      }
-      if (length(n) != nlevels(strata)) {
-        stop(
-          gettext("'n' must have a single sample size for each level in 'strata'")
-        )
-      }
-      # missing strata means inclusion probs are all missing
-      if (anyNA(strata)) {
-        stop(gettext("'strata' cannot contain NAs"))
-      }
-      if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
-        stop(gettext("'alpha' must have a single value or a value for each level in 'strata'"))
-      }
-      
-      x <- split(x, strata)
-      
-      if (any(unlist(Map(\(x, n) n > sum(x > 0), x, n), use.names = FALSE))) {
-        stop(
-          gettext("sample size is greater than the number of units with non-zero sizes in the population")
-        )
-      }
-      
-      p <- Map(.inclusion_prob, x, n, alpha)
-      samp <- Map(f, p, n, split(prn, strata))
-      pos <- split(seq_along(prn), strata)
-      # strata must have at least one level, so unlist won't return NULL
-      res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
-      weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
-    }
-    
+
+    p <- inclusion_prob_(x, n, strata, alpha)
+    samp <- Map(f, p, n, split(prn, strata))
+    pos <- split(seq_along(prn), strata)
+    # strata must have at least one level, so unlist won't return NULL
+    res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
+    weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
+
     ord <- order(res)
     structure(
       res[ord],
@@ -118,11 +60,13 @@ stratify <- function(f) {
   }
 }
 
-order_sampling <- function(dist) stratify(.order_sampling(dist))
+order_sampling <- function(dist) {
+  stratify(order_sampling_(dist))
+}
 
 sps <- order_sampling(identity)
 
-ps <- stratify(.ps)
+ps <- stratify(ps_)
 
 #---- Methods for class 'sps' ----
 levels.sps <- function(x) {
