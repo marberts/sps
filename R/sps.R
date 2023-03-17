@@ -1,4 +1,4 @@
-#---- Internal helpers ----
+#---- Internal functions ----
 # Order sampling
 order_sampling_ <- function(f) {
   f <- match.fun(f)
@@ -30,8 +30,8 @@ stratify <- function(f) {
   function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4) {
     x <- as.numeric(x)
     n <- as.integer(n)
-    strata <- as.factor(strata)
     alpha <- as.numeric(alpha)
+    strata <- as_stratum(strata)
     if (is.null(prn)) {
       prn <- runif(length(x))
     } else {

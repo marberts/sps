@@ -16,12 +16,12 @@ Draw a stratified probability-proportional-to-size sample using the sequential a
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
+sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = NULL, prn = NULL, alpha = 1e-4)
+ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4)
 
-inclusion_prob(x, n, strata = NULL, alpha = 1e-4)
+inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 1e-4)
 
 ## Function factory
 order_sampling(dist)

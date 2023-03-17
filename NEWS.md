@@ -1,6 +1,10 @@
-## Changew in version 0.4.2
+## Changew in version 0.5.0
+
+- `prop_allocation()` gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting `ties = "first"`.
 
 - Switched to `cpp11`.
+
+- Simplified the codebase.
 
 ## Changes in version 0.4.1
 

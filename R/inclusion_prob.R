@@ -1,4 +1,15 @@
-#---- Internal helpers ----
+#---- Internal functions ----
+as_stratum <- function(strata) {
+  strata <- as.factor(strata)
+  if (anyNA(strata)) {
+    stop("'strata' cannot contain NAs")
+  }
+  if (nlevels(strata) < 1L) {
+    stop("'strata' must have one or more levels")
+  }
+  strata
+}
+
 unbounded_pi <- function(x, n) {
   # n == 0 should be a strong zero
   if (n == 0L) {
@@ -65,12 +76,6 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
   if (length(x) != length(strata)) {
     stop("'x' and 'strata' must be the same length")
   }
-  if (anyNA(strata)) {
-    stop("'strata' cannot contain NAs")
-  }
-  if (nlevels(strata) < 1L) {
-    stop("'strata' must have one or more levels")
-  }
   if (length(n) != nlevels(strata)) {
     stop("'n' must have a single sample size for each level in 'strata'")
   }
@@ -86,7 +91,7 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
 inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-4) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- as.factor(strata)
   alpha <- as.numeric(alpha)
+  strata <- as_stratum(strata)
   unsplit(inclusion_prob_(x, n, strata, alpha), strata)
 }

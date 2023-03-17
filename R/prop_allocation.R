@@ -1,29 +1,48 @@
-#---- Internal helpers ----
+#---- Internal functions ----
 # Apportionment (rounding) method
 highest_averages <- function(d) {
   d <- match.fun(d)
 
-  function(p, N, min, max) {
-    if (any(min < 0)) {
-      stop("initial allocation must be greater than or equal to 0")
+  function(p, N, initial, upper, ties = c("largest", "first")) {
+    if (N < 0L) {
+      stop("'N' must be greater than or equal to 0")
     }
-    res <- min
-    if (N < sum(min)) {
+    if (length(p) != length(initial)) {
+      stop("'initial' must have a single size for each stratum")
+    }
+    if (any(initial < 0)) {
+      stop("'initial' must be greater than or equal to 0")
+    }
+    if (N < sum(initial)) {
       stop("initial allocation is larger than 'N'")
     }
-    if (any(min > max)) {
-      stop("initial allocation must be smaller than the number of units with ",
-           "non-zero sizes in the population for each stratum")
+    if (N > sum(upper)) {
+      stop(
+        "'N' is greater than the number of units with non-zero sizes ",
+        "in the population"
+      )
     }
+    if (any(initial > upper)) {
+      stop(
+        "initial allocation must be smaller than the number of units with ",
+        "non-zero sizes in the population for each stratum"
+      )
+    }
+
+    res <- initial
     N <- N - sum(res)
-    ord <- order(p, decreasing = TRUE)
+    ord <- switch(
+      match.arg(ties),
+      largest = order(p, decreasing = TRUE),
+      first = seq_along(p)
+    )
     p <- p[ord]
     res <- res[ord]
-    max <- max[ord]
+    upper <- upper[ord]
     # the while condition could be n > sum(res), but the loop below always
     # terminates after at most n steps, even if i is integer(0)
     while (N > 0L) {
-      i <- which.max(p / d(res) * (res < max))
+      i <- which.max(p / d(res) * (res < upper))
       res[i] <- res[i] + 1L
       N <- N - 1L
     }
@@ -35,70 +54,40 @@ highest_averages <- function(d) {
 expected_coverage <- function(x, N, strata, alpha = 1e-4) {
   x <- as.numeric(x)
   N <- as.integer(N)
-  strata <- as.factor(strata)
   alpha <- as.numeric(alpha)
-
+  strata <- as_stratum(strata)
   if (length(x) != length(strata)) {
-    stop(gettext("'x' and 'strata' must be the same length"))
+    stop("'x' and 'strata' must be the same length")
   }
-  if (anyNA(strata)) {
-    stop(gettext("'strata' cannot contain NAs"))
-  }
-  if (nlevels(strata) < 1L) {
-    stop("'strata' must have one or more levels")
-  }
-  p <- split(log(1 - inclusion_prob(x, N, alpha)), strata)
+  p <- split(log(1 - inclusion_prob(x, N, alpha = alpha)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }
 
 #---- Proportional allocation ----
 prop_allocation <- function(
-    x, N, strata,
-    initial = 0,
-    divisor = \(a) a + 1) {
+  x, N, strata, initial = 0, divisor = \(a) a + 1, ties = c("largest", "first")
+) {
   x <- as.numeric(x)
-  if (.min(x) < 0) {
-    stop(gettext("'x' must be greater than or equal to 0"))
-  }
-
   N <- as.integer(N)
-  if (N < 0L) {
-    stop(gettext("'N' must be greater than or equal to 0"))
+  strata <- as_stratum(strata)
+  initial <- as.integer(initial)
+
+  if (any(x < 0)) {
+    stop("'x' must be greater than or equal to 0")
   }
-  if (N > sum(x > 0)) {
-    stop(
-      gettext("sample size is greater than the number of units with non-zero ",
-              "sizes in the population")
-    )
+  if (length(x) != length(strata)) {
+    stop("'x' and 'strata' must be the same length")
   }
 
-  strata <- as.factor(strata)
-  if (length(x) != length(strata)) {
-    stop(gettext("'x' and 'strata' must be the same length"))
-  }
-  if (nlevels(strata) < 1L) {
-    stop(gettext("cannot allocate to no strata"))
-  }
-  # missing strata means allocation and coverage are missing
-  if (anyNA(strata)) {
-    stop(gettext("'strata' cannot contain NAs"))
-  }
   x <- split(x, strata)
   ns <- vapply(x, function(x) sum(x > 0), integer(1L))
 
-  initial <- as.integer(initial)
   if (length(initial) == 1L) {
     initial <- pmin.int(ns, min(N %/% nlevels(strata), initial))
   }
-  if (length(initial) != nlevels(strata)) {
-    stop(
-      gettext("'initial' must have a single allocation size for each level",
-              "in 'strata'")
-    )
-  }
 
   p <- vapply(x, sum, numeric(1L))
-  res <- highest_averages(divisor)(p, N, initial, ns)
+  res <- highest_averages(divisor)(p, N, initial, ns, ties)
   names(res) <- levels(strata)
   res
 }

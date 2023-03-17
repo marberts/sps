@@ -1,7 +1,7 @@
 #---- Bootstrap replicate weights ----
 sps_repweights <- function(w, B = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)
-  if (.min(w) < 1) {
+  if (any(w < 1)) {
     stop("'w' must be greater than or equal to 1")
   }
 
@@ -27,7 +27,7 @@ sps_repweights <- function(w, B = 1000L, tau = 1, dist = NULL) {
     dist(n) * sqrt(1 - p)
   }
   res <- w * (a + tau) / tau
-  if (.min(res) < 0) {
+  if (any(res < 0)) {
     warning("some replicate weights are negative; try increasing 'tau'")
   }
   dim(res) <- c(length(w), B)

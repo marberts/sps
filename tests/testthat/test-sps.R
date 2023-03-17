@@ -89,7 +89,7 @@ test_that("two rounds of TA removal works", {
   expect_equal(levels(samp), c("TA", rep("TS", 3), "TA"))
   expect_true(all(weights(samp)[c(1, 5)] == 1))
   expect_true(all(weights(samp)[-c(1, 5)] > 1))
-  
+
   samp <- ps(x, 5)
   last <- length(samp)
   expect_equal(samp[c(1, last)], c(1, 12))
@@ -114,7 +114,7 @@ test_that("strata sizes add up", {
   alloc <- prop_allocation(x, 11, s)
   samp <- sps(x, alloc, s)
   expect_identical(
-    tabulate(s[samp], nbins = 3), 
+    tabulate(s[samp], nbins = 3),
     as.vector(alloc)
   )
 })
@@ -123,17 +123,17 @@ test_that("permanent random numbers work", {
   set.seed(4321)
   prn <- runif(11)
   expect_identical(
-    sps(c(100, 1:9, 100), 5, prn = prn), 
+    sps(c(100, 1:9, 100), 5, prn = prn),
     sps(c(100, 1:9, 100), 5, prn = prn)
   )
   set.seed(4321)
   expect_identical(
-    sps(c(100, 1:9, 100), 5, prn = prn), 
+    sps(c(100, 1:9, 100), 5, prn = prn),
     sps(c(100, 1:9, 100), 5)
   )
   set.seed(4321)
   expect_identical(
-    ps(c(100, 1:9, 100), 5, prn = prn), 
+    ps(c(100, 1:9, 100), 5, prn = prn),
     ps(c(100, 1:9, 100), 5)
   )
 })
@@ -146,23 +146,28 @@ test_that("extending a stratified sample works", {
   drop <- c(10, 100, 54)
   samp2 <- sps(x[-drop], c(4, 4), rep(1:2, each = 50)[-drop], u[-drop])
   expect_identical(
-    x[samp[-match(drop, samp)]], 
+    x[samp[-match(drop, samp)]],
     x[-drop][samp2]
   )
 })
 
 test_that("pareto order sampling works", {
   pareto <- order_sampling(function(x) x / (1 - x))
-  
+
   u <- runif(20)
   expect_identical(
     as.vector(pareto(rep(1, 20), c(5, 6), rep(1:2, 10), u)),
-    sort(c(seq(1L, 20L, 2L)[order(u[seq(1L, 20L, 2L)])[1:5]], seq(2L, 20L, 2L)[order(u[seq(2L, 20L, 2L)])[1:6]]))
+    sort(
+      c(
+        seq(1L, 20L, 2L)[order(u[seq(1L, 20L, 2L)])[1:5]],
+        seq(2L, 20L, 2L)[order(u[seq(2L, 20L, 2L)])[1:6]]
+      )
+    )
   )
   # shift prns
   u <- 1:9 / 10
   v <- (u - 0.49) %% 1
-  
+
   expect_identical(
     as.integer(pareto(rep(1, 9), 5, prn = u)),
     1:5
@@ -181,67 +186,8 @@ test_that("attributes get removed", {
   expect_true(inherits(samp / 2, "numeric"))
   expect_true(inherits(samp > samp, "logical"))
   expect_true(inherits(-samp, "integer"))
-  
+
   # and replacement methods
   expect_true(inherits(replace(samp, 1, 1), "numeric"))
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
 })
-
-# test_that("Sampling with weird prns", {
-#   u <- rep(0, 6)
-#   v <- rep(1, 6)
-#   expect_identical(
-#     unclass(ps(0:5, 0, prn = u)), 
-#     structure(integer(0), weights = numeric(0))
-#   )
-#   expect_identical(
-#     unclass(ps(0:5, 0, prn = v)), 
-#     structure(integer(0), weights = numeric(0))
-#   )
-#   
-#   expect_identical(
-#     unclass(sps(0:5, 0, prn = u)), 
-#     structure(integer(0), weights = numeric(0))
-#   )
-#   expect_identical(
-#     unclass(sps(0:5, 0, prn = v)), 
-#     structure(integer(0), weights = numeric(0))
-#   )
-#   
-#   expect_equal(
-#     unclass(ps(0:5, 3, prn = u)), 
-#     structure(2:6, weights = c(5, 2.5, 5 / 3, 1.25, 1))
-#   )
-#   expect_identical(
-#     unclass(ps(0:5, 3, prn = v)), 
-#     structure(6L, weights = 1)
-#   )
-#   
-#   # Order isn't defined when all xi are equal
-#   expect_equal(
-#     levels(sps(0:5, 3, prn = u)), 
-#     c("TS", "TS", "TA")
-#   )
-#   expect_equal(
-#     unclass(sps(0:5, 3, prn = v)), 
-#     structure(4:6, weights = c(5 / 3, 1.25, 1))
-#   )
-#   
-#   expect_identical(
-#     unclass(ps(0:5, 5, prn = u)), 
-#     structure(2:6, weights = rep(1, 5))
-#   )
-#   expect_identical(
-#     unclass(ps(0:5, 5, prn = v)), 
-#     structure(2:6, weights = rep(1, 5))
-#   )
-#   
-#   expect_identical(
-#     unclass(sps(0:5, 5, prn = u)), 
-#     structure(2:6, weights = rep(1, 5))
-#   )
-#   expect_identical(
-#     unclass(sps(0:5, 5, prn = v)), 
-#     structure(2:6, weights = rep(1, 5))
-#   )
-# })
