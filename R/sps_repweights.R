@@ -2,12 +2,12 @@
 sps_repweights <- function(w, B = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)
   if (any(w < 1)) {
-    stop("'w' must be greater than or equal to 1")
+    stop("design weights must be greater than or equal to 1")
   }
 
   B <- as.integer(B)
   if (B < 0L) {
-    stop("'B' must be greater than or equal to 0")
+    stop("number of replicates must be greater than or equal to 0")
   }
 
   tau <- as.numeric(tau)

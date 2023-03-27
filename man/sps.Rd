@@ -16,12 +16,12 @@ Draw a stratified probability-proportional-to-size sample using the sequential a
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4)
+sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4)
+ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3)
 
-inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 1e-4)
+inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 1e-3)
 
 ## Function factory
 order_sampling(dist)
@@ -46,7 +46,7 @@ The \code{sps()} function draws a sample according to the sequential Poisson pro
 
 For each stratum, the sequential Poisson procedure starts by stratifying units in the population based on their (target) inclusion probabilities, \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units with \eqn{\pi = 1} are placed into a take-all stratum. 
 
-After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}).
+After units are appropriately stratified, a sample of take-some units is drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a random deviate from the uniform distribution between 0 and 1. The units with the smallest values for \eqn{\xi} are included in the sample, along with the take-all units. This results in a fixed sample size at the expense of the sampling procedure being only approximately probability-proportional-to-size (i.e., the inclusion probabilities from the sample design are close but not exactly equal to \eqn{\pi}; see Matei and Tillé, 2007, for details on the exact computation).
 
 Ordinary Poisson sampling follows the same procedure as above, except that all units with \eqn{\xi < 1} are included in the sample; consequently, while it does not contain a fixed number of units, the procedure is strictly probability-proportional-to-size. Despite this difference, the standard Horvitz-Thompson estimator for the total (of the take-some stratum) is asymptotically unbiased, normally distributed, and equally efficient under both procedures. The \code{ps()} function draws a sample using the ordinary Poisson method.
 

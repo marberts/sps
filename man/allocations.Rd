@@ -17,7 +17,7 @@ prop_allocation(
     ties = c("largest", "first")
 )
 
-expected_coverage(x, N, strata, alpha = 1e-4)
+expected_coverage(x, N, strata, alpha = 1e-3)
 }
 
 \arguments{
@@ -49,7 +49,7 @@ Adams \tab \code{\(a) a}\cr
 Dean \tab \code{\(a) a * (a + 1) / (a + 0.5)}
 }
 
-Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill, Adams, Dean) should have an initial allocation of at least 1 for all strata. In all cases, ties are broken according to the levels of \code{strata}; reordering the levels of \code{strata} can therefore result in a different allocation.
+Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill, Adams, Dean) should have an initial allocation of at least 1 for all strata. In all cases, ties are broken according to the sum of \code{x} if \code{ties = 'largest'}; otherwise, if \code{ties = 'first'}, then ties are broken according to the levels of \code{strata}.
 
 In cases where the number of units in a stratum is smaller than its allocation, the allocation for that stratum is set to the number of available units, with the remaining sample size reallocated to other strata proportional to \code{x}. This is similar to \command{PROC SURVEYSELECT} in SAS with \command{ALLOC = PROPORTIONAL}.
 

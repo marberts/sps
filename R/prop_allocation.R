@@ -5,21 +5,21 @@ highest_averages <- function(d) {
 
   function(p, N, initial, upper, ties = c("largest", "first")) {
     if (N < 0L) {
-      stop("'N' must be greater than or equal to 0")
+      stop("sample size must be greater than or equal to 0")
     }
     if (length(p) != length(initial)) {
-      stop("'initial' must have a single size for each stratum")
+      stop("initial allocation must have a single size for each stratum")
     }
     if (any(initial < 0)) {
-      stop("'initial' must be greater than or equal to 0")
+      stop("initial allocation must be greater than or equal to 0")
     }
     if (N < sum(initial)) {
-      stop("initial allocation is larger than 'N'")
+      stop("initial allocation cannot be larger than sample size")
     }
     if (N > sum(upper)) {
       stop(
-        "'N' is greater than the number of units with non-zero sizes ",
-        "in the population"
+        "sample size cannot be greater than the number of units with non-zero ",
+        "sizes in the population"
       )
     }
     if (any(initial > upper)) {
@@ -51,13 +51,13 @@ highest_averages <- function(d) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, N, strata, alpha = 1e-4) {
+expected_coverage <- function(x, N, strata, alpha = 1e-3) {
   x <- as.numeric(x)
   N <- as.integer(N)
   alpha <- as.numeric(alpha)
   strata <- as_stratum(strata)
   if (length(x) != length(strata)) {
-    stop("'x' and 'strata' must be the same length")
+    stop("the vectors for sizes and strata must be the same length")
   }
   p <- split(log(1 - inclusion_prob(x, N, alpha = alpha)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
@@ -73,10 +73,10 @@ prop_allocation <- function(
   initial <- as.integer(initial)
 
   if (any(x < 0)) {
-    stop("'x' must be greater than or equal to 0")
+    stop("sizes must be greater than or equal to 0")
   }
   if (length(x) != length(strata)) {
-    stop("'x' and 'strata' must be the same length")
+    stop("the vectors for sizes and strata must be the same length")
   }
 
   x <- split(x, strata)

@@ -2,10 +2,10 @@
 as_stratum <- function(strata) {
   strata <- as.factor(strata)
   if (anyNA(strata)) {
-    stop("'strata' cannot contain NAs")
+    stop("cannot have missing strata")
   }
   if (nlevels(strata) < 1L) {
-    stop("'strata' must have one or more levels")
+    stop("there must be at least one stratum")
   }
   strata
 }
@@ -49,14 +49,14 @@ bounded_pi <- function(x, n, alpha) {
 
 pi <- function(x, n, alpha) {
   if (any(x < 0)) {
-    stop("'x' must be greater than or equal to 0")
+    stop("sizes must be greater than or equal to 0")
   }
   if (n < 0L) {
-    stop("'n' must be greater than or equal to 0")
+    stop("sample size must be greater than or equal to 0")
   }
   if (n > sum(x > 0)) {
     stop(
-      "sample size is greater than the number of units with ",
+      "sample size cannot be greater than the number of units with ",
       "non-zero sizes in the population"
     )
   }
@@ -74,21 +74,21 @@ pi <- function(x, n, alpha) {
 
 inclusion_prob_ <- function(x, n, strata, alpha) {
   if (length(x) != length(strata)) {
-    stop("'x' and 'strata' must be the same length")
+    stop("the vectors for sizes and strata must be the same length")
   }
   if (length(n) != nlevels(strata)) {
-    stop("'n' must have a single sample size for each level in 'strata'")
+    stop("there must be a single sample size for each stratum")
   }
   if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
     stop(
-      "'alpha' must have a single value or a value for each level in 'strata'"
+      "'alpha' must have a single value or a value for each stratum"
     )
   }
   Map(pi, split(x, strata), n, alpha)
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-4) {
+inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-3) {
   x <- as.numeric(x)
   n <- as.integer(n)
   alpha <- as.numeric(alpha)

@@ -49,6 +49,7 @@ test_that("argument checking works for allocations", {
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(2, 0)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), initial = c(2, 0, 1)))
   expect_error(prop_allocation(c(1, 1, 0), 1, c(1, 1, 2), divisor = "a"))
+  expect_error(prop_allocation(c(1, 0, 1), 2, c(1, 1, 2), initial = c(2, 0)))
 })
 
 test_that("simple allocations are correct", {
@@ -82,7 +83,7 @@ test_that("simple allocations are correct", {
   )
   expect_identical(
     prop_allocation(
-      rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]), 
+      rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]),
       initial = c(2, 1, 0)
     ),
     c(a = 2L, b = 2L, c = 0L)
@@ -97,14 +98,14 @@ test_that("simple allocations are correct", {
   )
   expect_identical(
     prop_allocation(
-      c(1, 1, 1, 1, 1, 1, 1, 10, 10, 10), 5, 
+      c(1, 1, 1, 1, 1, 1, 1, 10, 10, 10), 5,
       rep(letters[1:2], c(7, 3))
     ),
     c(a = 2L, b = 3L)
   )
   expect_identical(
     prop_allocation(
-      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5, 
+      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5,
       rep(letters[1:3], c(6, 2, 2))
     ),
     c(a = 1L, b = 2L, c = 2L)
@@ -194,14 +195,13 @@ test_that("expected coverage works", {
 
 test_that("argument checking for expected coverage works", {
   expect_error(expected_coverage(numeric(0), 0, integer(0)))
-  expect_error(expected_coverage(-1:6, 3, gl(2, 3)))
-  expect_error(expected_coverage(c(1:6, NA), 3, gl(2, 3)))
+  expect_error(expected_coverage(-1:4, 3, gl(2, 3)))
+  expect_error(expected_coverage(c(1:5, NA), 3, gl(2, 3)))
   expect_error(expected_coverage(numeric(0), 3, gl(2, 3)))
   expect_error(expected_coverage(1:6, -3, gl(2, 3)))
   expect_error(expected_coverage(1:6, integer(0), gl(2, 3)))
   expect_error(expected_coverage(1:6, NA, gl(2, 3)))
   expect_error(expected_coverage(1:6, 3, gl(2, 2)))
-  expect_error(expected_coverage(1:6, 3, gl(2, 3)[c(1:5, 7)]))
   expect_error(expected_coverage(1:6, 3, gl(2, 3)[c(1:5, 7)]))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = 1))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = c(0, 1)))

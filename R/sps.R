@@ -27,7 +27,7 @@ ps_ <- function(p, n, u) {
 stratify <- function(f) {
   f <- match.fun(f)
 
-  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-4) {
+  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3) {
     x <- as.numeric(x)
     n <- as.integer(n)
     alpha <- as.numeric(alpha)
@@ -37,10 +37,11 @@ stratify <- function(f) {
     } else {
       prn <- as.numeric(prn)
       if (length(x) != length(prn)) {
-        stop("'x' and 'prn' must be the same length")
+        stop("the vectors for sizes and permanent random numbers must be the ",
+             "same length")
       }
       if (any(prn <= 0) || any(prn >= 1)) {
-        stop("'prn' must be in (0, 1)")
+        stop("permanent random numbers must be in (0, 1)")
       }
     }
 
