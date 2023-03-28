@@ -62,17 +62,17 @@ test_that("rep weights works for TA units", {
 
 test_that("results agree with bootstrapFP:::generalised()", {
   # fixed a bug with the exponential case by replacing exp() with rexp()
-  bootstrapFP_fixed <- function(ys, pks, B) {
+  bootstrap_fp <- function(ys, pks, replicates) {
     n <- length(ys)
-    ht <- vector("numeric", length = B)
+    ht <- vector("numeric", length = replicates)
     w <- 1 / pks
-    for (b in seq_len(B)) {
+    for (b in seq_len(replicates)) {
       a <- 1 + (rexp(n) - 1) * sqrt(1 - pks)
       ws <- a * w
       ht[b] <- sum(ys * ws)
     }
-    HT <- sum(w * ys)
-    (sum((ht - HT))^2) / B
+    ht_total <- sum(w * ys)
+    (sum((ht - ht_total))^2) / replicates
   }
 
   w <- 1 / c(1, runif(98), 1)
@@ -83,7 +83,7 @@ test_that("results agree with bootstrapFP:::generalised()", {
   var1 <- sum(colSums(rw * y) - sum(w * y))^2 / 100
 
   set.seed(51423)
-  var2 <- bootstrapFP_fixed(y, 1 / w, 100)
+  var2 <- bootstrap_fp(y, 1 / w, 100)
 
   expect_equal(var1, var2)
 })

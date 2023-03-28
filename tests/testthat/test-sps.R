@@ -44,8 +44,8 @@ test_that("corner cases work as expected", {
 })
 
 test_that("argument checking works", {
-  expect_error(sps(-1:6, c(2, 2), gl(2, 3)))
-  expect_error(sps(c(NA, 1:6), c(2, 2), gl(2, 3)))
+  expect_error(sps(-1:4, c(2, 2), gl(2, 3)))
+  expect_error(sps(c(NA, 1:5), c(2, 2), gl(2, 3)))
   expect_error(sps(numeric(0), c(2, 2), gl(2, 3)))
   expect_error(sps(numeric(0), 0, factor(integer(0))))
   expect_error(sps(c(0, 0, 1:4), c(2, 2), gl(2, 3)))
@@ -60,7 +60,7 @@ test_that("argument checking works", {
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 1)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, NA)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
-  expect_error(sps(1:6, c(2, 2), gl(2, 2), alpha = integer(0)))
+  expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = integer(0)))
   expect_error(sps(1:6, 2, alpha = c(0, 0)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = c(0, runif(4), 1)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = 1:7 / 10))

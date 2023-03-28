@@ -10,13 +10,13 @@ Produce bootstrap replicate weights that are appropriate for Poisson sampling, a
 }
 
 \usage{
-sps_repweights(w, B = 1000, tau = 1, dist = NULL)
+sps_repweights(w, replicates = 1000, tau = 1, dist = NULL)
 }
 
 \arguments{
 \item{w}{A numeric vector of design (inverse probability) weights for a (sequential) Poisson sample.}
 
-\item{B}{A positive integer that gives the number of bootstrap replicates (1,000 by default). Non-integers are truncated towards 0.}
+\item{replicates}{A positive integer that gives the number of bootstrap replicates (1,000 by default). Non-integers are truncated towards 0.}
 
 \item{tau}{A number greater than or equal to 1 that gives the rescale factor for the bootstrap weights. Setting to 1 (the default) does not rescale the weights.}
 
@@ -34,7 +34,7 @@ As an alternative to the bootstrap, Ohlsson (1998, equations 2.13) proposes an a
 }
 
 \value{
-A matrix of bootstrap replicate weights with \code{B} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute.
+A matrix of bootstrap replicate weights with \code{replicates} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute.
 }
 
 \references{
@@ -66,5 +66,5 @@ dist <- list(
   uniform = \(x) runif(x, -sqrt(3), sqrt(3))
 )
 
-lapply(dist, sps_repweights, w = weights(samp), B = 5, tau = 2)
+lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
 }

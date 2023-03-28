@@ -2,6 +2,8 @@
 
 - `prop_allocation()` gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting `ties = "first"`.
 
+- Argument names for `prop_allocation()`, `expected_coverage()`, and `sps_repweights()` have changed to be either mo descriptive, or consistent with the names for other functions.
+
 - Switched to `cpp11`.
 
 - Simplified the codebase.

@@ -56,7 +56,7 @@ pi <- function(x, n, alpha) {
   }
   if (n > sum(x > 0)) {
     stop(
-      "sample size cannot be greater than the number of units with ",
+      "sample size cannot be greater than the number of available units with ",
       "non-zero sizes in the population"
     )
   }
@@ -77,11 +77,15 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
     stop("the vectors for sizes and strata must be the same length")
   }
   if (length(n) != nlevels(strata)) {
-    stop("there must be a single sample size for each stratum")
+    stop(
+      "there must be a single sample size",
+      if (nlevels(strata) > 1) " for each stratum"
+    )
   }
   if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
     stop(
-      "'alpha' must have a single value or a value for each stratum"
+      "'alpha' must be a single value",
+      if (nlevels(strata) > 1) " or have a value for each stratum"
     )
   }
   Map(pi, split(x, strata), n, alpha)

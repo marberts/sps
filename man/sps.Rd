@@ -86,7 +86,7 @@ Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \e
 
 \code{\link{sps_repweights}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is incorrect at present, giving a worse approximation for the inclusion probabilities than it should.
+The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is currently incorrect, giving a worse approximation for the inclusion probabilities than it should.
 
 The \code{UP*} functions in the \pkg{sampling} package and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
 
@@ -97,6 +97,7 @@ The \code{pps} function in the \pkg{prnsamplr} package for Pareto order sampling
 # Make a population with units of different size
 x <- c(1:10, 100)
 
+#---- Sequential Poisson sampling ----
 # Draw a sequential Poisson sample
 (samp <- sps(x, 5))
 
@@ -106,6 +107,7 @@ weights(samp)
 # All units except 11 are in the take-some (TS) stratum
 levels(samp)
 
+#---- Ordinary Poisson sampling ----
 # Ordinary Poisson sampling gives a random sample size for the 
 # take-some stratum
 ps(x, 5)
@@ -117,6 +119,7 @@ with(
   sum(pi * (1 - pi))
 )
 
+#---- Stratified Sequential Poisson sampling ----
 # Draw a stratified sample with a proportional allocation
 strata <- rep(letters[1:4], each = 5)
 (allocation <- prop_allocation(1:20, 12, strata))
@@ -126,14 +129,19 @@ strata <- rep(letters[1:4], each = 5)
 y <- runif(20) * 1:20
 sum(weights(samp) * y[samp])
 
+#---- Useful properties of Sequential Poisson sampling ----
 # It can be useful to set 'prn' in order to extend the sample
 # to get a fixed net sample
 u <- runif(11)
 (samp <- sps(x, 6, prn = u))
 
 # Removing unit 5 gives the same net sample
-sps(x[-samp[5]], 6, prn = u[-samp[5]]) 
+sps(x[-samp[5]], 6, prn = u[-samp[5]])
 
+# Also useful for topping up a sample
+all(samp \%in\% sps(x, 7, prn = u))
+
+#---- Other order-sampling methods ----
 # Generate new order-sampling functions from the parameters of
 # the inverse generalized Pareto distribution
 igpd <- function(a, b) {
