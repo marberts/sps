@@ -71,7 +71,7 @@ ps <- stratify(ps_)
 
 #---- Methods for class 'sps' ----
 levels.sps <- function(x) {
-  res <- rep.int("TS", length(x))
+  res <- rep_len("TS", length(x))
   res[weights(x) == 1] <- "TA"
   res
 }

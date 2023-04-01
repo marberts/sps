@@ -31,7 +31,7 @@ expected_coverage(x, n, strata, alpha = 1e-3)
 
 \item{divisor}{A divisor function for the divisor (highest-averages) apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other possible functions.}
 
-\item{ties}{Either 'largest' to break ties in favor of the stratum with the largest size, or 'first' to break ties in favor of the first stratum.}
+\item{ties}{Either 'largest' to break ties in favor of the stratum with the largest size, or 'first' to break ties in favor of the ordering of strata.}
 
 \item{alpha}{A number between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1. The default is slightly larger than 0.}
 }

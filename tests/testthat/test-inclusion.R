@@ -85,6 +85,10 @@ test_that("results agree with sampling::inclusionprobabilities()", {
     inclusion_prob(0:20, 12),
     c(0:16 / 136 * 8, rep(1, 4))
   )
+  expect_equal(
+    inclusion_prob(c(1, 2, 5, 5, 5, 10, 4, 1), 6),
+    c(0.25, 0.5, 1, 1, 1, 1, 1, 0.25)
+  )
 })
 
 test_that("TAs are added with alpha", {

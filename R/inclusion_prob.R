@@ -13,7 +13,7 @@ as_stratum <- function(strata) {
 unbounded_pi <- function(x, n) {
   # n == 0 should be a strong zero
   if (n == 0L) {
-    rep.int(0, length(x))
+    rep_len(0, length(x))
   } else {
     x * (n / sum(x))
   }

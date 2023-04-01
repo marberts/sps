@@ -1,4 +1,4 @@
-#---- replicatesootstrap replicate weights ----
+#---- Bootstrap replicate weights ----
 sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)
   if (any(w < 1)) {
