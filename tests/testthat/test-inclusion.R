@@ -89,22 +89,28 @@ test_that("results agree with sampling::inclusionprobabilities()", {
     inclusion_prob(c(1, 2, 5, 5, 5, 10, 4, 1), 6),
     c(0.25, 0.5, 1, 1, 1, 1, 1, 0.25)
   )
+  
+  # sampling::inclusionprob() != inclusion_prob() with this vector
+  # with the default alpha
+  x <- c(100, 25, 94, 23, 55, 6, 80, 65, 48, 76, 
+         31, 99, 45, 39, 28, 18, 54, 78, 4, 33)
+  expect_equal(
+    inclusion_prob(x, 10),
+    c(1, x[-1] / sum(x[-1]) * 9)
+  )
+  expect_equal(
+    inclusion_prob(x, 10, alpha = 0),
+    x / sum(x) * 10
+  )
 })
 
 test_that("TAs are added with alpha", {
-  # add more TAs with alpha
   x <- c(0, 4, 1, 4, 5)
 
   expect_equal(
-    inclusion_prob(x, 3, alpha = 0.1),
-    c(x[-5] / 9 * 2, 1)
-  )
-  expect_equal(
-    inclusion_prob(x, 3, alpha = 0.15),
-    c(x[1] / 5, 1, x[3:4] / 5, 1)
-  )
-  expect_equal(
-    inclusion_prob(x, 3, alpha = 0.2),
-    c(0, 1, 0, 1, 1)
+    inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.1, 0.15, 0.2)),
+    c(x[-5] / 9 * 2, 1, 
+      x[1] / 5, 1, x[3:4] / 5, 1, 
+      0, 1, 0, 1, 1)
   )
 })
