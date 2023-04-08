@@ -1,4 +1,4 @@
-\name{allocations}
+\name{allocation}
 \alias{prop_allocation}
 \alias{expected_coverage}
 
@@ -25,13 +25,13 @@ expected_coverage(x, n, strata, alpha = 1e-3)
 
 \item{n}{A positive integer giving the total sample size across all strata. Non-integers are truncated towards 0.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with units in the population. The default is to place all units into a single stratum.}
+\item{strata}{A factor, or something that can be coerced into one, giving the strata associated with units in the population.}
 
-\item{initial}{A positive integer vector giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for strata with no units.}
+\item{initial}{A positive integer vector giving the initial (or minimal) allocation for each stratum, ordered according to the levels of \code{strata}. A single integer is recycled for each stratum using a special algorithm to ensure a feasible allocation; see details. Non-integers are truncated towards 0. The default allows for no units to be allocated to a stratum.}
 
 \item{divisor}{A divisor function for the divisor (highest-averages) apportionment method. The default uses the Jefferson (D'Hondt) method. See details for other possible functions.}
 
-\item{ties}{Either 'largest' to break ties in favor of the stratum with the largest size, or 'first' to break ties in favor of the ordering of strata.}
+\item{ties}{Either 'largest' to break ties in favor of the stratum with the largest size, or 'first' to break ties in favor of the ordering of \code{strata}.}
 
 \item{alpha}{A number between 0 and 1 such that units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1. The default is slightly larger than 0.}
 }

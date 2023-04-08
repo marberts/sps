@@ -95,7 +95,7 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
 inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-3) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  alpha <- as.numeric(alpha)
   strata <- as_stratum(strata)
+  alpha <- as.numeric(alpha)
   unsplit(inclusion_prob_(x, n, strata, alpha), strata)
 }

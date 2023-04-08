@@ -30,8 +30,8 @@ stratify <- function(f) {
   function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3) {
     x <- as.numeric(x)
     n <- as.integer(n)
-    alpha <- as.numeric(alpha)
     strata <- as_stratum(strata)
+    alpha <- as.numeric(alpha)
     if (is.null(prn)) {
       prn <- runif(length(x))
     } else {

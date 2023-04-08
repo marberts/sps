@@ -3,7 +3,7 @@
 highest_averages <- function(d) {
   d <- match.fun(d)
 
-  function(p, n, initial, upper, ties = c("largest", "first")) {
+  function(p, n, initial, available, ties = c("largest", "first")) {
     if (n < 0L) {
       stop("sample size must be greater than or equal to 0")
     }
@@ -16,13 +16,13 @@ highest_averages <- function(d) {
     if (n < sum(initial)) {
       stop("initial allocation cannot be larger than sample size")
     }
-    if (n > sum(upper)) {
+    if (n > sum(available)) {
       stop(
         "sample size cannot be greater than the number of available units in ",
         "the population"
       )
     }
-    if (any(initial > upper)) {
+    if (any(initial > available)) {
       stop(
         "initial allocation must be smaller than the number of available ",
         "units in the population for each stratum"
@@ -38,11 +38,11 @@ highest_averages <- function(d) {
     )
     p <- p[ord]
     res <- res[ord]
-    upper <- upper[ord]
+    available <- available[ord]
     # the while condition could be n > sum(res), but the loop below always
     # terminates after at most n steps, even if i is integer(0)
     while (n > 0L) {
-      i <- which.max(p / d(res) * (res < upper))
+      i <- which.max(p / d(res) * (res < available))
       res[i] <- res[i] + 1L
       n <- n - 1L
     }
@@ -54,8 +54,8 @@ highest_averages <- function(d) {
 expected_coverage <- function(x, n, strata, alpha = 1e-3) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  alpha <- as.numeric(alpha)
   strata <- as_stratum(strata)
+  alpha <- as.numeric(alpha)
   if (length(x) != length(strata)) {
     stop("the vectors for sizes and strata must be the same length")
   }

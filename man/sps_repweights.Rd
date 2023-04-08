@@ -20,21 +20,23 @@ sps_repweights(w, replicates = 1000, tau = 1, dist = NULL)
 
 \item{tau}{A number greater than or equal to 1 that gives the rescale factor for the bootstrap weights. Setting to 1 (the default) does not rescale the weights.}
 
-\item{dist}{A function that produces random deviates with mean 0 and standard deviation 1, such as \code{\link{rnorm}}. The default uses the pseudo-population method from section 4.1 of Beaumont and Patak (2012).}
+\item{dist}{A function that produces random deviates with mean 0 and standard deviation 1, such as \code{\link{rnorm}}. The default uses the pseudo-population method from section 4.1 of Beaumont and Patak (2012); see details.}
 }
 
 \details{
-The details of the method for generating bootstrap replicates are presented by Beaumont and Patak (2012, sections 4 and 6). Their method takes a vector of design weights \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate, and calculates the replicate weights as \eqn{a w}{a * w}.
+Replicate weights are constructed using the generating bootstrap method by Beaumont and Patak (2012). Their method takes a vector of design weights \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate, and calculates the replicate weights as \eqn{a w}{a * w}.
 
-There are two ways to calculate the adjustments \eqn{a}. The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from the binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} uses this function to make a random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
+There are two ways to calculate the adjustments \eqn{a}. The default pseudo-population method randomly rounds \eqn{w} for each replicate to produce a collection of integer weights \eqn{w'} that are used to generate a random vector \eqn{b} from the binomial distribution. The vector of adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a deviates-generating function for \code{dist} uses this function to produce a random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
 
-These adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
-
-As an alternative to the bootstrap, Ohlsson (1998, equations 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum w * y} (for the take-some units) under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} See Rosén (1997, equation 3.11) for a more general version of this estimator that can be applied to other order sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for ordinary Poisson sampling.
+The adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to prevent negative replicate weights. With this rescaling, the adjustment becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 }
 
 \value{
 A matrix of bootstrap replicate weights with \code{replicates} columns (one for each replicate) and \code{length(w)} rows (one for each unit in the sample), with the value of \code{tau} as an attribute.
+}
+
+\note{
+As an alternative to the bootstrap, Ohlsson (1998, equations 2.13) proposes an analytic estimator for the variance of the total \eqn{\hat Y = \sum wy}{Y = \sum w * y} (for the take-some units) under sequential Poisson sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 - \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1) \sum (1 - 1 / w) (w * y - Y / n)^2.} See Rosén (1997, equation 3.11) for a more general version of this estimator that can be applied to other order sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)}, where \eqn{m} is the number of units in the sample, gives a similar estimator for the total under ordinary Poisson sampling, \eqn{\hat Y = n / m \sum wy}{Y = n / m * \sum w * y}.
 }
 
 \references{
