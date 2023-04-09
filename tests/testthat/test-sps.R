@@ -110,11 +110,12 @@ test_that("two rounds of TA removal works", {
 
 test_that("strata sizes add up", {
   s <- c(1, 2, 3, 2, 3, 1, 3, 2, 1, 3, 3, 1, 2, 1, 1, 2, 3, 1, 3, 2, 2)
+  s <- factor(s, 1:4)
   x <- c(1:10, 10:0)
   alloc <- prop_allocation(x, 11, s)
   samp <- sps(x, alloc, s)
   expect_identical(
-    tabulate(s[samp], nbins = 3),
+    tabulate(s[samp], nbins = 4),
     as.vector(alloc)
   )
 })
@@ -149,6 +150,13 @@ test_that("extending a stratified sample works", {
     x[samp[-match(drop, samp)]],
     x[-drop][samp2]
   )
+})
+
+test_that("top-up sampling works", {
+  set.seed(15243)
+  u <- runif(10)
+  x <- 1:10
+  expect_true(all(sps(x, 4, prn = u)[1:4] %in% sps(x, 5, prn = u)))
 })
 
 test_that("pareto order sampling works", {

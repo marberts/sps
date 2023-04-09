@@ -1,4 +1,4 @@
-\name{allocation}
+\name{prop_allocation}
 \alias{prop_allocation}
 \alias{expected_coverage}
 
@@ -37,16 +37,16 @@ expected_coverage(x, n, strata, alpha = 1e-3)
 }
 
 \details{
-The \code{prop_allocation()} function gives a sample size for each stratum that is proportional to the sum of \code{x} across strata and adds up to \code{n}. This is done using the divisor (highest-averages) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions:
+The \code{prop_allocation()} function gives a sample size for each level in \code{strata} that is proportional to the sum of \code{x} across strata and adds up to \code{n}. This is done using the divisor (highest-averages) apportionment method (Balinksi and Young, 1982, Appendix A), for which there are a number of different divisor functions:
 
-\tabular{ll}{
-Jefferson/D'Hondt \tab \code{\(a) a + 1}\cr
-Webster/Sainte-Laguë \tab \code{\(a) a + 0.5}\cr
-Imperiali \tab \code{\(a) a + 2}\cr
-Huntington-Hill \tab \code{\(a) sqrt(a * (a + 1))}\cr
-Danish \tab \code{\(a) a + 1 / 3}\cr
-Adams \tab \code{\(a) a}\cr
-Dean \tab \code{\(a) a * (a + 1) / (a + 0.5)}
+\describe{
+\item{Jefferson/D'Hondt}{\code{\(a) a + 1}}
+\item{Webster/Sainte-Laguë}{\code{\(a) a + 0.5}}
+\item{Imperiali}{\code{\(a) a + 2}}
+\item{Huntington-Hill}{\code{\(a) sqrt(a * (a + 1))}}
+\item{Danish}{\code{\(a) a + 1 / 3}}
+\item{Adams}{\code{\(a) a}}
+\item{Dean}{\code{\(a) a * (a + 1) / (a + 0.5)}}
 }
 
 Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill, Adams, Dean) should have an initial allocation of at least 1 for all strata. In all cases, ties are broken according to the sum of \code{x} if \code{ties = 'largest'}; otherwise, if \code{ties = 'first'}, then ties are broken according to the levels of \code{strata}.

@@ -56,10 +56,10 @@ Inclusion probabilities can be greater than 1 in practice, and so they are const
 
 Despite the focus on sequential Poisson sampling, all order sampling procedures follow the same approach as sequential Poisson sampling. The \code{order_sampling()} function can be used to generate other order sampling functions by passing an appropriate function to make the ranking variable \eqn{\xi}:
 
-\tabular{ll}{
-Sequential Poisson sampling \tab \code{\(x) x} \cr
-Successive sampling \tab \code{\(x) log(1 - x)} \cr
-Pareto sampling \tab \code{\(x) x / (1 - x)}
+\describe{
+\item{Sequential Poisson sampling}{\code{\(x) x}}
+\item{Successive sampling}{\code{\(x) log(1 - x)}}
+\item{Pareto sampling}{\code{\(x) x / (1 - x)}}
 }
 }
 
