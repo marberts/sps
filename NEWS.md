@@ -4,7 +4,7 @@
 
 - Argument names for `prop_allocation()`, `expected_coverage()`, and `sps_repweights()` have changed to be either more descriptive, or consistent with the names for other functions.
 
-- Switched to `cpp11`.
+- Fixed a bug when calculating inclusion probabilities that could result in ties not breaking according to position (as documented) when `alpha > 0`.
 
 - Simplified the codebase.
 

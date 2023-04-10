@@ -16,6 +16,10 @@ highest_averages <- function(d) {
     if (n < sum(initial)) {
       stop("initial allocation cannot be larger than sample size")
     }
+    if (length(available) != length(initial)) {
+      stop("number of available units in the population must be specified for ",
+           "each stratum")
+    }
     if (n > sum(available)) {
       stop(
         "sample size cannot be greater than the number of available units in ",
@@ -65,7 +69,7 @@ expected_coverage <- function(x, n, strata, alpha = 1e-3) {
 
 #---- Proportional allocation ----
 prop_allocation <- function(
-  x, n, strata, initial = 0, divisor = \(a) a + 1, ties = c("largest", "first")
+  x, n, strata, initial = 0L, divisor = \(a) a + 1, ties = c("largest", "first")
 ) {
   x <- as.numeric(x)
   n <- as.integer(n)

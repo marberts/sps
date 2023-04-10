@@ -186,6 +186,14 @@ test_that("pareto order sampling works", {
   )
 })
 
+test_that("ties are broken by position", {
+  x <- c(4, 1, 3, 2, 4)
+  expect_identical(
+    as.vector(sps(x, 3, prn = inclusion_prob(x, 3))),
+    1:3
+  )
+})
+
 test_that("attributes get removed", {
   samp <- sps(1:5, 3)
   # mathematical functions should treat 'sps' objects as numeric vectors

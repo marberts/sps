@@ -128,6 +128,14 @@ test_that("ties are broken correctly", {
     prop_allocation(rep(1, 9), 8, rep(1:2, c(4, 5)), ties = "first"),
     c("1" = 4L, "2" = 4L)
   )
+  expect_identical(
+    prop_allocation(rep(1, 5), 2, 1:5),
+    c("1" = 1L, "2" = 1L, "3" = 0L, "4" = 0L, "5" = 0L)
+  )
+  expect_identical(
+    prop_allocation(rep(1, 5), 2, 1:5, ties = "first"),
+    c("1" = 1L, "2" = 1L, "3" = 0L, "4" = 0L, "5" = 0L)
+  )
 })
 
 test_that("alabama paradox doesn't happen", {
@@ -144,23 +152,26 @@ test_that("alabama paradox doesn't happen", {
 test_that("allocations are correct for voting examples", {
   # example from https://en.wikipedia.org/wiki/Highest_averages_method
   x <- rep(1, 1e5)
-  s <- as.factor(rep(1:6, c(47000, 16000, 15900, 12000, 6000, 3100)))
+  s <- factor(
+    rep(1:7, c(47000, 16000, 15900, 12000, 6000, 0, 3100)), 
+    levels = 1:7
+  )
 
   expect_identical(
     prop_allocation(x, 10, s),
-    c("1" = 5L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 0L, "6" = 0L)
+    c("1" = 5L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 0L, "6" = 0L, "7" = 0L)
   )
   expect_identical(
     prop_allocation(x, 10, s, divisor = \(a) a + 0.5),
-    c("1" = 4L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 0L)
+    c("1" = 4L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 0L, "7" = 0L)
   )
   expect_identical(
     prop_allocation(x, 10, s, divisor = \(a) sqrt(a * (a + 1))),
-    c("1" = 4L, "2" = 2L, "3" = 1L, "4" = 1L, "5" = 1L, "6" = 1L)
+    c("1" = 4L, "2" = 2L, "3" = 1L, "4" = 1L, "5" = 1L, "6" = 0L, "7" = 1L)
   )
   expect_identical(
     prop_allocation(x, 10, s, divisor = \(a) a),
-    c("1" = 3L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 1L)
+    c("1" = 3L, "2" = 2L, "3" = 2L, "4" = 1L, "5" = 1L, "6" = 0L, "7" = 1L)
   )
 })
 

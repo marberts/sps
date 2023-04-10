@@ -24,21 +24,17 @@ bounded_pi <- function(x, n, alpha) {
   # it is possible for the result to not resolve ties according to x
   # (as documented) when alpha is large enough to make at least one unit with
   # x[n] TA
-  part <- partition_index(x, n, decreasing = TRUE)
+  ord <- order(x, decreasing = TRUE)
   s <- seq_len(n)
-  possible_ta <- sort.int(part[s], decreasing = TRUE)
-  definite_ts <- part[seq.int(n + 1, length.out = length(x) - n)]
-
-  # order possible TA units according to x to make subsetting easier,
-  # noting that ties will be in reverse
-  possible_ta <- possible_ta[order(x[possible_ta])]
-  y <- x[possible_ta]
-
+  possible_ta <- rev(ord[s])
+  x_ta <- x[possible_ta] # ties are in reverse
+  definite_ts <- ord[seq.int(n + 1, length.out = length(x) - n)]
+  
+  p <- x_ta * s / (sum(x[definite_ts]) + cumsum(x_ta))
   # the sequence given by p has the following properties
   # 1. if p[k] < 1, then p[k + 1] >= p[k]
   # 2. if p[k] >= 1, then p[k + 1] >= 1
   # consequently, if p[k] >= 1 - alpha, then p[k + m] >= 1 - alpha
-  p <- y * s / (sum(x[definite_ts]) + cumsum(y))
   ta <- possible_ta[p >= 1 - alpha]
   ts <- c(definite_ts, setdiff(possible_ta, ta))
 

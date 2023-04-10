@@ -106,11 +106,19 @@ test_that("results agree with sampling::inclusionprobabilities()", {
 
 test_that("TAs are added with alpha", {
   x <- c(0, 4, 1, 4, 5)
-
   expect_equal(
     inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.1, 0.15, 0.2)),
     c(x[-5] / 9 * 2, 1, 
       x[1] / 5, 1, x[3:4] / 5, 1, 
       0, 1, 0, 1, 1)
+  )
+  
+  # partial ordering doesn't break ties correctly
+  x <- c(1, 2, 2, 2, 3)
+  expect_equal(
+    inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.15, 0.5, 0.6)),
+    c(x[-5] / 7 * 2, 1,
+      0.2, 1, 0.4, 0.4, 1,
+      0, 1, 1, 0, 1)
   )
 })

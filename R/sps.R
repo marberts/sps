@@ -11,8 +11,7 @@ order_sampling_ <- function(f) {
     # sample the take somes
     keep <- if (n_ts > 0) {
       xi <- f(u[ts]) / f(p[ts])
-      # order(xi)[seq_len(n_ts)] breaks ties by order
-      partition_index(xi, n_ts, decreasing = FALSE)[seq_len(n_ts)]
+      order(xi)[seq_len(n_ts)]
     }
     c(ta, ts[keep])
   }
