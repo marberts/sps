@@ -1,4 +1,22 @@
 url: https://marberts/github.io/sps
+
 template:
   bootstrap: 5
+  bootswatch: united
+  
+reference:
+- title: Package overview
+  contents:
+  - sps-package
 
+- title: Sampling
+  contents:
+  - sps
+  
+- title: Allocations
+  contents:
+  - prop_allocation
+  
+- title: Replicate weights
+  contents:
+  - sps_repweights
