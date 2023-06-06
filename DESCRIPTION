@@ -12,5 +12,5 @@ Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
 License: MIT + file LICENSE
 Encoding: UTF-8
-URL: https://github.com/marberts/sps
+URL: https://marberts.github.io/sps, https://github.com/marberts/sps
 BugReports: https://github.com/marberts/sps/issues
