@@ -5,3 +5,4 @@
 *.Rproj
 .vscode
 docs
+inst/doc

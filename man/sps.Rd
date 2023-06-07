@@ -88,7 +88,7 @@ Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling. \e
 
 The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling} package for ordinary and sequential Poisson sampling, respectively. Note that the algorithm for order sampling in the \code{UPopips} function is currently incorrect, giving a worse approximation for the inclusion probabilities than it should.
 
-The \code{UP*} functions in the \pkg{sampling} package and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
+The \code{UP*} functions in the \pkg{sampling} package, the \code{S.*} functions in the \pkg{TeachingSampling} package, and the \pkg{pps} package for other probability-proportional-to-size sampling methods.
 
 The \code{pps} function in the \pkg{prnsamplr} package for Pareto order sampling with permanent random numbers.
 }

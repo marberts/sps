@@ -1,3 +1,9 @@
+## Changes in version 0.5.1
+
+- `sps` objects now inherit from numeric instead of integer.
+
+- Added a vignette.
+
 ## Changes in version 0.5.0
 
 - `prop_allocation()` gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting `ties = "first"`.

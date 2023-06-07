@@ -1,0 +1,95 @@
+---
+title: "Drawing a Sequential Poisson Sample"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast and simple method for drawing probability-proportional-to-size samples, and is often used for sampling businesses. The purpose of this vignette is to give a simple of example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method.
+
+Consider the problem of drawing a sample of businesses in order to measure the value of sales for the current quarter. The frame is a business register that gives an enumeration of businesses in operation, along with the revenue of each business from the previous year and the region in which they are headquartered. 
+
+```{r frame}
+library(sps)
+set.seed(123654)
+
+frame <- data.frame(
+  revenue = round(rlnorm(1e3) * 1000), 
+  region = sample(1:3, 1e3, prob = c(0.2, 0.3, 0.5), replace = TRUE)
+)
+
+head(frame)
+```
+
+Associated with each business is a value for their sales for the current quarter, although these values are not observable for all businesses. The purpose of drawing a sample is to observe sales for a subset of businesses, and extrapolate the value of sales for the samples of business to the entire population. Sales are positively correlated with last year's revenue, and this is the basis for sampling businesses proportional to revenue.
+
+```{r outcome}
+sales <- round(frame$revenue * runif(1e3, 0.5, 2))
+```
+
+Budget constraints mean that it's feasible to draw a sample of 300 businesses. Businesses operate in different regions, and so the sample will be stratified by region. This means determining how the total sample size of 300 is allocated across regions. A common approach is to do this allocation proportional to the total revenue in each region.
+
+```{r allocation}
+allocation <- with(frame, prop_allocation(revenue, 300, region))
+allocation
+```
+
+With the sample size for each region in hand, it's now time to draw a sample and observe the value of sales for these businesses. In practice this is usually the result of a survey that's administered to the sampled units.
+
+```{r sample}
+spsample <- with(frame, sps(revenue, allocation, region))
+survey <- frame[spsample, ]
+survey[c("sales", "weight")] <- list(sales[spsample], weights(spsample))
+
+head(survey)
+```
+
+Estimating the value of sales in the population can now be done with the usual Horvitz-Thompson estimator.
+
+```{r estimate}
+ht <- with(survey, sum(sales * weight))
+ht
+```
+
+It should be no surprise that the estimate is fairly close the true (but unknown) value of sales among all businesses.
+
+```{r bias}
+ht / sum(sales) - 1
+```
+
+A general approach for estimating the variance of the Horvitz-Thompson estimator is to construct bootstrap replicate weights from the design weights for the sample, compute a collection of estimates for the total based on these replicate weights, and then compute the variance. 
+
+```{r variance}
+repweights <- sps_repweights(weights(spsample), tau = 2)
+var <- attr(repweights, "tau")^2 * 
+  mean((colSums(survey$sales * repweights) - ht)^2)
+
+sqrt(var) / ht
+```
+
+But there is also an analytic estimator for the variance of the Horvitz-Thompson estimator under sequential Poisson sampling. It's less convenient than the bootstrap estimator, but is more precise.
+
+```{r variance2}
+sps_var <- function(y, w) {
+  n <- length(y)
+  Y <- sum(y * w)
+  n / (n - 1) * sum((1 - 1 / w) * (w * y - Y / n)^2)
+} 
+
+ts_units <- subset(survey, levels(spsample) == "TS")
+sd <- split(ts_units, ts_units$region) |>
+  sapply(\(df) sps_var(df$sales, df$weight)) |>
+  sum() |>
+  sqrt()
+
+sd / ht
+```

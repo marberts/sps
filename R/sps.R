@@ -55,7 +55,7 @@ stratify <- function(f) {
     structure(
       res[ord],
       weights = weights[ord],
-      class = c("sps", class(res))
+      class = c("sps", "numeric")
     )
   }
 }

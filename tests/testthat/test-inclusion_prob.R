@@ -122,3 +122,13 @@ test_that("TAs are added with alpha", {
       0, 1, 1, 0, 1)
   )
 })
+
+test_that("inclusion probs are a fixed point", {
+  x <- 1:10
+  p <- inclusion_prob(x, 5)
+  expect_equal(p, inclusion_prob(p, 5))
+  
+  x <- c(0, 4, 1, 4, 5)
+  p <- inclusion_prob(x, 3, alpha = 0.15)
+  expect_equal(p, inclusion_prob(p, 3))
+})
