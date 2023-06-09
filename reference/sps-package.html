@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,10 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/sps.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item">
@@ -52,7 +55,7 @@
 
     <div class="section level2">
     <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h2>
-    <p>Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the <code><a href="sps.html">sps()</a></code> function. Allocations are often proportional to size when drawing such samples, and the <code><a href="prop_allocation.html">prop_allocation()</a></code> function provides a variety of methods for generating proportional-to-size allocations. Once the sample is drawn, the design weights for the sample can then be used to generate bootstrap replicate weights with the <code><a href="sps_repweights.html">sps_repweights()</a></code> function.</p>
+    <p>Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the <code><a href="sps.html">sps()</a></code> function. Allocations are often proportional to size when drawing such samples, and the <code><a href="prop_allocation.html">prop_allocation()</a></code> function provides a variety of methods for generating proportional-to-size allocations. Once the sample is drawn, the design weights for the sample can then be used to generate bootstrap replicate weights with the <code><a href="sps_repweights.html">sps_repweights()</a></code> function. The vignette gives an extended example of this workflow: <code><a href="../articles/sps.html">vignette("sps")</a></code>.</p>
 <p>Sequential Poisson sampling is often used to sample data for price indexes. Balk (2008, chapter 5) discusses the construction of price indexes when data are sampled using probability-proportional-to-size methods, and their resulting statistical properties. The CPI manual (2020, chapter 4) describes other methods for sampling price data. Tillé (2020, chapter 5) gives a practical overview of different probability-proportional-to-size sampling methods; compared to existing implementations of several of these methods (e.g., Brewer, Sampford, maximum entropy), however, sequential Poisson sampling is relatively fast for larger frames.</p>
     </div>
     <div class="section level2">
