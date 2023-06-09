@@ -2,7 +2,7 @@
 title: "Drawing a Sequential Poisson Sample"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{sps}
+  %\VignetteIndexEntry{Drawing a Sequential Poisson Sample}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast and simple method for drawing probability-proportional-to-size samples, and is often used for sampling businesses. The purpose of this vignette is to give a simple of example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method.
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details can be found on the help pages the functions used in this vignette.
 
 ## Drawing a sample of businesses
 
@@ -32,7 +32,7 @@ frame <- data.frame(
 head(frame)
 ```
 
-Associated with each business is a value for their sales for the current quarter, although these values are not observable for all businesses. The purpose of drawing a sample is to observe sales for a subset of businesses, and extrapolate the value of sales for the sample of business to the entire population. Sales are positively correlated with last year's revenue, and this is the basis for sampling businesses proportional to revenue.
+Associated with each business is a value for their sales for the current quarter, although these values are not observable for all businesses. The purpose of drawing a sample is to observe sales for a subset of businesses, and extrapolate the value of sales from the sample of business to the entire population. Sales are positively correlated with last year's revenue, and this is the basis for sampling businesses proportional to revenue.
 
 ```{r outcome}
 sales <- round(frame$revenue * runif(1e3, 0.5, 2))
@@ -48,9 +48,9 @@ allocation
 With the sample size for each region in hand, it's now time to draw a sample and observe the value of sales for these businesses. In practice this is usually the result of a survey that's administered to the sampled units.
 
 ```{r sample}
-spsample <- with(frame, sps(revenue, allocation, region))
+sample <- with(frame, sps(revenue, allocation, region))
 
-survey <- cbind(frame[spsample, ], sales = sales[spsample])
+survey <- cbind(frame[sample, ], sales = sales[sample])
 
 head(survey)
 ```
@@ -58,7 +58,7 @@ head(survey)
 An important piece of information from the sampling process is the design weights, as these enable estimating the value of sales in the population with the usual Horvitz-Thompson estimator.
 
 ```{r weights}
-survey$weight <- weights(spsample)
+survey$weight <- weights(sample)
 
 head(survey)
 ```
@@ -79,7 +79,7 @@ But in practice it's not possible to determine how far an estimate is from the t
 A general approach for estimating the variance of the Horvitz-Thompson estimator is to construct bootstrap replicate weights from the design weights for the sample, compute a collection of estimates for the total based on these replicate weights, and then compute the variance of this collection of estimates. 
 
 ```{r variance}
-repweights <- sps_repweights(weights(spsample), tau = 2)
+repweights <- sps_repweights(weights(sample), tau = 2)
 
 var <- attr(repweights, "tau")^2 * 
   mean((colSums(survey$sales * repweights) - ht)^2)
@@ -121,11 +121,11 @@ Permanent random numbers can be used with methods other than sequential Poisson-
 ```{r prn samples}
 pareto <- order_sampling(\(x) x / (1 - x))
 
-spsample <- with(frame, sps(revenue, allocation, region, prn))
+sample <- with(frame, sps(revenue, allocation, region, prn))
 
 parsample <- with(frame, pareto(revenue, allocation, region, (prn - 0.5) %% 1))
 
-length(intersect(spsample, parsample)) / 100
+length(intersect(sample, parsample)) / 100
 ```
 
 Although there is still a meaningful overlap between the units in both samples, this is roughly half of what would be expected without using permanent random numbers.
@@ -133,23 +133,23 @@ Although there is still a meaningful overlap between the units in both samples, 
 ```{r prn simualtion}
 replicate(1000, {
   s <- with(frame, pareto(revenue, allocation, region))
-  length(intersect(spsample, s)) / 100
+  length(intersect(sample, s)) / 100
 }) |> 
   summary()
 ```
 
 ## Topping up
 
-The sequential nature of sequential Poisson sampling means that it's easy to grow a sample. Suppose that there is a need to sample 10 more businesses in region 1 after the sample is drawn. Simply adding 10 units to the allocation for region 1 results in a new sample that includes all the previously sampled units, so the extra units can be surveyed without discarding the previously-collected data or affecting the statistical properties of the sample.
+The sequential part of sequential Poisson sampling means that it's easy to grow a sample. Suppose that there is a need to sample 10 more businesses in region 1 after the sample is drawn. Simply adding 10 units to the allocation for region 1 results in a new sample that includes all the previously sampled units, so the extra units can be surveyed without discarding the previously-collected data or affecting the statistical properties of the sample.
 
 ```{r top up}
 set.seed(1234)
-spsample <- with(frame, sps(revenue, allocation, region, prn))
+sample <- with(frame, sps(revenue, allocation, region))
 
 set.seed(1234)
-spsample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region, prn))
+sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region))
 
-frame[setdiff(spsample_tu, spsample), ]
+all(sample %in% sample_tu)
 ```
 
 ## Bias in the Horvitz-Thompson estimator
@@ -158,8 +158,8 @@ Despite it's simplicity, sequential Poisson sampling is only asymptotically prop
 
 ```{r ht bias}
 sampling_distribution <- replicate(1000, {
-  spsample <- with(frame, sps(revenue, allocation, region))
-  sum(sales[spsample] * weights(spsample))
+  sample <- with(frame, sps(revenue, allocation, region))
+  sum(sales[sample] * weights(sample))
 })
 
 summary(sampling_distribution / sum(sales) - 1)
