@@ -75,6 +75,10 @@ levels.sps <- function(x) {
   res
 }
 
+`levels<-.sps` <- function(x, value) {
+  stop("cannot replace levels attribute")
+}
+
 weights.sps <- function(object, ...) {
   attr(object, "weights")
 }

@@ -144,17 +144,17 @@ all(samp \%in\% sps(x, 7, prn = u))
 #---- Other order-sampling methods ----
 # Generate new order-sampling functions from the parameters of
 # the inverse generalized Pareto distribution
-igpd <- function(a, b) {
-  if (b == 0) {
-    function(x) -a * log(1 - x)
+igpd <- function(shape, scale = 1, location = 0) {
+  if (shape == 0) {
+    function(x) -scale * log(1 - x) + location
   } else {
-    function(x) a * (1 - (1 - x)^b) / b
+    function(x) scale * (1 - (1 - x)^shape) / shape + location
   }
 }
 
-order_sampling2 <- function(a, b) order_sampling(igpd(a, b))
+order_sampling2 <- function(x) order_sampling(igpd(x))
 
-order_sampling2(1, 1)(x, 6, prn = u) # sequential Poisson
-order_sampling2(1, 0)(x, 6, prn = u) # successive
-order_sampling2(1, -1)(x, 6, prn = u) # Pareto
+order_sampling2(1)(x, 6, prn = u) # sequential Poisson
+order_sampling2(0)(x, 6, prn = u) # successive
+order_sampling2(-1)(x, 6, prn = u) # Pareto
 }

@@ -1,8 +1,10 @@
-## Changes in version 0.5.1
+## Changes in version 0.5.2
+
+- Added a vignette.
 
 - `sps` objects now inherit from numeric instead of integer.
 
-- Added a vignette.
+- Fixed a bug where the levels attribute could be set for `sps` objects.
 
 ## Changes in version 0.5.0
 
