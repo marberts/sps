@@ -70,13 +70,18 @@ ps <- stratify(ps_)
 
 #---- Methods for class 'sps' ----
 levels.sps <- function(x) {
-  res <- rep_len("TS", length(x))
+  res <- rep.int("TS", length(x))
   res[weights(x) == 1] <- "TA"
   res
 }
 
 `levels<-.sps` <- function(x, value) {
   stop("cannot replace levels attribute")
+}
+
+`length<-.sps` <- function(x, value) {
+  x <- as.vector(x)
+  NextMethod()
 }
 
 weights.sps <- function(object, ...) {

@@ -7,6 +7,7 @@ export(
 S3method(weights, sps)
 S3method(levels, sps)
 S3method("levels<-", sps)
+S3method("length<-", sps)
 S3method(print, sps)
 S3method(Ops, sps)
 S3method(Math, sps)

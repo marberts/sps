@@ -4,7 +4,7 @@
 
 - `sps` objects now inherit from numeric instead of integer.
 
-- Fixed a bug where the levels attribute could be set for `sps` objects.
+- Replacement methods for `length` and `levels` no longer mangle `sps` objects.
 
 ## Changes in version 0.5.0
 

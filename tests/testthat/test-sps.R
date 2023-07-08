@@ -206,4 +206,7 @@ test_that("attributes get removed", {
   # and replacement methods
   expect_true(inherits(replace(samp, 1, 1), "numeric"))
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
+  
+  length(samp) <- 2
+  expect_true(inherits(samp, "integer"))
 })
