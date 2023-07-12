@@ -30,7 +30,7 @@ order_sampling(dist)
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive integer vector giving the sample size for each stratum, ordered according to the levels of \code{strata}. Non-integers are truncated towards 0.}
+\item{n}{A positive integer vector giving the sample size for each stratum, ordered according to the levels of \code{strata}. A single value is recycled for all strata. Non-integers are truncated towards 0.}
 
 \item{strata}{A factor, or something that can be coerced into one, giving the strata associated with units in the population. The default is to place all units into a single stratum.}
 

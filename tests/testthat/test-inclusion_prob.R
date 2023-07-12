@@ -41,7 +41,7 @@ test_that("argument checking works", {
   expect_error(inclusion_prob(1:6, c(-2, 2), gl(2, 3)))
   expect_error(inclusion_prob(1:6, c(NA, 2), gl(2, 3)))
   expect_error(inclusion_prob(1:6, integer(0), gl(2, 3)))
-  expect_error(inclusion_prob(1:6, 2, gl(2, 3)))
+  #expect_error(inclusion_prob(1:6, 2, gl(2, 3)))
   expect_error(inclusion_prob(1:6, c(2, 2)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 2)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3)[c(1:5, 7)]))
@@ -131,4 +131,16 @@ test_that("inclusion probs are a fixed point", {
   x <- c(0, 4, 1, 4, 5)
   p <- inclusion_prob(x, 3, alpha = 0.15)
   expect_equal(p, inclusion_prob(p, 3))
+})
+
+test_that("n and alpha recycle", {
+  x <- 1:10
+  expect_equal(
+    inclusion_prob(x, 3, gl(2, 5)),
+    inclusion_prob(x, c(3, 3), gl(2, 5))
+  )
+  expect_equal(
+    inclusion_prob(x, 3, gl(2, 5), alpha = 0.5),
+    inclusion_prob(x, 3, gl(2, 5), alpha = c(0.5, 0.5))
+  )
 })

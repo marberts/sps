@@ -13,7 +13,7 @@ as_stratum <- function(strata) {
 unbounded_pi <- function(x, n) {
   # n == 0 should be a strong zero
   if (n == 0L) {
-    rep_len(0, length(x))
+    rep.int(0, length(x))
   } else {
     x * (n / sum(x))
   }
@@ -38,7 +38,7 @@ bounded_pi <- function(x, n, alpha) {
   ta <- possible_ta[p >= 1 - alpha]
   ts <- c(definite_ts, setdiff(possible_ta, ta))
 
-  res <- rep_len(1, length(x))
+  res <- rep.int(1, length(x))
   res[ts] <- unbounded_pi(x[ts], n - length(ta))
   res
 }
@@ -72,7 +72,7 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
   if (length(x) != length(strata)) {
     stop("the vectors for sizes and strata must be the same length")
   }
-  if (length(n) != nlevels(strata)) {
+  if (length(n) != 1L && length(n) != nlevels(strata)) {
     stop(
       "there must be a single sample size",
       if (nlevels(strata) > 1) " for each stratum"

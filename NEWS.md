@@ -6,6 +6,8 @@
 
 - Replacement methods for `length` and `levels` no longer mangle `sps` objects.
 
+- A single sample size is recycled for each stratum when drawing samples or calculating inclusion probabilities.
+
 ## Changes in version 0.5.0
 
 - `prop_allocation()` gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting `ties = "first"`.
