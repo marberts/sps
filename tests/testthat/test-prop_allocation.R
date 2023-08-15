@@ -214,7 +214,7 @@ test_that("argument checking for expected coverage works", {
   expect_error(expected_coverage(1:6, NA, gl(2, 3)))
   expect_error(expected_coverage(1:6, 3, gl(2, 2)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3)[c(1:5, 7)]))
-  expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = 1))
+  expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = -0.5))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = c(0, 1)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = numeric(0)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = NA))

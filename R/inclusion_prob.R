@@ -56,8 +56,8 @@ pi <- function(x, n, alpha) {
       "non-zero sizes in the population"
     )
   }
-  if (alpha < 0 || alpha >= 1) {
-    stop("'alpha' must be in [0, 1)")
+  if (alpha < 0 || alpha > 1) {
+    stop("'alpha' must be between 0 and 1")
   }
 
   res <- unbounded_pi(x, n)

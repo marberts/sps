@@ -57,7 +57,7 @@ test_that("argument checking works", {
   expect_error(sps(1:6, c(2, 2)))
   expect_error(sps(1:6, c(2, 2), gl(2, 2)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3)[c(1:5, 7)]))
-  expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 1)))
+  expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 1.5)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, NA)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), alpha = integer(0)))

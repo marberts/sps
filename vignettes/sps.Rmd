@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details can be found on the help pages the functions used in this vignette.
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details can be found on the help pages for the functions used in this vignette.
 
 ## Drawing a sample of businesses
 
@@ -140,16 +140,20 @@ replicate(1000, {
 
 ## Topping up
 
-The sequential part of sequential Poisson sampling means that it's easy to grow a sample. Suppose that there is a need to sample 10 more businesses in region 1 after the sample is drawn. Simply adding 10 units to the allocation for region 1 results in a new sample that includes all the previously sampled units, so the extra units can be surveyed without discarding the previously-collected data or affecting the statistical properties of the sample.
+The sequential part of sequential Poisson sampling means that it's easy to grow a sample. Suppose that there is a need to sample 10 more businesses in region 1 after the sample is drawn. Simply adding 10 units to the allocation for region 1 results in a new sample that includes all the previously sampled units, so the extra units can be surveyed without discarding previously-collected data or affecting the statistical properties of the sample.
 
 ```{r top up}
-set.seed(1234)
-sample <- with(frame, sps(revenue, allocation, region))
+sample <- with(frame, sps(revenue, allocation, region, prn))
 
-set.seed(1234)
-sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region))
+sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region, prn))
 
 all(sample %in% sample_tu)
+```
+
+As with any proportional-to-size sampling scheme, there is a critical sample size after which some units become take-all units. If these units are not already in the sample then they can "bump" previously sampled units, requiring a larger sample size to keep all the previously sampled units in the new sample.
+
+```{r critical}
+sapply(split(frame$revenue, frame$region), \(x) ceiling(sum(x) / max(x)))
 ```
 
 ## Bias in the Horvitz-Thompson estimator

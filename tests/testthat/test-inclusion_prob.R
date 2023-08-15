@@ -45,7 +45,7 @@ test_that("argument checking works", {
   expect_error(inclusion_prob(1:6, c(2, 2)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 2)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3)[c(1:5, 7)]))
-  expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, 1)))
+  expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, 1.5)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, NA)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = integer(0)))
@@ -120,6 +120,18 @@ test_that("TAs are added with alpha", {
     c(x[-5] / 7 * 2, 1,
       0.2, 1, 0.4, 0.4, 1,
       0, 1, 1, 0, 1)
+  )
+  
+  # alpha = 1 adds TA units in order
+  x <- c(4, 3, 4, 2, 1, 0)
+  expect_equal(
+    inclusion_prob(rep(x, 6), 0:5, gl(6, 6), 1),
+    c(0, 0, 0, 0, 0, 0,
+      1, 0, 0, 0, 0, 0,
+      1, 0, 1, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+      1, 1, 1, 1, 0, 0,
+      1, 1, 1, 1, 1, 0)
   )
 })
 
