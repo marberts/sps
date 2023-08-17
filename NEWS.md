@@ -8,6 +8,8 @@
 
 - A single sample size is recycled for each stratum when drawing samples or calculating inclusion probabilities.
 
+- Added a `cutoff` argument that puts units with sizes above the cutoff into a take-all stratum.
+
 ## Changes in version 0.5.0
 
 - `prop_allocation()` gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting `ties = "first"`.

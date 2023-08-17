@@ -55,15 +55,17 @@ highest_averages <- function(d) {
 }
 
 #---- Expected coverage ----
-expected_coverage <- function(x, n, strata, alpha = 1e-3) {
+expected_coverage <- function(x, n, strata, alpha = 1e-3, cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
   strata <- as_stratum(strata)
   alpha <- as.numeric(alpha)
+  cutoff <- as.numeric(cutoff)
   if (length(x) != length(strata)) {
     stop("the vectors for sizes and strata must be the same length")
   }
-  p <- split(log(1 - inclusion_prob(x, n, alpha = alpha)), strata)
+  p <- split(log(1 - inclusion_prob(x, n, alpha = alpha, cutoff = cutoff)),
+             strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }
 

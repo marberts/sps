@@ -194,6 +194,11 @@ test_that("ties are broken by position", {
   )
 })
 
+test_that("cutoff units are included", {
+  x <- c(4, 1, 3, 2, 4)
+  expect_true(all(c(1, 5) %in% sps(x, 3, cutoff = 4)))
+})
+
 test_that("attributes get removed", {
   samp <- sps(1:5, 3)
   # mathematical functions should treat 'sps' objects as numeric vectors

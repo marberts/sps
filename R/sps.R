@@ -26,7 +26,7 @@ ps_ <- function(p, n, u) {
 stratify <- function(f) {
   f <- match.fun(f)
 
-  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3) {
+  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3, cutoff = Inf) {
     x <- as.numeric(x)
     n <- as.integer(n)
     strata <- as_stratum(strata)
@@ -44,7 +44,7 @@ stratify <- function(f) {
       }
     }
 
-    p <- inclusion_prob_(x, n, strata, alpha)
+    p <- inclusion_prob_(x, n, strata, alpha, cutoff)
     samp <- Map(f, p, n, split(prn, strata))
     pos <- split(seq_along(prn), strata)
     # strata must have at least one level, so unlist won't return NULL

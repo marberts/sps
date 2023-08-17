@@ -19,7 +19,10 @@ unbounded_pi <- function(x, n) {
   }
 }
 
-bounded_pi <- function(x, n, alpha) {
+ta_units <- function(x, n, alpha) {
+  if (all(unbounded_pi(x, n) < 1 - alpha)) {
+    return(integer(0L))
+  }
   # partial sorting is not stable, so if x[n] == x[n + 1] after sorting then
   # it is possible for the result to not resolve ties according to x
   # (as documented) when alpha is large enough to make at least one unit with
@@ -35,15 +38,10 @@ bounded_pi <- function(x, n, alpha) {
   # 1. if p[k] < 1, then p[k + 1] >= p[k]
   # 2. if p[k] >= 1, then p[k + 1] >= 1
   # consequently, if p[k] >= 1 - alpha, then p[k + m] >= 1 - alpha
-  ta <- possible_ta[p >= 1 - alpha]
-  ts <- c(definite_ts, setdiff(possible_ta, ta))
-
-  res <- rep.int(1, length(x))
-  res[ts] <- unbounded_pi(x[ts], n - length(ta))
-  res
+  possible_ta[p >= 1 - alpha]
 }
 
-pi <- function(x, n, alpha) {
+pi <- function(x, n, alpha, cutoff) {
   if (any(x < 0)) {
     stop("sizes must be greater than or equal to 0")
   }
@@ -59,16 +57,21 @@ pi <- function(x, n, alpha) {
   if (alpha < 0 || alpha > 1) {
     stop("'alpha' must be between 0 and 1")
   }
-
-  res <- unbounded_pi(x, n)
-  if (all(res < 1 - alpha)) {
-    res
-  } else {
-    bounded_pi(x, n, alpha)
+  
+  ta1 <- which(x >= cutoff)
+  if (length(ta1) > n) {
+    stop("'n' is not large enough to include all units with 'x' above 'cutoff'")
   }
+  
+  x[ta1] <- 0
+  ta2 <- ta_units(x, n - length(ta1), alpha)
+  x[ta2] <- 0
+  res <- unbounded_pi(x, n - length(ta1) - length(ta2))
+  res[c(ta1, ta2)] <- 1
+  res
 }
 
-inclusion_prob_ <- function(x, n, strata, alpha) {
+inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
   if (length(x) != length(strata)) {
     stop("the vectors for sizes and strata must be the same length")
   }
@@ -84,14 +87,21 @@ inclusion_prob_ <- function(x, n, strata, alpha) {
       if (nlevels(strata) > 1) " or have a value for each stratum"
     )
   }
-  Map(pi, split(x, strata), n, alpha)
+  if (length(cutoff) != 1L && length(cutoff) != nlevels(strata)) {
+    stop(
+      "'cutoff' must be a single value",
+      if (nlevels(strata) > 1) " or have a value for each stratum"
+    )
+  }
+  Map(pi, split(x, strata), n, alpha, cutoff)
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-3) {
+inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-3, cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
   strata <- as_stratum(strata)
   alpha <- as.numeric(alpha)
-  unsplit(inclusion_prob_(x, n, strata, alpha), strata)
+  cutoff <- as.numeric(cutoff)
+  unsplit(inclusion_prob_(x, n, strata, alpha, cutoff), strata)
 }

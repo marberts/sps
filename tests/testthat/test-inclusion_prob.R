@@ -50,6 +50,9 @@ test_that("argument checking works", {
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = integer(0)))
   expect_error(inclusion_prob(1:6, 2, alpha = c(0, 0)))
+  expect_error(inclusion_prob(1:6, 2, cutoff = 3))
+  expect_error(inclusion_prob(1:6, 2, cutoff = numeric(0)))
+  expect_error(inclusion_prob(1:6, 2, cutoff = 1:3))
 })
 
 test_that("inclusion probs are correct with different rounds of TA removal", {
@@ -155,4 +158,18 @@ test_that("n and alpha recycle", {
     inclusion_prob(x, 3, gl(2, 5), alpha = 0.5),
     inclusion_prob(x, 3, gl(2, 5), alpha = c(0.5, 0.5))
   )
+})
+
+test_that("cutoff agrees with alpha", {
+  x <- c(0, 1, 2, 3, 2, 4, 3)
+  expect_equal(inclusion_prob(x, 3, alpha = 0.2),
+               inclusion_prob(x, 3, cutoff = 4))
+  expect_equal(inclusion_prob(x, 3, alpha = 0.625),
+               inclusion_prob(x, 3, cutoff = 3))
+  expect_equal(inclusion_prob(x, 3, alpha = 0.625, cutoff = 3),
+               inclusion_prob(x, 3, cutoff = 3))
+})
+
+test_that("missing cutoff does nothing", {
+  expect_equal(inclusion_prob(1:3, 2, cutoff = NA), 1:3 / 3)
 })

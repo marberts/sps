@@ -16,12 +16,12 @@ Draw a stratified probability-proportional-to-size sample using the sequential a
 
 \usage{
 ## Sequential Poisson sampling
-sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3)
+sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3, cutoff = Inf)
 
 ## Ordinary Poisson sampling
-ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3)
+ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3, cutoff = Inf)
 
-inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 1e-3)
+inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 1e-3, cutoff = Inf)
 
 ## Function factory
 order_sampling(dist)
@@ -37,6 +37,8 @@ order_sampling(dist)
 \item{prn}{A numeric vector of permanent random numbers for units in the population, distributed uniform between 0 and 1. The default does not use permanent random numbers, instead generating a random vector when the function is called.}
 
 \item{alpha}{A numeric vector with values between 0 and 1 for each stratum, ordered according to the levels of \code{strata}. Units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
+
+\item{cutoff}{A numeric vector of cutoffs for each stratum, ordered according to the levels of \code{strata}. Units with \code{x >= cutoff} get an inclusion probability of 1. A single value is recycled for all strata. The default does not apply a cutoff.}
 
 \item{dist}{A function that gives the inverse of the fixed distribution shape for an order sampling scheme. See details.}
 }
