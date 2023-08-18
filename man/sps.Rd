@@ -38,7 +38,7 @@ order_sampling(dist)
 
 \item{alpha}{A numeric vector with values between 0 and 1 for each stratum, ordered according to the levels of \code{strata}. Units with inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1 for each stratum. A single value is recycled for all strata. The default is slightly larger than 0.}
 
-\item{cutoff}{A numeric vector of cutoffs for each stratum, ordered according to the levels of \code{strata}. Units with \code{x >= cutoff} get an inclusion probability of 1. A single value is recycled for all strata. The default does not apply a cutoff.}
+\item{cutoff}{A positive numeric vector of cutoffs for each stratum, ordered according to the levels of \code{strata}. Units with \code{x >= cutoff} get an inclusion probability of 1 fo each stratum. A single value is recycled for all strata. The default does not apply a cutoff.}
 
 \item{dist}{A function that gives the inverse of the fixed distribution shape for an order sampling scheme. See details.}
 }
@@ -108,6 +108,9 @@ weights(samp)
 
 # All units except 11 are in the take-some (TS) stratum
 levels(samp)
+
+# Ensure that the top 10\% of units are in the sample
+sps(x, 5, cutoff = quantile(x, 0.9))
 
 #---- Ordinary Poisson sampling ----
 # Ordinary Poisson sampling gives a random sample size for the 

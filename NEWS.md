@@ -6,7 +6,7 @@
 
 - Replacement methods for `length` and `levels` no longer mangle `sps` objects.
 
-- A single sample size is recycled for each stratum when drawing samples or calculating inclusion probabilities.
+- A single sample size is now recycled for each stratum when drawing samples or calculating inclusion probabilities.
 
 - Added a `cutoff` argument that puts units with sizes above the cutoff into a take-all stratum.
 

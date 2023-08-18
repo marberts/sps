@@ -32,7 +32,7 @@ ta_units <- function(x, n, alpha) {
   possible_ta <- rev(ord[s])
   x_ta <- x[possible_ta] # ties are in reverse
   definite_ts <- ord[seq.int(n + 1, length.out = length(x) - n)]
-  
+
   p <- x_ta * s / (sum(x[definite_ts]) + cumsum(x_ta))
   # the sequence given by p has the following properties
   # 1. if p[k] < 1, then p[k + 1] >= p[k]
@@ -57,12 +57,15 @@ pi <- function(x, n, alpha, cutoff) {
   if (alpha < 0 || alpha > 1) {
     stop("'alpha' must be between 0 and 1")
   }
-  
+  if (cutoff <= 0) {
+    stop("'cutoff' must be greater than 0")
+  }
+
   ta1 <- which(x >= cutoff)
   if (length(ta1) > n) {
     stop("'n' is not large enough to include all units with 'x' above 'cutoff'")
   }
-  
+
   x[ta1] <- 0
   ta2 <- ta_units(x, n - length(ta1), alpha)
   x[ta2] <- 0
@@ -97,7 +100,11 @@ inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
 }
 
 #---- Inclusion probability ----
-inclusion_prob <- function(x, n, strata = gl(1, length(x)), alpha = 1e-3, cutoff = Inf) {
+inclusion_prob <- function(x,
+                           n,
+                           strata = gl(1, length(x)),
+                           alpha = 1e-3, 
+                           cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
   strata <- as_stratum(strata)

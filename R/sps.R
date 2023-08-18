@@ -26,7 +26,12 @@ ps_ <- function(p, n, u) {
 stratify <- function(f) {
   f <- match.fun(f)
 
-  function(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 1e-3, cutoff = Inf) {
+  function(x,
+           n,
+           strata = gl(1, length(x)),
+           prn = NULL,
+           alpha = 1e-3,
+           cutoff = Inf) {
     x <- as.numeric(x)
     n <- as.integer(n)
     strata <- as_stratum(strata)

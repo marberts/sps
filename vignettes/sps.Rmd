@@ -156,6 +156,26 @@ As with any proportional-to-size sampling scheme, there is a critical sample siz
 sapply(split(frame$revenue, frame$region), \(x) ceiling(sum(x) / max(x)))
 ```
 
+But this is rare in practice, and usually requires a smaller frame.
+
+```{r no_tu}
+set.seed(13026)
+x <- rlnorm(10)
+u <- runif(10)
+
+ceiling(sum(x) / max(x))
+
+sample <- sps(x, 4, prn = u)
+
+sample %in% sps(x, 5, prn = u)
+```
+
+The solution is to simply increase the sample until all previously sampled units are included.
+
+```{r yes_tu}
+sample %in% sps(x, 6, prn = u)
+```
+
 ## Bias in the Horvitz-Thompson estimator
 
 Despite it's simplicity, sequential Poisson sampling is only asymptotically proportional to size. This means that the Horvitz-Thompson estimator can be biased in small samples, although this bias is usually negligible for real-world sample sizes.

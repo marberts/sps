@@ -153,7 +153,7 @@ test_that("allocations are correct for voting examples", {
   # example from https://en.wikipedia.org/wiki/Highest_averages_method
   x <- rep(1, 1e5)
   s <- factor(
-    rep(1:7, c(47000, 16000, 15900, 12000, 6000, 0, 3100)), 
+    rep(1:7, c(47000, 16000, 15900, 12000, 6000, 0, 3100)),
     levels = 1:7
   )
 

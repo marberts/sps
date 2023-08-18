@@ -53,7 +53,6 @@ test_that("argument checking works", {
   expect_error(sps(1:6, c(-2, 2), gl(2, 3)))
   expect_error(sps(1:6, c(NA, 2), gl(2, 3)))
   expect_error(sps(1:6, integer(0), gl(2, 3)))
-  #expect_error(sps(1:6, 2, gl(2, 3)))
   expect_error(sps(1:6, c(2, 2)))
   expect_error(sps(1:6, c(2, 2), gl(2, 2)))
   expect_error(sps(1:6, c(2, 2), gl(2, 3)[c(1:5, 7)]))
@@ -211,7 +210,7 @@ test_that("attributes get removed", {
   # and replacement methods
   expect_true(inherits(replace(samp, 1, 1), "numeric"))
   expect_true(inherits(replace(samp, 1, 1L), "integer"))
-  
+
   length(samp) <- 2
   expect_true(inherits(samp, "integer"))
 })
