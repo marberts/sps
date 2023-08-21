@@ -153,17 +153,24 @@ all(sample %in% sample_tu)
 As with any proportional-to-size sampling scheme, there is a critical sample size after which some units become take-all units. If these units are not already in the sample then they can "bump" previously sampled units, requiring a larger sample size to keep all the previously sampled units in the new sample.
 
 ```{r critical}
-sapply(split(frame$revenue, frame$region), \(x) ceiling(sum(x) / max(x)))
+becomes_ta <- function(x, alpha = 1e-3) {
+  ord <- rev(order(x, decreasing = TRUE))
+  x <- x[ord]
+  res <- ceiling(cumsum(x) / x * (1 - alpha)) + length(x) - seq_along(x)
+  res[order(ord)]
+}
+
+Map(\(x) head(becomes_ta(x)), split(frame$revenue, frame$region))
 ```
 
-But this is rare in practice, and usually requires a smaller frame.
+But this is rare in practice. For this example there is no point at which increasing the sample size drops a unit that was previously included in the sample. Seeing this in action requires different data.
 
 ```{r no_tu}
 set.seed(13026)
 x <- rlnorm(10)
 u <- runif(10)
 
-ceiling(sum(x) / max(x))
+becomes_ta(x)
 
 sample <- sps(x, 4, prn = u)
 
