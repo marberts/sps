@@ -70,9 +70,12 @@ expected_coverage <- function(x, n, strata, alpha = 1e-3, cutoff = Inf) {
 }
 
 #---- Proportional allocation ----
-prop_allocation <- function(
-  x, n, strata, initial = 0L, divisor = \(a) a + 1, ties = c("largest", "first")
-) {
+prop_allocation <- function(x,
+                            n,
+                            strata,
+                            initial = 0L,
+                            divisor = \(a) a + 1,
+                            ties = c("largest", "first")) {
   x <- as.numeric(x)
   n <- as.integer(n)
   strata <- as_stratum(strata)

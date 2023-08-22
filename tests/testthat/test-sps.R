@@ -66,6 +66,7 @@ test_that("argument checking works", {
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = -1:4 / 10))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = c(NA, 1:5) / 10))
   expect_error(sps(1:6, c(2, 2), gl(2, 3), prn = numeric(0)))
+  expect_error(sps(1:6, c(2, 2), gl(2, 3), cutoff = 2))
 })
 
 test_that("results are sorted", {

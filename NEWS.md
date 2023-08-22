@@ -2,13 +2,13 @@
 
 - Added a vignette.
 
-- `sps` objects now inherit from numeric instead of integer.
-
-- Replacement methods for `length` and `levels` no longer mangle `sps` objects.
-
 - A single sample size is now recycled for each stratum when drawing samples or calculating inclusion probabilities.
 
 - Added a `cutoff` argument that puts units with sizes above the cutoff into a take-all stratum.
+
+- `sps` objects now inherit from numeric instead of integer.
+
+- Replacement methods for `length` and `levels` no longer mangle `sps` objects.
 
 ## Changes in version 0.5.0
 

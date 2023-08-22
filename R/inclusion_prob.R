@@ -20,9 +20,6 @@ unbounded_pi <- function(x, n) {
 }
 
 ta_units <- function(x, n, alpha) {
-  if (all(unbounded_pi(x, n) < 1 - alpha)) {
-    return(integer(0L))
-  }
   # partial sorting is not stable, so if x[n] == x[n + 1] after sorting then
   # it is possible for the result to not resolve ties according to x
   # (as documented) when alpha is large enough to make at least one unit with
@@ -61,16 +58,21 @@ pi <- function(x, n, alpha, cutoff) {
     stop("'cutoff' must be greater than 0")
   }
 
-  ta1 <- which(x >= cutoff)
-  if (length(ta1) > n) {
+  ta <- which(x >= cutoff)
+  if (length(ta) > n) {
     stop("'n' is not large enough to include all units with 'x' above 'cutoff'")
   }
 
-  x[ta1] <- 0
-  ta2 <- ta_units(x, n - length(ta1), alpha)
-  x[ta2] <- 0
-  res <- unbounded_pi(x, n - length(ta1) - length(ta2))
-  res[c(ta1, ta2)] <- 1
+  x[ta] <- 0
+  res <- unbounded_pi(x, n - length(ta))
+  if (any(res >= 1 - alpha)) {
+    ta2 <- ta_units(x, n - length(ta), alpha)
+    x[ta2] <- 0
+    ta <- c(ta, ta2)
+    res <- unbounded_pi(x, n - length(ta))
+  }
+
+  res[ta] <- 1
   res
 }
 
@@ -103,7 +105,7 @@ inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
 inclusion_prob <- function(x,
                            n,
                            strata = gl(1, length(x)),
-                           alpha = 1e-3, 
+                           alpha = 1e-3,
                            cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
