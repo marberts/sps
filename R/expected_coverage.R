@@ -1,9 +1,12 @@
 #' Expected coverage
 #' 
+#' @description
 #' Find the average number of strata covered by ordinary Poisson sampling
 #' without stratification. As sequential and ordinary Poisson sampling have the
 #' same sample size on average, this gives an approximation for the coverage
-#' under sequential Poisson sampling. This function can also be used to
+#' under sequential Poisson sampling.
+#' 
+#' This function can also be used to
 #' calculate, e.g., the expected number of enterprises covered within a stratum
 #' when sampling business establishments.
 #' 

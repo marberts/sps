@@ -53,8 +53,8 @@ form the sample, along with a \code{weights} attribute that gives the design
 (inverse probability) weights for each unit in the sample (keeping in mind
 that sequential Poisson sampling is only approximately
 probability-proportional-to-size). \code{weights()} can be used to access
-the design weights attribute of an \code{sps} object, and \code{levels()}
-can be used to determine which units are in the take-all or take-some
+the design weights attribute of an \code{sps} object, and \code{levels()} can be used
+to determine which units are in the take-all or take-some
 strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip
 attributes, as does replacement.
 

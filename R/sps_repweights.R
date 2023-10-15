@@ -34,12 +34,14 @@
 #' standard deviation 1, such as [rnorm()]. The default uses the
 #' pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 #' details.
+#' 
 #' @returns
 #' A matrix of bootstrap replicate weights with `replicates`
 #' columns (one for each replicate) and `length(w)` rows (one for each
 #' unit in the sample), with the value of `tau` as an attribute.
 #' 
-#' @note As an alternative to the bootstrap, Ohlsson (1998, equations 2.13)
+#' @note
+#' As an alternative to the bootstrap, Ohlsson (1998, equations 2.13)
 #' proposes an analytic estimator for the variance of the total \eqn{\hat Y =
 #' \sum wy}{Y = \sum w * y} (for the take-some units) under sequential Poisson
 #' sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 -

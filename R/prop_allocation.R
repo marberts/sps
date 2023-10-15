@@ -35,7 +35,7 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 
   res <- initial
   n <- n - sum(res)
-  ord <- switch(match.arg(tolower(ties), c("largest", "first")),
+  ord <- switch(ties,
     largest = order(p, decreasing = TRUE),
     first = seq_along(p)
   )
@@ -145,6 +145,7 @@ prop_allocation <- function(x,
   n <- as.integer(n)
   strata <- as_stratum(strata)
   initial <- as.integer(initial)
+  ties <- tolower(as.character(ties))
 
   if (any(x < 0)) {
     stop("sizes must be greater than or equal to 0")
@@ -161,7 +162,7 @@ prop_allocation <- function(x,
   }
 
   p <- vapply(x, sum, numeric(1L))
-  res <- highest_averages(p, n, initial, ns, ties, divisor)
+  res <- highest_averages(p, n, initial, ns, match.arg(ties), divisor)
   names(res) <- levels(strata)
   res
 }

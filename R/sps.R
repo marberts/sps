@@ -1,4 +1,4 @@
-#' Order sampling
+#' Order sampling (internal)
 #' @noRd
 order_sampling_ <- function(f) {
   f <- match.fun(f)
@@ -17,7 +17,7 @@ order_sampling_ <- function(f) {
   }
 }
 
-#' Ordinary Poisson sampling
+#' Ordinary Poisson sampling (internal)
 #' @noRd
 ps_ <- function(p, n, u) {
   which(u < p)
@@ -357,7 +357,13 @@ Ops.sps <- function(e1, e2) {
 }
 
 #' @export
-`[<-.sps` <- `[[<-.sps` <- function(x, i, value) {
+`[<-.sps` <- function(x, i, value) {
+  x <- as.vector(x)
+  NextMethod()
+}
+
+#' @export
+`[[<-.sps` <- function(x, i, value) {
   x <- as.vector(x)
   NextMethod()
 }
