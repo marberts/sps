@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="changes-in-version-050">Changes in version 0.5.0<a class="anchor" aria-label="anchor" href="#changes-in-version-050"></a></h2><p class="text-muted">CRAN release: 2023-04-10</p>
 <ul><li><p><code><a href="../reference/prop_allocation.html">prop_allocation()</a></code> gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting <code>ties = "first"</code>.</p></li>
-<li><p>Argument names for <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>, <code><a href="../reference/prop_allocation.html">expected_coverage()</a></code>, and <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code> have changed to be either more descriptive, or consistent with the names for other functions.</p></li>
+<li><p>Argument names for <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>, <code><a href="../reference/expected_coverage.html">expected_coverage()</a></code>, and <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code> have changed to be either more descriptive, or consistent with the names for other functions.</p></li>
 <li><p>Fixed a bug when calculating inclusion probabilities that could result in ties not breaking according to position (as documented) when <code>alpha &gt; 0</code>.</p></li>
 <li><p>Simplified the codebase.</p></li>
 </ul></div>
@@ -90,7 +90,7 @@
 <p>A few convenience functions have been added:</p>
 <ol style="list-style-type: decimal"><li><p><code><a href="../reference/sps.html">ps()</a></code> for drawing ordinary Poisson samples with the same interface as <code><a href="../reference/sps.html">sps()</a></code>.</p></li>
 <li><p><code><a href="../reference/sps.html">inclusion_prob()</a></code> for generating inclusion probabilities for a frame.</p></li>
-<li><p><code><a href="../reference/prop_allocation.html">expected_coverage()</a></code> for calculating the expected number of strata when sampling from a frame.</p></li>
+<li><p><code><a href="../reference/expected_coverage.html">expected_coverage()</a></code> for calculating the expected number of strata when sampling from a frame.</p></li>
 </ol></li>
 <li><p>Some of the internals have been updated to improve performance with large frames.</p></li>
 <li><p>Most functions do a little more argument checking. In particular, it is no longer possible to pass length 0 arguments to <code><a href="../reference/sps.html">sps()</a></code>, <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>, or <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code>.</p></li>
