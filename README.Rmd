@@ -26,10 +26,19 @@ Sequential Poisson sampling is a variation of Poisson sampling for drawing proba
 install.packages("sps")
 ```
 
-The development version can be found on GitHub.
+The development version can be found on GitHub...
 
 ```r
-devtools::install_github("marberts/sps")
+pak::pkg_install("marberts/sps")
+```
+
+... or R-universe.
+
+```r
+install.packages(
+  "sps",
+  repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
 
 ## Usage

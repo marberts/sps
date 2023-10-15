@@ -5,10 +5,6 @@ template:
   bootswatch: united
   
 reference:
-- title: Package overview
-  contents:
-  - sps-package
-
 - title: Sampling
   contents:
   - sps
@@ -16,6 +12,7 @@ reference:
 - title: Allocations
   contents:
   - prop_allocation
+  - expected_coverage
   
 - title: Replicate weights
   contents:
