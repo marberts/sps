@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,21 +74,15 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sps"</span><span class="op">)</span></span></code></pre></div>
-<p>The development version can be found on GitHub…</p>
+<p>The development version can be found on GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"marberts/sps"</span><span class="op">)</span></span></code></pre></div>
-<p>… or R-universe.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"sps"</span>,</span>
-<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://marberts.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu">install_pkg</span><span class="op">(</span><span class="st">"marberts/sps"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Given a vector of sizes for units in a population (e.g., revenue for sampling businesses) and a desired sample size, a stratified sequential Poisson sample can be drawn with the <code><a href="reference/sps.html">sps()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marberts.github.io/sps/" class="external-link">sps</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate some data on sizes for 12 businesses in a single </span></span>
@@ -97,15 +91,15 @@
 <span></span>
 <span><span class="co"># Draw a sample of 6 businesses</span></span>
 <span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sps.html">sps</a></span><span class="op">(</span><span class="va">revenue</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  4  5  9 10 11 12</span></span>
+<span><span class="co">#&gt; [1]  6  8  9 10 11 12</span></span>
 <span></span>
 <span><span class="co"># Design weights and sampling strata are stored with the sample</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3.437500 2.750000 1.527778 1.375000 1.000000 1.000000</span></span>
+<span><span class="co">#&gt; [1] 2.291667 1.718750 1.527778 1.375000 1.000000 1.000000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "TS" "TS" "TS" "TS" "TA" "TA"</span></span></code></pre></div>
 <p>Allocations are often proportional to size when drawing such samples, and the <code><a href="reference/prop_allocation.html">prop_allocation()</a></code> function provides a variety of methods for generating proportional-to-size allocations.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add some strata</span></span>
 <span><span class="va">stratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -116,24 +110,29 @@
 <span></span>
 <span><span class="co"># Draw a stratified sample</span></span>
 <span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sps.html">sps</a></span><span class="op">(</span><span class="va">revenue</span>, <span class="va">allocation</span>, <span class="va">stratum</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  3  4  9 10 11 12</span></span>
+<span><span class="co">#&gt; [1]  2  4  8 10 11 12</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 5.000000 3.750000 1.666667 1.000000 1.000000 1.000000</span></span>
+<span><span class="co">#&gt; [1] 7.500 3.750 1.875 1.000 1.000 1.000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "TS" "TS" "TS" "TA" "TA" "TA"</span></span></code></pre></div>
 <p>The design weights for a sample can then be used to generate bootstrap replicate weights with the <code>sps_repwights()</code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sps_repweights.html">sps_repweights</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span>, <span class="fl">5</span>, tau <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       [,1] [,2]  [,3]  [,4]  [,5]</span></span>
-<span><span class="co">#&gt; [1,] 7.500 5.00 2.500 2.500 7.500</span></span>
-<span><span class="co">#&gt; [2,] 3.625 1.75 3.625 3.625 4.125</span></span>
-<span><span class="co">#&gt; [3,] 1.500 1.50 1.500 1.500 2.000</span></span>
-<span><span class="co">#&gt; [4,] 1.000 1.00 1.000 1.000 1.000</span></span>
-<span><span class="co">#&gt; [5,] 1.000 1.00 1.000 1.000 1.000</span></span>
-<span><span class="co">#&gt; [6,] 1.000 1.00 1.000 1.000 1.000</span></span>
+<span><span class="co">#&gt;        [,1]  [,2]   [,3]    [,4]   [,5]</span></span>
+<span><span class="co">#&gt; [1,] 11.500 7.250 7.2500 15.2500 7.2500</span></span>
+<span><span class="co">#&gt; [2,]  3.625 3.625 5.5000  2.2500 2.2500</span></span>
+<span><span class="co">#&gt; [3,]  2.750 2.750 1.8125  2.3125 1.8125</span></span>
+<span><span class="co">#&gt; [4,]  1.000 1.000 1.0000  1.0000 1.0000</span></span>
+<span><span class="co">#&gt; [5,]  1.000 1.000 1.0000  1.0000 1.0000</span></span>
+<span><span class="co">#&gt; [6,]  1.000 1.000 1.0000  1.0000 1.0000</span></span>
 <span><span class="co">#&gt; attr(,"tau")</span></span>
 <span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="contribution">Contribution<a class="anchor" aria-label="anchor" href="#contribution"></a>
+</h2>
+<p>There are a number of packages on CRAN for drawing samples proportional to size, but these generally do not include the sequential Poisson method. The <strong>sampling</strong> package contains a function for drawing sequential Poisson samples, but it does not allow for stratification, take-all units, or the use of permanent random numbers. By contrast, the <strong>prnsamplr</strong> package allows for the use of stratification and permanent random numbers with Pareto order sampling, but does not feature other order-sampling methods (like sequential Poisson).</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
