@@ -52,7 +52,7 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
   res[order(ord)]
 }
 
-#' Proportional allocation
+#' Construct a proportional allocation
 #'
 #' Generate a proportional-to-size allocation for stratified sampling.
 #'
@@ -64,9 +64,11 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 #'
 #' \describe{
 #' \item{Jefferson/D'Hondt}{`\(a) a + 1`}
-#' \item{Webster/Sainte-Laguë}{`\(a) a + 0.5`} \item{Imperiali}{`\(a)
-#' a + 2`} \item{Huntington-Hill}{`\(a) sqrt(a * (a + 1))`}
-#' \item{Danish}{`\(a) a + 1 / 3`} \item{Adams}{`\(a) a`}
+#' \item{Webster/Sainte-Laguë}{`\(a) a + 0.5`}
+#' \item{Imperiali}{`\(a) a + 2`}
+#' \item{Huntington-Hill}{`\(a) sqrt(a * (a + 1))`}
+#' \item{Danish}{`\(a) a + 1 / 3`}
+#' \item{Adams}{`\(a) a`}
 #' \item{Dean}{`\(a) a * (a + 1) / (a + 0.5)`}
 #' }
 #'
@@ -104,23 +106,23 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 #' @param ties Either 'largest' to break ties in favor of the stratum with the
 #' largest size, or 'first' to break ties in favor of the ordering of
 #' `strata`.
-#' 
+#'
 #' @returns
 #' A named integer vector of sample sizes for each stratum in `strata`.
 #
 #' @seealso
 #' [sps()] for stratified sequential Poisson sampling.
-#' 
+#'
 #' [expected_coverage()] to calculate the expected number of strata in a sample
 #' without stratification.
 #'
-#' `strAlloc` in the \pkg{PracTools} package for other allocation methods.
-#' 
-#' @references 
+#' `strAlloc()` in the \pkg{PracTools} package for other allocation methods.
+#'
+#' @references
 #' Balinksi, M. L. and Young, H. P. (1982).
 #' *Fair Representation: Meeting the Ideal of One Man, One Vote*.
 #' Yale University Press.
-#' 
+#'
 #' @examples
 #' # Make a population with units of different size
 #' x <- c(rep(1:9, each = 3), 100, 100, 100)
@@ -128,10 +130,7 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 #' # ... and 10 strata
 #' s <- rep(letters[1:10], each = 3)
 #'
-#' # Should get about 7 to 8 strata in a sample on average
-#' expected_coverage(x, 15, s)
-#'
-#' # Generate an allocation with all 10
+#' # Generate an allocation
 #' prop_allocation(x, 15, s, initial = 1)
 #'
 #' @export

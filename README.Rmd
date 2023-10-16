@@ -26,19 +26,10 @@ Sequential Poisson sampling is a variation of Poisson sampling for drawing proba
 install.packages("sps")
 ```
 
-The development version can be found on GitHub...
+The development version can be found on GitHub.
 
 ```r
-pak::pkg_install("marberts/sps")
-```
-
-... or R-universe.
-
-```r
-install.packages(
-  "sps",
-  repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
-)
+pak::install_pkg("marberts/sps")
 ```
 
 ## Usage
@@ -81,6 +72,10 @@ The design weights for a sample can then be used to generate bootstrap replicate
 ```{r}
 sps_repweights(weights(samp), 5, tau = 2)
 ```
+
+## Contribution
+
+There are a number of packages on CRAN for drawing samples proportional to size, but these generally do not include the sequential Poisson method. The **sampling** package contains a function for drawing sequential Poisson samples, but it does not allow for stratification, take-all units, or the use of permanent random numbers. By contrast, the **prnsamplr** package allows for the use of stratification and permanent random numbers with Pareto order sampling, but does not feature other order-sampling methods (like sequential Poisson).
 
 ## References
 

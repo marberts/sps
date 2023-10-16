@@ -1,3 +1,7 @@
+## Changes in version 0.5.3
+
+- Documentation only; no changes to any functions.
+
 ## Changes in version 0.5.2
 
 - Added a vignette.

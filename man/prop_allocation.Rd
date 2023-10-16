@@ -2,7 +2,7 @@
 % Please edit documentation in R/prop_allocation.R
 \name{prop_allocation}
 \alias{prop_allocation}
-\title{Proportional allocation}
+\title{Construct a proportional allocation}
 \usage{
 prop_allocation(
   x,
@@ -53,8 +53,11 @@ are a number of different divisor functions:
 
 \describe{
 \item{Jefferson/D'Hondt}{\verb{\\(a) a + 1}}
-\item{Webster/Sainte-Laguë}{\verb{\\(a) a + 0.5}} \item{Imperiali}{\verb{\\(a) a + 2}} \item{Huntington-Hill}{\verb{\\(a) sqrt(a * (a + 1))}}
-\item{Danish}{\verb{\\(a) a + 1 / 3}} \item{Adams}{\verb{\\(a) a}}
+\item{Webster/Sainte-Laguë}{\verb{\\(a) a + 0.5}}
+\item{Imperiali}{\verb{\\(a) a + 2}}
+\item{Huntington-Hill}{\verb{\\(a) sqrt(a * (a + 1))}}
+\item{Danish}{\verb{\\(a) a + 1 / 3}}
+\item{Adams}{\verb{\\(a) a}}
 \item{Dean}{\verb{\\(a) a * (a + 1) / (a + 0.5)}}
 }
 
@@ -85,10 +88,7 @@ x <- c(rep(1:9, each = 3), 100, 100, 100)
 # ... and 10 strata
 s <- rep(letters[1:10], each = 3)
 
-# Should get about 7 to 8 strata in a sample on average
-expected_coverage(x, 15, s)
-
-# Generate an allocation with all 10
+# Generate an allocation
 prop_allocation(x, 15, s, initial = 1)
 
 }
@@ -103,5 +103,5 @@ Yale University Press.
 \code{\link[=expected_coverage]{expected_coverage()}} to calculate the expected number of strata in a sample
 without stratification.
 
-\code{strAlloc} in the \pkg{PracTools} package for other allocation methods.
+\code{strAlloc()} in the \pkg{PracTools} package for other allocation methods.
 }

@@ -3,15 +3,12 @@
 \name{sps}
 \alias{sps}
 \alias{ps}
-\alias{inclusion_prob}
 \alias{order_sampling}
 \title{Stratified sequential Poisson sampling}
 \usage{
 sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 0.001, cutoff = Inf)
 
 ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 0.001, cutoff = Inf)
-
-inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 0.001, cutoff = Inf)
 
 order_sampling(dist)
 }
@@ -58,16 +55,12 @@ to determine which units are in the take-all or take-some
 strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip
 attributes, as does replacement.
 
-\code{inclusion_prob()} returns a numeric vector of inclusion probabilities
-for each unit in the population.
-
 \code{order_sampling} returns a function the with the same interface as
 \code{sps()} and \code{ps()}.
 }
 \description{
 Draw a stratified probability-proportional-to-size sample using the
-sequential and ordinary Poisson methods. Includes functions to calculate
-first-order inclusion probabilities and generate other order sampling
+sequential and ordinary Poisson methods, and generate other order sampling
 schemes.
 }
 \details{
@@ -79,11 +72,13 @@ method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD =
 SEQ_POISSON}.
 
 For each stratum, the sequential Poisson procedure starts by stratifying
-units in the population based on their (target) inclusion probabilities,
-\eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. Units with \eqn{\pi = 0} are
-placed into a take-none stratum, units with \eqn{0 < \pi < 1} are placed
-into a take-some stratum, and units with \eqn{\pi = 1} are placed into a
-take-all stratum.
+units in the population based on their (target) inclusion probabilities
+\eqn{\pi}. Units with \eqn{\pi = 0} are placed into a take-none stratum,
+units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units
+with \eqn{\pi = 1} are placed into a take-all stratum. As noted by
+Ohlsson (1998), it can be useful to set \eqn{\alpha} to a small positive
+value when calculating inclusion probabilities, and this is the default
+behavior.
 
 After units are appropriately stratified, a sample of take-some units is
 drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a
@@ -113,16 +108,6 @@ units, whereas switching \eqn{u} for \eqn{u - z \bmod 1}{u - z mod 1} or
 1, when drawing different samples from the same frame reduces the number of
 overlapping units.
 
-Inclusion probabilities can be greater than 1 in practice, and so they are
-constructed iteratively by taking units with \eqn{\pi \geq 1 - \alpha}{\pi
->= 1 - \alpha} (from largest to smallest) and assigning these units an
-inclusion probability of 1, with the remaining inclusion probabilities
-recalculated at each step. If \eqn{\alpha > 0}, then any ties among units
-with the same size are broken by their position. As noted by Ohlsson, it can
-be useful to set \eqn{\alpha} to a small positive value, and this is the
-default behavior. The \code{inclusion_prob()} function computes these
-stratum-wise inclusion probabilities.
-
 Despite the focus on sequential Poisson sampling, all order sampling
 procedures follow the same approach as sequential Poisson sampling. The
 \code{order_sampling()} function can be used to generate other order
@@ -131,8 +116,8 @@ variable \eqn{\xi}:
 
 \describe{
 \item{Sequential Poisson sampling}{\verb{\\(x) x}}
-\item{Successive sampling}{\verb{\\(x) log(1 - x)}} \item{Pareto
-sampling}{\verb{\\(x) x / (1 - x)}}
+\item{Successive sampling}{\verb{\\(x) log(1 - x)}}
+\item{Pareto sampling}{\verb{\\(x) x / (1 - x)}}
 }
 }
 \examples{
@@ -153,16 +138,9 @@ levels(samp)
 sps(x, 5, cutoff = quantile(x, 0.9))
 
 #---- Ordinary Poisson sampling ----
-# Ordinary Poisson sampling gives a random sample size for the 
+# Ordinary Poisson sampling gives a random sample size for the
 # take-some stratum
 ps(x, 5)
-
-# Use the inclusion probabilities to calculate the variance of the
-# sample size
-with(
-  list(pi = inclusion_prob(x, 5)), 
-  sum(pi * (1 - pi))
-)
 
 #---- Stratified Sequential Poisson sampling ----
 # Draw a stratified sample with a proportional allocation
@@ -221,11 +199,13 @@ Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling.
 \seealso{
 \code{\link[=prop_allocation]{prop_allocation()}} for generating proportional-to-size allocations.
 
+\code{\link[=inclusion_prob]{inclusion_prob()}} for calculating the inclusion probabilities.
+
 \code{\link[=sps_repweights]{sps_repweights()}} for generating bootstrap replicate weights.
 
-The \code{UPpoisson} and \code{UPopips} functions in the \pkg{sampling}
+The \code{UPpoisson()} and \code{UPopips()} functions in the \pkg{sampling}
 package for ordinary and sequential Poisson sampling, respectively. Note
-that the algorithm for order sampling in the \code{UPopips} function is
+that the algorithm for order sampling in the \code{UPopips()} function is
 currently incorrect, giving a worse approximation for the inclusion
 probabilities than it should.
 
@@ -233,6 +213,6 @@ The \verb{UP*} functions in the \pkg{sampling} package, the \verb{S.*}
 functions in the \pkg{TeachingSampling} package, and the \pkg{pps} package
 for other probability-proportional-to-size sampling methods.
 
-The \code{pps} function in the \pkg{prnsamplr} package for Pareto order
+The \code{pps()} function in the \pkg{prnsamplr} package for Pareto order
 sampling with permanent random numbers.
 }

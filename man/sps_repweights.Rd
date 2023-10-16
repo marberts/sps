@@ -23,9 +23,9 @@ pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 details.}
 }
 \value{
-A matrix of bootstrap replicate weights with \code{replicates}
-columns (one for each replicate) and \code{length(w)} rows (one for each
-unit in the sample), with the value of \code{tau} as an attribute.
+A matrix of bootstrap replicate weights with \code{replicates} columns (one for
+each replicate) and \code{length(w)} rows (one for each unit in the sample), with
+the value of \code{tau} as an attribute.
 }
 \description{
 Produce bootstrap replicate weights that are appropriate for Poisson
@@ -97,7 +97,7 @@ Rosén, B. (1997). On sampling with probability proportional to size.
 \seealso{
 \code{\link[=sps]{sps()}} for drawing a sequential Poisson sample.
 
-\code{bootstrapFP} (with \code{method = "wGeneralised"}) in the
-\pkg{bootstrapFP} package for calculating the variance of Horvitz-Thompson
-estimators using the generalized bootstrap.
+\code{bootstrapFP()} (with \code{method = "wGeneralised"}) in the \pkg{bootstrapFP}
+package for calculating the variance of Horvitz-Thompson estimators using
+the generalized bootstrap.
 }

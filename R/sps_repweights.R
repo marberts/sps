@@ -1,14 +1,14 @@
 #' Bootstrap replicate weights for sequential Poisson sampling
-#' 
+#'
 #' Produce bootstrap replicate weights that are appropriate for Poisson
 #' sampling, and therefore approximately correct for sequential Poisson
 #' sampling.
-#' 
+#'
 #' Replicate weights are constructed using the generalized bootstrap method by
 #' Beaumont and Patak (2012). Their method takes a vector of design weights
 #' \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate,
 #' and calculates the replicate weights as \eqn{a w}{a * w}.
-#' 
+#'
 #' There are two ways to calculate the adjustments \eqn{a}. The default
 #' pseudo-population method randomly rounds \eqn{w} for each replicate to
 #' produce a collection of integer weights \eqn{w'} that are used to generate a
@@ -17,12 +17,12 @@
 #' deviates-generating function for `dist` uses this function to produce a
 #' random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d
 #' \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
-#' 
+#'
 #' The adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to
 #' prevent negative replicate weights. With this rescaling, the adjustment
 #' becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting
 #' bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
-#' 
+#'
 #' @param w A numeric vector of design (inverse probability) weights for a
 #' (sequential) Poisson sample.
 #' @param replicates A positive integer that gives the number of bootstrap
@@ -34,12 +34,12 @@
 #' standard deviation 1, such as [rnorm()]. The default uses the
 #' pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 #' details.
-#' 
+#'
 #' @returns
-#' A matrix of bootstrap replicate weights with `replicates`
-#' columns (one for each replicate) and `length(w)` rows (one for each
-#' unit in the sample), with the value of `tau` as an attribute.
-#' 
+#' A matrix of bootstrap replicate weights with `replicates` columns (one for
+#' each replicate) and `length(w)` rows (one for each unit in the sample), with
+#' the value of `tau` as an attribute.
+#'
 #' @note
 #' As an alternative to the bootstrap, Ohlsson (1998, equations 2.13)
 #' proposes an analytic estimator for the variance of the total \eqn{\hat Y =
@@ -52,32 +52,32 @@
 #' where \eqn{m} is the number of units in the sample, gives a similar
 #' estimator for the total under ordinary Poisson sampling, \eqn{\hat Y = n / m
 #' \sum wy}{Y = n / m * \sum w * y}.
-#' 
+#'
 #' @seealso
 #' [sps()] for drawing a sequential Poisson sample.
-#' 
-#' `bootstrapFP` (with `method = "wGeneralised"`) in the
-#' \pkg{bootstrapFP} package for calculating the variance of Horvitz-Thompson
-#' estimators using the generalized bootstrap.
-#' 
+#'
+#' `bootstrapFP()` (with `method = "wGeneralised"`) in the \pkg{bootstrapFP}
+#' package for calculating the variance of Horvitz-Thompson estimators using
+#' the generalized bootstrap.
+#'
 #' @references
 #' Beaumont, J.-F. and Patak, Z. (2012). On the Generalized
 #' Bootstrap for Sample Surveys with Special Attention to Poisson Sampling.
 #' *International Statistical Review*, 80(1): 127-148.
-#' 
+#'
 #' Ohlsson, E. (1998). Sequential Poisson Sampling.
 #' *Journal of Official Statistics*, 14(2): 149-162.
-#' 
+#'
 #' Rosén, B. (1997). On sampling with probability proportional to size.
 #' *Journal of Statistical Planning and Inference*, 62(2): 159-191.
-#' 
+#'
 #' @examples
 #' # Make a population with units of different size
 #' x <- c(1:10, 100)
-#' 
+#'
 #' # Draw a sequential Poisson sample
 #' (samp <- sps(x, 5))
-#' 
+#'
 #' # Make some bootstrap replicates
 #' dist <- list(
 #'   pseudo_population = NULL,
@@ -85,9 +85,9 @@
 #'   exponential = \(x) rexp(x) - 1,
 #'   uniform = \(x) runif(x, -sqrt(3), sqrt(3))
 #' )
-#' 
+#'
 #' lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
-#' 
+#'
 #' @export
 sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
   w <- as.numeric(w)

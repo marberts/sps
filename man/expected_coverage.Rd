@@ -31,14 +31,13 @@ for all strata. The default does not apply a cutoff.}
 The expected number of strata covered by the sample design.
 }
 \description{
-Find the average number of strata covered by ordinary Poisson sampling
+Find the expected number of strata covered by ordinary Poisson sampling
 without stratification. As sequential and ordinary Poisson sampling have the
 same sample size on average, this gives an approximation for the coverage
 under sequential Poisson sampling.
 
-This function can also be used to
-calculate, e.g., the expected number of enterprises covered within a stratum
-when sampling business establishments.
+This function can also be used to calculate, e.g., the expected number of
+enterprises covered within a stratum when sampling business establishments.
 }
 \examples{
 # Make a population with units of different size
@@ -50,4 +49,7 @@ s <- rep(letters[1:10], each = 3)
 # Should get about 7 to 8 strata in a sample on average
 expected_coverage(x, 15, s)
 
+}
+\seealso{
+\code{\link[=prop_allocation]{prop_allocation()}} for generating proportional-to-size allocations.
 }

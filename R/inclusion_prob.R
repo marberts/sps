@@ -11,7 +11,7 @@ as_stratum <- function(strata) {
   strata
 }
 
-#' Calculate unconstrained inclusion probabilities 
+#' Calculate unconstrained inclusion probabilities
 #' @noRd
 unbounded_pi <- function(x, n) {
   # n == 0 should be a strong zero
@@ -108,4 +108,47 @@ inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
     )
   }
   Map(pi, split(x, strata), n, alpha, cutoff)
+}
+
+#' Calculate inclusion probabilities
+#'
+#' Calculate stratified (first-order) inclusion probabilities.
+#'
+#' Within a stratum, the inclusion probability for a unit is given by
+#' \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. These values can be greater
+#' than 1 in practice, and so they are constructed iteratively by taking units
+#' with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest)
+#' and assigning these units an inclusion probability of 1, with the remaining
+#' inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then
+#' any ties among units with the same size are broken by their position.
+#'
+#' @inheritParams sps
+#'
+#' @returns
+#' A numeric vector of inclusion probabilities for each unit in the population.
+#'
+#' @seealso
+#' [sps()] for drawing a sequential Poisson sample.
+#'
+#' @examples
+#' # Make a population with units of different size
+#' x <- c(1:10, 100)
+#'
+#' # Use the inclusion probabilities to calculate the variance of the
+#' # sample size for Poisson sampling
+#' pi <- inclusion_prob(x, 5)
+#' sum(pi * (1 - pi))
+#'
+#' @export
+inclusion_prob <- function(x,
+                           n,
+                           strata = gl(1, length(x)),
+                           alpha = 1e-3,
+                           cutoff = Inf) {
+  x <- as.numeric(x)
+  n <- as.integer(n)
+  strata <- as_stratum(strata)
+  alpha <- as.numeric(alpha)
+  cutoff <- as.numeric(cutoff)
+  unsplit(inclusion_prob_(x, n, strata, alpha, cutoff), strata)
 }
