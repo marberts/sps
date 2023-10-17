@@ -150,7 +150,7 @@ sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region, prn))
 all(sample %in% sample_tu)
 ```
 
-As with any proportional-to-size sampling scheme, there is a critical sample size after which some units become take-all units. If these units are not already in the sample then they can "bump" previously sampled units, requiring a larger sample size to keep all the previously sampled units in the new sample.
+As with any proportional-to-size sampling scheme, there is a critical sample size after which some units become take-all units. If these units are not already in the sample then they can "bump" previously sampled units, requiring a larger sample size to keep all the previously sampled units in the new sample. This can be seen by finding the sample size at which each unit enters the take-all stratum.
 
 ```{r critical}
 becomes_ta <- function(x, alpha = 1e-3) {

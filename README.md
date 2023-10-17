@@ -20,6 +20,8 @@ to the generalized bootstrap method by Beaumont and Patak (2012).
 
 ## Installation
 
+The stable release is available on CRAN.
+
 ``` r
 install.packages("sps")
 ```
@@ -27,7 +29,7 @@ install.packages("sps")
 The development version can be found on GitHub.
 
 ``` r
-pak::install_pkg("marberts/sps")
+pak::pkg_install("marberts/sps")
 ```
 
 ## Usage
@@ -45,11 +47,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  6  8  9 10 11 12
+#> [1]  3  7  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 2.291667 1.718750 1.527778 1.375000 1.000000 1.000000
+#> [1] 4.583333 1.964286 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -69,31 +71,34 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  2  4  8 10 11 12
+#> [1]  4  7  9 10 11 12
 
 weights(samp)
-#> [1] 7.500 3.750 1.875 1.000 1.000 1.000
+#> [1] 3.750000 2.142857 1.666667 1.000000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
 
 The design weights for a sample can then be used to generate bootstrap
-replicate weights with the `sps_repwights()` function.
+replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>        [,1]  [,2]   [,3]    [,4]   [,5]
-#> [1,] 11.500 7.250 7.2500 15.2500 7.2500
-#> [2,]  3.625 3.625 5.5000  2.2500 2.2500
-#> [3,]  2.750 2.750 1.8125  2.3125 1.8125
-#> [4,]  1.000 1.000 1.0000  1.0000 1.0000
-#> [5,]  1.000 1.000 1.0000  1.0000 1.0000
-#> [6,]  1.000 1.000 1.0000  1.0000 1.0000
+#>          [,1]     [,2]     [,3]     [,4]     [,5]
+#> [1,] 1.750000 3.625000 3.625000 3.625000 3.625000
+#> [2,] 3.285714 1.142857 2.214286 2.785714 2.785714
+#> [3,] 1.166667 2.000000 1.500000 1.500000 2.333333
+#> [4,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#> [6,] 1.000000 1.000000 1.000000 1.000000 1.000000
 #> attr(,"tau")
 #> [1] 2
 ```
 
-## Contribution
+The vignette gives more detail about how to use these functions to draw
+coordinated samples, top up a sample, and estimate variance.
+
+## Prior work
 
 There are a number of packages on CRAN for drawing samples proportional
 to size, but these generally do not include the sequential Poisson
