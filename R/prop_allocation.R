@@ -1,8 +1,8 @@
 #' Highest-averages apportionment method
 #' @noRd
 highest_averages <- function(p, n, initial, available, ties, dist) {
-  if (n < 0L) {
-    stop("sample size must be greater than or equal to 0")
+  if (length(n) > 1L || n < 0L) {
+    stop("sample size must be an integer greater than or equal to 0")
   }
   if (length(p) != length(initial)) {
     stop("initial allocation must have a single size for each stratum")
