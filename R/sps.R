@@ -61,11 +61,7 @@ stratify <- function(f) {
     weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
 
     ord <- order(res)
-    structure(
-      res[ord],
-      weights = weights[ord],
-      class = c("sps", "numeric")
-    )
+    new_sps_sample(res[ord], weights[ord])
   }
 }
 
@@ -156,14 +152,14 @@ stratify <- function(f) {
 #' sampling scheme. See details.
 #'
 #' @returns
-#' `sps()` and `ps()` return an object of class `sps`.
+#' `sps()` and `ps()` return an object of class `sps_sample`.
 #' This is an integer vector of indices for the units in the population that
 #' form the sample, along with a `weights` attribute that gives the design
 #' (inverse probability) weights for each unit in the sample (keeping in mind
 #' that sequential Poisson sampling is only approximately
 #' probability-proportional-to-size). `weights()` can be used to access
-#' the design weights attribute of an `sps` object, and `levels()` can be used
-#' to determine which units are in the take-all or take-some
+#' the design weights attribute of an `sps_sample` object, and `levels()` can
+#' be used to determine which units are in the take-all or take-some
 #' strata. [Mathematical and binary/unary operators][groupGeneric] strip
 #' attributes, as does replacement.
 #'
@@ -278,61 +274,4 @@ ps <- stratify(ps_)
 #' @export
 order_sampling <- function(dist) {
   stratify(order_sampling_(dist))
-}
-
-#' Methods for sps objects
-#' @noRd
-#' @export
-levels.sps <- function(x) {
-  res <- rep.int("TS", length(x))
-  res[weights(x) == 1] <- "TA"
-  res
-}
-
-#' @export
-`levels<-.sps` <- function(x, value) {
-  stop("cannot replace levels attribute")
-}
-
-#' @export
-`length<-.sps` <- function(x, value) {
-  x <- as.vector(x)
-  NextMethod()
-}
-
-#' @export
-#' @importFrom stats weights
-weights.sps <- function(object, ...) {
-  attr(object, "weights")
-}
-
-#' @export
-print.sps <- function(x, ...) {
-  print(as.vector(x), ...)
-  invisible(x)
-}
-
-#' @export
-Math.sps <- function(x, ...) {
-  x <- as.vector(x)
-  NextMethod()
-}
-
-#' @export
-Ops.sps <- function(e1, e2) {
-  if (inherits(e1, "sps")) e1 <- as.vector(e1)
-  if (nargs() == 2L && inherits(e2, "sps")) e2 <- as.vector(e2)
-  NextMethod()
-}
-
-#' @export
-`[<-.sps` <- function(x, i, value) {
-  x <- as.vector(x)
-  NextMethod()
-}
-
-#' @export
-`[[<-.sps` <- function(x, i, value) {
-  x <- as.vector(x)
-  NextMethod()
 }
