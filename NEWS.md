@@ -1,3 +1,7 @@
+## Changes in version 0.5.4
+
+- Internal changes to the way classes are instantiated. No user-visible changes.
+
 ## Changes in version 0.5.3
 
 - Documentation only; no changes to any functions.
