@@ -153,7 +153,7 @@ the generalized bootstrap.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Draw a sequential Poisson sample</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="sps.html">sps</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5  8  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  9 10 11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make some bootstrap replicates</span></span></span>
 <span class="r-in"><span><span class="va">dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
@@ -166,41 +166,41 @@ the generalized bootstrap.</p></div>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">dist</span>, <span class="va">sps_repweights</span>, w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span>, replicates <span class="op">=</span> <span class="fl">5</span>, tau <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pseudo_population</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 2.625000 3.125000 2.625000 1.250000 1.250000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.578125 2.437500 2.078125 2.437500 2.437500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 1.291667 1.291667 1.791667 2.055556 1.791667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.875000 1.562500 0.875000 1.750000 1.062500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 7.166667 2.583333 4.375000 2.083333 2.083333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.291667 2.437500 1.291667 1.291667 2.437500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 2.055556 2.055556 1.791667 2.055556 1.291667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.875000 1.062500 1.562500 1.562500 1.062500</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"tau")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $standard_normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]      [,3]     [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 4.465593 2.2213104 3.4820206 1.435154 4.2625700</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.898470 0.8840768 2.0901182 1.828014 1.0541147</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 2.188949 1.7106559 1.3877071 1.203743 1.1887606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 1.794754 1.6421396 0.7712151 1.608781 0.7468588</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.000000 1.0000000 1.0000000 1.000000 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]     [,3]     [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.665919 3.821095 3.920298 4.532626 1.0252823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 2.653413 3.347777 2.021002 2.253572 2.5547872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 1.901347 1.661474 2.698566 2.318863 1.1664787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 1.186898 1.398942 1.594593 1.891367 0.7548016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.000000 1.000000 1.000000 1.000000 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"tau")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $exponential</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 3.339419 2.322910 1.764673 1.700656 2.224801</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 5.073888 1.637899 2.753768 2.052438 1.630329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 1.206043 1.953757 1.078924 1.372057 3.710816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 1.310407 1.264589 1.092948 1.272090 1.167721</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 3.299301 3.213207 5.685607 4.055133 2.610572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.792732 2.123708 2.210224 1.542943 3.268487</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 1.452442 1.893879 1.149476 1.185910 1.113723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 1.112186 1.522618 1.456458 1.427549 1.188914</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"tau")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $uniform</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]     [,2]     [,3]     [,4]      [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 3.3007477 2.639261 2.628275 1.936608 1.1124630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.3642446 1.235153 1.687965 1.148819 1.1491511</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 1.9733332 1.134425 1.802857 1.601434 0.9262283</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.8086538 1.044206 1.408309 1.275298 1.8173302</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.0000000 1.000000 1.000000 1.000000 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]     [,3]      [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 6.865381 4.785884 2.936546 2.3680718 4.9399216</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 3.344838 3.652066 1.034813 2.7311191 1.7746493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 2.041976 1.657303 2.170990 0.8577543 1.5698293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 1.607240 1.931771 1.503441 1.0112701 0.8745153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.000000 1.000000 1.000000 1.0000000 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"tau")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
