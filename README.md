@@ -9,6 +9,7 @@ status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/pa
 badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://app.codecov.io/gh/marberts/sps)
+[![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
 
 Sequential Poisson sampling is a variation of Poisson sampling for
 drawing probability-proportional-to-size samples with a given number of
@@ -20,13 +21,19 @@ to the generalized bootstrap method by Beaumont and Patak (2012).
 
 ## Installation
 
-The stable release is available on CRAN.
+Get the stable release from CRAN.
 
 ``` r
 install.packages("sps")
 ```
 
-The development version can be found on GitHub.
+The development version can be installed from R-Universe
+
+``` r
+install.packages('sps', repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+or directly from GitHub.
 
 ``` r
 pak::pkg_install("marberts/sps")
@@ -47,11 +54,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  3  7  9 10 11 12
+#> [1]  3  8  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 4.583333 1.964286 1.527778 1.375000 1.000000 1.000000
+#> [1] 4.583333 1.718750 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -71,10 +78,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  4  7  9 10 11 12
+#> [1]  3  5  8 10 11 12
 
 weights(samp)
-#> [1] 3.750000 2.142857 1.666667 1.000000 1.000000 1.000000
+#> [1] 5.000 3.000 1.875 1.000 1.000 1.000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -84,13 +91,13 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>          [,1]     [,2]     [,3]     [,4]     [,5]
-#> [1,] 1.750000 3.625000 3.625000 3.625000 3.625000
-#> [2,] 3.285714 1.142857 2.214286 2.785714 2.785714
-#> [3,] 1.166667 2.000000 1.500000 1.500000 2.333333
-#> [4,] 1.000000 1.000000 1.000000 1.000000 1.000000
-#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
-#> [6,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#>        [,1]   [,2]  [,3]  [,4]   [,5]
+#> [1,] 5.0000 2.5000 2.500 5.000 7.5000
+#> [2,] 4.5000 4.5000 4.500 3.000 1.5000
+#> [3,] 1.8125 1.8125 0.875 0.875 1.8125
+#> [4,] 1.0000 1.0000 1.000 1.000 1.0000
+#> [5,] 1.0000 1.0000 1.000 1.000 1.0000
+#> [6,] 1.0000 1.0000 1.000 1.000 1.0000
 #> attr(,"tau")
 #> [1] 2
 ```
