@@ -32,7 +32,7 @@ install.packages("sps")
 The development version can be installed from R-Universe
 
 ```{r, eval=FALSE}
-install.packages('sps', repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+install.packages("sps", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 or directly from GitHub.
