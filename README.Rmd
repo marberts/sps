@@ -1,5 +1,4 @@
 ---
-title: "Sequential Poisson Sampling"
 output: github_document
 ---
 
@@ -12,6 +11,8 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
+# Sequential Poisson sampling <a href="https://marberts/github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
 [![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)

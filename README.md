@@ -1,7 +1,7 @@
-Sequential Poisson Sampling
-================
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
+
+# Sequential Poisson sampling <a href="https://marberts/github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
@@ -54,11 +54,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  4  8  9 10 11 12
+#> [1]  1  7  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 3.437500 1.718750 1.527778 1.375000 1.000000 1.000000
+#> [1] 13.750000  1.964286  1.527778  1.375000  1.000000  1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -78,10 +78,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  5  6  9 10 11 12
+#> [1]  6  8  9 10 11 12
 
 weights(samp)
-#> [1] 3.000000 2.500000 1.666667 1.000000 1.000000 1.000000
+#> [1] 2.500000 1.875000 1.666667 1.000000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -91,13 +91,13 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>          [,1] [,2] [,3] [,4] [,5]
-#> [1,] 1.500000 4.50  1.5 4.50  3.0
-#> [2,] 1.500000 2.25  4.0 2.25  4.0
-#> [3,] 2.333333 1.50  2.0 1.50  1.5
-#> [4,] 1.000000 1.00  1.0 1.00  1.0
-#> [5,] 1.000000 1.00  1.0 1.00  1.0
-#> [6,] 1.000000 1.00  1.0 1.00  1.0
+#>          [,1]   [,2]  [,3]     [,4]      [,5]
+#> [1,] 2.250000 2.2500 1.500 2.750000 3.5000000
+#> [2,] 0.875000 1.8125 0.875 1.812500 2.7500000
+#> [3,] 2.333333 1.5000 2.000 1.166667 0.6666667
+#> [4,] 1.000000 1.0000 1.000 1.000000 1.0000000
+#> [5,] 1.000000 1.0000 1.000 1.000000 1.0000000
+#> [6,] 1.000000 1.0000 1.000 1.000000 1.0000000
 #> attr(,"tau")
 #> [1] 2
 ```
