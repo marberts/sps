@@ -3,7 +3,6 @@
 \docType{package}
 \name{sps-package}
 \alias{sps-package}
-\alias{_PACKAGE}
 \title{sps: Sequential Poisson Sampling}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}

@@ -1,3 +1,3 @@
 #' @keywords internal
-#' @aliases sps-package
+#' @aliases sps-package NULL
 "_PACKAGE"

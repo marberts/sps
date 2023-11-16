@@ -8,5 +8,4 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^man/figures$
 ^inst/logo\.R$
