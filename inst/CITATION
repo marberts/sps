@@ -3,7 +3,7 @@ bibentry(
   title    = "{sps}: Sequential Poisson Sampling",
   author   = person("Steve", "Martin", role = c("aut", "cre", "cph"),
                     comment = c(ORCID = "0000-0003-2544-9480")),
-  year     = "2023",
+  year     = "2024",
   doi      = "10.5281/zenodo.10109857",
   url      = "https://cran.r-project.org/package=sps",
   note     = sprintf("R package version %s", meta$Version)

@@ -10,6 +10,8 @@ badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/branch/master/graph/badge.svg?token=5CPGWUF267)](https://app.codecov.io/gh/marberts/sps)
 [![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
+[![Mentioned in Awesome Official
+Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
 
 Sequential Poisson sampling is a variation of Poisson sampling for
 drawing probability-proportional-to-size samples with a given number of
@@ -36,7 +38,7 @@ install.packages("sps", repos = c("https://marberts.r-universe.dev", "https://cl
 or directly from GitHub.
 
 ``` r
-pak::pkg_install("marberts/sps")
+pak::pak("marberts/sps")
 ```
 
 ## Usage
@@ -54,11 +56,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  1  7  9 10 11 12
+#> [1]  3  7  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 13.750000  1.964286  1.527778  1.375000  1.000000  1.000000
+#> [1] 4.583333 1.964286 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -91,13 +93,13 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>          [,1]   [,2]  [,3]     [,4]      [,5]
-#> [1,] 2.250000 2.2500 1.500 2.750000 3.5000000
-#> [2,] 0.875000 1.8125 0.875 1.812500 2.7500000
-#> [3,] 2.333333 1.5000 2.000 1.166667 0.6666667
-#> [4,] 1.000000 1.0000 1.000 1.000000 1.0000000
-#> [5,] 1.000000 1.0000 1.000 1.000000 1.0000000
-#> [6,] 1.000000 1.0000 1.000 1.000000 1.0000000
+#>        [,1]     [,2]     [,3]   [,4]     [,5]
+#> [1,] 2.7500 1.500000 4.750000 2.2500 2.250000
+#> [2,] 1.8125 2.750000 1.812500 2.3125 0.875000
+#> [3,] 2.0000 1.166667 2.333333 2.0000 1.166667
+#> [4,] 1.0000 1.000000 1.000000 1.0000 1.000000
+#> [5,] 1.0000 1.000000 1.000000 1.0000 1.000000
+#> [6,] 1.0000 1.000000 1.000000 1.0000 1.000000
 #> attr(,"tau")
 #> [1] 2
 ```

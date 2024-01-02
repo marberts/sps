@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Steve Martin \email{stevemartin041@gmail.com} (\href{https://orcid.org/0000-0003-2544-9480}{ORCID}) [copyright holder]
+\strong{Maintainer}: Steve Martin \email{marberts@protonmail.com} (\href{https://orcid.org/0000-0003-2544-9480}{ORCID}) [copyright holder]
 
 Other contributors:
 \itemize{
