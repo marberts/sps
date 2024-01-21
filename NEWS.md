@@ -2,6 +2,8 @@
 
 - Internal changes to the way classes are instantiated. No user-visible changes.
 
+- Updated maintainer email.
+
 ## Changes in version 0.5.3
 
 - Documentation only; no changes to any functions.
