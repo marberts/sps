@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
 [![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/r-sps.svg)](https://anaconda.org/conda-forge/r-sps)
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
 [![codecov](https://codecov.io/gh/marberts/sps/graph/badge.svg?token=5CPGWUF267)](https://codecov.io/gh/marberts/sps)
 [![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
