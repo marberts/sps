@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,9 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inclusion_prob</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.001</span>, cutoff <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inclusion_prob</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.001</span>, cutoff <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">becomes_ta</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.001</span>, cutoff <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -95,7 +97,12 @@ for all strata. The default does not apply a cutoff.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A numeric vector of inclusion probabilities for each unit in the population.</p>
+<p><code>inclusion_prob()</code> returns a numeric vector of inclusion probabilities for
+each unit in the population.</p>
+
+
+<p><code>becomes_ta()</code> returns an integer vector giving the sample size at which a
+unit enters the take-all stratum.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -106,6 +113,10 @@ with \(\pi \geq 1 - \alpha\) (from largest to smallest)
 and assigning these units an inclusion probability of 1, with the remaining
 inclusion probabilities recalculated at each step. If \(\alpha &gt; 0\), then
 any ties among units with the same size are broken by their position.</p>
+<p>The <code>becomes_ta()</code> function reverses this operations and finds the critical
+sample size at which a unit enters the take-all stratum. This value is
+undefined for units that are always included in the sample (because their
+size exceeds <code>cutoff</code>) or never included.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -114,12 +125,20 @@ any ties among units with the same size are broken by their position.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Make a population with units of different size</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Make inclusion probabilities for a population with units</span></span></span>
+<span class="r-in"><span><span class="co"># of different size</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">pi</span> <span class="op">&lt;-</span> <span class="fu">inclusion_prob</span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.07272727 0.14545455 0.21818182 0.29090909 0.36363636 0.43636364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.50909091 0.58181818 0.65454545 0.72727273 1.00000000</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The last unit is sufficiently large to be included in all</span></span></span>
+<span class="r-in"><span><span class="co"># samples with two or more units</span></span></span>
+<span class="r-in"><span><span class="fu">becomes_ta</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 11 11 10 10  9  9  8  8  7  7  2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use the inclusion probabilities to calculate the variance of the</span></span></span>
 <span class="r-in"><span><span class="co"># sample size for Poisson sampling</span></span></span>
-<span class="r-in"><span><span class="va">pi</span> <span class="op">&lt;-</span> <span class="fu">inclusion_prob</span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">pi</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">pi</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.963636</span>
 <span class="r-in"><span></span></span>
