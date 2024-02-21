@@ -1,5 +1,8 @@
 ## Changes in version 0.5.4
 
+- Added `becomes_ta()` to determine the sample size when a unit enter the
+take-all stratum.
+
 - Internal changes to the way classes are instantiated. No user-visible changes.
 
 - Updated maintainer email.

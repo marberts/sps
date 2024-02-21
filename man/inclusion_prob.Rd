@@ -2,9 +2,12 @@
 % Please edit documentation in R/inclusion_prob.R
 \name{inclusion_prob}
 \alias{inclusion_prob}
+\alias{becomes_ta}
 \title{Calculate inclusion probabilities}
 \usage{
 inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 0.001, cutoff = Inf)
+
+becomes_ta(x, alpha = 0.001, cutoff = Inf)
 }
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the
@@ -30,7 +33,11 @@ an inclusion probability of 1 for each stratum. A single value is recycled
 for all strata. The default does not apply a cutoff.}
 }
 \value{
-A numeric vector of inclusion probabilities for each unit in the population.
+\code{inclusion_prob()} returns a numeric vector of inclusion probabilities for
+each unit in the population.
+
+\code{becomes_ta()} returns an integer vector giving the sample size at which a
+unit enters the take-all stratum.
 }
 \description{
 Calculate stratified (first-order) inclusion probabilities.
@@ -43,14 +50,24 @@ with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest)
 and assigning these units an inclusion probability of 1, with the remaining
 inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then
 any ties among units with the same size are broken by their position.
+
+The \code{becomes_ta()} function reverses this operations and finds the critical
+sample size at which a unit enters the take-all stratum. This value is
+undefined for units that are always included in the sample (because their
+size exceeds \code{cutoff}) or never included.
 }
 \examples{
-# Make a population with units of different size
+# Make inclusion probabilities for a population with units
+# of different size
 x <- c(1:10, 100)
+(pi <- inclusion_prob(x, 5))
+
+# The last unit is sufficiently large to be included in all
+# samples with two or more units
+becomes_ta(x)
 
 # Use the inclusion probabilities to calculate the variance of the
 # sample size for Poisson sampling
-pi <- inclusion_prob(x, 5)
 sum(pi * (1 - pi))
 
 }

@@ -29,6 +29,11 @@ test_that("corner cases work as expected", {
     inclusion_prob(c(0, 1, 1, 1 - 1e-4), 3),
     c(0, 1, 1, 1)
   )
+  
+  expect_equal(becomes_ta(0), NaN)
+  expect_equal(becomes_ta(1), 1)
+  expect_equal(becomes_ta(1:3, cutoff = 1), c(NaN, NaN, NaN))
+  expect_equal(becomes_ta(c(1, 3, 2, 3), alpha = 1), c(4, 1, 3, 2))
 })
 
 test_that("argument checking works", {
@@ -54,6 +59,10 @@ test_that("argument checking works", {
   expect_error(inclusion_prob(1:6, 2, cutoff = 1:3))
   expect_error(inclusion_prob(1:6, 2, cutoff = 0))
   expect_error(inclusion_prob(1:6, 2, cutoff = NA))
+  
+  expect_error(becomes_ta(c(1, 2, -1)))
+  expect_error(becomes_ta(1:5, 1.1))
+  expect_error(becomes_ta(1:5, 0.5, -1))
 })
 
 test_that("inclusion probs are correct with different rounds of TA removal", {
@@ -183,4 +192,26 @@ test_that("cutoff agrees with alpha", {
                inclusion_prob(x, 3, cutoff = 3))
   expect_equal(inclusion_prob(x, 3, alpha = 0.625, cutoff = 3),
                inclusion_prob(x, 3, cutoff = 3))
+})
+
+test_that("units become TA when expected", {
+  x <- c(6, 4, 3, 4, 2, 1, 4, 2, 2, 1, 2)
+  
+  for (a in seq(0, 1, 0.05)) {
+    ta <- becomes_ta(x, a, cutoff = 6)
+    res <- apply(
+      sapply(seq_along(x), \(n) inclusion_prob(x, n, alpha = a, cutoff = 6) == 1),
+      1, which.max
+    )
+    expect_equal(ta[-1], res[-1])
+  }
+})
+
+test_that("adding a cutoff just offsets when a unit becomes TA", {
+  x <- c(5, 3, 2, 4, 3)
+  expect_equal(becomes_ta(x, 0.25), c(3, 4, 5, 4, 5))
+  expect_equal(becomes_ta(x, 0.25, 4), c(NaN, 4, 5, NaN, 5))
+  
+  x <- c(10, 10, 10, x)
+  expect_equal(becomes_ta(x, 0.25, 6), c(NaN, NaN, NaN, 6, 7, 8, 7, 8))
 })

@@ -121,22 +121,36 @@ inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
 #' and assigning these units an inclusion probability of 1, with the remaining
 #' inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then
 #' any ties among units with the same size are broken by their position.
+#' 
+#' The `becomes_ta()` function reverses this operations and finds the critical
+#' sample size at which a unit enters the take-all stratum. This value is
+#' undefined for units that are always included in the sample (because their 
+#' size exceeds `cutoff`) or never included.
 #'
 #' @inheritParams sps
 #'
 #' @returns
-#' A numeric vector of inclusion probabilities for each unit in the population.
+#' `inclusion_prob()` returns a numeric vector of inclusion probabilities for
+#' each unit in the population.
+#' 
+#' `becomes_ta()` returns an integer vector giving the sample size at which a
+#' unit enters the take-all stratum.
 #'
 #' @seealso
 #' [sps()] for drawing a sequential Poisson sample.
 #'
 #' @examples
-#' # Make a population with units of different size
+#' # Make inclusion probabilities for a population with units
+#' # of different size
 #' x <- c(1:10, 100)
+#' (pi <- inclusion_prob(x, 5))
+#' 
+#' # The last unit is sufficiently large to be included in all
+#' # samples with two or more units
+#' becomes_ta(x)
 #'
 #' # Use the inclusion probabilities to calculate the variance of the
 #' # sample size for Poisson sampling
-#' pi <- inclusion_prob(x, 5)
 #' sum(pi * (1 - pi))
 #'
 #' @export
@@ -151,4 +165,27 @@ inclusion_prob <- function(x,
   alpha <- as.numeric(alpha)
   cutoff <- as.numeric(cutoff)
   unsplit(inclusion_prob_(x, n, strata, alpha, cutoff), strata)
+}
+
+#' Sample size when a unit becomes take-all
+#' @rdname inclusion_prob
+#' @export
+becomes_ta <- function(x, alpha = 1e-3, cutoff = Inf) {
+  if (any(x < 0)) {
+    stop("sizes must be greater than or equal to 0")
+  }
+  if (alpha < 0 || alpha > 1) {
+    stop("'alpha' must be between 0 and 1")
+  }
+  if (cutoff <= 0) {
+    stop("'cutoff' must be greater than 0")
+  }
+  
+  ta <- which(x >= cutoff)
+  x[ta] <- 0
+  ord <- rev(order(x, decreasing = TRUE))
+  x <- x[ord]
+  res <- pmax.int(ceiling(cumsum(x) / x * (1 - alpha)), 1) +
+    length(x) - seq_along(x) + length(ta)
+  res[order(ord)]
 }
