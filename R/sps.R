@@ -9,7 +9,7 @@ order_sampling_ <- function(f) {
     ta <- which(ta)
     n_ts <- n - length(ta)
     # sample the take somes
-    keep <- if (n_ts > 0) {
+    keep <- if (n_ts > 0L) {
       xi <- f(u[ts]) / f(p[ts])
       order(xi)[seq_len(n_ts)]
     }

@@ -65,6 +65,9 @@ pi <- function(x, n, alpha, cutoff) {
     stop("'cutoff' must be greater than 0")
   }
 
+  # Add some fuzz to avoid floating-point rounding stopping some units from
+  # being TA, especially when alpha = 0.
+  alpha <- alpha + .Machine$double.eps^0.5
   ta <- which(x >= cutoff)
   if (length(ta) > n) {
     stop("'n' is not large enough to include all units with 'x' above 'cutoff'")
@@ -181,6 +184,7 @@ becomes_ta <- function(x, alpha = 1e-3, cutoff = Inf) {
     stop("'cutoff' must be greater than 0")
   }
   
+  alpha <- alpha + .Machine$double.eps^0.5
   ta <- which(x >= cutoff)
   x[ta] <- 0
   ord <- rev(order(x, decreasing = TRUE))

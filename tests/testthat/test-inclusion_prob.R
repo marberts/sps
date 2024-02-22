@@ -1,15 +1,12 @@
 set.seed(14235)
 
 test_that("corner cases work as expected", {
-  expect_equal(
-    inclusion_prob(0, 0),
-    0
-  )
+  expect_equal(inclusion_prob(0, 0), 0)
   expect_equal(
     inclusion_prob(1:3, c(0, 1, 0), factor(c(2, 2, 2), levels = 1:3)),
     1:3 / 6
   )
-  expect_equal(
+  expect_identical(
     inclusion_prob(1:6, c(0, 3), c(1, 1, 2, 1, 2, 2)),
     c(0, 0, 1, 0, 1, 1)
   )
@@ -21,13 +18,17 @@ test_that("corner cases work as expected", {
     inclusion_prob(rep(1, 6), c(2, 1), c(1, 1, 2, 1, 2, 2)),
     c(2, 2, 1, 2, 1, 1) / 3
   )
-  expect_equal(
+  expect_identical(
     inclusion_prob(c(0, 1, 1, 1 + 1e-4), 3),
     c(0, 1, 1, 1)
   )
-  expect_equal(
+  expect_identical(
     inclusion_prob(c(0, 1, 1, 1 - 1e-4), 3),
     c(0, 1, 1, 1)
+  )
+  expect_identical(
+    inclusion_prob(rep(0.1, 3), 3, alpha = 0),
+    c(1, 1, 1)
   )
   
   expect_equal(becomes_ta(0), NaN)
@@ -212,6 +213,11 @@ test_that("adding a cutoff just offsets when a unit becomes TA", {
   expect_equal(becomes_ta(x, 0.25), c(3, 4, 5, 4, 5))
   expect_equal(becomes_ta(x, 0.25, 4), c(NaN, 4, 5, NaN, 5))
   
-  x <- c(10, 10, 10, x)
-  expect_equal(becomes_ta(x, 0.25, 6), c(NaN, NaN, NaN, 6, 7, 8, 7, 8))
+  y <- c(10, 10, 10, x)
+  expect_equal(becomes_ta(y, 0.25, 6), c(NaN, NaN, NaN, 6, 7, 8, 7, 8))
+  
+  # Adding zeroes does nothing
+  z <- c(0, 0, 0, x)
+  expect_equal(becomes_ta(z, 0.25, 6),
+               c(NaN, NaN, NaN, 3, 4, 5, 4, 5))
 })
