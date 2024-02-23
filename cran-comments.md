@@ -8,8 +8,8 @@
 
 There were no ERRORs or WARNINGs.
 
-NOTE about change in maintainer email. I've sent a email to the CRAN team
-about the change.
+NOTE about change in maintainer email. I'm just updating my email. I've sent an 
+email to the CRAN team about the change.
 
 NOTE about invalid URL for https://anaconda.org/conda-forge/r-sps. I've checked
 that the URL is valid.
