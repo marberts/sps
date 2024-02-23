@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
-# Sequential Poisson sampling <a href="https://marberts/github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
+# Sequential Poisson sampling <a href="https://marberts.github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
 <!-- badges: start -->
 
@@ -12,10 +12,10 @@ badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.
 [![Conda
 Version](https://img.shields.io/conda/vn/conda-forge/r-sps.svg)](https://anaconda.org/conda-forge/r-sps)
 [![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
-[![codecov](https://codecov.io/gh/marberts/sps/graph/badge.svg?token=5CPGWUF267)](https://codecov.io/gh/marberts/sps)
+[![codecov](https://codecov.io/gh/marberts/sps/graph/badge.svg?token=5CPGWUF267)](https://app.codecov.io/gh/marberts/sps)
 [![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
 [![Mentioned in Awesome Official
-Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 <!-- badges: end -->
 
 Sequential Poisson sampling is a variation of Poisson sampling for
@@ -61,11 +61,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  2  6  7 10 11 12
+#> [1]  4  8  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 6.875000 2.291667 1.964286 1.375000 1.000000 1.000000
+#> [1] 3.437500 1.718750 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -85,10 +85,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  7  8  9 10 11 12
+#> [1]  5  6  9 10 11 12
 
 weights(samp)
-#> [1] 2.142857 1.875000 1.666667 1.000000 1.000000 1.000000
+#> [1] 3.000000 2.500000 1.666667 1.000000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -98,13 +98,13 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5, tau = 2)
-#>          [,1]     [,2]     [,3]     [,4]     [,5]
-#> [1,] 2.214286 2.214286 1.714286 1.142857 3.285714
-#> [2,] 1.812500 2.750000 1.812500 0.875000 0.875000
-#> [3,] 1.500000 1.500000 1.166667 1.500000 2.000000
-#> [4,] 1.000000 1.000000 1.000000 1.000000 1.000000
-#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
-#> [6,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#>           [,1] [,2]      [,3]     [,4]     [,5]
+#> [1,] 3.0000000 1.50 1.5000000 4.500000 1.500000
+#> [2,] 2.2500000 2.25 3.5000000 1.500000 1.500000
+#> [3,] 0.6666667 1.50 0.6666667 2.333333 2.333333
+#> [4,] 1.0000000 1.00 1.0000000 1.000000 1.000000
+#> [5,] 1.0000000 1.00 1.0000000 1.000000 1.000000
+#> [6,] 1.0000000 1.00 1.0000000 1.000000 1.000000
 #> attr(,"tau")
 #> [1] 2
 ```
