@@ -14,7 +14,7 @@ as_stratum <- function(strata) {
 #' Calculate unconstrained inclusion probabilities
 #' @noRd
 unbounded_pi <- function(x, n) {
-  # n == 0 should be a strong zero
+  # n == 0 should be a strong zero.
   if (n == 0L) {
     rep.int(0, length(x))
   } else {
@@ -25,10 +25,10 @@ unbounded_pi <- function(x, n) {
 #' Find the units that belong in a TA stratum
 #' @noRd
 ta_units <- function(x, n, alpha) {
-  # partial sorting is not stable, so if x[n] == x[n + 1] after sorting then
+  # Partial sorting is not stable, so if x[n] == x[n + 1] after sorting then
   # it is possible for the result to not resolve ties according to x
   # (as documented) when alpha is large enough to make at least one unit with
-  # x[n] TA
+  # x[n] TA.
   ord <- order(x, decreasing = TRUE)
   s <- seq_len(n)
   possible_ta <- rev(ord[s])
@@ -36,10 +36,10 @@ ta_units <- function(x, n, alpha) {
   definite_ts <- ord[seq.int(n + 1, length.out = length(x) - n)]
 
   p <- x_ta * s / (sum(x[definite_ts]) + cumsum(x_ta))
-  # the sequence given by p has the following properties
-  # 1. if p[k] < 1, then p[k + 1] >= p[k]
-  # 2. if p[k] >= 1, then p[k + 1] >= 1
-  # consequently, if p[k] >= 1 - alpha, then p[k + m] >= 1 - alpha
+  # The sequence given by p has the following properties
+  # 1. if p[k] < 1, then p[k + 1] >= p[k],
+  # 2. if p[k] >= 1, then p[k + 1] >= 1,
+  # consequently, if p[k] >= 1 - alpha, then p[k + m] >= 1 - alpha.
   possible_ta[p >= 1 - alpha]
 }
 

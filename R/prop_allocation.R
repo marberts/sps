@@ -42,8 +42,8 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
   p <- p[ord]
   res <- res[ord]
   available <- available[ord]
-  # the while condition could be n > sum(res), but the loop below always
-  # terminates after at most n steps, even if i is integer(0)
+  # The while condition could be n > sum(res), but the loop below always
+  # terminates after at most n steps, even if i is integer(0).
   while (n > 0L) {
     i <- which.max(p / dist(res) * (res < available))
     res[i] <- res[i] + 1L

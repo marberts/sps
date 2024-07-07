@@ -107,8 +107,7 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
 
   p <- 1 / w
   n <- length(w) * replicates
-  a <- if (is.null(dist)) {
-    # pseudo-population method
+  a <- if (is.null(dist)) { # pseudo-population method
     wf <- floor(w)
     wr <- wf + (stats::runif(n) < w - wf)
     stats::rbinom(n, wr, p) - p * wr

@@ -56,7 +56,7 @@ stratify <- function(f) {
     p <- inclusion_prob_(x, n, strata, alpha, cutoff)
     samp <- Map(f, p, n, split(prn, strata))
     pos <- split(seq_along(prn), strata)
-    # strata must have at least one level, so unlist won't return NULL
+    # Strata must have at least one level, so unlist won't return NULL.
     res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
     weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
 

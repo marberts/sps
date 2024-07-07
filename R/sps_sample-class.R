@@ -29,6 +29,7 @@ levels.sps_sample <- function(x) {
 #' @export
 #' @importFrom stats weights
 weights.sps_sample <- function(object, ...) {
+  chkDots(...)
   attr(object, "weights")
 }
 
@@ -40,6 +41,7 @@ print.sps_sample <- function(x, ...) {
 
 #' @export
 summary.sps_sample <- function(object, ...) {
+  chkDots(...)
   n <- length(object)
   ts <- sum(weights(object) > 1)
   structure(list(n = n, ts = ts, ta = n - ts), class = "sps_sample_summary")
@@ -47,8 +49,9 @@ summary.sps_sample <- function(object, ...) {
 
 #' @export
 print.sps_sample_summary <- function(x, ...) {
+  chkDots(...)
   cat(
-    "Sample for", x$n, "units with", x$ta,
+    "Sample of", x$n, "units with", x$ta,
     "take-all unit and", x$ts, "take-some units"
   )
   invisible(x)
