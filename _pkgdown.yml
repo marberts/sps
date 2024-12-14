@@ -3,6 +3,7 @@ url: https://marberts.github.io/sps
 template:
   bootstrap: 5
   bootswatch: united
+  math-rendering: mathjax
   
 reference:
 - title: Sampling

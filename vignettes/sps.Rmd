@@ -193,6 +193,9 @@ More generally, the distribution of inclusion probabilities
 is usually close to what is expected if sequential Poisson sampling was exactly proportional to size.^[See Tillé, Y. (2023). Remarks on some misconceptions about unequal probability sampling without replacement. *Computer Science Review*, 47, 100533.]
 
 ```{r tille, fig.width=8, fig.height=5.33}
+#| fig.alt: >
+#|   Empirical distribution of inclusion probabilities under sequential Poisson
+#|   sampling is approximately Guassian.
 set.seed(123456)
 n <- 5e3
 frame1 <- subset(frame, region == 1)
