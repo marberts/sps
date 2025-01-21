@@ -30,13 +30,17 @@ stratify <- function(f) {
 
   function(x,
            n,
-           strata = gl(1, length(x)),
+           strata = NULL,
            prn = NULL,
            alpha = 1e-3,
            cutoff = Inf) {
     x <- as.numeric(x)
     n <- as.integer(n)
-    strata <- as_stratum(strata)
+    if (is.null(strata)) {
+      strata <- gl(1, length(x))
+    } else {
+      strata <- validate_strata(as.factor(strata))
+    }
     alpha <- as.numeric(alpha)
     if (is.null(prn)) {
       prn <- stats::runif(length(x))

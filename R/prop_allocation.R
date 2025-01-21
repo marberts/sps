@@ -142,7 +142,7 @@ prop_allocation <- function(x,
                             ties = c("largest", "first")) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- as_stratum(strata)
+  strata <- validate_strata(as.factor(strata))
   initial <- as.integer(initial)
   ties <- tolower(as.character(ties))
 

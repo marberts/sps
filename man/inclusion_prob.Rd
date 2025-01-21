@@ -5,7 +5,7 @@
 \alias{becomes_ta}
 \title{Calculate inclusion probabilities}
 \usage{
-inclusion_prob(x, n, strata = gl(1, length(x)), alpha = 0.001, cutoff = Inf)
+inclusion_prob(x, n, strata = NULL, alpha = 0.001, cutoff = Inf)
 
 becomes_ta(x, alpha = 0.001, cutoff = Inf)
 }

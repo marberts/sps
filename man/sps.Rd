@@ -6,9 +6,9 @@
 \alias{order_sampling}
 \title{Stratified sequential Poisson sampling}
 \usage{
-sps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 0.001, cutoff = Inf)
+sps(x, n, strata = NULL, prn = NULL, alpha = 0.001, cutoff = Inf)
 
-ps(x, n, strata = gl(1, length(x)), prn = NULL, alpha = 0.001, cutoff = Inf)
+ps(x, n, strata = NULL, prn = NULL, alpha = 0.001, cutoff = Inf)
 
 order_sampling(dist)
 }

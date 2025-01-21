@@ -32,7 +32,7 @@
 expected_coverage <- function(x, n, strata, alpha = 1e-3, cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- as_stratum(strata)
+  strata <- validate_strata(as.factor(strata))
   alpha <- as.numeric(alpha)
   cutoff <- as.numeric(cutoff)
   if (length(x) != length(strata)) {

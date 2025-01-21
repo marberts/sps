@@ -1,7 +1,6 @@
 #' Coerce to a factor that represents a stratum
 #' @noRd
-as_stratum <- function(strata) {
-  strata <- as.factor(strata)
+validate_strata <- function(strata) {
   if (anyNA(strata)) {
     stop("cannot have missing strata")
   }
@@ -159,12 +158,16 @@ inclusion_prob_ <- function(x, n, strata, alpha, cutoff) {
 #' @export
 inclusion_prob <- function(x,
                            n,
-                           strata = gl(1, length(x)),
+                           strata = NULL,
                            alpha = 1e-3,
                            cutoff = Inf) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- as_stratum(strata)
+  if (is.null(strata)) {
+    strata <- gl(1, length(x))
+  } else {
+    strata <- validate_strata(as.factor(strata))
+  }
   alpha <- as.numeric(alpha)
   cutoff <- as.numeric(cutoff)
   unsplit(inclusion_prob_(x, n, strata, alpha, cutoff), strata)
