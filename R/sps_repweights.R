@@ -96,13 +96,13 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
   }
 
   replicates <- as.integer(replicates)
-  if (length(replicates) > 1L || replicates < 0L) {
-    stop("number of replicates must be an integer greater than or equal to 0")
+  if (replicates < 0L) {
+    stop("number of replicates must greater than or equal to 0")
   }
 
   tau <- as.numeric(tau)
-  if (length(tau) > 1L || tau < 1) {
-    stop("'tau' must be number greater than or equal to 1")
+  if (tau < 1) {
+    stop("'tau' must be greater than or equal to 1")
   }
 
   p <- 1 / w

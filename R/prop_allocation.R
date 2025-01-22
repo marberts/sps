@@ -1,8 +1,8 @@
 #' Highest-averages apportionment method
 #' @noRd
 highest_averages <- function(p, n, initial, available, ties, dist) {
-  if (length(n) > 1L || n < 0L) {
-    stop("sample size must be an integer greater than or equal to 0")
+  if (n < 0L) {
+    stop("sample size must be greater than or equal to 0")
   }
   if (length(p) != length(initial)) {
     stop("initial allocation must have a single size for each stratum")
@@ -142,15 +142,12 @@ prop_allocation <- function(x,
                             ties = c("largest", "first")) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- validate_strata(as.factor(strata))
+  strata <- validate_strata(as.factor(strata), x)
   initial <- as.integer(initial)
   ties <- tolower(as.character(ties))
 
   if (any(x < 0)) {
     stop("sizes must be greater than or equal to 0")
-  }
-  if (length(x) != length(strata)) {
-    stop("the vectors for sizes and strata must be the same length")
   }
 
   x <- split(x, strata)

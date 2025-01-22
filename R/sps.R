@@ -2,13 +2,13 @@
 #' @noRd
 order_sampling_ <- function(f) {
   f <- match.fun(f)
-
+  
   function(p, n, u) {
     ta <- p == 1
     ts <- which(!ta & p > 0)
     ta <- which(ta)
     n_ts <- n - length(ta)
-    # sample the take somes
+    # Sample the take somes.
     keep <- if (n_ts > 0L) {
       xi <- f(u[ts]) / f(p[ts])
       order(xi)[seq_len(n_ts)]
@@ -23,11 +23,31 @@ ps_ <- function(p, n, u) {
   which(u < p)
 }
 
+#' Make random deviates
+#' @noRd
+random_deviates <- function(prn, x) {
+  if (is.null(prn)) {
+    prn <- stats::runif(length(x))
+  } else {
+    prn <- as.numeric(prn)
+    if (length(x) != length(prn)) {
+      stop(
+        "the vectors for sizes and permanent random numbers must be the ",
+        "same length"
+      )
+    }
+    if (any(prn <= 0) || any(prn >= 1)) {
+      stop("permanent random numbers must be in (0, 1)")
+    }
+  }
+  prn
+}
+
 #' Operator to stratify a sampling function
 #' @noRd
 stratify <- function(f) {
   f <- match.fun(f)
-
+  
   function(x,
            n,
            strata = NULL,
@@ -36,34 +56,24 @@ stratify <- function(f) {
            cutoff = Inf) {
     x <- as.numeric(x)
     n <- as.integer(n)
-    if (is.null(strata)) {
-      strata <- gl(1, length(x))
-    } else {
-      strata <- validate_strata(as.factor(strata))
-    }
     alpha <- as.numeric(alpha)
-    if (is.null(prn)) {
-      prn <- stats::runif(length(x))
+    cutoff <- as.numeric(cutoff)
+    prn <- random_deviates(prn, x)
+
+    if (!is.null(strata)) {
+      strata <- validate_strata(as.factor(strata), x)
+      p <- stratified_pi(x, n, strata, alpha, cutoff)
+      samp <- Map(f, p, n, split(prn, strata))
+      pos <- split(seq_along(prn), strata)
+      # Strata must have at least one level, so unlist won't return NULL.
+      res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
+      weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
     } else {
-      prn <- as.numeric(prn)
-      if (length(x) != length(prn)) {
-        stop(
-          "the vectors for sizes and permanent random numbers must be the ",
-          "same length"
-        )
-      }
-      if (any(prn <= 0) || any(prn >= 1)) {
-        stop("permanent random numbers must be in (0, 1)")
-      }
+      p <- pi(x, n, alpha, cutoff)
+      res <- f(p, n, prn)
+      weights <- 1 / p[res]
     }
-
-    p <- inclusion_prob_(x, n, strata, alpha, cutoff)
-    samp <- Map(f, p, n, split(prn, strata))
-    pos <- split(seq_along(prn), strata)
-    # Strata must have at least one level, so unlist won't return NULL.
-    res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
-    weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
-
+    
     ord <- order(res)
     new_sps_sample(res[ord], weights[ord])
   }
