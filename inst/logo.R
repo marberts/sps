@@ -1,8 +1,8 @@
 library(ggplot2)
 library(hexSticker)
 
-gg <- ggplot(data.frame(x = 1:5, y = 1:5, f = factor(c(1, 1, 1, 2, 2)))) + 
-  geom_col(aes(x, y, fill = f)) + 
+gg <- ggplot(data.frame(x = 1:5, y = 1:5, f = factor(c(1, 1, 1, 2, 2)))) +
+  geom_col(aes(x, y, fill = f)) +
   scale_fill_manual(values = c("#5C5858", "#B6B6B4")) +
   guides(fill = "none") +
   theme_void()

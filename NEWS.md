@@ -3,6 +3,8 @@
 - `inclusion_prob()` is now faster with a single stratum, improving the performance
 of `sps()` and `expected_coverage()`.
 
+- Now requires R >= 4.2, which has been the case for a while (closing #2).
+
 ## Changes in version 0.5.4
 
 - Added `becomes_ta()` to determine the sample size when a unit enter the

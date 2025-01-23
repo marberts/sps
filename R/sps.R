@@ -2,7 +2,7 @@
 #' @noRd
 order_sampling_ <- function(f) {
   f <- match.fun(f)
-  
+
   function(p, n, u) {
     ta <- p == 1
     ts <- which(!ta & p > 0)
@@ -47,7 +47,7 @@ random_deviates <- function(prn, x) {
 #' @noRd
 stratify <- function(f) {
   f <- match.fun(f)
-  
+
   function(x,
            n,
            strata = NULL,
@@ -73,7 +73,7 @@ stratify <- function(f) {
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     }
-    
+
     ord <- order(res)
     new_sps_sample(res[ord], weights[ord])
   }

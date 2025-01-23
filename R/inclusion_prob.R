@@ -9,10 +9,10 @@
 #' and assigning these units an inclusion probability of 1, with the remaining
 #' inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then
 #' any ties among units with the same size are broken by their position.
-#' 
+#'
 #' The `becomes_ta()` function reverses this operations and finds the critical
 #' sample size at which a unit enters the take-all stratum. This value is
-#' undefined for units that are always included in the sample (because their 
+#' undefined for units that are always included in the sample (because their
 #' size exceeds `cutoff`) or never included.
 #'
 #' @inheritParams sps
@@ -20,7 +20,7 @@
 #' @returns
 #' `inclusion_prob()` returns a numeric vector of inclusion probabilities for
 #' each unit in the population.
-#' 
+#'
 #' `becomes_ta()` returns an integer vector giving the sample size at which a
 #' unit enters the take-all stratum.
 #'
@@ -32,7 +32,7 @@
 #' # of different size
 #' x <- c(1:10, 100)
 #' (pi <- inclusion_prob(x, 5))
-#' 
+#'
 #' # The last unit is sufficiently large to be included in all
 #' # samples with two or more units
 #' becomes_ta(x)
@@ -67,17 +67,17 @@ becomes_ta <- function(x, alpha = 1e-3, cutoff = Inf) {
   if (any(x < 0)) {
     stop("sizes must be greater than or equal to 0")
   }
-  
+
   alpha <- as.numeric(alpha)
   if (alpha < 0 || alpha > 1) {
     stop("'alpha' must be between 0 and 1")
   }
-  
+
   cutoff <- as.numeric(cutoff)
   if (cutoff <= 0) {
     stop("'cutoff' must be greater than 0")
   }
-  
+
   alpha <- alpha + .Machine$double.eps^0.5
   ta <- which(x >= cutoff)
   x[ta] <- 0
@@ -126,7 +126,7 @@ ta_units <- function(x, n, alpha) {
   possible_ta <- rev(ord[s])
   x_ta <- x[possible_ta] # ties are in reverse
   definite_ts <- ord[seq.int(n + 1, length.out = length(x) - n)]
-  
+
   p <- x_ta * s / (sum(x[definite_ts]) + cumsum(x_ta))
   # The sequence given by p has the following properties
   # 1. if p[k] < 1, then p[k + 1] >= p[k],
@@ -156,15 +156,15 @@ pi <- function(x, n, alpha, cutoff) {
   if (cutoff <= 0) {
     stop("'cutoff' must be greater than 0")
   }
-  
+
   # Add some fuzz to avoid floating-point rounding stopping some units from
   # being TA, especially when alpha = 0.
   alpha <- alpha + .Machine$double.eps^0.5
   ta <- which(x >= cutoff)
   if (length(ta) > n) {
-    stop("sample size is not large enough to include all units with above cutoff")
+    stop("sample size is not large enough to include all units above cutoff")
   }
-  
+
   x[ta] <- 0
   res <- unbounded_pi(x, n - length(ta))
   if (any(res >= 1 - alpha)) {
@@ -173,7 +173,7 @@ pi <- function(x, n, alpha, cutoff) {
     ta <- c(ta, ta2)
     res <- unbounded_pi(x, n - length(ta))
   }
-  
+
   res[ta] <- 1
   res
 }
