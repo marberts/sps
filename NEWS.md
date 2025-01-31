@@ -3,7 +3,7 @@
 - `inclusion_prob()` is now faster with a single stratum, improving the performance
 of `sps()` and `expected_coverage()`.
 
-- Setting `tau = NULL` in `sps_repweights()` automatically picks the smallest
+- By default, `sps_repweights()` automatically picks the smallest
 `tau` to keep the replicate weights from being negative. Inspired by
 `svrep::make_gen_boot_factors()`.
 

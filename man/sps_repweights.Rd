@@ -4,7 +4,7 @@
 \alias{sps_repweights}
 \title{Bootstrap replicate weights for sequential Poisson sampling}
 \usage{
-sps_repweights(w, replicates = 1000L, tau = 1, dist = NULL)
+sps_repweights(w, replicates = 1000L, tau = NULL, dist = NULL)
 }
 \arguments{
 \item{w}{A numeric vector of design (inverse probability) weights for a
@@ -14,9 +14,9 @@ sps_repweights(w, replicates = 1000L, tau = 1, dist = NULL)
 replicates (1,000 by default). Non-integers are truncated towards 0.}
 
 \item{tau}{A number greater than or equal to 1 that gives the rescale factor
-for the bootstrap weights. Setting to 1 (the default) does not rescale the
-weights. Set to \code{NULL} to automatically pick the smallest rescale factor
-(up to a tolerance).}
+for the bootstrap weights. Setting to 1 does not rescale the
+weights. The default automatically picks the smallest feasible rescale factor
+(up to a small tolerance).}
 
 \item{dist}{A function that produces random deviates with mean 0 and
 standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the

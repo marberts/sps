@@ -13,7 +13,7 @@ test_that("corner cases work as expected", {
     structure(matrix(1, 10, 5), tau = 1)
   )
   expect_equal(
-    sps_repweights(w, 5, tau = NULL),
+    sps_repweights(w, 5),
     structure(matrix(1, 10, 5), tau = 1)
   )
 
@@ -23,7 +23,7 @@ test_that("corner cases work as expected", {
     structure(matrix(numeric(0), 10, 0), tau = 1)
   )
   expect_equal(
-    sps_repweights(w, 0, dist = rnorm, tau = NULL),
+    sps_repweights(w, 0, dist = rnorm),
     structure(matrix(numeric(0), 10, 0), tau = 1)
   )
 
@@ -33,7 +33,7 @@ test_that("corner cases work as expected", {
     structure(matrix(numeric(0), 0, 5), tau = 1)
   )
   expect_equal(
-    sps_repweights(integer(0), 5, dist = rnorm, tau = NULL),
+    sps_repweights(integer(0), 5, dist = rnorm),
     structure(matrix(numeric(0), 0, 5), tau = 1)
   )
 
@@ -43,7 +43,7 @@ test_that("corner cases work as expected", {
     structure(matrix(numeric(0), 0, 0), tau = 1)
   )
   expect_equal(
-    sps_repweights(integer(0), 0, dist = rnorm, tau = NULL),
+    sps_repweights(integer(0), 0, dist = rnorm),
     structure(matrix(numeric(0), 0, 0), tau = 1)
   )
 })
@@ -62,6 +62,9 @@ test_that("argument checking works", {
 test_that("rep weights works for TA units", {
   expect_true(all(sps_repweights(1:5, tau = 2) > 0))
   expect_true(all(sps_repweights(1:5, tau = 2)[1, ] == 1))
+  
+  expect_true(all(sps_repweights(1:5) > 0))
+  expect_true(all(sps_repweights(1:5)[1, ] == 1))
 })
 
 test_that("results agree with bootstrapFP:::generalised()", {
@@ -96,13 +99,17 @@ test_that("auto tau works", {
   set.seed(1234)
   w <- runif(10) + 1
   
-  expect_equal(
-    attr(sps_repweights(w, 10, tau = NULL, dist = \(x) rexp(x) - 1), "tau"),
-    1
-  )
+  expect_equal(attr(sps_repweights(w, 10, dist = \(x) rexp(x) - 1), "tau"), 1)
   
   set.seed(12345)
-  tau <- attr(sps_repweights(w, 20, tau = NULL), "tau")
+  tau <- attr(sps_repweights(w, 20), "tau")
   set.seed(12345)
   expect_warning(sps_repweights(w, 20, tau = tau - 0.001))
+  
+  set.seed(12345)
+  w <- runif(15) + 1
+  set.seed(1234)
+  tau <- attr(sps_repweights(w, 30, dist = rnorm), "tau")
+  set.seed(1234)
+  expect_warning(sps_repweights(w, 30, dist = rnorm, tau = tau - 0.001))
 })

@@ -28,9 +28,9 @@
 #' @param replicates A positive integer that gives the number of bootstrap
 #' replicates (1,000 by default). Non-integers are truncated towards 0.
 #' @param tau A number greater than or equal to 1 that gives the rescale factor
-#' for the bootstrap weights. Setting to 1 (the default) does not rescale the
-#' weights. Set to `NULL` to automatically pick the smallest rescale factor
-#' (up to a tolerance).
+#' for the bootstrap weights. Setting to 1 does not rescale the
+#' weights. The default automatically picks the smallest feasible rescale factor
+#' (up to a small tolerance).
 #' @param dist A function that produces random deviates with mean 0 and
 #' standard deviation 1, such as [rnorm()]. The default uses the
 #' pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
@@ -91,7 +91,7 @@
 #' lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
 #'
 #' @export
-sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
+sps_repweights <- function(w, replicates = 1000L, tau = NULL, dist = NULL) {
   w <- as.numeric(w)
   if (any(w < 1)) {
     stop("design weights must be greater than or equal to 1")
@@ -121,7 +121,7 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
   }
   
   if (is.null(tau)) {
-    tau <- min_tau(w, a)
+    tau <- min_tau(a)
   }
   res <- w * (a + tau) / tau
   if (any(res < 0)) {
@@ -133,6 +133,6 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
 
 #' Automatically scale tau
 #' @noRd
-min_tau <- function(w, a, tol = 0.0001) {
-  max(w * a / (tol - w), 1)
+min_tau <- function(a, tol = 0.0001) {
+  max(a / (tol - 1), 1)
 }
