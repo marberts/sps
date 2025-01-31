@@ -65,7 +65,8 @@ replicates (1,000 by default). Non-integers are truncated towards 0.</p></dd>
 <dt id="arg-tau">tau<a class="anchor" aria-label="anchor" href="#arg-tau"></a></dt>
 <dd><p>A number greater than or equal to 1 that gives the rescale factor
 for the bootstrap weights. Setting to 1 (the default) does not rescale the
-weights.</p></dd>
+weights. Set to <code>NULL</code> to automatically pick the smallest rescale factor
+(up to a tolerance).</p></dd>
 
 
 <dt id="arg-dist">dist<a class="anchor" aria-label="anchor" href="#arg-dist"></a></dt>
@@ -128,7 +129,8 @@ Bootstrap for Sample Surveys with Special Attention to Poisson Sampling.
     <div class="dont-index"><p><code><a href="sps.html">sps()</a></code> for drawing a sequential Poisson sample.</p>
 <p><code>bootstrapFP()</code> (with <code>method = "wGeneralised"</code>) in the <span class="pkg">bootstrapFP</span>
 package for calculating the variance of Horvitz-Thompson estimators using
-the generalized bootstrap.</p></div>
+the generalized bootstrap and <code>make_gen_boot_factors()</code> in the <span class="pkg">svrep</span>
+package.</p></div>
     </div>
 
     <div class="section level2">
