@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   sps: sps.html
-last_built: 2025-01-31T04:29Z
+last_built: 2025-01-31T21:11Z
 urls:
   reference: https://marberts.github.io/sps/reference
   article: https://marberts.github.io/sps/articles
