@@ -29,7 +29,8 @@
 #' replicates (1,000 by default). Non-integers are truncated towards 0.
 #' @param tau A number greater than or equal to 1 that gives the rescale factor
 #' for the bootstrap weights. Setting to 1 (the default) does not rescale the
-#' weights.
+#' weights. Set to `NULL` to automatically pick the smallest rescale factor
+#' (up to a tolerance).
 #' @param dist A function that produces random deviates with mean 0 and
 #' standard deviation 1, such as [rnorm()]. The default uses the
 #' pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
@@ -58,7 +59,8 @@
 #'
 #' `bootstrapFP()` (with `method = "wGeneralised"`) in the \pkg{bootstrapFP}
 #' package for calculating the variance of Horvitz-Thompson estimators using
-#' the generalized bootstrap.
+#' the generalized bootstrap and `make_gen_boot_factors()` in the \pkg{svrep}
+#' package.
 #'
 #' @references
 #' Beaumont, J.-F. and Patak, Z. (2012). On the Generalized
@@ -99,10 +101,12 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
   if (replicates < 0L) {
     stop("number of replicates must greater than or equal to 0")
   }
-
-  tau <- as.numeric(tau)
-  if (tau < 1) {
-    stop("'tau' must be greater than or equal to 1")
+  
+  if (!is.null(tau)) {
+    tau <- as.numeric(tau)
+    if (tau < 1) {
+      stop("'tau' must be greater than or equal to 1")
+    }
   }
 
   p <- 1 / w
@@ -115,10 +119,20 @@ sps_repweights <- function(w, replicates = 1000L, tau = 1, dist = NULL) {
     dist <- match.fun(dist)
     dist(n) * sqrt(1 - p)
   }
+  
+  if (is.null(tau)) {
+    tau <- min_tau(w, a)
+  }
   res <- w * (a + tau) / tau
   if (any(res < 0)) {
     warning("some replicate weights are negative; try increasing 'tau'")
   }
   dim(res) <- c(length(w), replicates)
   structure(res, tau = tau)
+}
+
+#' Automatically scale tau
+#' @noRd
+min_tau <- function(w, a, tol = 0.0001) {
+  max(w * a / (tol - w), 1)
 }

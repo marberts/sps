@@ -15,7 +15,8 @@ replicates (1,000 by default). Non-integers are truncated towards 0.}
 
 \item{tau}{A number greater than or equal to 1 that gives the rescale factor
 for the bootstrap weights. Setting to 1 (the default) does not rescale the
-weights.}
+weights. Set to \code{NULL} to automatically pick the smallest rescale factor
+(up to a tolerance).}
 
 \item{dist}{A function that produces random deviates with mean 0 and
 standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the
@@ -99,5 +100,6 @@ Rosén, B. (1997). On sampling with probability proportional to size.
 
 \code{bootstrapFP()} (with \code{method = "wGeneralised"}) in the \pkg{bootstrapFP}
 package for calculating the variance of Horvitz-Thompson estimators using
-the generalized bootstrap.
+the generalized bootstrap and \code{make_gen_boot_factors()} in the \pkg{svrep}
+package.
 }
