@@ -134,5 +134,5 @@ sps_repweights <- function(w, replicates = 1000L, tau = NULL, dist = NULL) {
 #' Automatically scale tau
 #' @noRd
 min_tau <- function(a, tol = 0.0001) {
-  max(a / (tol - 1), 1)
+  max(abs(a[a < 0]) + tol, 1)
 }
