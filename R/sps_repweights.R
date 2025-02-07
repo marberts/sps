@@ -24,22 +24,27 @@
 #' bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 #'
 #' @param w A numeric vector of design (inverse probability) weights for a
-#' (sequential) Poisson sample.
+#'   (sequential) Poisson sample.
 #' @param replicates A positive integer that gives the number of bootstrap
-#' replicates (1,000 by default). Non-integers are truncated towards 0.
+#'   replicates (1,000 by default). Non-integers are truncated towards 0.
 #' @param tau A number greater than or equal to 1 that gives the rescale factor
-#' for the bootstrap weights. Setting to 1 does not rescale the
-#' weights. The default automatically picks the smallest feasible rescale factor
-#' (up to a small tolerance).
+#'   for the bootstrap weights. Setting to 1 does not rescale the
+#'   weights. This can also be a function that takes a vector of bootstrap
+#'   adjustments and returns a number larger than 1. The default automatically
+#'   picks the smallest feasible rescale factor (up to a small tolerance).
 #' @param dist A function that produces random deviates with mean 0 and
-#' standard deviation 1, such as [rnorm()]. The default uses the
-#' pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
-#' details.
+#'   standard deviation 1, such as [rnorm()]. The default uses the
+#'   pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
+#'   details.
 #'
 #' @returns
-#' A matrix of bootstrap replicate weights with `replicates` columns (one for
-#' each replicate) and `length(w)` rows (one for each unit in the sample), with
-#' the value of `tau` as an attribute.
+#' `sps_repweights()` returns a matrix of bootstrap replicate weights
+#' with `replicates` columns (one for each replicate) and `length(w)` rows
+#' (one for each unit in the sample), with the value of `tau` as an attribute.
+#'
+#' `min_tau()` returns a function that takes a vector of bootstrap adjustments
+#' and returns the smallest value for \eqn{\tau} such that the rescaled
+#' adjustments are greater than or equal to `tol`.
 #'
 #' @note
 #' As an alternative to the bootstrap, Ohlsson (1998, equations 2.13)
@@ -91,7 +96,12 @@
 #' lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
 #'
 #' @export
-sps_repweights <- function(w, replicates = 1000L, tau = NULL, dist = NULL) {
+sps_repweights <- function(
+  w,
+  replicates = 1000L,
+  tau = min_tau(0.0001),
+  dist = NULL
+) {
   w <- as.numeric(w)
   if (any(w < 1)) {
     stop("design weights must be greater than or equal to 1")
@@ -101,27 +111,21 @@ sps_repweights <- function(w, replicates = 1000L, tau = NULL, dist = NULL) {
   if (replicates < 0L) {
     stop("number of replicates must greater than or equal to 0")
   }
-  
-  if (!is.null(tau)) {
+
+  n <- length(w) * replicates
+  if (is.null(dist)) {
+    a <- pseudo_pop(w, n)
+  } else {
+    a <- match.fun(dist)(n) * sqrt(1 - 1 / w)
+  }
+
+  if (is.function(tau)) {
+    tau <- tau(a)
+  } else {
     tau <- as.numeric(tau)
     if (tau < 1) {
       stop("'tau' must be greater than or equal to 1")
     }
-  }
-
-  p <- 1 / w
-  n <- length(w) * replicates
-  a <- if (is.null(dist)) { # pseudo-population method
-    wf <- floor(w)
-    wr <- wf + (stats::runif(n) < w - wf)
-    stats::rbinom(n, wr, p) - p * wr
-  } else {
-    dist <- match.fun(dist)
-    dist(n) * sqrt(1 - p)
-  }
-  
-  if (is.null(tau)) {
-    tau <- min_tau(a)
   }
   res <- w * (a + tau) / tau
   if (any(res < 0)) {
@@ -132,7 +136,24 @@ sps_repweights <- function(w, replicates = 1000L, tau = NULL, dist = NULL) {
 }
 
 #' Automatically scale tau
+#' @rdname sps_repweights
+#' @param tol A non-negative number, strictly less than 1, that gives the
+#'   tolerance for determining the minimum feasible value of `tau`.
+#' @export
+min_tau <- function(tol) {
+  if (tol < 0 || tol >= 1) {
+    stop("'tol' must be in [0, 1)")
+  }
+  function(a) {
+    max(abs(a[a < 0]) / (1 - tol), 1)
+  }
+}
+
+#' Pseudo-population method
 #' @noRd
-min_tau <- function(a, tol = 0.0001) {
-  max(abs(a[a < 0]) + tol, 1)
+pseudo_pop <- function(w, n) {
+  p <- 1 / w
+  wf <- floor(w)
+  wr <- wf + (stats::runif(n) < w - wf)
+  stats::rbinom(n, wr, p) - p * wr
 }

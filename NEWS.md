@@ -1,4 +1,4 @@
-## Changes in version 0.5.5
+## Changes in version 0.6.0
 
 - `inclusion_prob()` is now faster with a single stratum, improving the performance
 of `sps()` and `expected_coverage()`.

@@ -2,9 +2,12 @@
 % Please edit documentation in R/sps_repweights.R
 \name{sps_repweights}
 \alias{sps_repweights}
+\alias{min_tau}
 \title{Bootstrap replicate weights for sequential Poisson sampling}
 \usage{
-sps_repweights(w, replicates = 1000L, tau = NULL, dist = NULL)
+sps_repweights(w, replicates = 1000L, tau = min_tau(1e-04), dist = NULL)
+
+min_tau(tol)
 }
 \arguments{
 \item{w}{A numeric vector of design (inverse probability) weights for a
@@ -15,18 +18,26 @@ replicates (1,000 by default). Non-integers are truncated towards 0.}
 
 \item{tau}{A number greater than or equal to 1 that gives the rescale factor
 for the bootstrap weights. Setting to 1 does not rescale the
-weights. The default automatically picks the smallest feasible rescale factor
-(up to a small tolerance).}
+weights. This can also be a function that takes a vector of bootstrap
+adjustments and returns a number larger than 1. The default automatically
+picks the smallest feasible rescale factor (up to a small tolerance).}
 
 \item{dist}{A function that produces random deviates with mean 0 and
 standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the
 pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 details.}
+
+\item{tol}{A non-negative number, strictly less than 1, that gives the
+tolerance for determining the minimum feasible value of \code{tau}.}
 }
 \value{
-A matrix of bootstrap replicate weights with \code{replicates} columns (one for
-each replicate) and \code{length(w)} rows (one for each unit in the sample), with
-the value of \code{tau} as an attribute.
+\code{sps_repweights()} returns a matrix of bootstrap replicate weights
+with \code{replicates} columns (one for each replicate) and \code{length(w)} rows
+(one for each unit in the sample), with the value of \code{tau} as an attribute.
+
+\code{min_tau()} returns a function that takes a vector of bootstrap adjustments
+and returns the smallest value for \eqn{\tau} such that the rescaled
+adjustments are greater than or equal to \code{tol}.
 }
 \description{
 Produce bootstrap replicate weights that are appropriate for Poisson

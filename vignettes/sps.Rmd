@@ -79,7 +79,7 @@ But in practice it's not possible to determine how far an estimate is from the t
 A general approach for estimating the variance of the Horvitz-Thompson estimator is to construct bootstrap replicate weights from the design weights for the sample, compute a collection of estimates for the total based on these replicate weights, and then compute the variance of this collection of estimates. 
 
 ```{r variance}
-repweights <- sps_repweights(weights(sample), tau = 2)
+repweights <- sps_repweights(weights(sample))
 
 var <- attr(repweights, "tau")^2 *
   mean((colSums(survey$sales * repweights) - ht)^2)

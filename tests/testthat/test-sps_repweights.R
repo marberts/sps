@@ -57,12 +57,14 @@ test_that("argument checking works", {
   expect_error(sps_repweights(1:5, 5, -1))
   expect_error(sps_repweights(1:5, 5, NA))
   expect_error(sps_repweights(1:5, 5, numeric(0)))
+  expect_error(min_tau(NA))
+  expect_error(min_tau(2))
 })
 
 test_that("rep weights works for TA units", {
   expect_true(all(sps_repweights(1:5, tau = 2) > 0))
   expect_true(all(sps_repweights(1:5, tau = 2)[1, ] == 1))
-  
+
   expect_true(all(sps_repweights(1:5) > 0))
   expect_true(all(sps_repweights(1:5)[1, ] == 1))
 })
@@ -98,18 +100,23 @@ test_that("results agree with bootstrapFP:::generalised()", {
 test_that("auto tau works", {
   set.seed(1234)
   w <- runif(10) + 1
-  
+
   expect_equal(attr(sps_repweights(w, 10, dist = \(x) rexp(x) - 1), "tau"), 1)
-  
+
   set.seed(12345)
   tau <- attr(sps_repweights(w, 20), "tau")
   set.seed(12345)
   expect_warning(sps_repweights(w, 20, tau = tau - 0.001))
-  
+
   set.seed(12345)
   w <- runif(15) + 1
   set.seed(1234)
   tau <- attr(sps_repweights(w, 30, dist = rnorm), "tau")
   set.seed(1234)
   expect_warning(sps_repweights(w, 30, dist = rnorm, tau = tau - 0.001))
+
+  expect_gte(min(sps_repweights(1:5, 5)), 0.0001)
+  expect_equal(min(sps_repweights(1:5, 5, min_tau(0))), 0)
+  expect_gte(min(sps_repweights(1:5, 5, min_tau(0.5))), 0.5)
+  expect_gte(min(sps_repweights(1:5, 5, min_tau(0.05), rnorm)), 0.05)
 })
