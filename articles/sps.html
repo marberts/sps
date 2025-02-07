@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,7 +169,7 @@ from the design weights for the sample, compute a collection of
 estimates for the total based on these replicate weights, and then
 compute the variance of this collection of estimates.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">repweights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sps_repweights.html">sps_repweights</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span>, tau <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">repweights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sps_repweights.html">sps_repweights</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">repweights</span>, <span class="st">"tau"</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">sales</span> <span class="op">*</span> <span class="va">repweights</span><span class="op">)</span> <span class="op">-</span> <span class="va">ht</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>

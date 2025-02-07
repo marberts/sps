@@ -11,7 +11,7 @@ sampling."><meta property="og:image" content="https://marberts.github.io/sps/log
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,9 @@ sampling.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sps_repweights</span><span class="op">(</span><span class="va">w</span>, replicates <span class="op">=</span> <span class="fl">1000L</span>, tau <span class="op">=</span> <span class="cn">NULL</span>, dist <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sps_repweights</span><span class="op">(</span><span class="va">w</span>, replicates <span class="op">=</span> <span class="fl">1000L</span>, tau <span class="op">=</span> <span class="fu">min_tau</span><span class="op">(</span><span class="fl">1e-04</span><span class="op">)</span>, dist <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">min_tau</span><span class="op">(</span><span class="va">tol</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -65,8 +67,9 @@ replicates (1,000 by default). Non-integers are truncated towards 0.</p></dd>
 <dt id="arg-tau">tau<a class="anchor" aria-label="anchor" href="#arg-tau"></a></dt>
 <dd><p>A number greater than or equal to 1 that gives the rescale factor
 for the bootstrap weights. Setting to 1 does not rescale the
-weights. The default automatically picks the smallest feasible rescale factor
-(up to a small tolerance).</p></dd>
+weights. This can also be a function that takes a vector of bootstrap
+adjustments and returns a number larger than 1. The default automatically
+picks the smallest feasible rescale factor (up to a small tolerance).</p></dd>
 
 
 <dt id="arg-dist">dist<a class="anchor" aria-label="anchor" href="#arg-dist"></a></dt>
@@ -75,12 +78,20 @@ standard deviation 1, such as <code><a href="https://rdrr.io/r/stats/Normal.html
 pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 details.</p></dd>
 
+
+<dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
+<dd><p>A non-negative number, strictly less than 1, that gives the
+tolerance for determining the minimum feasible value of <code>tau</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A matrix of bootstrap replicate weights with <code>replicates</code> columns (one for
-each replicate) and <code>length(w)</code> rows (one for each unit in the sample), with
-the value of <code>tau</code> as an attribute.</p>
+    <p><code>sps_repweights()</code> returns a matrix of bootstrap replicate weights
+with <code>replicates</code> columns (one for each replicate) and <code>length(w)</code> rows
+(one for each unit in the sample), with the value of <code>tau</code> as an attribute.</p>
+<p><code>min_tau()</code> returns a function that takes a vector of bootstrap adjustments
+and returns the smallest value for \(\tau\) such that the rescaled
+adjustments are greater than or equal to <code>tol</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
