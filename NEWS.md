@@ -7,7 +7,7 @@ of `sps()` and `expected_coverage()`.
 `tau` to keep the replicate weights from being negative. Inspired by
 `svrep::make_gen_boot_factors()`.
 
-- Now requires R >= 4.2, which has been the case for a while (closing #2).
+- Now requires R >= 4.1, which has been the case for a while (closing #2).
 
 ## Changes in version 0.5.4
 

@@ -123,19 +123,25 @@ test_that("strata sizes add up", {
 test_that("permanent random numbers work", {
   set.seed(4321)
   prn <- runif(11)
+  x <- c(100, 1:9, 100)
   expect_identical(
-    sps(c(100, 1:9, 100), 5, prn = prn),
-    sps(c(100, 1:9, 100), 5, prn = prn)
+    sps(x, 5, prn = prn),
+    sps(x, 5, prn = prn)
   )
   set.seed(4321)
   expect_identical(
-    sps(c(100, 1:9, 100), 5, prn = prn),
-    sps(c(100, 1:9, 100), 5)
+    sps(x, 5, prn = prn),
+    sps(x, 5)
   )
   set.seed(4321)
   expect_identical(
-    ps(c(100, 1:9, 100), 5, prn = prn),
-    ps(c(100, 1:9, 100), 5)
+    ps(x, 5, prn = prn),
+    ps(x, 5)
+  )
+  
+  expect_identical(
+    as.integer(sps(c(x, x), c(5, 4), gl(2, 11), prn = c(prn, prn))),
+    c(sps(x, 5, prn = prn), (12:22)[sps(x, 4, prn = prn)])
   )
 })
 

@@ -52,7 +52,7 @@ print.sps_sample_summary <- function(x, ...) {
   chkDots(...)
   cat(
     "Sample of", x$n, "units with", x$ta,
-    "take-all unit and", x$ts, "take-some units"
+    "take-all units and", x$ts, "take-some units"
   )
   invisible(x)
 }

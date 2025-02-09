@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.5.4.9005
+Version: 0.6.0
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),

@@ -41,17 +41,17 @@
 #' @inheritParams sps
 #' @param n A positive integer giving the sample size.
 #' @param initial A positive integer vector giving the initial (or minimal)
-#' allocation for each stratum, ordered according to the levels of
-#' `strata`. A single integer is recycled for each stratum using a special
-#' algorithm to ensure a feasible allocation; see details. Non-integers are
-#' truncated towards 0. The default allows for no units to be allocated to a
-#' stratum.
+#'   allocation for each stratum, ordered according to the levels of
+#'   `strata`. A single integer is recycled for each stratum using a special
+#'   algorithm to ensure a feasible allocation; see details. Non-integers are
+#'   truncated towards 0. The default allows for no units to be allocated to a
+#'   stratum.
 #' @param divisor A divisor function for the divisor (highest-averages)
-#' apportionment method. The default uses the Jefferson (D'Hondt) method. See
-#' details for other possible functions.
+#'   apportionment method. The default uses the Jefferson (D'Hondt) method. See
+#'   details for other possible functions.
 #' @param ties Either 'largest' to break ties in favor of the stratum with the
-#' largest size, or 'first' to break ties in favor of the ordering of
-#' `strata`.
+#'   largest size, or 'first' to break ties in favor of the ordering of
+#'   `strata`.
 #'
 #' @returns
 #' A named integer vector of sample sizes for each stratum in `strata`.

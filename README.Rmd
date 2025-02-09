@@ -84,7 +84,7 @@ levels(samp)
 The design weights for a sample can then be used to generate bootstrap replicate weights with the `sps_repweights()` function.
 
 ```{r}
-sps_repweights(weights(samp), 5, tau = 2)
+sps_repweights(weights(samp), 5)
 ```
 
 The vignette gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.

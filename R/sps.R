@@ -142,28 +142,28 @@ stratify <- function(f) {
 #' }
 #'
 #' @param x A positive and finite numeric vector of sizes for units in the
-#' population (e.g., revenue for drawing a sample of businesses).
+#'   population (e.g., revenue for drawing a sample of businesses).
 #' @param n A positive integer vector giving the sample size for each stratum,
-#' ordered according to the levels of `strata`. A single value is recycled
-#' for all strata. Non-integers are truncated towards 0.
+#'   ordered according to the levels of `strata`. A single value is recycled
+#'   for all strata. Non-integers are truncated towards 0.
 #' @param strata A factor, or something that can be coerced into one, giving
-#' the strata associated with units in the population. The default is to place
-#' all units into a single stratum.
+#'   the strata associated with units in the population. The default is to place
+#'   all units into a single stratum.
 #' @param prn A numeric vector of permanent random numbers for units in the
-#' population, distributed uniform between 0 and 1. The default does not use
-#' permanent random numbers, instead generating a random vector when the
-#' function is called.
+#'   population, distributed uniform between 0 and 1. The default does not use
+#'   permanent random numbers, instead generating a random vector when the
+#'   function is called.
 #' @param alpha A numeric vector with values between 0 and 1 for each stratum,
-#' ordered according to the levels of `strata`. Units with inclusion
-#' probabilities greater than or equal to 1 - `alpha` are set to 1 for
-#' each stratum. A single value is recycled for all strata. The default is
-#' slightly larger than 0.
+#'   ordered according to the levels of `strata`. Units with inclusion
+#'   probabilities greater than or equal to 1 - `alpha` are set to 1 for
+#'   each stratum. A single value is recycled for all strata. The default is
+#'   slightly larger than 0.
 #' @param cutoff A positive numeric vector of cutoffs for each stratum, ordered
-#' according to the levels of `strata`. Units with `x >= cutoff` get
-#' an inclusion probability of 1 for each stratum. A single value is recycled
-#' for all strata. The default does not apply a cutoff.
+#'   according to the levels of `strata`. Units with `x >= cutoff` get
+#'   an inclusion probability of 1 for each stratum. A single value is recycled
+#'   for all strata. The default does not apply a cutoff.
 #' @param dist A function giving the fixed order distribution shape for an order
-#' sampling scheme. See details.
+#'   sampling scheme. See details.
 #'
 #' @returns
 #' `sps()` and `ps()` return an object of class `sps_sample`.

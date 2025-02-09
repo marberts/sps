@@ -141,6 +141,7 @@ sps_repweights <- function(
 #'   tolerance for determining the minimum feasible value of `tau`.
 #' @export
 min_tau <- function(tol) {
+  tol <- as.numeric(tol)
   if (tol < 0 || tol >= 1) {
     stop("'tol' must be in [0, 1)")
   }

@@ -1,18 +1,12 @@
 ## Test environments
 
-- local Ubuntu 20.04 installation, R 4.3.2
+- local Ubuntu 24.04 installation, R 4.4.2
 - win-builder (devel, release, oldrelease)
 - mac-builder (release)
 
 ## R CMD check results
 
 There were no ERRORs or WARNINGs.
-
-NOTE about change in maintainer email. I'm just updating my email. I've sent an 
-email to the CRAN team about the change.
-
-NOTE about invalid URL for https://anaconda.org/conda-forge/r-sps. I've checked
-that the URL is valid.
 
 ## Downstream dependencies
 
