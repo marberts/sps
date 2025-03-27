@@ -29,27 +29,27 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/marberts/sps/blob/v0.6.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/marberts/sps/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.6.0" id="changes-in-version-060">Changes in version 0.6.0<a class="anchor" aria-label="anchor" href="#changes-in-version-060"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.6.0" id="sps-060">sps 0.6.0<a class="anchor" aria-label="anchor" href="#sps-060"></a></h2><p class="text-muted">CRAN release: 2025-02-09</p>
 <ul><li><p><code><a href="../reference/inclusion_prob.html">inclusion_prob()</a></code> is now faster with a single stratum, improving the performance of <code><a href="../reference/sps.html">sps()</a></code> and <code><a href="../reference/expected_coverage.html">expected_coverage()</a></code>.</p></li>
 <li><p>By default, <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code> automatically picks the smallest <code>tau</code> to keep the replicate weights from being negative. Inspired by <code>svrep::make_gen_boot_factors()</code>.</p></li>
 <li><p>Now requires R &gt;= 4.1, which has been the case for a while (closing <a href="https://github.com/marberts/sps/issues/2" class="external-link">#2</a>).</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.4" id="changes-in-version-054">Changes in version 0.5.4<a class="anchor" aria-label="anchor" href="#changes-in-version-054"></a></h2><p class="text-muted">CRAN release: 2024-02-23</p>
+<h2 class="pkg-version" data-toc-text="0.5.4" id="sps-054">sps 0.5.4<a class="anchor" aria-label="anchor" href="#sps-054"></a></h2><p class="text-muted">CRAN release: 2024-02-23</p>
 <ul><li><p>Added <code><a href="../reference/inclusion_prob.html">becomes_ta()</a></code> to determine the sample size when a unit enter the take-all stratum.</p></li>
 <li><p>Internal changes to the way classes are instantiated. No user-visible changes.</p></li>
 <li><p>Updated maintainer email.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.3" id="changes-in-version-053">Changes in version 0.5.3<a class="anchor" aria-label="anchor" href="#changes-in-version-053"></a></h2><p class="text-muted">CRAN release: 2023-10-16</p>
+<h2 class="pkg-version" data-toc-text="0.5.3" id="sps-053">sps 0.5.3<a class="anchor" aria-label="anchor" href="#sps-053"></a></h2><p class="text-muted">CRAN release: 2023-10-16</p>
 <ul><li>Documentation only; no changes to any functions.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.2" id="changes-in-version-052">Changes in version 0.5.2<a class="anchor" aria-label="anchor" href="#changes-in-version-052"></a></h2><p class="text-muted">CRAN release: 2023-08-22</p>
+<h2 class="pkg-version" data-toc-text="0.5.2" id="sps-052">sps 0.5.2<a class="anchor" aria-label="anchor" href="#sps-052"></a></h2><p class="text-muted">CRAN release: 2023-08-22</p>
 <ul><li><p>Added a vignette.</p></li>
 <li><p>A single sample size is now recycled for each stratum when drawing samples or calculating inclusion probabilities.</p></li>
 <li><p>Added a <code>cutoff</code> argument that puts units with sizes above the cutoff into a take-all stratum.</p></li>
@@ -57,21 +57,21 @@
 <li><p>Replacement methods for <code>length</code> and <code>levels</code> no longer mangle <code>sps</code> objects.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.0" id="changes-in-version-050">Changes in version 0.5.0<a class="anchor" aria-label="anchor" href="#changes-in-version-050"></a></h2><p class="text-muted">CRAN release: 2023-04-10</p>
+<h2 class="pkg-version" data-toc-text="0.5.0" id="sps-050">sps 0.5.0<a class="anchor" aria-label="anchor" href="#sps-050"></a></h2><p class="text-muted">CRAN release: 2023-04-10</p>
 <ul><li><p><code><a href="../reference/prop_allocation.html">prop_allocation()</a></code> gets a new argument for breaking ties. The default now breaks ties according to the references; the old behavior can be had by setting <code>ties = "first"</code>.</p></li>
 <li><p>Argument names for <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>, <code><a href="../reference/expected_coverage.html">expected_coverage()</a></code>, and <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code> have changed to be either more descriptive, or consistent with the names for other functions.</p></li>
 <li><p>Fixed a bug when calculating inclusion probabilities that could result in ties not breaking according to position (as documented) when <code>alpha &gt; 0</code>.</p></li>
 <li><p>Simplified the codebase.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.1" id="changes-in-version-041">Changes in version 0.4.1<a class="anchor" aria-label="anchor" href="#changes-in-version-041"></a></h2><p class="text-muted">CRAN release: 2023-02-12</p>
+<h2 class="pkg-version" data-toc-text="0.4.1" id="sps-041">sps 0.4.1<a class="anchor" aria-label="anchor" href="#sps-041"></a></h2><p class="text-muted">CRAN release: 2023-02-12</p>
 <ul><li><p>Added a new argument <code>alpha</code> for calculating inclusion probabilities. It can be used to place units with inclusion probabilities close to 1 into the take-all stratum. This was implicitly 0 in previous versions, but the current default is 1e-4.</p></li>
 <li><p>All functions can now accept size vectors with zeros.</p></li>
 <li><p><code><a href="../reference/sps.html">sps()</a></code> is now faster, especially for large populations.</p></li>
 <li><p>Added a function factory to generate other order sampling methods.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="changes-in-version-030">Changes in version 0.3.0<a class="anchor" aria-label="anchor" href="#changes-in-version-030"></a></h2><p class="text-muted">CRAN release: 2022-11-23</p>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="sps-030">sps 0.3.0<a class="anchor" aria-label="anchor" href="#sps-030"></a></h2><p class="text-muted">CRAN release: 2022-11-23</p>
 <p>This version has a number of non-backwards compatible changes to address undesirable behavior with some functions.</p>
 <ul><li><p>Largest-remainder rounding could result in <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code> giving visibly non-proportional allocations, so it has been removed. The default is now the Jefferson/D’Hondt method.</p></li>
 <li><p>The <code>method</code> argument in <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code> has been replaced with the <code>divisor</code> argument to supply a divisor <em>function</em> for rounding.</p></li>
@@ -80,7 +80,7 @@
 <li><p>The argument name for specifying strata is now <code>strata</code> instead of <code>s</code> in all functions. Partial matching means this change won’t break existing code.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="changes-in-version-020">Changes in version 0.2.0<a class="anchor" aria-label="anchor" href="#changes-in-version-020"></a></h2><p class="text-muted">CRAN release: 2022-10-28</p>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="sps-020">sps 0.2.0<a class="anchor" aria-label="anchor" href="#sps-020"></a></h2><p class="text-muted">CRAN release: 2022-10-28</p>
 <ul><li>
 <p><code><a href="../reference/prop_allocation.html">prop_allocation()</a></code> gains two new arguments:</p>
 <ol style="list-style-type: decimal"><li><p><code>initial</code> sets the initial allocation for each stratum. This saves from having to manually keep track of an initial allocation and adjust the sample size passed to <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>.</p></li>
@@ -97,12 +97,12 @@
 <li><p>Most functions do a little more argument checking. In particular, it is no longer possible to pass length 0 arguments to <code><a href="../reference/sps.html">sps()</a></code>, <code><a href="../reference/prop_allocation.html">prop_allocation()</a></code>, or <code><a href="../reference/sps_repweights.html">sps_repweights()</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.3" id="changes-in-version-013">Changes in version 0.1.3<a class="anchor" aria-label="anchor" href="#changes-in-version-013"></a></h2><p class="text-muted">CRAN release: 2022-02-09</p>
+<h2 class="pkg-version" data-toc-text="0.1.3" id="sps-013">sps 0.1.3<a class="anchor" aria-label="anchor" href="#sps-013"></a></h2><p class="text-muted">CRAN release: 2022-02-09</p>
 <ul><li><p>Added the option to draw samples with permanent random numbers.</p></li>
 <li><p>Added methods for Math, Ops, [&lt;-, and [[&lt;- that strip attributes from <code>sps</code> objects so as not to treat the result as a sample.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.2" id="changes-in-version-012">Changes in version 0.1.2<a class="anchor" aria-label="anchor" href="#changes-in-version-012"></a></h2><p class="text-muted">CRAN release: 2021-12-11</p>
+<h2 class="pkg-version" data-toc-text="0.1.2" id="sps-012">sps 0.1.2<a class="anchor" aria-label="anchor" href="#sps-012"></a></h2><p class="text-muted">CRAN release: 2021-12-11</p>
 <ul><li><p><code><a href="../reference/sps.html">sps()</a></code> now returns an integer vector (when possible), rather than a double.</p></li>
 <li><p>printing the matrix of replicate weights now shows row names (if any).</p></li>
 </ul></div>
