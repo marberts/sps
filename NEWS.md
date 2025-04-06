@@ -1,3 +1,7 @@
+## sps (development version)
+
+- Added a new vignette to show how inclusion probabilities are calculated.
+
 ## sps 0.6.0
 
 - `inclusion_prob()` is now faster with a single stratum, improving the performance
