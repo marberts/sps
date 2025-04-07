@@ -48,7 +48,8 @@ Within a stratum, the inclusion probability for a unit is given by
 than 1 in practice, and so they are constructed iteratively by taking units
 with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest)
 and assigning these units an inclusion probability of 1, with the remaining
-inclusion probabilities recalculated at each step. If \eqn{\alpha > 0}, then
+inclusion probabilities recalculated at each step. See \code{vignette("take-all")}
+for details. If \eqn{\alpha > 0}, then
 any ties among units with the same size are broken by their position.
 
 The \code{becomes_ta()} function reverses this operations and finds the critical
