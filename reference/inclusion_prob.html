@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,8 @@ unit enters the take-all stratum.</p>
 than 1 in practice, and so they are constructed iteratively by taking units
 with \(\pi \geq 1 - \alpha\) (from largest to smallest)
 and assigning these units an inclusion probability of 1, with the remaining
-inclusion probabilities recalculated at each step. If \(\alpha &gt; 0\), then
+inclusion probabilities recalculated at each step. See <code><a href="../articles/take-all.html">vignette("take-all")</a></code>
+for details. If \(\alpha &gt; 0\), then
 any ties among units with the same size are broken by their position.</p>
 <p>The <code>becomes_ta()</code> function reverses this operations and finds the critical
 sample size at which a unit enters the take-all stratum. This value is
