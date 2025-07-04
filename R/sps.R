@@ -11,7 +11,7 @@ order_sampling_ <- function(f) {
     # Sample the take somes.
     keep <- if (n_ts > 0L) {
       xi <- f(u[ts]) / f(p[ts])
-      order(xi)[seq_len(n_ts)]
+      topn(xi, n_ts, decreasing = FALSE)
     }
     c(ta, ts[keep])
   }
