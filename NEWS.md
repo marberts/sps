@@ -2,6 +2,9 @@
 
 - Added a new vignette to show how inclusion probabilities are calculated.
 
+- `inclusion_prob()` and `sps()` now use `kit::topn()` when available for
+partial sorting.
+
 ## sps 0.6.0
 
 - `inclusion_prob()` is now faster with a single stratum, improving the performance

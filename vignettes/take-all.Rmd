@@ -35,7 +35,7 @@ to place units with an inclusion probability greater than $1 - \alpha$, for some
 small $\alpha$, into the take-all stratum. Unless $\alpha = 0$, the usual algorithm
 for finding take-all units can put units into the take-all stratum that have
 an inclusion probability less than $1 - \alpha$. We can see this with the
-following example.
+following example (with a larger value for $\alpha$)s.
 
 ```{r}
 pi <- function(x, n) {
