@@ -17,7 +17,7 @@ schemes."><meta property="og:image" content="https://marberts.github.io/sps/logo
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -219,11 +219,11 @@ sampling with permanent random numbers.</p></div>
 <span class="r-in"><span><span class="co">#---- Sequential Poisson sampling ----</span></span></span>
 <span class="r-in"><span><span class="co"># Draw a sequential Poisson sample</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu">sps</span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  5  7  8 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  5  8 10 11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the design (inverse probability) weights</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.437500 2.750000 1.964286 1.718750 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.43750 2.75000 1.71875 1.37500 1.00000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># All units except 11 are in the take-some (TS) stratum</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span></span>
@@ -231,13 +231,13 @@ sampling with permanent random numbers.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Ensure that the top 10% of units are in the sample</span></span></span>
 <span class="r-in"><span><span class="fu">sps</span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span>, cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  5  7 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5  8  9 10 11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Ordinary Poisson sampling ----</span></span></span>
 <span class="r-in"><span><span class="co"># Ordinary Poisson sampling gives a random sample size for the</span></span></span>
 <span class="r-in"><span><span class="co"># take-some stratum</span></span></span>
 <span class="r-in"><span><span class="fu">ps</span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  6  9 10 11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Stratified Sequential Poisson sampling ----</span></span></span>
 <span class="r-in"><span><span class="co"># Draw a stratified sample with a proportional allocation</span></span></span>
@@ -246,23 +246,23 @@ sampling with permanent random numbers.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a b c d </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2 4 5 </span>
 <span class="r-in"><span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu">sps</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="va">allocation</span>, <span class="va">strata</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  3  6  7 11 12 13 14 16 17 18 19 20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4  9 10 11 12 13 14 16 17 18 19 20</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use the Horvitz-Thompson estimator to estimate the total</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/weights.html" class="external-link">weights</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span> <span class="op">*</span> <span class="va">y</span><span class="op">[</span><span class="va">samp</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 82.84651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 92.70057</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Useful properties of Sequential Poisson sampling ----</span></span></span>
 <span class="r-in"><span><span class="co"># It can be useful to set 'prn' in order to extend the sample</span></span></span>
 <span class="r-in"><span><span class="co"># to get a fixed net sample</span></span></span>
 <span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu">sps</span><span class="op">(</span><span class="va">x</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  7  8  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  7  8  9 11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Removing unit 5 gives the same net sample</span></span></span>
 <span class="r-in"><span><span class="fu">sps</span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="va">samp</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">[</span><span class="op">-</span><span class="va">samp</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  4  7  8  9 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  7  8  9 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Also useful for topping up a sample</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">samp</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">sps</span><span class="op">(</span><span class="va">x</span>, <span class="fl">7</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -282,11 +282,11 @@ sampling with permanent random numbers.</p></div>
 <span class="r-in"><span><span class="va">order_sampling2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">order_sampling</span><span class="op">(</span><span class="fu">igpd</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">order_sampling2</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span> <span class="co"># sequential Poisson</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  7  8  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  7  8  9 11</span>
 <span class="r-in"><span><span class="fu">order_sampling2</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span> <span class="co"># successive</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  7  8  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  7  8  9 11</span>
 <span class="r-in"><span><span class="fu">order_sampling2</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span> <span class="co"># Pareto</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  7  8  9 10 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  3  6  7  8  9 11</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
