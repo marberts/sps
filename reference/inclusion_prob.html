@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,6 +111,11 @@ any ties among units with the same size are broken by their position.</p>
 sample size at which a unit enters the take-all stratum. This value is
 undefined for units that are always included in the sample (because their
 size exceeds <code>cutoff</code>) or never included.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p><code><a href="https://rdrr.io/pkg/kit/man/topn.html" class="external-link">kit::topn()</a></code> is used if available to improve performance when the
+sample size is small relative to the population.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
