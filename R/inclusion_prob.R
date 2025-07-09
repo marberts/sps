@@ -26,8 +26,8 @@
 #' unit enters the take-all stratum.
 #'
 #' @note
-#' `kit::topn()` is used if available to improve performance when the
-#' sample size is small relative to the population.
+#' [`kit::topn()`] is used if available to improve performance in the normal
+#' case when the sample size is small relative to the population.
 #'
 #' @seealso
 #' [sps()] for drawing a sequential Poisson sample.

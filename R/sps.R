@@ -181,8 +181,8 @@ stratify <- function(f) {
 #' `sps()` and `ps()`.
 #'
 #' @note
-#' `kit::topn()` is used if available to improve performance when the
-#' sample size is small relative to the population.
+#' [`kit::topn()`] is used if available to improve performance in the normal
+#' case when the sample size is small relative to the population.
 #'
 #' @seealso
 #' [prop_allocation()] for generating proportional-to-size allocations.

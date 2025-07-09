@@ -58,8 +58,8 @@ undefined for units that are always included in the sample (because their
 size exceeds \code{cutoff}) or never included.
 }
 \note{
-\code{kit::topn()} is used if available to improve performance when the
-sample size is small relative to the population.
+\code{\link[kit:topn]{kit::topn()}} is used if available to improve performance in the normal
+case when the sample size is small relative to the population.
 }
 \examples{
 # Make inclusion probabilities for a population with units

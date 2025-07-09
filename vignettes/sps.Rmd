@@ -94,8 +94,8 @@ sps_var <- function(y, w) {
   y <- y[w > 1]
   w <- w[w > 1]
   n <- length(y)
-  Y <- sum(y * w)
-  n / (n - 1) * sum((1 - 1 / w) * (w * y - Y / n)^2)
+  total <- sum(y * w)
+  n / (n - 1) * sum((1 - 1 / w) * (w * y - total / n)^2)
 }
 
 var <- with(

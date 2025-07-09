@@ -130,7 +130,15 @@ p <- function(x, n) {
   x_ta * s / (sum(x[definite_ts]) + cumsum(x_ta))
 }
 
-plot(1:4, p(x, 8)[1:4], xlab = "", ylab = "p", xlim = c(1, 8), ylim = c(0, 2), pch = 20)
+plot(
+  1:4,
+  p(x, 8)[1:4],
+  xlab = "",
+  ylab = "p",
+  xlim = c(1, 8),
+  ylim = c(0, 2),
+  pch = 20
+)
 points(5:8, p(x, 8)[5:8], pch = 19)
 abline(1 - alpha, 0, lty = 2)
 legend(1, 2, c("take-some", "take-all"), pch = c(20, 19))

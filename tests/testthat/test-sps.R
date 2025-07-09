@@ -138,7 +138,7 @@ test_that("permanent random numbers work", {
     ps(x, 5, prn = prn),
     ps(x, 5)
   )
-  
+
   expect_identical(
     as.integer(sps(c(x, x), c(5, 4), gl(2, 11), prn = c(prn, prn))),
     c(sps(x, 5, prn = prn), (12:22)[sps(x, 4, prn = prn)])

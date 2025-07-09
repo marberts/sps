@@ -121,8 +121,8 @@ variable \eqn{\xi}:
 }
 }
 \note{
-\code{kit::topn()} is used if available to improve performance when the
-sample size is small relative to the population.
+\code{\link[kit:topn]{kit::topn()}} is used if available to improve performance in the normal
+case when the sample size is small relative to the population.
 }
 \examples{
 # Make a population with units of different size
