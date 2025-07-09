@@ -180,6 +180,10 @@ stratify <- function(f) {
 #' `order_sampling` returns a function the with the same interface as
 #' `sps()` and `ps()`.
 #'
+#' @note
+#' `kit::topn()` is used if available to improve performance when the
+#' sample size is small relative to the population.
+#'
 #' @seealso
 #' [prop_allocation()] for generating proportional-to-size allocations.
 #'

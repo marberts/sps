@@ -57,6 +57,10 @@ sample size at which a unit enters the take-all stratum. This value is
 undefined for units that are always included in the sample (because their
 size exceeds \code{cutoff}) or never included.
 }
+\note{
+\code{kit::topn()} is used if available to improve performance when the
+sample size is small relative to the population.
+}
 \examples{
 # Make inclusion probabilities for a population with units
 # of different size

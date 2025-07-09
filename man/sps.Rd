@@ -120,6 +120,10 @@ variable \eqn{\xi}:
 \item{Pareto sampling}{\verb{\\(x) x / (1 - x)}}
 }
 }
+\note{
+\code{kit::topn()} is used if available to improve performance when the
+sample size is small relative to the population.
+}
 \examples{
 # Make a population with units of different size
 x <- c(1:10, 100)
