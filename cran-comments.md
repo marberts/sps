@@ -1,12 +1,15 @@
 ## Test environments
 
-- local Ubuntu 24.04 installation, R 4.4.2
+- local Ubuntu 24.04 installation, R 4.5.1
 - win-builder (devel, release, oldrelease)
-- mac-builder (release)
+- github actions: Ubuntu (devel, release, oldrelease), Mac (release),
+Windows (release)
 
 ## R CMD check results
 
 There were no ERRORs or WARNINGs.
+
+win-builder (oldrelease) gave two spurious NOTEs.
 
 ## Downstream dependencies
 

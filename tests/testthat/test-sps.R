@@ -221,3 +221,18 @@ test_that("attributes get removed", {
   length(samp) <- 2
   expect_true(inherits(samp, "integer"))
 })
+
+test_that("agrees with manual calculation", {
+  set.seed(12345)
+  prn <- c(0.99, runif(9))
+  x <- c(20, 1:5, 7, 6, 100, 8)
+  expect_identical(
+    as.integer(sps(x, 5, prn = prn)),
+    sort(c(1L, 9L, c(2:8, 10L)[order(prn[-c(1, 9)] / x[-c(1, 9)])[1:3]]))
+  )
+
+  expect_identical(
+    as.integer(ps(x, 5, prn = prn)),
+    sort(which(prn < inclusion_prob(x, 5)))
+  )
+})

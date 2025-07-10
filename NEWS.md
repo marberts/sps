@@ -1,4 +1,4 @@
-## sps (development version)
+## sps 0.6.1
 
 - Added a new vignette to show how inclusion probabilities are calculated.
 
