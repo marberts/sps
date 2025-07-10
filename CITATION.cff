@@ -8,7 +8,7 @@ message: 'To cite package "sps" in publications use:'
 type: software
 license: MIT
 title: 'sps: Sequential Poisson Sampling'
-version: 0.6.0
+version: 0.6.1
 doi: 10.5281/zenodo.10109857
 identifiers:
 - type: doi
@@ -36,7 +36,7 @@ preferred-citation:
   year: '2025'
   doi: 10.5281/zenodo.10109857
   url: https://cran.r-project.org/package=sps
-  notes: R package version 0.6.0
+  notes: R package version 0.6.1
 repository: https://CRAN.R-project.org/package=sps
 repository-code: https://github.com/marberts/sps
 url: https://marberts.github.io/sps/
@@ -76,6 +76,19 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2025'
+- type: software
+  title: kit
+  abstract: 'kit: Data Manipulation Functions Implemented in C'
+  notes: Suggests
+  url: https://github.com/2005m/kit
+  repository: https://CRAN.R-project.org/package=kit
+  authors:
+  - family-names: Jacob
+    given-names: Morgan
+    email: morgan.emailbox@gmail.com
+  year: '2025'
+  doi: 10.32614/CRAN.package.kit
+  version: '>= 0.0.10'
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
