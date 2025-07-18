@@ -46,16 +46,20 @@
 #'   algorithm to ensure a feasible allocation; see details. Non-integers are
 #'   truncated towards 0. The default allows for no units to be allocated to a
 #'   stratum.
-#' @param divisor A divisor function for the divisor (highest-averages)
-#'   apportionment method. The default uses the Jefferson (D'Hondt) method. See
+#' @param divisor A function for the divisor (highest-averages)
+#'   apportionment method. The default uses the Jefferson/D'Hondt method. See
 #'   details for other possible functions.
 #' @param ties Either 'largest' to break ties in favor of the stratum with the
 #'   largest size, or 'first' to break ties in favor of the ordering of
 #'   `strata`.
+#' @param name Name of the divisor function. See details.
 #'
 #' @returns
-#' A named integer vector of sample sizes for each stratum in `strata`.
-#
+#' `prop_allocation()` returns a named integer vector of sample sizes for each
+#'  stratum in `strata`.
+#'
+#' `divisor_method()` returns a function giving the desired divisor function.
+#'
 #' @seealso
 #' [sps()] for stratified sequential Poisson sampling.
 #'
@@ -84,7 +88,7 @@ prop_allocation <- function(x,
                             n,
                             strata,
                             initial = 0L,
-                            divisor = \(a) a + 1,
+                            divisor = divisor_method("Jefferson/D'Hondt"),
                             ties = c("largest", "first")) {
   x <- as.numeric(x)
   n <- as.integer(n)
@@ -107,6 +111,56 @@ prop_allocation <- function(x,
   res <- highest_averages(p, n, initial, ns, match.arg(ties), divisor)
   names(res) <- levels(strata)
   res
+}
+
+#' Divisor functions
+#' @rdname prop_allocation
+#' @usage divisor_method(
+#'   name = c(
+#'     "Jefferson/D'Hondt",
+#'     "Webster/Sainte-Lague",
+#'     "Imperiali",
+#'     "Huntington-Hill",
+#'     "Danish",
+#'     "Adams",
+#'     "Dean"
+#'     )
+#'   )
+#' @export
+divisor_method <- function(
+    name = c(
+      "Jefferson/D'Hondt",
+      "Webster/Sainte-Lague",
+      "Imperiali",
+      "Huntington-Hill",
+      "Danish",
+      "Adams",
+      "Dean"
+    )) {
+  switch(match.arg(name),
+    "Jefferson/D'Hondt" = \(a) a + 1,
+    "Webster/Sainte-Lague" = \(a) a + 0.5,
+    "Imperiali" = \(a) a + 2,
+    "Huntington-Hill" = \(a) {
+      if (any(a < 1)) {
+        stop("'a' must be greater than or equal to 1")
+      }
+      sqrt(a * (a + 1))
+    },
+    "Danish" = \(a) a + 1 / 3,
+    "Adams" = \(a) {
+      if (any(a < 1)) {
+        stop("'a' must be greater than or equal to 1")
+      }
+      a
+    },
+    "Dean" = \(a) {
+      if (any(a < 1)) {
+        stop("'a' must be greater than or equal to 1")
+      }
+      a * (a + 1) / (a + 0.5)
+    }
+  )
 }
 
 #' Highest-averages apportionment method
@@ -146,19 +200,20 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 
   res <- initial
   n <- n - sum(res)
-  ord <- switch(
-    ties,
+  ord <- switch(ties,
     largest = order(p, decreasing = TRUE),
     first = seq_along(p)
   )
   p <- p[ord]
   res <- res[ord]
   available <- available[ord]
+  s <- p / dist(res) * (res < available)
   # The while condition could be n > sum(res), but the loop below always
   # terminates after at most n steps, even if i is integer(0).
   while (n > 0L) {
-    i <- which.max(p / dist(res) * (res < available))
+    i <- which.max(s)
     res[i] <- res[i] + 1L
+    s[i] <- p[i] / dist(res[i]) * (res[i] < available[i])
     n <- n - 1L
   }
   res[order(ord)]

@@ -2,6 +2,7 @@
 % Please edit documentation in R/prop_allocation.R
 \name{prop_allocation}
 \alias{prop_allocation}
+\alias{divisor_method}
 \title{Construct a proportional allocation}
 \usage{
 prop_allocation(
@@ -9,9 +10,21 @@ prop_allocation(
   n,
   strata,
   initial = 0L,
-  divisor = function(a) a + 1,
+  divisor = divisor_method("Jefferson/D'Hondt"),
   ties = c("largest", "first")
 )
+
+divisor_method(
+  name = c(
+    "Jefferson/D'Hondt",
+    "Webster/Sainte-Lague",
+    "Imperiali",
+    "Huntington-Hill",
+    "Danish",
+    "Adams",
+    "Dean"
+    )
+  )
 }
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the
@@ -30,16 +43,21 @@ algorithm to ensure a feasible allocation; see details. Non-integers are
 truncated towards 0. The default allows for no units to be allocated to a
 stratum.}
 
-\item{divisor}{A divisor function for the divisor (highest-averages)
-apportionment method. The default uses the Jefferson (D'Hondt) method. See
+\item{divisor}{A function for the divisor (highest-averages)
+apportionment method. The default uses the Jefferson/D'Hondt method. See
 details for other possible functions.}
 
 \item{ties}{Either 'largest' to break ties in favor of the stratum with the
 largest size, or 'first' to break ties in favor of the ordering of
 \code{strata}.}
+
+\item{name}{Name of the divisor function. See details.}
 }
 \value{
-A named integer vector of sample sizes for each stratum in \code{strata}.
+\code{prop_allocation()} returns a named integer vector of sample sizes for each
+stratum in \code{strata}.
+
+\code{divisor_method()} returns a function giving the desired divisor function.
 }
 \description{
 Generate a proportional-to-size allocation for stratified sampling.

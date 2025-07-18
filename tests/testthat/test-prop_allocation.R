@@ -71,13 +71,15 @@ test_that("simple allocations are correct", {
   )
   expect_identical(
     prop_allocation(
-      c(rep(10, 8), 1, 1), 5, c(rep("a", 8), "b", "b"), initial = 3
+      c(rep(10, 8), 1, 1), 5, c(rep("a", 8), "b", "b"),
+      initial = 3
     ),
     c(a = 3L, b = 2L)
   )
   expect_identical(
     prop_allocation(
-      rep(c(1, 10), 5), 4, rep(letters[1:2], 5), initial = c(3, 1)
+      rep(c(1, 10), 5), 4, rep(letters[1:2], 5),
+      initial = c(3, 1)
     ),
     c(a = 3L, b = 1L)
   )
@@ -113,7 +115,8 @@ test_that("simple allocations are correct", {
   expect_identical(
     prop_allocation(
       c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5,
-      rep(letters[1:3], c(6, 2, 2)), divisor = identity
+      rep(letters[1:3], c(6, 2, 2)),
+      divisor = identity
     ),
     c(a = 1L, b = 2L, c = 2L)
   )
@@ -218,4 +221,14 @@ test_that("argument checking for expected coverage works", {
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = c(0, 1)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = numeric(0)))
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = NA))
+})
+
+test_that("divisors are correct", {
+  expect_equal(divisor_method("Webster/Sainte-Lague")(1:3), 1:3 + 1 / 2)
+  expect_equal(divisor_method("Imperiali")(1:3), 1:3 + 2)
+  expect_equal(divisor_method("Huntington-Hill")(1:3), sqrt(1:3 * 2:4))
+  expect_equal(divisor_method("Danish")(1:3), 1:3 + 1 / 3)
+  expect_equal(divisor_method("Adams")(1:3), 1:3)
+  expect_equal(divisor_method("Dean")(1:3), 1:3 * 2:4 / (1:3 + 1 / 2))
+  expect_error(divisor_method("Adams")(0:3))
 })
