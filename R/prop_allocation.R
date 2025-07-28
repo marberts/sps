@@ -50,8 +50,8 @@
 #'   apportionment method. The default uses the Jefferson/D'Hondt method. See
 #'   details for other possible functions.
 #' @param ties Either 'largest' to break ties in favor of the stratum with the
-#'   largest size, or 'first' to break ties in favor of the ordering of
-#'   `strata`.
+#'   largest size (the default), or 'first' to break ties in favor of the
+#'   ordering of `strata`.
 #' @param name Name of the divisor function. See details.
 #'
 #' @returns

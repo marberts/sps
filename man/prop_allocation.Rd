@@ -48,8 +48,8 @@ apportionment method. The default uses the Jefferson/D'Hondt method. See
 details for other possible functions.}
 
 \item{ties}{Either 'largest' to break ties in favor of the stratum with the
-largest size, or 'first' to break ties in favor of the ordering of
-\code{strata}.}
+largest size (the default), or 'first' to break ties in favor of the
+ordering of \code{strata}.}
 
 \item{name}{Name of the divisor function. See details.}
 }
