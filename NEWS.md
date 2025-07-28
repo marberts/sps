@@ -1,4 +1,4 @@
-## sps (under development)
+## sps (development version)
 
 - Added `divisor_method()` to more easily generate divisor functions for
 `prop_allocation()` by name.
