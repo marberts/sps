@@ -51,8 +51,13 @@ summary.sps_sample <- function(object, ...) {
 print.sps_sample_summary <- function(x, ...) {
   chkDots(...)
   cat(
-    "Sample of", x$n, "units with", x$ta,
-    "take-all units and", x$ts, "take-some units"
+    "Sample of",
+    x$n,
+    "units with",
+    x$ta,
+    "take-all units and",
+    x$ts,
+    "take-some units"
   )
   invisible(x)
 }
@@ -65,8 +70,12 @@ Math.sps_sample <- function(x, ...) {
 
 #' @export
 Ops.sps_sample <- function(e1, e2) {
-  if (inherits(e1, "sps_sample")) e1 <- as.vector(e1)
-  if (nargs() == 2L && inherits(e2, "sps_sample")) e2 <- as.vector(e2)
+  if (inherits(e1, "sps_sample")) {
+    e1 <- as.vector(e1)
+  }
+  if (nargs() == 2L && inherits(e2, "sps_sample")) {
+    e2 <- as.vector(e2)
+  }
   NextMethod()
 }
 

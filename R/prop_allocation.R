@@ -84,12 +84,14 @@
 #' prop_allocation(x, 15, s, initial = 1)
 #'
 #' @export
-prop_allocation <- function(x,
-                            n,
-                            strata,
-                            initial = 0L,
-                            divisor = divisor_method("Jefferson/D'Hondt"),
-                            ties = c("largest", "first")) {
+prop_allocation <- function(
+  x,
+  n,
+  strata,
+  initial = 0L,
+  divisor = divisor_method("Jefferson/D'Hondt"),
+  ties = c("largest", "first")
+) {
   x <- as.numeric(x)
   n <- as.integer(n)
   strata <- validate_strata(as.factor(strata), x)
@@ -128,16 +130,18 @@ prop_allocation <- function(x,
 #'   )
 #' @export
 divisor_method <- function(
-    name = c(
-      "Jefferson/D'Hondt",
-      "Webster/Sainte-Lague",
-      "Imperiali",
-      "Huntington-Hill",
-      "Danish",
-      "Adams",
-      "Dean"
-    )) {
-  switch(match.arg(name),
+  name = c(
+    "Jefferson/D'Hondt",
+    "Webster/Sainte-Lague",
+    "Imperiali",
+    "Huntington-Hill",
+    "Danish",
+    "Adams",
+    "Dean"
+  )
+) {
+  switch(
+    match.arg(name),
     "Jefferson/D'Hondt" = \(a) a + 1,
     "Webster/Sainte-Lague" = \(a) a + 0.5,
     "Imperiali" = \(a) a + 2,
@@ -200,7 +204,8 @@ highest_averages <- function(p, n, initial, available, ties, dist) {
 
   res <- initial
   n <- n - sum(res)
-  ord <- switch(ties,
+  ord <- switch(
+    ties,
     largest = order(p, decreasing = TRUE),
     first = seq_along(p)
   )
