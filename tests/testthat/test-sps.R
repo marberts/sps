@@ -78,7 +78,8 @@ test_that("results are sorted", {
   )
   # weights should be monotonic
   expect_identical(
-    order(weights(sps(0:10, 4))), 4:1
+    order(weights(sps(0:10, 4))),
+    4:1
   )
 })
 

@@ -48,12 +48,7 @@ random_deviates <- function(prn, x) {
 stratify <- function(f) {
   f <- match.fun(f)
 
-  function(x,
-           n,
-           strata = NULL,
-           prn = NULL,
-           alpha = 1e-3,
-           cutoff = Inf) {
+  function(x, n, strata = NULL, prn = NULL, alpha = 1e-3, cutoff = Inf) {
     x <- as.numeric(x)
     n <- as.integer(n)
     alpha <- as.numeric(alpha)

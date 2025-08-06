@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.6.1.9002
+Version: 0.6.1.9003
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -22,13 +22,13 @@ Imports: stats
 Suggests: 
     kit (>= 0.0.10),
     knitr,
-    rmarkdown,
+    quarto,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://marberts.github.io/sps/, https://github.com/marberts/sps
 BugReports: https://github.com/marberts/sps/issues
-VignetteBuilder: knitr
+VignetteBuilder: quarto
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

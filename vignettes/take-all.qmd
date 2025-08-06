@@ -1,10 +1,13 @@
 ---
 title: "Take-all units"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Take-all units}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
 ---
 
 When drawing a sample of size $n$ from a population of size $N$,
