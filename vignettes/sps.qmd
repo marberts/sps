@@ -1,18 +1,14 @@
 ---
 title: "Drawing a Sequential Poisson Sample"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Drawing a Sequential Poisson Sample}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details can be found on the help pages for the functions used in this vignette.
 

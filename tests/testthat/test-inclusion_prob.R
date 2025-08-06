@@ -106,8 +106,28 @@ test_that("results agree with sampling::inclusionprobabilities()", {
 
   # sampling::inclusionprob() != inclusion_prob() with this vector
   # with the default alpha
-  x <- c(100, 25, 94, 23, 55, 6, 80, 65, 48, 76,
-         31, 99, 45, 39, 28, 18, 54, 78, 4, 33)
+  x <- c(
+    100,
+    25,
+    94,
+    23,
+    55,
+    6,
+    80,
+    65,
+    48,
+    76,
+    31,
+    99,
+    45,
+    39,
+    28,
+    18,
+    54,
+    78,
+    4,
+    33
+  )
   expect_equal(
     inclusion_prob(x, 10),
     c(1, x[-1] / sum(x[-1]) * 9)
@@ -122,30 +142,58 @@ test_that("TAs are added with alpha", {
   x <- c(0, 4, 1, 4, 5)
   expect_equal(
     inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.1, 0.15, 0.2)),
-    c(x[-5] / 9 * 2, 1,
-      x[1] / 5, 1, x[3:4] / 5, 1,
-      0, 1, 0, 1, 1)
+    c(x[-5] / 9 * 2, 1, x[1] / 5, 1, x[3:4] / 5, 1, 0, 1, 0, 1, 1)
   )
 
   # partial ordering doesn't break ties correctly
   x <- c(1, 2, 2, 2, 3)
   expect_equal(
     inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.15, 0.5, 0.6)),
-    c(x[-5] / 7 * 2, 1,
-      0.2, 1, 0.4, 0.4, 1,
-      0, 1, 1, 0, 1)
+    c(x[-5] / 7 * 2, 1, 0.2, 1, 0.4, 0.4, 1, 0, 1, 1, 0, 1)
   )
 
   # alpha = 1 adds TA units in order
   x <- c(4, 3, 4, 2, 1, 0)
   expect_equal(
     inclusion_prob(rep(x, 6), 0:5, gl(6, 6), 1),
-    c(0, 0, 0, 0, 0, 0,
-      1, 0, 0, 0, 0, 0,
-      1, 0, 1, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-      1, 1, 1, 1, 0, 0,
-      1, 1, 1, 1, 1, 0)
+    c(
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0
+    )
   )
 })
 
@@ -179,20 +227,30 @@ test_that("n, alpha, and cutoff recycle", {
 
 test_that("cutoff is the same as removing units", {
   x <- 1:20
-  expect_equal(inclusion_prob(x[x < 18], 9),
-               inclusion_prob(x, 12, cutoff = 18)[1:17])
-  expect_equal(inclusion_prob(x[x < 18], 9, alpha = 0.1),
-               inclusion_prob(x, 12, cutoff = 18, alpha = 0.1)[1:17])
+  expect_equal(
+    inclusion_prob(x[x < 18], 9),
+    inclusion_prob(x, 12, cutoff = 18)[1:17]
+  )
+  expect_equal(
+    inclusion_prob(x[x < 18], 9, alpha = 0.1),
+    inclusion_prob(x, 12, cutoff = 18, alpha = 0.1)[1:17]
+  )
 })
 
 test_that("cutoff agrees with alpha", {
   x <- c(0, 1, 2, 3, 2, 4, 3)
-  expect_equal(inclusion_prob(x, 3, alpha = 0.2),
-               inclusion_prob(x, 3, cutoff = 4))
-  expect_equal(inclusion_prob(x, 3, alpha = 0.625),
-               inclusion_prob(x, 3, cutoff = 3))
-  expect_equal(inclusion_prob(x, 3, alpha = 0.625, cutoff = 3),
-               inclusion_prob(x, 3, cutoff = 3))
+  expect_equal(
+    inclusion_prob(x, 3, alpha = 0.2),
+    inclusion_prob(x, 3, cutoff = 4)
+  )
+  expect_equal(
+    inclusion_prob(x, 3, alpha = 0.625),
+    inclusion_prob(x, 3, cutoff = 3)
+  )
+  expect_equal(
+    inclusion_prob(x, 3, alpha = 0.625, cutoff = 3),
+    inclusion_prob(x, 3, cutoff = 3)
+  )
 })
 
 test_that("units become TA when expected", {
@@ -202,9 +260,11 @@ test_that("units become TA when expected", {
     ta <- becomes_ta(x, a, cutoff = 6)
     res <- apply(
       sapply(
-        seq_along(x), \(n) inclusion_prob(x, n, alpha = a, cutoff = 6) == 1
+        seq_along(x),
+        \(n) inclusion_prob(x, n, alpha = a, cutoff = 6) == 1
       ),
-      1, which.max
+      1,
+      which.max
     )
     expect_equal(ta[-1], res[-1])
   }
@@ -220,6 +280,5 @@ test_that("adding a cutoff just offsets when a unit becomes TA", {
 
   # Adding zeroes does nothing
   z <- c(0, 0, 0, x)
-  expect_equal(becomes_ta(z, 0.25, 6),
-               c(NaN, NaN, NaN, 3, 4, 5, 4, 5))
+  expect_equal(becomes_ta(z, 0.25, 6), c(NaN, NaN, NaN, 3, 4, 5, 4, 5))
 })

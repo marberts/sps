@@ -23,7 +23,9 @@ test_that("corner cases for allocations work as expected", {
   )
   expect_identical(
     prop_allocation(
-      rep(1, 10), 4, factor(rep(letters[1], 10), levels = c("a", "b"))
+      rep(1, 10),
+      4,
+      factor(rep(letters[1], 10), levels = c("a", "b"))
     ),
     c(a = 4L, b = 0L)
   )
@@ -71,21 +73,27 @@ test_that("simple allocations are correct", {
   )
   expect_identical(
     prop_allocation(
-      c(rep(10, 8), 1, 1), 5, c(rep("a", 8), "b", "b"),
+      c(rep(10, 8), 1, 1),
+      5,
+      c(rep("a", 8), "b", "b"),
       initial = 3
     ),
     c(a = 3L, b = 2L)
   )
   expect_identical(
     prop_allocation(
-      rep(c(1, 10), 5), 4, rep(letters[1:2], 5),
+      rep(c(1, 10), 5),
+      4,
+      rep(letters[1:2], 5),
       initial = c(3, 1)
     ),
     c(a = 3L, b = 1L)
   )
   expect_identical(
     prop_allocation(
-      rep(c(1, 10), 5), 4, factor(rep(letters[1:2], 5), levels = letters[1:3]),
+      rep(c(1, 10), 5),
+      4,
+      factor(rep(letters[1:2], 5), levels = letters[1:3]),
       initial = c(2, 1, 0)
     ),
     c(a = 2L, b = 2L, c = 0L)
@@ -100,21 +108,24 @@ test_that("simple allocations are correct", {
   )
   expect_identical(
     prop_allocation(
-      c(1, 1, 1, 1, 1, 1, 1, 10, 10, 10), 5,
+      c(1, 1, 1, 1, 1, 1, 1, 10, 10, 10),
+      5,
       rep(letters[1:2], c(7, 3))
     ),
     c(a = 2L, b = 3L)
   )
   expect_identical(
     prop_allocation(
-      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5,
+      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100),
+      5,
       rep(letters[1:3], c(6, 2, 2))
     ),
     c(a = 1L, b = 2L, c = 2L)
   )
   expect_identical(
     prop_allocation(
-      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100), 5,
+      c(1, 1, 1, 1, 1, 1, 9, 9, 100, 100),
+      5,
       rep(letters[1:3], c(6, 2, 2)),
       divisor = identity
     ),
@@ -194,12 +205,74 @@ test_that("expected coverage works", {
   )
   # simulation
   x <- c(
-    0, 20, 16, 32, 14, 35, 9, 6, 2, 33, 29, 40, 27, 38, 47, 26, 46,
-    12, 11, 39, 24, 100, 0, 1, 6, 6, 9, 20, 15, 25, 14, 0, 100
+    0,
+    20,
+    16,
+    32,
+    14,
+    35,
+    9,
+    6,
+    2,
+    33,
+    29,
+    40,
+    27,
+    38,
+    47,
+    26,
+    46,
+    12,
+    11,
+    39,
+    24,
+    100,
+    0,
+    1,
+    6,
+    6,
+    9,
+    20,
+    15,
+    25,
+    14,
+    0,
+    100
   )
   s <- c(
-    4, 4, 2, 5, 5, 5, 5, 2, 3, 2, 5, 2, 2, 5, 5, 2, 3, 4, 5, 5, 3, 4,
-    2, 2, 2, 3, 5, 2, 1, 1, 2, 3, 3
+    4,
+    4,
+    2,
+    5,
+    5,
+    5,
+    5,
+    2,
+    3,
+    2,
+    5,
+    2,
+    2,
+    5,
+    5,
+    2,
+    3,
+    4,
+    5,
+    5,
+    3,
+    4,
+    2,
+    2,
+    2,
+    3,
+    5,
+    2,
+    1,
+    1,
+    2,
+    3,
+    3
   )
 
   expect_equal(expected_coverage(x, 10, s), 4.41282552802)

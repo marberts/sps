@@ -7,15 +7,18 @@ template:
   
 reference:
 - title: Sampling
+  desc: Functions for drawing samples.
   contents:
   - sps
   - inclusion_prob
   
 - title: Allocations
+  desc: Functions for generating allocations for stratified sampling.
   contents:
   - prop_allocation
   - expected_coverage
   
 - title: Replicate weights
+  desc: Bootstrap replicate weights.
   contents:
   - sps_repweights
