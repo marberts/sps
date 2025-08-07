@@ -199,16 +199,18 @@ frame1 <- subset(frame, region == 1)
 pi_est <- tabulate(
   replicate(n, sps(frame1$revenue, allocation[1])),
   nbins = nrow(frame1)
-) / n
+)
 
 pi <- inclusion_prob(frame1$revenue, allocation[1])
 
-dist <- (pi_est - pi) / sqrt(pi * (1 - pi) / n)
+dist <- (pi_est / n - pi) / sqrt(pi * (1 - pi) / n)
 
 plot(
   density(dist, na.rm = TRUE),
-  ylim = c(0, 0.5), xlim = c(-4, 4),
-  ylab = "", xlab = "",
+  ylim = c(0, 0.5),
+  xlim = c(-4, 4),
+  ylab = "",
+  xlab = "",
   main = "Empirical distribution of inclusion probabilities"
 )
 lines(seq(-4, 4, 0.1), dnorm(seq(-4, 4, 0.1)), lty = "dashed")

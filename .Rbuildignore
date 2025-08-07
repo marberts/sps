@@ -13,3 +13,4 @@
 ^CITATION\.cff$
 ^vignettes/\.quarto$
 ^CONTRIBUTING\.md$
+^[.]?air[.]toml$
