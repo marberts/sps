@@ -42,6 +42,13 @@
 #' # samples with two or more units
 #' becomes_ta(x)
 #'
+#' # Determine the number of take-all units before drawing a sample
+#' n_ta <- function(x, n, ...) {
+#'   sum(becomes_ta(x, ...) <= n, na.rm = TRUE)
+#' }
+#'
+#' n_ta(x, 7)
+#'
 #' # Use the inclusion probabilities to calculate the variance of the
 #' # sample size for Poisson sampling
 #' sum(pi * (1 - pi))

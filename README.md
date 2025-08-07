@@ -61,11 +61,11 @@ revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  3  6  7  8 11 12
+#> [1]  3  5  6  9 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 4.583333 2.291667 1.964286 1.718750 1.000000 1.000000
+#> [1] 4.583333 2.750000 2.291667 1.527778 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -85,10 +85,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  5  8  9 10 11 12
+#> [1]  1  6  9 10 11 12
 
 weights(samp)
-#> [1] 3.000000 1.875000 1.666667 1.000000 1.000000 1.000000
+#> [1] 15.000000  2.500000  1.666667  1.000000  1.000000  1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -98,15 +98,15 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5)
-#>          [,1]     [,2]      [,3]      [,4]     [,5]
-#> [1,] 5.812219 3.000000 0.1877812 3.0000000 3.000000
-#> [2,] 3.515461 3.515461 2.6952305 0.0001875 3.515461
-#> [3,] 2.291604 2.916542 2.9165417 1.3541979 1.354198
-#> [4,] 1.000000 1.000000 1.0000000 1.0000000 1.000000
-#> [5,] 1.000000 1.000000 1.0000000 1.0000000 1.000000
-#> [6,] 1.000000 1.000000 1.0000000 1.0000000 1.000000
+#>          [,1]      [,2]     [,3]      [,4]         [,5]
+#> [1,] 2.501250 27.498750 2.501250 27.498750 1.500000e+01
+#> [2,] 0.833500  0.833500 2.083375  2.916625 2.500000e-04
+#> [3,] 1.388917  2.777667 1.388917  1.388917 1.666667e-04
+#> [4,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
+#> [5,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
+#> [6,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
 #> attr(,"tau")
-#> [1] 1.066773
+#> [1] 1.20012
 ```
 
 The vignette gives more detail about how to use these functions to draw
@@ -114,14 +114,20 @@ coordinated samples, top up a sample, and estimate variance.
 
 ## Prior work
 
-There are a number of packages on CRAN for drawing samples proportional
-to size, but these generally do not include the sequential Poisson
-method. The **sampling** package contains a function for drawing
-sequential Poisson samples, but it does not allow for stratification,
-take-all units, or the use of permanent random numbers. By contrast, the
+There are many packages on CRAN for drawing samples proportional to
+size, but these generally do not include the sequential Poisson method.
+The **sampling** package contains a function for drawing sequential
+Poisson samples, but it does not allow for stratification, take-all
+units, or the use of permanent random numbers. By contrast, the
 **prnsamplr** package allows for the use of stratification and permanent
 random numbers with Pareto order sampling, but does not feature other
 order-sampling methods (like sequential Poisson).
+
+## Contributing
+
+All contributions are welcome. Please start by opening an issue on
+GitHub to report any bugs or suggest improvements and new features. See
+the contribution guidelines for this project for more information.
 
 ## References
 
