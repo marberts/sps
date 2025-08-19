@@ -37,7 +37,10 @@ install.packages("sps")
 The development version can be installed from R-Universe
 
 ```{r, eval=FALSE}
-install.packages("sps", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+install.packages(
+  "sps",
+  repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
 
 or directly from GitHub.
@@ -53,7 +56,7 @@ Given a vector of sizes for units in a population (e.g., revenue for sampling bu
 ```{r}
 library(sps)
 
-# Generate some data on sizes for 12 businesses in a single 
+# Generate some data on sizes for 12 businesses in a single
 # stratum as a simple example
 revenue <- c(1:10, 100, 150)
 

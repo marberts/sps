@@ -172,6 +172,15 @@ The solution to this problem is to simply increase the size of the sample until 
 sample %in% sps(x, 6, prn = u)
 ```
 
+It's possible to go one step further an make an interator that draws the next unit in the sample without replacing the old ones.
+
+```{r}
+s <- sps_iterator(x, prn = u)
+for (i in 1:5) {
+  print(s())
+}
+```
+
 ## Bias in the Horvitz-Thompson estimator
 
 Despite it's simplicity, sequential Poisson sampling is only asymptotically proportional to size. This means that the Horvitz-Thompson estimator can be biased in small samples, although this bias is usually negligible for real-world sample sizes.

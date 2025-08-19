@@ -37,7 +37,10 @@ install.packages("sps")
 The development version can be installed from R-Universe
 
 ``` r
-install.packages("sps", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+install.packages(
+  "sps",
+  repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
 
 or directly from GitHub.
@@ -55,17 +58,17 @@ Poisson sample can be drawn with the `sps()` function.
 ``` r
 library(sps)
 
-# Generate some data on sizes for 12 businesses in a single 
+# Generate some data on sizes for 12 businesses in a single
 # stratum as a simple example
 revenue <- c(1:10, 100, 150)
 
 # Draw a sample of 6 businesses
 (samp <- sps(revenue, 6))
-#> [1]  3  5  6  9 11 12
+#> [1]  4  5  9 10 11 12
 
 # Design weights and sampling strata are stored with the sample
 weights(samp)
-#> [1] 4.583333 2.750000 2.291667 1.527778 1.000000 1.000000
+#> [1] 3.437500 2.750000 1.527778 1.375000 1.000000 1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TS" "TA" "TA"
 ```
@@ -85,10 +88,10 @@ stratum <- rep(c("a", "b"), c(9, 3))
 
 # Draw a stratified sample
 (samp <- sps(revenue, allocation, stratum))
-#> [1]  1  6  9 10 11 12
+#> [1]  1  5  7 10 11 12
 
 weights(samp)
-#> [1] 15.000000  2.500000  1.666667  1.000000  1.000000  1.000000
+#> [1] 15.000000  3.000000  2.142857  1.000000  1.000000  1.000000
 levels(samp)
 #> [1] "TS" "TS" "TS" "TA" "TA" "TA"
 ```
@@ -98,15 +101,15 @@ replicate weights with the `sps_repweights()` function.
 
 ``` r
 sps_repweights(weights(samp), 5)
-#>          [,1]      [,2]     [,3]      [,4]         [,5]
-#> [1,] 2.501250 27.498750 2.501250 27.498750 1.500000e+01
-#> [2,] 0.833500  0.833500 2.083375  2.916625 2.500000e-04
-#> [3,] 1.388917  2.777667 1.388917  1.388917 1.666667e-04
-#> [4,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
-#> [5,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
-#> [6,] 1.000000  1.000000 1.000000  1.000000 1.000000e+00
+#>            [,1]      [,2]    [,3]   [,4]      [,5]
+#> [1,] 29.9985000 0.0015000 15.0000 0.0015 15.000000
+#> [2,]  3.0000000 3.0000000  0.0003 3.0000  5.999700
+#> [3,]  0.1430571 0.1430571  2.2857 2.2857  4.428343
+#> [4,]  1.0000000 1.0000000  1.0000 1.0000  1.000000
+#> [5,]  1.0000000 1.0000000  1.0000 1.0000  1.000000
+#> [6,]  1.0000000 1.0000000  1.0000 1.0000  1.000000
 #> attr(,"tau")
-#> [1] 1.20012
+#> [1] 1.0001
 ```
 
 The vignette gives more detail about how to use these functions to draw

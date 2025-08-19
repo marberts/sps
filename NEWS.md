@@ -5,6 +5,8 @@
 
 - `prop_allocation()` is now faster.
 
+- Added `sps_iterator()` to make an iterator that draws an SPS sample one unit at a time.
+
 ## sps 0.6.1
 
 - Added a new vignette to show how inclusion probabilities are calculated.
