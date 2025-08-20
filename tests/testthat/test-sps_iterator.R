@@ -13,11 +13,11 @@ test_that("streaming is the same as drawing", {
     expect_setequal(sps(x, i, prn = u), res)
   }
 
-  s <- sps_iterator(x, n = 5, prn = u)
+  s <- sps_iterator(x, n = 4, prn = u)
   expect_setequal(c(3, 5), s())
 
   res <- c(2, 3, 4, 5, 6)
-  s <- sps_iterator(x, n = 6, prn = u)
+  s <- sps_iterator(x, n = 5, prn = u)
   for (i in 6:10) {
     res <- c(res, s())
     expect_setequal(sps(x, i, prn = u), res)
@@ -25,7 +25,7 @@ test_that("streaming is the same as drawing", {
 })
 
 test_that("NULL cases work", {
-  s <- sps_iterator(1:5, n = 6)
+  s <- sps_iterator(1:5, n = 5)
   expect_null(s())
 
   s <- sps_iterator(integer(0))

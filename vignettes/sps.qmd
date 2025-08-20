@@ -172,13 +172,28 @@ The solution to this problem is to simply increase the size of the sample until 
 sample %in% sps(x, 6, prn = u)
 ```
 
-It's possible to go one step further and make an interator that draws the next unit in the sample without replacing the old ones.
+It's possible to go one step further and make an interator that draws the next unit in the sample without replacing the old ones, and gives the same result as directly drawing that many units.
 
 ```{r}
 s <- sps_iterator(x, prn = u)
 for (i in 1:5) {
   print(s())
 }
+
+sps(x, 6, prn = u)
+```
+
+Note that the ability to update a sample like this is not shared by the Pareto and successive order sampling schemes. For both of those methods, increasing the size of the sample can replace previously-sampled units, even without any take-all units.
+
+```{r}
+set.seed(10052)
+u <- runif(10)
+pareto(x, 2, prn = u) %in% pareto(x, 3, prn = u)
+
+set.seed(10063)
+u <- runif(10)
+successive <- order_sampling(\(x) log(1 - x))
+successive(x, 2, prn = u) %in% successive(x, 3, prn = u)
 ```
 
 ## Bias in the Horvitz-Thompson estimator

@@ -20,7 +20,7 @@
 #' # Same as drawing the sample with 3 units.
 #' sps(1:5, 3, prn = prn)
 #' @export
-sps_iterator <- function(x, ..., n = 1L, prn = NULL) {
+sps_iterator <- function(x, ..., n = 0L, prn = NULL) {
   x <- as.numeric(x)
   if (any(x <= 0)) {
     stop("sizes must be strictly greater than 0")
@@ -37,8 +37,8 @@ sps_iterator <- function(x, ..., n = 1L, prn = NULL) {
   s <- order(prn / x)
   pop <- seq_along(s)
   bta <- split(pop, factor(becomes_ta(x, ...), levels = pop))
-  if (n > 1L) {
-    sampled <- as.integer(sps(x, n - 1L, prn = prn))
+  if (n > 0L) {
+    sampled <- as.integer(sps(x, n, prn = prn))
     s <- s[!s %in% sampled]
   } else {
     sampled <- integer(0L)
@@ -47,7 +47,7 @@ sps_iterator <- function(x, ..., n = 1L, prn = NULL) {
     if (length(s) == 0L) {
       return(NULL)
     }
-    tas <- bta[[n]][!bta[[n]] %in% sampled]
+    tas <- bta[[n + 1L]][!bta[[n + 1L]] %in% sampled]
     if (length(tas) > 0L) {
       res <- tas
       n <<- n + length(tas)

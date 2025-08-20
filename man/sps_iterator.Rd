@@ -4,7 +4,7 @@
 \alias{sps_iterator}
 \title{Iteratively draw a sequential Poisson sample}
 \usage{
-sps_iterator(x, ..., n = 1L, prn = NULL)
+sps_iterator(x, ..., n = 0L, prn = NULL)
 }
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the
