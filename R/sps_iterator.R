@@ -5,7 +5,7 @@
 #'
 #' @inheritParams sps
 #' @param ... Additional arugments to [`becomes_ta()`].
-#' @param n The initial sample size for the iterator.
+#' @param n A positive integer giving the initial sample size for the iterator.
 #'
 #' @returns
 #' A function that returns the next unit in the sample.

@@ -13,6 +13,8 @@ test_that("streaming is the same as drawing", {
     expect_setequal(sps(x, i, prn = u), res)
   }
 
+  expect_null(s())
+
   s <- sps_iterator(x, n = 4, prn = u)
   expect_setequal(c(3, 5), s())
 
@@ -21,6 +23,16 @@ test_that("streaming is the same as drawing", {
   for (i in 6:10) {
     res <- c(res, s())
     expect_setequal(sps(x, i, prn = u), res)
+  }
+})
+
+test_that("gives back order with same prn", {
+  x <- c(1, 4, 5, 3, 2)
+  prn <- rep(0.5, 5)
+  res <- c(3, 2, 4, 5, 1)
+  s <- sps_iterator(x, prn = prn)
+  for (i in 1:5) {
+    expect_equal(s(), res[i])
   }
 })
 

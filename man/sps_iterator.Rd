@@ -12,7 +12,7 @@ population (e.g., revenue for drawing a sample of businesses).}
 
 \item{...}{Additional arugments to \code{\link[=becomes_ta]{becomes_ta()}}.}
 
-\item{n}{The initial sample size for the iterator.}
+\item{n}{A positive integer giving the initial sample size for the iterator.}
 
 \item{prn}{A numeric vector of permanent random numbers for units in the
 population, distributed uniform between 0 and 1. The default does not use
