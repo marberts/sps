@@ -4,7 +4,7 @@
 #' sequential Poisson method without replacing previously sampled units.
 #'
 #' @inheritParams sps
-#' @param ... Additional arugments to [`becomes_ta()`].
+#' @param ... Additional arguments to [`becomes_ta()`].
 #' @param n A positive integer giving the initial sample size for the iterator.
 #'
 #' @returns
