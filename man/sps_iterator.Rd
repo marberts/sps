@@ -20,7 +20,9 @@ permanent random numbers, instead generating a random vector when the
 function is called.}
 }
 \value{
-A function that returns the next unit in the sample.
+A function that returns the next unit in the sample. It take a single
+argument giving the sentinel value to indicate that there are no units
+left to sample (default \code{NULL}).
 }
 \description{
 Create a function that draws new units, one at a time, according to the

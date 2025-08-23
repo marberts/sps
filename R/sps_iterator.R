@@ -8,7 +8,9 @@
 #' @param n A positive integer giving the initial sample size for the iterator.
 #'
 #' @returns
-#' A function that returns the next unit in the sample.
+#' A function that returns the next unit in the sample. It take a single
+#' argument giving the sentinel value to indicate that there are no units
+#' left to sample (default `NULL`).
 #'
 #' @examples
 #' prn <- runif(5)
@@ -43,9 +45,9 @@ sps_iterator <- function(x, ..., n = 0L, prn = NULL) {
   } else {
     sampled <- integer(0L)
   }
-  function() {
+  function(done = NULL) {
     if (length(s) == 0L) {
-      return(NULL)
+      return(done)
     }
     tas <- bta[[n + 1L]][!bta[[n + 1L]] %in% sampled]
     if (length(tas) > 0L) {
