@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,7 +112,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html" class="external-link">pi</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 </div>
-<p>Although all inclusion probabilities are less than <span class="math inline">\(1 - \alpha\)</span> after two round of placing units into a take-all stratum, the inclusion probability for unit 9 would also be less than <span class="math inline">\(1 - \alpha\)</span> despite it being in the take-all stratum.</p>
+<p>Although all inclusion probabilities are less than <span class="math inline">\(1 - \alpha\)</span> after two rounds of placing units into a take-all stratum, the inclusion probability for unit 9 would also be less than <span class="math inline">\(1 - \alpha\)</span> despite it being in the take-all stratum.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html" class="external-link">pi</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[</span><span class="fl">9</span><span class="op">]</span> <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span></span>
@@ -167,6 +167,31 @@ p_{i+1} \geq 1 \Leftrightarrow p_{i} \geq x_{i} / x_{i+1}.
 <div class="cell-output-display">
 <div>
 <figure><p><img src="take-all_files/figure-html/unnamed-chunk-3-1.png" alt="Diagram showing how to find units that belong in the take-all stratum." width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As each element <span class="math inline">\(p_{i}\)</span> in the sequence is a strictly increasing function of <span class="math inline">\(i\)</span>, we can also identify the unique value for <span class="math inline">\(n\)</span> when a unit enters the take-all stratum.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  <span class="fu">p</span><span class="op">(</span><span class="va">x</span>, <span class="fl">8</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"p"</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">20</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">9</span>, <span class="fu">p</span><span class="op">(</span><span class="va">x</span>, <span class="fl">8</span><span class="op">)</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fu">p</span><span class="op">(</span><span class="va">x</span>, <span class="fl">9</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">9</span>, <span class="fu">p</span><span class="op">(</span><span class="va">x</span>, <span class="fl">9</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span>, <span class="fl">0</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"take-some"</span>, <span class="st">"take-all"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">19</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n = 8"</span>, <span class="st">"n = 9"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="take-all_files/figure-html/unnamed-chunk-4-1.png" alt="Diagram showing when units first enter the take-all stratum." width="768"></p>
 </figure>
 </div>
 </div>

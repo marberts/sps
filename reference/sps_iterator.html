@@ -15,7 +15,7 @@ sequential Poisson method without replacing previously sampled units."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@ population (e.g., revenue for drawing a sample of businesses).</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arugments to <code><a href="inclusion_prob.html">becomes_ta()</a></code>.</p></dd>
+<dd><p>Additional arguments to <code><a href="inclusion_prob.html">becomes_ta()</a></code>.</p></dd>
 
 
 <dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
@@ -81,7 +81,9 @@ function is called.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A function that returns the next unit in the sample.</p>
+    <p>A function that returns the next unit in the sample. It take a single
+argument giving the sentinel value to indicate that there are no units
+left to sample (default <code>NULL</code>).</p>
     </div>
 
     <div class="section level2">

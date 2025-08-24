@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -274,7 +274,7 @@
 <code class="sourceCode R"><span><span class="va">sample</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="../reference/sps.html">sps</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">6</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE TRUE TRUE TRUE</span></span></code></pre></div>
 </div>
-<p>It’s possible to go one step further and make an interator that draws the next unit in the sample without replacing the old ones, and gives the same result as directly drawing that many units.</p>
+<p>It’s possible to go one step further and make an iterator that draws the next unit in the sample without replacing the old ones, and gives the same result as directly drawing that many units.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sps_iterator.html">sps_iterator</a></span><span class="op">(</span><span class="va">x</span>, prn <span class="op">=</span> <span class="va">u</span><span class="op">)</span></span>
