@@ -172,7 +172,7 @@ The solution to this problem is to simply increase the size of the sample until 
 sample %in% sps(x, 6, prn = u)
 ```
 
-It's possible to go one step further and make an interator that draws the next unit in the sample without replacing the old ones, and gives the same result as directly drawing that many units.
+It's possible to go one step further and make an iterator that draws the next unit in the sample without replacing the old ones, and gives the same result as directly drawing that many units.
 
 ```{r}
 s <- sps_iterator(x, prn = u)

@@ -7,7 +7,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw stratified sequential Poisson samples according to the method by Ohlsson (1998, ISSN:0282-423X), as well as other order sample designs by Rosén (1997, \doi{10.1016/S0378-3758(96)00186-3}), and generate appropriate bootstrap replicate weights according to the generalized bootstrap method by Beaumont and Patak (2012, \doi{10.1111/j.1751-5823.2011.00166.x}).
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units, and is commonly used for price-index surveys. This package gives functions to draw stratified sequential Poisson samples according to the method by Ohlsson (1998, ISSN:0282-423X), as well as other order sample designs by Rosén (1997, \doi{10.1016/S0378-3758(96)00186-3}), and generate approximate bootstrap replicate weights according to the generalized bootstrap method by Beaumont and Patak (2012, \doi{10.1111/j.1751-5823.2011.00166.x}).
 }
 \seealso{
 Useful links:

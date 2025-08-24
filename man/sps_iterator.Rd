@@ -10,7 +10,7 @@ sps_iterator(x, ..., n = 0L, prn = NULL)
 \item{x}{A positive and finite numeric vector of sizes for units in the
 population (e.g., revenue for drawing a sample of businesses).}
 
-\item{...}{Additional arugments to \code{\link[=becomes_ta]{becomes_ta()}}.}
+\item{...}{Additional arguments to \code{\link[=becomes_ta]{becomes_ta()}}.}
 
 \item{n}{A positive integer giving the initial sample size for the iterator.}
 
@@ -20,7 +20,9 @@ permanent random numbers, instead generating a random vector when the
 function is called.}
 }
 \value{
-A function that returns the next unit in the sample.
+A function that returns the next unit in the sample. It take a single
+argument giving the sentinel value to indicate that there are no units
+left to sample (default \code{NULL}).
 }
 \description{
 Create a function that draws new units, one at a time, according to the
