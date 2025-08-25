@@ -1,5 +1,8 @@
 ---
 title: "Take-all units"
+format: 
+  html:
+    html-math-method: mathjax
 vignette: >
   %\VignetteIndexEntry{Take-all units}
   %\VignetteEngine{quarto::html}
