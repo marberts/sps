@@ -49,3 +49,12 @@ test_that("errors work", {
   expect_error(sps_iterator(1:5, prn = 1:6))
   expect_error(sps_iterator(0))
 })
+
+test_that("extra args work", {
+  set.seed(1234)
+  prn <- runif(5)
+  s <- sps_iterator(1:5, n = 2, alpha = 0.5, prn = prn)
+  expect_equal(s(), 3:4)
+
+  expect_equal(as.integer(sps(1:5, 3, alpha = 0.5, prn = prn)), 3:5)
+})

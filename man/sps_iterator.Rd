@@ -4,13 +4,11 @@
 \alias{sps_iterator}
 \title{Iteratively draw a sequential Poisson sample}
 \usage{
-sps_iterator(x, ..., n = 0L, prn = NULL)
+sps_iterator(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf)
 }
 \arguments{
 \item{x}{A positive and finite numeric vector of sizes for units in the
 population (e.g., revenue for drawing a sample of businesses).}
-
-\item{...}{Additional arguments to \code{\link[=becomes_ta]{becomes_ta()}}.}
 
 \item{n}{A positive integer giving the initial sample size for the iterator.}
 
@@ -18,6 +16,13 @@ population (e.g., revenue for drawing a sample of businesses).}
 population, distributed uniform between 0 and 1. The default does not use
 permanent random numbers, instead generating a random vector when the
 function is called.}
+
+\item{alpha}{A number between 0 and 1. Units with
+inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1.
+The default is slightly larger than 0.}
+
+\item{cutoff}{A numeric cutoff. Units with \code{x >= cutoff} get
+an inclusion probability of 1. The default does not apply a cutoff.}
 }
 \value{
 A function that returns the next unit in the sample. It take a single
