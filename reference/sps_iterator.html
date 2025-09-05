@@ -15,7 +15,7 @@ sequential Poisson method without replacing previously sampled units."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@ sequential Poisson method without replacing previously sampled units.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sps_iterator</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, n <span class="op">=</span> <span class="fl">0L</span>, prn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sps_iterator</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="fl">0L</span>, prn <span class="op">=</span> <span class="cn">NULL</span>, alpha <span class="op">=</span> <span class="fl">0.001</span>, cutoff <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,10 +64,6 @@ sequential Poisson method without replacing previously sampled units.</p>
 population (e.g., revenue for drawing a sample of businesses).</p></dd>
 
 
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments to <code><a href="inclusion_prob.html">becomes_ta()</a></code>.</p></dd>
-
-
 <dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
 <dd><p>A positive integer giving the initial sample size for the iterator.</p></dd>
 
@@ -77,6 +73,17 @@ population (e.g., revenue for drawing a sample of businesses).</p></dd>
 population, distributed uniform between 0 and 1. The default does not use
 permanent random numbers, instead generating a random vector when the
 function is called.</p></dd>
+
+
+<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
+<dd><p>A number between 0 and 1. Units with
+inclusion probabilities greater than or equal to 1 - <code>alpha</code> are set to 1.
+The default is slightly larger than 0.</p></dd>
+
+
+<dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
+<dd><p>A numeric cutoff. Units with <code>x &gt;= cutoff</code> get
+an inclusion probability of 1. The default does not apply a cutoff.</p></dd>
 
 </dl></div>
     <div class="section level2">
