@@ -1,3 +1,7 @@
+## sps (development version)
+
+- Extra arguments to `sps_iterator()` now work correctly (#9).
+
 ## sps 0.6.2
 
 - Added `divisor_method()` to more easily generate divisor functions for
