@@ -150,7 +150,7 @@ abline(1 - alpha, 0, lty = 2)
 legend(1, 2, c("take-some", "take-all"), pch = c(20, 19))
 ```
 
-As each element $p_{i}$ in the sequence is a strictly increasing function of $i$, we can also identify the unique value for $n$ when a unit enters the take-all stratum.
+As each element $p_{i}$ in the sequence is a strictly increasing function of $n$, we can also identify the unique value for $n$ when a unit enters the take-all stratum.
 
 ```{r, fig.width=8, fig.height=5.33}
 #| fig.alt: >
@@ -170,4 +170,5 @@ points(4:9, p(x, 9)[4:9], pch = 19, col = "red")
 abline(1 - alpha, 0, lty = 2)
 legend(1, 2.5, c("take-some", "take-all"), pch = c(20, 19))
 legend(1, 2, c("n = 8", "n = 9"), pch = 20, col = c("black", "red"))
+symbols(4.5, 1, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ```
