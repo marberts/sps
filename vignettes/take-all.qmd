@@ -170,5 +170,5 @@ points(4:9, p(x, 9)[4:9], pch = 19, col = "red")
 abline(1 - alpha, 0, lty = 2)
 legend(1, 2.5, c("take-some", "take-all"), pch = c(20, 19))
 legend(1, 2, c("n = 8", "n = 9"), pch = 20, col = c("black", "red"))
-symbols(4.5, 1, circles = 1, inches = FALSE, add = TRUE, lty = 2)
+symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ```
