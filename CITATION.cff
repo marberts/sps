@@ -8,7 +8,7 @@ message: 'To cite package "sps" in publications use:'
 type: software
 license: MIT
 title: 'sps: Sequential Poisson Sampling'
-version: 0.6.2
+version: 0.6.3
 doi: 10.5281/zenodo.10109857
 identifiers:
 - type: doi
@@ -18,7 +18,7 @@ abstract: Sequential Poisson sampling is a variation of Poisson sampling for dra
   used for price-index surveys. This package gives functions to draw stratified sequential
   Poisson samples according to the method by Ohlsson (1998, ISSN:0282-423X), as well
   as other order sample designs by Rosén (1997, <https://doi.org/10.1016/S0378-3758(96)00186-3>),
-  and generate appropriate bootstrap replicate weights according to the generalized
+  and generate approximate bootstrap replicate weights according to the generalized
   bootstrap method by Beaumont and Patak (2012, <https://doi.org/10.1111/j.1751-5823.2011.00166.x>).
 authors:
 - family-names: Martin
@@ -36,7 +36,7 @@ preferred-citation:
   year: '2025'
   doi: 10.5281/zenodo.10109857
   url: https://cran.r-project.org/package=sps
-  notes: R package version 0.6.2
+  notes: R package version 0.6.3
 repository: https://CRAN.R-project.org/package=sps
 repository-code: https://github.com/marberts/sps
 url: https://marberts.github.io/sps/
