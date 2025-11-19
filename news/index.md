@@ -2,6 +2,8 @@
 
 ## sps 0.6.3
 
+CRAN release: 2025-11-19
+
 - Extra arguments to
   [`sps_iterator()`](https://marberts.github.io/sps/reference/sps_iterator.md)
   now work correctly ([\#9](https://github.com/marberts/sps/issues/9)).

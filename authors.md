@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/marberts/sps/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/marberts/sps/blob/v0.6.3/inst/CITATION)
 
 Martin S (2025). *sps: Sequential Poisson Sampling*.
 [doi:10.5281/zenodo.10109857](https://doi.org/10.5281/zenodo.10109857),
