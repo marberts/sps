@@ -1,4 +1,4 @@
-## sps (development version)
+## sps 0.6.3
 
 - Extra arguments to `sps_iterator()` now work correctly (#9).
 

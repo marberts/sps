@@ -121,5 +121,6 @@ Yale University Press.
 \code{\link[=expected_coverage]{expected_coverage()}} to calculate the expected number of strata in a sample
 without stratification.
 
-\code{strAlloc()} in the \pkg{PracTools} package for other allocation methods.
+\code{strAlloc()} in the \pkg{PracTools} package and the \pkg{optimall} package
+for other allocation methods.
 }

@@ -87,8 +87,9 @@ There is also an analytic estimator for the variance of the Horvitz-Thompson est
 
 ```{r variance2}
 sps_var <- function(y, w) {
-  y <- y[w > 1]
-  w <- w[w > 1]
+  tas <- w > 1
+  y <- y[tas]
+  w <- w[tas]
   n <- length(y)
   total <- sum(y * w)
   n / (n - 1) * sum((1 - 1 / w) * (w * y - total / n)^2)

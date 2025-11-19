@@ -1,6 +1,6 @@
 ## Test environments
 
-- local Ubuntu 24.04 installation, R 4.5.1
+- local Ubuntu 24.04 installation, R 4.5.2
 - win-builder (devel, release, oldrelease)
 - github actions: Ubuntu (devel, release, oldrelease), Mac (release),
 Windows (release)
