@@ -1,6 +1,7 @@
 set.seed(123454)
 
-test_that("corner cases work as expected", {
+# Corner cases work as expected.
+local({
   expect_identical(
     unclass(sps(numeric(0), 0)),
     structure(integer(0), weights = numeric(0))
@@ -43,7 +44,8 @@ test_that("corner cases work as expected", {
   )
 })
 
-test_that("argument checking works", {
+# Argument checking works.
+local({
   expect_error(sps(-1:4, c(2, 2), gl(2, 3)))
   expect_error(sps(c(NA, 1:5), c(2, 2), gl(2, 3)))
   expect_error(sps(numeric(0), c(2, 2), gl(2, 3)))
@@ -69,7 +71,8 @@ test_that("argument checking works", {
   expect_error(sps(1:6, c(2, 2), gl(2, 3), cutoff = 2))
 })
 
-test_that("results are sorted", {
+# Results are sorted.
+local({
   x <- c(20, 1:10, 100, 0, 0)
   samp <- sps(x, c(3, 2, 2), c(1, 1, 2, 1, 3, 1, 2, 3, 2, 1, 3, 3, 3, 1))
   expect_identical(
@@ -83,7 +86,8 @@ test_that("results are sorted", {
   )
 })
 
-test_that("two rounds of TA removal works", {
+# Two rounds of TA removal works.
+local({
   x <- c(20, 1:10, 100, 0, 0)
   samp <- sps(x, 5)
   expect_equal(samp[c(1, 5)], c(1, 12))
@@ -109,7 +113,8 @@ test_that("two rounds of TA removal works", {
   )
 })
 
-test_that("strata sizes add up", {
+# Strata sizes add up.
+local({
   s <- c(1, 2, 3, 2, 3, 1, 3, 2, 1, 3, 3, 1, 2, 1, 1, 2, 3, 1, 3, 2, 2)
   s <- factor(s, 1:4)
   x <- c(1:10, 10:0)
@@ -121,7 +126,8 @@ test_that("strata sizes add up", {
   )
 })
 
-test_that("permanent random numbers work", {
+# Permanent random numbers work.
+local({
   set.seed(4321)
   prn <- runif(11)
   x <- c(100, 1:9, 100)
@@ -146,7 +152,8 @@ test_that("permanent random numbers work", {
   )
 })
 
-test_that("extending a stratified sample works", {
+# Extending a stratified sample works.
+local({
   set.seed(1432)
   u <- runif(100)
   x <- c(runif(98), 100, 200)
@@ -159,14 +166,16 @@ test_that("extending a stratified sample works", {
   )
 })
 
-test_that("top-up sampling works", {
+# Top-up sampling works.
+local({
   set.seed(15243)
   u <- runif(10)
   x <- 1:10
   expect_true(all(sps(x, 4, prn = u)[1:4] %in% sps(x, 5, prn = u)))
 })
 
-test_that("pareto order sampling works", {
+# Pareto order sampling works.
+local({
   pareto <- order_sampling(function(x) x / (1 - x))
 
   u <- runif(20)
@@ -193,7 +202,8 @@ test_that("pareto order sampling works", {
   )
 })
 
-test_that("ties are broken by position", {
+# Ties are broken by position.
+local({
   x <- c(4, 1, 3, 2, 4)
   expect_identical(
     as.vector(sps(x, 3, prn = inclusion_prob(x, 3))),
@@ -201,12 +211,14 @@ test_that("ties are broken by position", {
   )
 })
 
-test_that("cutoff units are included", {
+# Cutoff units are included.
+local({
   x <- c(4, 1, 3, 2, 4)
   expect_true(all(c(1, 5) %in% sps(x, 3, cutoff = 4)))
 })
 
-test_that("attributes get removed", {
+# Attributes get removed.
+local({
   samp <- sps(1:5, 3)
   # mathematical functions should treat 'sps' objects as numeric vectors
   expect_true(inherits(log(samp), "numeric"))
@@ -223,7 +235,8 @@ test_that("attributes get removed", {
   expect_true(inherits(samp, "integer"))
 })
 
-test_that("agrees with manual calculation", {
+# Agrees with manual calculation.
+local({
   set.seed(12345)
   prn <- c(0.99, runif(9))
   x <- c(20, 1:5, 7, 6, 100, 8)

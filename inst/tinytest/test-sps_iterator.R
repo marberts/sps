@@ -1,4 +1,5 @@
-test_that("streaming is the same as drawing", {
+# Streaming is the same as drawing.
+local({
   set.seed(13026)
   x <- rlnorm(10)
   u <- runif(10)
@@ -6,27 +7,28 @@ test_that("streaming is the same as drawing", {
   s <- sps_iterator(x, prn = u)
   for (i in 1:4) {
     res <- c(res, s())
-    expect_setequal(sps(x, i, prn = u), res)
+    expect_true(setequal(sps(x, i, prn = u), res))
   }
   for (i in 6:10) {
     res <- c(res, s())
-    expect_setequal(sps(x, i, prn = u), res)
+    expect_true(setequal(sps(x, i, prn = u), res))
   }
 
   expect_null(s())
 
   s <- sps_iterator(x, n = 4, prn = u)
-  expect_setequal(c(3, 5), s())
+  expect_true(setequal(c(3, 5), s()))
 
   res <- c(2, 3, 4, 5, 6)
   s <- sps_iterator(x, n = 5, prn = u)
   for (i in 6:10) {
     res <- c(res, s())
-    expect_setequal(sps(x, i, prn = u), res)
+    expect_true(setequal(sps(x, i, prn = u), res))
   }
 })
 
-test_that("gives back order with same prn", {
+# Gives back order with same prn.
+local({
   x <- c(1, 4, 5, 3, 2)
   prn <- rep(0.5, 5)
   res <- c(3, 2, 4, 5, 1)
@@ -36,7 +38,8 @@ test_that("gives back order with same prn", {
   }
 })
 
-test_that("NULL cases work", {
+# NULL cases work.
+local({
   s <- sps_iterator(1:5, n = 5)
   expect_null(s())
 
@@ -44,13 +47,15 @@ test_that("NULL cases work", {
   expect_null(s())
 })
 
-test_that("errors work", {
+# Errors work.
+local({
   expect_error(sps_iterator(1:5, 7))
   expect_error(sps_iterator(1:5, prn = 1:6))
   expect_error(sps_iterator(0))
 })
 
-test_that("extra args work", {
+# Extra args work.
+local({
   set.seed(1234)
   prn <- runif(5)
   s <- sps_iterator(1:5, n = 2, alpha = 0.5, prn = prn)

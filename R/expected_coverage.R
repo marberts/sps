@@ -10,7 +10,7 @@
 #' enterprises covered within a stratum when sampling business establishments.
 #'
 #' @inheritParams sps
-#' @param n A positive integer giving the sample size.
+#' @param n `[integer(1) >= 0]` A positive integer giving the sample size.
 #'
 #' @returns
 #' The expected number of strata covered by the sample design.
@@ -27,7 +27,6 @@
 #'
 #' # Should get about 7 to 8 strata in a sample on average
 #' expected_coverage(x, 15, s)
-#'
 #' @export
 expected_coverage <- function(x, n, strata, alpha = 1e-3, cutoff = Inf) {
   x <- as.numeric(x)

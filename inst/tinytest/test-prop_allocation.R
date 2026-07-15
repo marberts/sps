@@ -1,6 +1,7 @@
 set.seed(4321)
 
-test_that("corner cases for allocations work as expected", {
+# Corner cases for allocations work as expected.
+local({
   expect_identical(
     prop_allocation(numeric(0), 0, factor(integer(0), levels = 1)),
     c("1" = 0L)
@@ -35,7 +36,8 @@ test_that("corner cases for allocations work as expected", {
   )
 })
 
-test_that("argument checking works for allocations", {
+# Argument checking works for allocations.
+local({
   expect_error(prop_allocation(c(-1, 1, 0), 1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, NA), 1, c(1, 1, 2)))
   expect_error(prop_allocation(c(1, 1, 0), -1, c(1, 1, 2)))
@@ -54,7 +56,8 @@ test_that("argument checking works for allocations", {
   expect_error(prop_allocation(c(1, 0, 1), 2, c(1, 1, 2), initial = c(2, 0)))
 })
 
-test_that("simple allocations are correct", {
+# Simple allocations are correct.
+local({
   expect_identical(
     prop_allocation(rep(1, 10), 4, rep(letters[1:2], 5)),
     c(a = 2L, b = 2L)
@@ -133,7 +136,8 @@ test_that("simple allocations are correct", {
   )
 })
 
-test_that("ties are broken correctly", {
+# Ties are broken correctly.
+local({
   expect_identical(
     prop_allocation(rep(1, 9), 8, rep(1:2, c(4, 5))),
     c("1" = 3L, "2" = 5L)
@@ -152,7 +156,8 @@ test_that("ties are broken correctly", {
   )
 })
 
-test_that("alabama paradox doesn't happen", {
+# Alabama paradox doesn't happen.
+local({
   expect_identical(
     prop_allocation(rep(1, 14), 10, rep(1:3, c(6, 6, 2))),
     c("1" = 5L, "2" = 4L, "3" = 1L)
@@ -163,7 +168,8 @@ test_that("alabama paradox doesn't happen", {
   )
 })
 
-test_that("allocations are correct for voting examples", {
+# Allocations are correct for voting examples.
+local({
   # example from https://en.wikipedia.org/wiki/Highest_averages_method
   x <- rep(1, 1e5)
   s <- factor(
@@ -189,7 +195,8 @@ test_that("allocations are correct for voting examples", {
   )
 })
 
-test_that("expected coverage works", {
+# Expected coverage works.
+local({
   expect_equal(expected_coverage(0, 0, 1), 0)
   expect_equal(expected_coverage(1:6, 6, gl(1, 6)), 1)
   expect_equal(expected_coverage(1:6, 0, gl(1, 6)), 0)
@@ -280,7 +287,8 @@ test_that("expected coverage works", {
   # simulate mean(replicate(1e3, length(unique(s[ps(x, 10)]))))
 })
 
-test_that("argument checking for expected coverage works", {
+# Argument checking for expected coverage works.
+local({
   expect_error(expected_coverage(numeric(0), 0, integer(0)))
   expect_error(expected_coverage(-1:4, 3, gl(2, 3)))
   expect_error(expected_coverage(c(1:5, NA), 3, gl(2, 3)))
@@ -296,7 +304,8 @@ test_that("argument checking for expected coverage works", {
   expect_error(expected_coverage(1:6, 3, gl(2, 3), alpha = NA))
 })
 
-test_that("divisors are correct", {
+# Divisors are correct.
+local({
   expect_equal(divisor_method("Webster/Sainte-Lague")(1:3), 1:3 + 1 / 2)
   expect_equal(divisor_method("Imperiali")(1:3), 1:3 + 2)
   expect_equal(divisor_method("Huntington-Hill")(1:3), sqrt(1:3 * 2:4))

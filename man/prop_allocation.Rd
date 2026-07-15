@@ -27,31 +27,34 @@ divisor_method(
   )
 }
 \arguments{
-\item{x}{A positive and finite numeric vector of sizes for units in the
-population (e.g., revenue for drawing a sample of businesses).}
+\item{x}{\verb{[numeric >= 0]} A positive and finite numeric vector of sizes for
+units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive integer giving the sample size.}
+\item{n}{\verb{[integer(1) >= 0]} A positive integer giving the sample size.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving
+\item{strata}{\verb{[factor]} A factor, or something that can be coerced into one,
+giving
 the strata associated with units in the population. The default is to place
 all units into a single stratum.}
 
-\item{initial}{A positive integer vector giving the initial (or minimal)
+\item{initial}{\verb{[integer >= 0]} A positive integer vector giving the initial
+(or minimal)
 allocation for each stratum, ordered according to the levels of
 \code{strata}. A single integer is recycled for each stratum using a special
 algorithm to ensure a feasible allocation; see details. Non-integers are
 truncated towards 0. The default allows for no units to be allocated to a
 stratum.}
 
-\item{divisor}{A function for the divisor (highest-averages)
+\item{divisor}{\verb{[function]} A function for the divisor (highest-averages)
 apportionment method. The default uses the Jefferson/D'Hondt method. See
 details for other possible functions.}
 
-\item{ties}{Either 'largest' to break ties in favor of the stratum with the
+\item{ties}{\verb{[character(1)]} Either 'largest' to break ties in favor of the
+stratum with the
 largest size (the default), or 'first' to break ties in favor of the
 ordering of \code{strata}.}
 
-\item{name}{Name of the divisor function. See details.}
+\item{name}{\verb{[character(1)]} Name of the divisor function. See details.}
 }
 \value{
 \code{prop_allocation()} returns a named integer vector of sample sizes for each
@@ -108,7 +111,6 @@ s <- rep(letters[1:10], each = 3)
 
 # Generate an allocation
 prop_allocation(x, 15, s, initial = 1)
-
 }
 \references{
 Balinksi, M. L. and Young, H. P. (1982).

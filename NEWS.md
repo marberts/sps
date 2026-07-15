@@ -1,3 +1,9 @@
+## sps (development version)
+
+- Small improvements to the documentation.
+
+- Now using `{tinytest}`.
+
 ## sps 0.6.3
 
 - Extra arguments to `sps_iterator()` now work correctly (#9).
