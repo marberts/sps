@@ -18,6 +18,7 @@ operation, along with the revenue of each business from the previous
 year and the region in which they are headquartered.
 
 ``` r
+
 library(sps)
 set.seed(123654)
 
@@ -45,6 +46,7 @@ last year’s revenue, and this is the basis for sampling businesses
 proportional to revenue.
 
 ``` r
+
 sales <- round(frame$revenue * runif(1e3, 0.5, 2))
 ```
 
@@ -55,6 +57,7 @@ sample size of 100 is allocated across regions. A common approach is to
 do this allocation proportional to the total revenue in each region.
 
 ``` r
+
 allocation <- with(frame, prop_allocation(revenue, 100, region))
 allocation
 #>  1  2  3 
@@ -67,6 +70,7 @@ this is usually the result of a survey that’s administered to the
 sampled units.
 
 ``` r
+
 sample <- with(frame, sps(revenue, allocation, region))
 
 survey <- cbind(frame[sample, ], sales = sales[sample])
@@ -86,6 +90,7 @@ design weights, as these enable estimating the value of sales in the
 population with the usual Horvitz-Thompson estimator.
 
 ``` r
+
 survey$weight <- weights(sample)
 
 head(survey)
@@ -99,6 +104,7 @@ head(survey)
 ```
 
 ``` r
+
 ht <- with(survey, sum(sales * weight))
 ht
 #> [1] 2039582
@@ -110,6 +116,7 @@ estimate is fairly close the true (but unknown) value of sales among all
 businesses.
 
 ``` r
+
 ht / sum(sales) - 1
 #> [1] 0.01325931
 ```
@@ -126,6 +133,7 @@ based on these replicate weights, and then compute the variance of this
 collection of estimates.
 
 ``` r
+
 repweights <- sps_repweights(weights(sample))
 
 var <- attr(repweights, "tau")^2 *
@@ -140,6 +148,7 @@ Horvitz-Thompson estimator under sequential Poisson sampling. It’s less
 flexible than the bootstrap estimator, but is more precise.
 
 ``` r
+
 sps_var <- function(y, w) {
   tas <- w > 1
   y <- y[tas]
@@ -169,6 +178,7 @@ easily done by associating to each business a permanent random number,
 and suitably “rotating” them to reduce the overlap between both samples.
 
 ``` r
+
 frame$prn <- runif(1000)
 
 head(frame)
@@ -186,6 +196,7 @@ Poisson—the procedure is the same for any order sampling scheme
 (including simple random sampling).
 
 ``` r
+
 pareto <- order_sampling(\(x) x / (1 - x))
 
 sample <- with(frame, sps(revenue, allocation, region, prn))
@@ -201,6 +212,7 @@ samples, this is roughly half of what would be expected without using
 permanent random numbers.
 
 ``` r
+
 replicate(1000, {
   s <- with(frame, pareto(revenue, allocation, region))
   length(intersect(sample, s)) / 100
@@ -221,6 +233,7 @@ discarding previously-collected data or affecting the statistical
 properties of the sample.
 
 ``` r
+
 sample <- with(frame, sps(revenue, allocation, region, prn))
 
 sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region, prn))
@@ -237,6 +250,7 @@ units in the new sample. This can be seen by finding the sample size at
 which each unit enters the take-all stratum.
 
 ``` r
+
 Map(\(x) head(becomes_ta(x)), split(frame$revenue, frame$region))
 #> $`1`
 #> [1]  86  98 102 174 161 160
@@ -253,6 +267,7 @@ which increasing the sample size drops a unit that was previously
 included in the sample. Seeing this in action requires different data.
 
 ``` r
+
 set.seed(13026)
 x <- rlnorm(10)
 u <- runif(10)
@@ -270,6 +285,7 @@ The solution to this problem is to simply increase the size of the
 sample until all previously sampled units are included.
 
 ``` r
+
 sample %in% sps(x, 6, prn = u)
 #> [1] TRUE TRUE TRUE TRUE
 ```
@@ -279,6 +295,7 @@ next unit in the sample without replacing the old ones, and gives the
 same result as directly drawing that many units.
 
 ``` r
+
 s <- sps_iterator(x, prn = u)
 for (i in 1:5) {
   print(s())
@@ -299,6 +316,7 @@ increasing the size of the sample can replace previously-sampled units,
 even without any take-all units.
 
 ``` r
+
 set.seed(10052)
 u <- runif(10)
 pareto(x, 2, prn = u) %in% pareto(x, 3, prn = u)
@@ -319,6 +337,7 @@ Horvitz-Thompson estimator can be biased in small samples, although this
 bias is usually negligible for real-world sample sizes.
 
 ``` r
+
 sampling_distribution <- replicate(1000, {
   sample <- with(frame, sps(revenue, allocation, region))
   sum(sales[sample] * weights(sample))
@@ -331,9 +350,10 @@ summary(sampling_distribution / sum(sales) - 1)
 
 More generally, the distribution of inclusion probabilities is usually
 close to what is expected if sequential Poisson sampling was exactly
-proportional to size.[¹](#fn1)
+proportional to size.[^1]
 
 ``` r
+
 set.seed(123456)
 n <- 5e3
 frame1 <- subset(frame, region == 1)
@@ -363,8 +383,6 @@ legend("topright", c("empirical", "theoretical"), lty = c("solid", "dashed"))
 Poisson sampling is approximately
 Guassian.](sps_files/figure-html/tille-1.png)
 
-------------------------------------------------------------------------
-
-1.  See Tillé, Y. (2023). Remarks on some misconceptions about unequal
+[^1]: See Tillé, Y. (2023). Remarks on some misconceptions about unequal
     probability sampling without replacement. *Computer Science Review*,
     47, 100533.

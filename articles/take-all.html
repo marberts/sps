@@ -18,8 +18,8 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="take-all_files/libs/quarto-html/popper.min.js"></script><script src="take-all_files/libs/quarto-html/tippy.umd.min.js"></script><link href="take-all_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="take-all_files/libs/quarto-html/light-border.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,7 @@
 
 
 
-      <small class="dont-index">Source: <a href="https://github.com/marberts/sps/blob/v0.6.3/vignettes/take-all.qmd" class="external-link"><code>vignettes/take-all.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/marberts/sps/blob/main/vignettes/take-all.qmd" class="external-link"><code>vignettes/take-all.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -85,7 +85,7 @@
 \pi_{i} = n x_{i} / \sum_{i=1}^{N} x_{i}.
 \]</span></p>
 <p>In theory these inclusion probabilities should be less than 1; in practice units with a large <span class="math inline">\(x_{i}\)</span> can have an inclusion probability greater than 1, especially when <span class="math inline">\(n\)</span> is large. The usual procedure to deal with these units is to put them in a special take-all stratum so that they are always included in the sample, essentially fixing their inclusion probabilities at 1, with the remaining units (the take-some units) drawn at random. The usual algorithm used by, say, <code>sampling::inclusionprobabilities()</code> repeatedly moves units into the take-all stratum and recalculates the inclusion probabilities for the remaining units until all inclusion probabilities are less than 1.<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;To see why this needs to be done repeatedly, consider a population with three units with sizes 1, 2, and 3 and find which units have an inclusion probability greater than 1 when the sample size is 3.&lt;/p&gt;"><sup>1</sup></a></p>
-<p>Sequential poisson sampling is a bit more complicated because it can be useful to place units with an inclusion probability greater than <span class="math inline">\(1 - \alpha\)</span>, for some small <span class="math inline">\(\alpha\)</span>, into the take-all stratum. Unless <span class="math inline">\(\alpha = 0\)</span>, the usual algorithm for finding take-all units can put units into the take-all stratum that have an inclusion probability less than <span class="math inline">\(1 - \alpha\)</span>. We can see this with the following example (with a larger value for <span class="math inline">\(\alpha\)</span>).</p>
+<p>Sequential poisson sampling is a bit more complicated because it can be useful to place units with an inclusion probability greater than <span class="math inline">\(1 - \alpha\)</span>, for some small <span class="math inline">\(\alpha\)</span>, into the take-all stratum. Unless <span class="math inline">\(\alpha = 0\)</span>, the usual algorithm for finding take-all units can put units into the take-all stratum that have an inclusion probability less than <span class="math inline">\(1 - \alpha\)</span>. We can see this with the following example (with a larger value for <span class="math inline">\(\alpha\)</span> for illustration).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
@@ -289,7 +289,7 @@ p_{i+1} \geq 1 \Leftrightarrow p_{i} \geq x_{i} / x_{i+1}.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

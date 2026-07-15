@@ -14,35 +14,38 @@ becomes_ta(x, alpha = 0.001, cutoff = Inf)
 
 - x:
 
-  A positive and finite numeric vector of sizes for units in the
-  population (e.g., revenue for drawing a sample of businesses).
+  `[numeric >= 0]` A positive and finite numeric vector of sizes for
+  units in the population (e.g., revenue for drawing a sample of
+  businesses).
 
 - n:
 
-  A positive integer vector giving the sample size for each stratum,
-  ordered according to the levels of `strata`. A single value is
-  recycled for all strata. Non-integers are truncated towards 0.
+  `[integer >= 0]` A positive integer vector giving the sample size for
+  each stratum, ordered according to the levels of `strata`. A single
+  value is recycled for all strata. Non-integers are truncated towards
+  0.
 
 - strata:
 
-  A factor, or something that can be coerced into one, giving the strata
-  associated with units in the population. The default is to place all
-  units into a single stratum.
+  `[factor]` A factor, or something that can be coerced into one, giving
+  the strata associated with units in the population. The default is to
+  place all units into a single stratum.
 
 - alpha:
 
-  A numeric vector with values between 0 and 1 for each stratum, ordered
-  according to the levels of `strata`. Units with inclusion
-  probabilities greater than or equal to 1 - `alpha` are set to 1 for
-  each stratum. A single value is recycled for all strata. The default
-  is slightly larger than 0.
+  `[0 <= numeric < 1]` A numeric vector with values between 0 and 1 for
+  each stratum, ordered according to the levels of `strata`. Units with
+  inclusion probabilities greater than or equal to 1 - `alpha` are set
+  to 1 for each stratum. A single value is recycled for all strata. The
+  default is slightly larger than 0.
 
 - cutoff:
 
-  A positive numeric vector of cutoffs for each stratum, ordered
-  according to the levels of `strata`. Units with `x >= cutoff` get an
-  inclusion probability of 1 for each stratum. A single value is
-  recycled for all strata. The default does not apply a cutoff.
+  `[numeric >= 0]` A positive numeric vector of cutoffs for each
+  stratum, ordered according to the levels of `strata`. Units with
+  `x >= cutoff` get an inclusion probability of 1 for each stratum. A
+  single value is recycled for all strata. The default does not apply a
+  cutoff.
 
 ## Value
 
@@ -71,9 +74,9 @@ value is undefined for units that are always included in the sample
 
 ## Note
 
-[`kit::topn()`](https://rdrr.io/pkg/kit/man/topn.html) is used if
-available to improve performance in the normal case when the sample size
-is small relative to the population.
+[`kit::topn()`](https://fastverse.org/kit/reference/topn.html) is used
+if available to improve performance in the normal case when the sample
+size is small relative to the population.
 
 ## See also
 

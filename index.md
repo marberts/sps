@@ -13,12 +13,14 @@ to the generalized bootstrap method by Beaumont and Patak (2012).
 Get the stable release from CRAN.
 
 ``` r
+
 install.packages("sps")
 ```
 
 The development version can be installed from R-Universe
 
 ``` r
+
 install.packages(
   "sps",
   repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
@@ -28,6 +30,7 @@ install.packages(
 or directly from GitHub.
 
 ``` r
+
 pak::pak("marberts/sps")
 ```
 
@@ -39,6 +42,7 @@ Poisson sample can be drawn with the
 [`sps()`](https://marberts.github.io/sps/reference/sps.md) function.
 
 ``` r
+
 library(sps)
 
 # Generate some data on sizes for 12 businesses in a single
@@ -63,6 +67,7 @@ function provides a variety of methods for generating
 proportional-to-size allocations.
 
 ``` r
+
 # Add some strata
 stratum <- rep(c("a", "b"), c(9, 3))
 
@@ -87,6 +92,7 @@ replicate weights with the
 function.
 
 ``` r
+
 sps_repweights(weights(samp), 5)
 #>           [,1]     [,2]      [,3]      [,4]      [,5]
 #> [1,] 0.0003750 3.515648 3.5156484 7.9683281 3.5156484

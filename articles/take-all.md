@@ -16,8 +16,7 @@ inclusion probabilities at 1, with the remaining units (the take-some
 units) drawn at random. The usual algorithm used by, say,
 `sampling::inclusionprobabilities()` repeatedly moves units into the
 take-all stratum and recalculates the inclusion probabilities for the
-remaining units until all inclusion probabilities are less than
-1.[¹](#fn1)
+remaining units until all inclusion probabilities are less than 1.[^1]
 
 Sequential poisson sampling is a bit more complicated because it can be
 useful to place units with an inclusion probability greater than \\1 -
@@ -25,9 +24,10 @@ useful to place units with an inclusion probability greater than \\1 -
 \\\alpha = 0\\, the usual algorithm for finding take-all units can put
 units into the take-all stratum that have an inclusion probability less
 than \\1 - \alpha\\. We can see this with the following example (with a
-larger value for \\\alpha\\).
+larger value for \\\alpha\\ for illustration).
 
 ``` r
+
 pi <- function(x, n) {
   n * (x / sum(x))
 }
@@ -59,6 +59,7 @@ probability for unit 9 would also be less than \\1 - \alpha\\ despite it
 being in the take-all stratum.
 
 ``` r
+
 pi(x[1:9], 4)[9] >= 1 - alpha
 #> [1] FALSE
 ```
@@ -108,6 +109,7 @@ take-all units from the elements of \\p\_{i}\\ that are greater than
 \\1 - \alpha\\.
 
 ``` r
+
 p <- function(x, n) {
   ord <- order(x, decreasing = TRUE)
   s <- seq_len(n)
@@ -140,6 +142,7 @@ function of \\n\\, we can also identify the unique value for \\n\\ when
 a unit enters the take-all stratum.
 
 ``` r
+
 plot(
   2:5,
   p(x, 8)[1:4],
@@ -161,8 +164,6 @@ symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ![Diagram showing when units first enter the take-all
 stratum.](take-all_files/figure-html/unnamed-chunk-4-1.png)
 
-------------------------------------------------------------------------
-
-1.  To see why this needs to be done repeatedly, consider a population
+[^1]: To see why this needs to be done repeatedly, consider a population
     with three units with sizes 1, 2, and 3 and find which units have an
     inclusion probability greater than 1 when the sample size is 3.

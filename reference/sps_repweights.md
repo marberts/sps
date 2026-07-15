@@ -16,33 +16,37 @@ min_tau(tol)
 
 - w:
 
-  A numeric vector of design (inverse probability) weights for a
-  (sequential) Poisson sample.
+  `[numeric >= 1]` A numeric vector of design (inverse probability)
+  weights for a (sequential) Poisson sample.
 
 - replicates:
 
-  A positive integer that gives the number of bootstrap replicates
-  (1,000 by default). Non-integers are truncated towards 0.
+  `[integer(1) >= 0]` A positive integer that gives the number of
+  bootstrap replicates (1,000 by default). Non-integers are truncated
+  towards 0.
 
 - tau:
 
-  A number greater than or equal to 1 that gives the rescale factor for
-  the bootstrap weights. Setting to 1 does not rescale the weights. This
-  can also be a function that takes a vector of bootstrap adjustments
-  and returns a number larger than 1. The default automatically picks
-  the smallest feasible rescale factor (up to a small tolerance).
+  `[numeric(1) >= 1 | function]` A number greater than or equal to 1
+  that gives the rescale factor for the bootstrap weights. Setting to 1
+  does not rescale the weights. This can also be a function that takes a
+  vector of bootstrap adjustments and returns a number larger than 1.
+  The default automatically picks the smallest feasible rescale factor
+  (up to a small tolerance).
 
 - dist:
 
-  A function that produces random deviates with mean 0 and standard
-  deviation 1, such as [`rnorm()`](https://rdrr.io/r/stats/Normal.html).
-  The default uses the pseudo-population method from section 4.1 of
-  Beaumont and Patak (2012); see details.
+  `[function]` A function that produces random deviates with mean 0 and
+  standard deviation 1, such as
+  [`rnorm()`](https://rdrr.io/r/stats/Normal.html). The default uses the
+  pseudo-population method from section 4.1 of Beaumont and Patak
+  (2012); see details.
 
 - tol:
 
-  A non-negative number, strictly less than 1, that gives the tolerance
-  for determining the minimum feasible value of `tau`.
+  `[0 <= numeric(1) < 1]` A non-negative number, strictly less than 1,
+  that gives the tolerance for determining the minimum feasible value of
+  `tau`.
 
 ## Value
 
@@ -118,7 +122,7 @@ x <- c(1:10, 100)
 
 # Draw a sequential Poisson sample
 (samp <- sps(x, 5))
-#> [1]  3  6  8 10 11
+#> [1]  1  3  7 10 11
 
 # Make some bootstrap replicates
 dist <- list(
@@ -130,42 +134,42 @@ dist <- list(
 
 lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
 #> $pseudo_population
-#>          [,1]     [,2]     [,3]     [,4]     [,5]
-#> [1,] 2.083333 9.458333 2.083333 7.166667 2.583333
-#> [2,] 1.291667 2.437500 2.437500 3.083333 2.437500
-#> [3,] 1.218750 2.437500 2.078125 2.437500 2.437500
-#> [4,] 1.562500 0.875000 1.062500 1.062500 1.562500
-#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#>           [,1]     [,2]      [,3]      [,4]      [,5]
+#> [1,] 7.2500000 6.750000 27.375000 6.7500000 34.750000
+#> [2,] 4.8750000 2.083333  4.875000 2.0833333  4.375000
+#> [3,] 0.9642857 1.946429  1.946429 0.9642857  2.928571
+#> [4,] 1.7500000 0.875000  1.562500 1.5625000  0.875000
+#> [5,] 1.0000000 1.000000  1.000000 1.0000000  1.000000
 #> attr(,"tau")
 #> [1] 2
 #> 
 #> $standard_normal
-#>          [,1]     [,2]      [,3]     [,4]      [,5]
-#> [1,] 3.230645 2.983794 4.1116875 3.198828 6.0987420
-#> [2,] 3.486979 2.797556 2.8400480 1.448908 5.2091871
-#> [3,] 2.225507 1.323465 0.9569743 1.461713 2.6186964
-#> [4,] 1.448742 1.944070 0.8631381 1.811052 0.7104655
-#> [5,] 1.000000 1.000000 1.0000000 1.000000 1.0000000
+#>          [,1]      [,2]      [,3]       [,4]     [,5]
+#> [1,] 1.958869 10.888746 30.859669 18.2278892 5.499858
+#> [2,] 3.132382  3.230645  2.983794  4.1116875 3.198828
+#> [3,] 2.591233  2.920457  2.368964  2.4029547 1.290134
+#> [4,] 1.097756  1.702395  1.119623  0.8828485 1.208939
+#> [5,] 1.000000  1.000000  1.000000  1.0000000 1.000000
 #> attr(,"tau")
 #> [1] 2
 #> 
 #> $exponential
-#>          [,1]     [,2]     [,3]     [,4]     [,5]
-#> [1,] 6.749006 2.921107 5.578031 4.604439 2.956111
-#> [2,] 4.044197 1.877302 3.472746 1.857871 2.567428
-#> [3,] 1.257365 1.536554 1.336387 2.083488 1.362431
-#> [4,] 1.319743 1.204688 1.089211 2.181617 2.292241
-#> [5,] 1.000000 1.000000 1.000000 1.000000 1.000000
+#>           [,1]     [,2]      [,3]     [,4]      [,5]
+#> [1,] 24.937910 8.253651 11.579545 9.195016 18.095020
+#> [2,]  3.095485 4.271477  3.622134 2.970412  9.135676
+#> [3,]  1.291456 1.417215  2.213548 1.492218  1.437055
+#> [4,]  1.068304 1.080475  1.551248 1.378740  1.086677
+#> [5,]  1.000000 1.000000  1.000000 1.000000  1.000000
 #> attr(,"tau")
 #> [1] 2
 #> 
 #> $uniform
-#>          [,1]     [,2]     [,3]      [,4]      [,5]
-#> [1,] 3.679736 4.884021 5.549792 5.1181171 6.3946939
-#> [2,] 3.537325 1.514754 1.982972 1.4510350 2.3887098
-#> [3,] 2.061378 1.735871 2.603305 0.9984816 1.8088544
-#> [4,] 1.580406 1.272099 1.124584 1.9199455 0.8724399
-#> [5,] 1.000000 1.000000 1.000000 1.0000000 1.0000000
+#>            [,1]      [,2]      [,3]      [,4]      [,5]
+#> [1,] 21.9676567 10.797790 14.732398 16.907588 15.497231
+#> [2,]  4.7074432  7.517483  2.753313  3.856202  2.603224
+#> [3,]  3.1068148  2.388546  1.985486  3.059590  1.072410
+#> [4,]  0.7742958  1.580406  1.272099  1.124584  1.919946
+#> [5,]  1.0000000  1.000000  1.000000  1.000000  1.000000
 #> attr(,"tau")
 #> [1] 2
 #> 

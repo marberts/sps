@@ -1,5 +1,11 @@
 # Changelog
 
+## sps (development version)
+
+- Small improvements to the documentation.
+
+- Now using [tinytest](https://github.com/markvanderloo/tinytest).
+
 ## sps 0.6.3
 
 CRAN release: 2025-11-19
@@ -34,8 +40,8 @@ CRAN release: 2025-07-10
 
 - [`inclusion_prob()`](https://marberts.github.io/sps/reference/inclusion_prob.md)
   and [`sps()`](https://marberts.github.io/sps/reference/sps.md) now use
-  [`kit::topn()`](https://rdrr.io/pkg/kit/man/topn.html) when available
-  for partial sorting.
+  [`kit::topn()`](https://fastverse.org/kit/reference/topn.html) when
+  available for partial sorting.
 
 ## sps 0.6.0
 

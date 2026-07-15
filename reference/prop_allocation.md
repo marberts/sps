@@ -31,43 +31,44 @@ divisor_method(
 
 - x:
 
-  A positive and finite numeric vector of sizes for units in the
-  population (e.g., revenue for drawing a sample of businesses).
+  `[numeric >= 0]` A positive and finite numeric vector of sizes for
+  units in the population (e.g., revenue for drawing a sample of
+  businesses).
 
 - n:
 
-  A positive integer giving the sample size.
+  `[integer(1) >= 0]` A positive integer giving the sample size.
 
 - strata:
 
-  A factor, or something that can be coerced into one, giving the strata
-  associated with units in the population. The default is to place all
-  units into a single stratum.
+  `[factor]` A factor, or something that can be coerced into one, giving
+  the strata associated with units in the population. The default is to
+  place all units into a single stratum.
 
 - initial:
 
-  A positive integer vector giving the initial (or minimal) allocation
-  for each stratum, ordered according to the levels of `strata`. A
-  single integer is recycled for each stratum using a special algorithm
-  to ensure a feasible allocation; see details. Non-integers are
-  truncated towards 0. The default allows for no units to be allocated
-  to a stratum.
+  `[integer >= 0]` A positive integer vector giving the initial (or
+  minimal) allocation for each stratum, ordered according to the levels
+  of `strata`. A single integer is recycled for each stratum using a
+  special algorithm to ensure a feasible allocation; see details.
+  Non-integers are truncated towards 0. The default allows for no units
+  to be allocated to a stratum.
 
 - divisor:
 
-  A function for the divisor (highest-averages) apportionment method.
-  The default uses the Jefferson/D'Hondt method. See details for other
-  possible functions.
+  `[function]` A function for the divisor (highest-averages)
+  apportionment method. The default uses the Jefferson/D'Hondt method.
+  See details for other possible functions.
 
 - ties:
 
-  Either 'largest' to break ties in favor of the stratum with the
-  largest size (the default), or 'first' to break ties in favor of the
-  ordering of `strata`.
+  `[character(1)]` Either 'largest' to break ties in favor of the
+  stratum with the largest size (the default), or 'first' to break ties
+  in favor of the ordering of `strata`.
 
 - name:
 
-  Name of the divisor function. See details.
+  `[character(1)]` Name of the divisor function. See details.
 
 ## Value
 

@@ -18,47 +18,50 @@ order_sampling(dist)
 
 - x:
 
-  A positive and finite numeric vector of sizes for units in the
-  population (e.g., revenue for drawing a sample of businesses).
+  `[numeric >= 0]` A positive and finite numeric vector of sizes for
+  units in the population (e.g., revenue for drawing a sample of
+  businesses).
 
 - n:
 
-  A positive integer vector giving the sample size for each stratum,
-  ordered according to the levels of `strata`. A single value is
-  recycled for all strata. Non-integers are truncated towards 0.
+  `[integer >= 0]` A positive integer vector giving the sample size for
+  each stratum, ordered according to the levels of `strata`. A single
+  value is recycled for all strata. Non-integers are truncated towards
+  0.
 
 - strata:
 
-  A factor, or something that can be coerced into one, giving the strata
-  associated with units in the population. The default is to place all
-  units into a single stratum.
+  `[factor]` A factor, or something that can be coerced into one, giving
+  the strata associated with units in the population. The default is to
+  place all units into a single stratum.
 
 - prn:
 
-  A numeric vector of permanent random numbers for units in the
-  population, distributed uniform between 0 and 1. The default does not
-  use permanent random numbers, instead generating a random vector when
-  the function is called.
+  `[0 < numeric < 1]` A numeric vector of permanent random numbers for
+  units in the population, distributed uniform between 0 and 1. The
+  default does not use permanent random numbers, instead generating a
+  random vector when the function is called.
 
 - alpha:
 
-  A numeric vector with values between 0 and 1 for each stratum, ordered
-  according to the levels of `strata`. Units with inclusion
-  probabilities greater than or equal to 1 - `alpha` are set to 1 for
-  each stratum. A single value is recycled for all strata. The default
-  is slightly larger than 0.
+  `[0 <= numeric < 1]` A numeric vector with values between 0 and 1 for
+  each stratum, ordered according to the levels of `strata`. Units with
+  inclusion probabilities greater than or equal to 1 - `alpha` are set
+  to 1 for each stratum. A single value is recycled for all strata. The
+  default is slightly larger than 0.
 
 - cutoff:
 
-  A positive numeric vector of cutoffs for each stratum, ordered
-  according to the levels of `strata`. Units with `x >= cutoff` get an
-  inclusion probability of 1 for each stratum. A single value is
-  recycled for all strata. The default does not apply a cutoff.
+  `[numeric >= 0]` A positive numeric vector of cutoffs for each
+  stratum, ordered according to the levels of `strata`. Units with
+  `x >= cutoff` get an inclusion probability of 1 for each stratum. A
+  single value is recycled for all strata. The default does not apply a
+  cutoff.
 
 - dist:
 
-  A function giving the fixed order distribution shape for an order
-  sampling scheme. See details.
+  `[function]` A function giving the fixed order distribution shape for
+  an order sampling scheme. See details.
 
 ## Value
 
@@ -146,9 +149,9 @@ variable \\\xi\\:
 
 ## Note
 
-[`kit::topn()`](https://rdrr.io/pkg/kit/man/topn.html) is used if
-available to improve performance in the normal case when the sample size
-is small relative to the population.
+[`kit::topn()`](https://fastverse.org/kit/reference/topn.html) is used
+if available to improve performance in the normal case when the sample
+size is small relative to the population.
 
 ## References
 
@@ -199,11 +202,11 @@ x <- c(1:10, 100)
 #---- Sequential Poisson sampling ----
 # Draw a sequential Poisson sample
 (samp <- sps(x, 5))
-#> [1]  4  5  8 10 11
+#> [1]  4  5  7  8 11
 
 # Get the design (inverse probability) weights
 weights(samp)
-#> [1] 3.43750 2.75000 1.71875 1.37500 1.00000
+#> [1] 3.437500 2.750000 1.964286 1.718750 1.000000
 
 # All units except 11 are in the take-some (TS) stratum
 levels(samp)
@@ -211,13 +214,13 @@ levels(samp)
 
 # Ensure that the top 10% of units are in the sample
 sps(x, 5, cutoff = quantile(x, 0.9))
-#> [1]  5  8  9 10 11
+#> [1]  2  5  7 10 11
 
 #---- Ordinary Poisson sampling ----
 # Ordinary Poisson sampling gives a random sample size for the
 # take-some stratum
 ps(x, 5)
-#> [1]  1  6  9 10 11
+#> [1]  5  9 10 11
 
 #---- Stratified Sequential Poisson sampling ----
 # Draw a stratified sample with a proportional allocation
@@ -226,23 +229,23 @@ strata <- rep(letters[1:4], each = 5)
 #> a b c d 
 #> 1 2 4 5 
 (samp <- sps(1:20, allocation, strata))
-#>  [1]  4  9 10 11 12 13 14 16 17 18 19 20
+#>  [1]  3  6  7 11 12 13 14 16 17 18 19 20
 
 # Use the Horvitz-Thompson estimator to estimate the total
 y <- runif(20) * 1:20
 sum(weights(samp) * y[samp])
-#> [1] 92.70057
+#> [1] 82.84651
 
 #---- Useful properties of Sequential Poisson sampling ----
 # It can be useful to set 'prn' in order to extend the sample
 # to get a fixed net sample
 u <- runif(11)
 (samp <- sps(x, 6, prn = u))
-#> [1]  3  6  7  8  9 11
+#> [1]  3  7  8  9 10 11
 
 # Removing unit 5 gives the same net sample
 sps(x[-samp[5]], 6, prn = u[-samp[5]])
-#> [1]  3  6  7  8  9 10
+#> [1]  3  4  7  8  9 10
 
 # Also useful for topping up a sample
 all(samp %in% sps(x, 7, prn = u))
@@ -262,9 +265,9 @@ igpd <- function(shape, scale = 1, location = 0) {
 order_sampling2 <- function(x) order_sampling(igpd(x))
 
 order_sampling2(1)(x, 6, prn = u) # sequential Poisson
-#> [1]  3  6  7  8  9 11
+#> [1]  3  7  8  9 10 11
 order_sampling2(0)(x, 6, prn = u) # successive
-#> [1]  3  6  7  8  9 11
+#> [1]  3  7  8  9 10 11
 order_sampling2(-1)(x, 6, prn = u) # Pareto
-#> [1]  3  6  7  8  9 11
+#> [1]  3  7  8  9 10 11
 ```
