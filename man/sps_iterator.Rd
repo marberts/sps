@@ -7,22 +7,24 @@
 sps_iterator(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf)
 }
 \arguments{
-\item{x}{A positive and finite numeric vector of sizes for units in the
-population (e.g., revenue for drawing a sample of businesses).}
+\item{x}{\verb{[numeric >= 0]} A positive and finite numeric vector of sizes for
+units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive integer giving the initial sample size for the iterator.}
+\item{n}{\verb{[integer(1) >= 0]} A positive integer giving the initial sample
+size for the iterator. The default is 0.}
 
-\item{prn}{A numeric vector of permanent random numbers for units in the
+\item{prn}{\verb{[0 < numeric < 1]} A numeric vector of permanent random numbers
+for units in the
 population, distributed uniform between 0 and 1. The default does not use
 permanent random numbers, instead generating a random vector when the
 function is called.}
 
-\item{alpha}{A number between 0 and 1. Units with
+\item{alpha}{\verb{[0 <= numeric(1) < 1]} A number between 0 and 1. Units with
 inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1.
 The default is slightly larger than 0.}
 
-\item{cutoff}{A numeric cutoff. Units with \code{x >= cutoff} get
-an inclusion probability of 1. The default does not apply a cutoff.}
+\item{cutoff}{\verb{[numeric(1) >= 0]} A numeric cutoff. Units with \code{x >= cutoff}
+get an inclusion probability of 1. The default does not apply a cutoff.}
 }
 \value{
 A function that returns the next unit in the sample. It take a single

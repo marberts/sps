@@ -4,12 +4,13 @@
 #' sequential Poisson method without replacing previously sampled units.
 #'
 #' @inheritParams sps
-#' @param n A positive integer giving the initial sample size for the iterator.
-#' @param alpha A number between 0 and 1. Units with
+#' @param n `[integer(1) >= 0]` A positive integer giving the initial sample
+#'   size for the iterator. The default is 0.
+#' @param alpha `[0 <= numeric(1) < 1]` A number between 0 and 1. Units with
 #'   inclusion probabilities greater than or equal to 1 - `alpha` are set to 1.
 #'   The default is slightly larger than 0.
-#' @param cutoff A numeric cutoff. Units with `x >= cutoff` get
-#'   an inclusion probability of 1. The default does not apply a cutoff.
+#' @param cutoff `[numeric(1) >= 0]` A numeric cutoff. Units with `x >= cutoff`
+#'   get an inclusion probability of 1. The default does not apply a cutoff.
 #'
 #' @returns
 #' A function that returns the next unit in the sample. It take a single
@@ -37,7 +38,7 @@ sps_iterator <- function(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf) {
     prn <- as.numeric(prn)
   }
   if (length(x) != length(prn)) {
-    stop("'x' and 'prn' must be the same length")
+    stop("`x` and `prn` must be the same length")
   }
 
   s <- order(prn / x)

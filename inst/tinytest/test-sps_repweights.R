@@ -1,6 +1,7 @@
 set.seed(1234)
 
-test_that("corner cases work as expected", {
+# Corner cases work as expected.
+local({
   w <- rep(1, 10)
 
   # all TA units gives a matrix of 1s
@@ -48,7 +49,8 @@ test_that("corner cases work as expected", {
   )
 })
 
-test_that("argument checking works", {
+# Argument checking works
+local({
   expect_error(sps_repweights(0:5, 5))
   expect_error(sps_repweights(c(NA, 1:5), 5))
   expect_error(sps_repweights(1:5, -5))
@@ -61,7 +63,8 @@ test_that("argument checking works", {
   expect_error(min_tau(2))
 })
 
-test_that("rep weights works for TA units", {
+# Rep weights works for TA units.
+local({
   expect_true(all(sps_repweights(1:5, tau = 2) > 0))
   expect_true(all(sps_repweights(1:5, tau = 2)[1, ] == 1))
 
@@ -69,7 +72,8 @@ test_that("rep weights works for TA units", {
   expect_true(all(sps_repweights(1:5)[1, ] == 1))
 })
 
-test_that("results agree with bootstrapFP:::generalised()", {
+# Results agree with bootstrapFP:::generalised().
+local({
   # fixed a bug with the exponential case by replacing exp() with rexp()
   bootstrap_fp <- function(ys, pks, replicates) {
     n <- length(ys)
@@ -97,7 +101,8 @@ test_that("results agree with bootstrapFP:::generalised()", {
   expect_equal(var1, var2)
 })
 
-test_that("auto tau works", {
+# Auto tau works.s
+local({
   set.seed(1234)
   w <- runif(10) + 1
 
@@ -115,8 +120,8 @@ test_that("auto tau works", {
   set.seed(1234)
   expect_warning(sps_repweights(w, 30, dist = rnorm, tau = tau - 0.001))
 
-  expect_gte(min(sps_repweights(1:5, 5)), 0.0001)
+  expect_true(min(sps_repweights(1:5, 5)) >= 0.0001)
   expect_equal(min(sps_repweights(1:5, 5, min_tau(0))), 0)
-  expect_gte(min(sps_repweights(1:5, 5, min_tau(0.5))), 0.5)
-  expect_gte(min(sps_repweights(1:5, 5, min_tau(0.05), rnorm)), 0.05)
+  expect_true(min(sps_repweights(1:5, 5, min_tau(0.5))) >= 0.5)
+  expect_true(min(sps_repweights(1:5, 5, min_tau(0.05), rnorm)) >= 0.05)
 })

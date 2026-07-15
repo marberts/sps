@@ -10,24 +10,28 @@ inclusion_prob(x, n, strata = NULL, alpha = 0.001, cutoff = Inf)
 becomes_ta(x, alpha = 0.001, cutoff = Inf)
 }
 \arguments{
-\item{x}{A positive and finite numeric vector of sizes for units in the
-population (e.g., revenue for drawing a sample of businesses).}
+\item{x}{\verb{[numeric >= 0]} A positive and finite numeric vector of sizes for
+units in the population (e.g., revenue for drawing a sample of businesses).}
 
-\item{n}{A positive integer vector giving the sample size for each stratum,
+\item{n}{\verb{[integer >= 0]} A positive integer vector giving the sample size
+for each stratum,
 ordered according to the levels of \code{strata}. A single value is recycled
 for all strata. Non-integers are truncated towards 0.}
 
-\item{strata}{A factor, or something that can be coerced into one, giving
+\item{strata}{\verb{[factor]} A factor, or something that can be coerced into one,
+giving
 the strata associated with units in the population. The default is to place
 all units into a single stratum.}
 
-\item{alpha}{A numeric vector with values between 0 and 1 for each stratum,
+\item{alpha}{\verb{[0 <= numeric < 1]} A numeric vector with values between 0 and
+1 for each stratum,
 ordered according to the levels of \code{strata}. Units with inclusion
 probabilities greater than or equal to 1 - \code{alpha} are set to 1 for
 each stratum. A single value is recycled for all strata. The default is
 slightly larger than 0.}
 
-\item{cutoff}{A positive numeric vector of cutoffs for each stratum, ordered
+\item{cutoff}{\verb{[numeric >= 0]} A positive numeric vector of cutoffs for each
+stratum, ordered
 according to the levels of \code{strata}. Units with \code{x >= cutoff} get
 an inclusion probability of 1 for each stratum. A single value is recycled
 for all strata. The default does not apply a cutoff.}
@@ -81,7 +85,6 @@ n_ta(x, 7)
 # Use the inclusion probabilities to calculate the variance of the
 # sample size for Poisson sampling
 sum(pi * (1 - pi))
-
 }
 \seealso{
 \code{\link[=sps]{sps()}} for drawing a sequential Poisson sample.

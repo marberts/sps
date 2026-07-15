@@ -39,20 +39,22 @@
 #' ensures that the initial allocation is feasible.
 #'
 #' @inheritParams sps
-#' @param n A positive integer giving the sample size.
-#' @param initial A positive integer vector giving the initial (or minimal)
+#' @param n `[integer(1) >= 0]` A positive integer giving the sample size.
+#' @param initial `[integer >= 0]` A positive integer vector giving the initial
+#'   (or minimal)
 #'   allocation for each stratum, ordered according to the levels of
 #'   `strata`. A single integer is recycled for each stratum using a special
 #'   algorithm to ensure a feasible allocation; see details. Non-integers are
 #'   truncated towards 0. The default allows for no units to be allocated to a
 #'   stratum.
-#' @param divisor A function for the divisor (highest-averages)
+#' @param divisor `[function]` A function for the divisor (highest-averages)
 #'   apportionment method. The default uses the Jefferson/D'Hondt method. See
 #'   details for other possible functions.
-#' @param ties Either 'largest' to break ties in favor of the stratum with the
+#' @param ties `[character(1)]` Either 'largest' to break ties in favor of the
+#'   stratum with the
 #'   largest size (the default), or 'first' to break ties in favor of the
 #'   ordering of `strata`.
-#' @param name Name of the divisor function. See details.
+#' @param name `[character(1)]` Name of the divisor function. See details.
 #'
 #' @returns
 #' `prop_allocation()` returns a named integer vector of sample sizes for each
@@ -83,7 +85,6 @@
 #'
 #' # Generate an allocation
 #' prop_allocation(x, 15, s, initial = 1)
-#'
 #' @export
 prop_allocation <- function(
   x,
@@ -148,20 +149,20 @@ divisor_method <- function(
     "Imperiali" = \(a) a + 2,
     "Huntington-Hill" = \(a) {
       if (any(a < 1)) {
-        stop("'a' must be greater than or equal to 1")
+        stop("`a` must be greater than or equal to 1")
       }
       sqrt(a * (a + 1))
     },
     "Danish" = \(a) a + 1 / 3,
     "Adams" = \(a) {
       if (any(a < 1)) {
-        stop("'a' must be greater than or equal to 1")
+        stop("`a` must be greater than or equal to 1")
       }
       a
     },
     "Dean" = \(a) {
       if (any(a < 1)) {
-        stop("'a' must be greater than or equal to 1")
+        stop("`a` must be greater than or equal to 1")
       }
       a * (a + 1) / (a + 0.5)
     }

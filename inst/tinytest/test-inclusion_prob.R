@@ -1,6 +1,7 @@
 set.seed(14235)
 
-test_that("corner cases work as expected", {
+# Corner cases work as expected.
+local({
   expect_equal(inclusion_prob(0, 0), 0)
   expect_equal(
     inclusion_prob(1:3, c(0, 1, 0), factor(c(2, 2, 2), levels = 1:3)),
@@ -37,7 +38,8 @@ test_that("corner cases work as expected", {
   expect_equal(becomes_ta(c(1, 3, 2, 3), alpha = 1), c(4, 1, 3, 2))
 })
 
-test_that("argument checking works", {
+# Argument checking works.
+local({
   expect_error(inclusion_prob(-1:4, c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(c(NA, 1:5), c(2, 2), gl(2, 3)))
   expect_error(inclusion_prob(numeric(0), c(2, 2), gl(2, 3)))
@@ -66,7 +68,8 @@ test_that("argument checking works", {
   expect_error(becomes_ta(1:5, 0.5, -1))
 })
 
-test_that("inclusion probs are correct with different rounds of TA removal", {
+# Inclusion probs are correct with different rounds of TA removal.
+local({
   # no rounds
   x <- c(0:4, 10:8, 5:7, 0)
   expect_equal(inclusion_prob(x, 4), x / 55 * 4)
@@ -89,7 +92,8 @@ test_that("inclusion probs are correct with different rounds of TA removal", {
   )
 })
 
-test_that("results agree with sampling::inclusionprobabilities()", {
+# Results agree with sampling::inclusionprobabilities().
+local({
   expect_equal(
     inclusion_prob(1:20, 12),
     c(1:16 / 136 * 8, rep(1, 4))
@@ -138,7 +142,8 @@ test_that("results agree with sampling::inclusionprobabilities()", {
   )
 })
 
-test_that("TAs are added with alpha", {
+# TAs are added with alpha.
+local({
   x <- c(0, 4, 1, 4, 5)
   expect_equal(
     inclusion_prob(rep(x, 3), c(3, 3, 3), gl(3, 5), alpha = c(0.1, 0.15, 0.2)),
@@ -197,7 +202,8 @@ test_that("TAs are added with alpha", {
   )
 })
 
-test_that("inclusion probs are a fixed point", {
+# Inclusion probs are a fixed point.
+local({
   x <- 1:10
   p <- inclusion_prob(x, 5)
   expect_equal(p, inclusion_prob(p, 5))
@@ -207,7 +213,8 @@ test_that("inclusion probs are a fixed point", {
   expect_equal(p, inclusion_prob(p, 3))
 })
 
-test_that("n, alpha, and cutoff recycle", {
+# n, alpha, and cutoff recycle.
+local({
   x <- 1:10
   expect_equal(
     inclusion_prob(x, 3, gl(2, 5)),
@@ -225,7 +232,8 @@ test_that("n, alpha, and cutoff recycle", {
   )
 })
 
-test_that("cutoff is the same as removing units", {
+# Cutoff is the same as removing units.
+local({
   x <- 1:20
   expect_equal(
     inclusion_prob(x[x < 18], 9),
@@ -237,7 +245,8 @@ test_that("cutoff is the same as removing units", {
   )
 })
 
-test_that("cutoff agrees with alpha", {
+# Cutoff agrees with alpha.
+local({
   x <- c(0, 1, 2, 3, 2, 4, 3)
   expect_equal(
     inclusion_prob(x, 3, alpha = 0.2),
@@ -253,7 +262,8 @@ test_that("cutoff agrees with alpha", {
   )
 })
 
-test_that("units become TA when expected", {
+# Units become TA when expected.
+local({
   x <- c(6, 4, 3, 4, 2, 1, 4, 2, 2, 1, 2)
 
   for (a in seq(0, 1, 0.05)) {
@@ -270,7 +280,8 @@ test_that("units become TA when expected", {
   }
 })
 
-test_that("adding a cutoff just offsets when a unit becomes TA", {
+# Adding a cutoff just offsets when a unit becomes TA.
+local({
   x <- c(5, 3, 2, 4, 3)
   expect_equal(becomes_ta(x, 0.25), c(3, 4, 5, 4, 5))
   expect_equal(becomes_ta(x, 0.25, 4), c(NaN, 4, 5, NaN, 5))

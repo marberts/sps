@@ -52,7 +52,6 @@
 #' # Use the inclusion probabilities to calculate the variance of the
 #' # sample size for Poisson sampling
 #' sum(pi * (1 - pi))
-#'
 #' @export
 inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-3, cutoff = Inf) {
   x <- as.numeric(x)
@@ -78,12 +77,12 @@ becomes_ta <- function(x, alpha = 1e-3, cutoff = Inf) {
 
   alpha <- as.numeric(alpha)
   if (alpha < 0 || alpha > 1) {
-    stop("'alpha' must be between 0 and 1")
+    stop("`alpha` must be between 0 and 1")
   }
 
   cutoff <- as.numeric(cutoff)
   if (cutoff <= 0) {
-    stop("'cutoff' must be greater than 0")
+    stop("`cutoff` must be greater than 0")
   }
 
   alpha <- alpha + .Machine$double.eps^0.5
@@ -158,10 +157,10 @@ pi <- function(x, n, alpha, cutoff) {
     )
   }
   if (alpha < 0 || alpha > 1) {
-    stop("'alpha' must be between 0 and 1")
+    stop("`alpha` must be between 0 and 1")
   }
   if (cutoff <= 0) {
-    stop("'cutoff' must be greater than 0")
+    stop("`cutoff` must be greater than 0")
   }
 
   # Add some fuzz to avoid floating-point rounding stopping some units from
@@ -192,10 +191,10 @@ stratified_pi <- function(x, n, strata, alpha, cutoff) {
     stop("there must be a single sample size for each stratum")
   }
   if (length(alpha) != 1L && length(alpha) != nlevels(strata)) {
-    stop("'alpha' must be a single value or have a value for each stratum")
+    stop("`alpha` must be a single value or have a value for each stratum")
   }
   if (length(cutoff) != 1L && length(cutoff) != nlevels(strata)) {
-    stop("'cutoff' must be a single value or have a value for each stratum")
+    stop("`cutoff` must be a single value or have a value for each stratum")
   }
   Map(pi, split(x, strata), n, alpha, cutoff)
 }

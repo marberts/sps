@@ -10,25 +10,28 @@ sps_repweights(w, replicates = 1000L, tau = min_tau(1e-04), dist = NULL)
 min_tau(tol)
 }
 \arguments{
-\item{w}{A numeric vector of design (inverse probability) weights for a
-(sequential) Poisson sample.}
+\item{w}{\verb{[numeric >= 1]} A numeric vector of design (inverse probability)
+weights for a (sequential) Poisson sample.}
 
-\item{replicates}{A positive integer that gives the number of bootstrap
-replicates (1,000 by default). Non-integers are truncated towards 0.}
+\item{replicates}{\verb{[integer(1) >= 0]} A positive integer that gives the
+number of bootstrap replicates (1,000 by default). Non-integers are
+truncated towards 0.}
 
-\item{tau}{A number greater than or equal to 1 that gives the rescale factor
+\item{tau}{\verb{[numeric(1) >= 1 | function]} A number greater than or equal to 1
+that gives the rescale factor
 for the bootstrap weights. Setting to 1 does not rescale the
 weights. This can also be a function that takes a vector of bootstrap
 adjustments and returns a number larger than 1. The default automatically
 picks the smallest feasible rescale factor (up to a small tolerance).}
 
-\item{dist}{A function that produces random deviates with mean 0 and
-standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the
+\item{dist}{\verb{[function]} A function that produces random deviates with mean 0
+and standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the
 pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
 details.}
 
-\item{tol}{A non-negative number, strictly less than 1, that gives the
-tolerance for determining the minimum feasible value of \code{tau}.}
+\item{tol}{\verb{[0 <= numeric(1) < 1]} A non-negative number, strictly less than
+1, that gives the tolerance for determining the minimum feasible value
+of \code{tau}.}
 }
 \value{
 \code{sps_repweights()} returns a matrix of bootstrap replicate weights
@@ -93,7 +96,6 @@ dist <- list(
 )
 
 lapply(dist, sps_repweights, w = weights(samp), replicates = 5, tau = 2)
-
 }
 \references{
 Beaumont, J.-F. and Patak, Z. (2012). On the Generalized
