@@ -22,6 +22,7 @@ Imports: stats
 Suggests: 
     kit (>= 0.0.10),
     litedown,
+    rbibutils,
     tinytest
 License: MIT + file LICENSE
 Encoding: UTF-8
