@@ -3,7 +3,6 @@ title: "Take-all units"
 format: 
   html:
     html-math-method: mathjax
-bibliography: ["../inst/REFERENCES.bib"]
 vignette: >
   %\VignetteIndexEntry{Take-all units}
   %\VignetteEngine{litedown::vignette}
@@ -24,8 +23,8 @@ probability greater than 1, especially when $n$ is large. The usual procedure to
 deal with these units is to
 put them in a special take-all stratum so that they are always included in the
 sample, essentially fixing their inclusion probabilities at 1, with the
-remaining units (the take-some units) drawn at random; see, e.g., @ohlsson1998
-or @tille2020 (Chapter 5). The
+remaining units (the take-some units) drawn at random; see, e.g., Ohlsson (1998)
+or Tillé (2020, Chapter 5). The
 usual algorithm used by, say, `sampling::inclusionprobabilities()`
 repeatedly moves units into the take-all stratum
 and recalculates the inclusion probabilities for the remaining units
@@ -37,7 +36,7 @@ and find which units have an inclusion probability greater than 1 when the sampl
 size is 3.
 
 Sequential poisson sampling is a bit more complicated because, as noted by
-@ohlsson1998, it can be useful
+Ohlsson (1998), it can be useful
 to place units with an inclusion probability greater than $1 - \alpha$, for some 
 small $\alpha$, into the take-all stratum. Unless $\alpha = 0$, the usual algorithm
 for finding take-all units can put units into the take-all stratum that have
@@ -183,3 +182,9 @@ sps::becomes_ta(x, alpha = alpha)
 Knowing when a unit enters the take-all stratum also makes it possible to draw
 units one at a time with the sequential Poisson method, as with the `sps_iterator()`
 function.
+
+## References {-}
+
+Ohlsson, E. (1998). Sequential Poisson sampling. _Journal of Official Statistics_, 14(2): 149--162.
+
+Tillé, Y. (2020). _Sampling and Estimation from Finite Populations_. Wiley. https://doi.org/10.1002/9781119071259.
