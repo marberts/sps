@@ -1,6 +1,6 @@
 ---
 title: "Drawing a Sequential Poisson Sample"
-bibliography: ref.bib
+bibliography: ["../inst/REFERENCES.bib"]
 vignette: >
   %\VignetteIndexEntry{Drawing a Sequential Poisson Sample}
   %\VignetteEngine{litedown::vignette}

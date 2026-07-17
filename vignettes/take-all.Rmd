@@ -3,7 +3,7 @@ title: "Take-all units"
 format: 
   html:
     html-math-method: mathjax
-bibliography: ref.bib
+bibliography: ["../inst/REFERENCES.bib"]
 vignette: >
   %\VignetteIndexEntry{Take-all units}
   %\VignetteEngine{litedown::vignette}
