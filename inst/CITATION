@@ -1,3 +1,5 @@
+citHeader("To cite sps in publications use:")
+
 bibentry(
   bibtype  = "Manual",
   title    = "{sps}: Sequential Poisson Sampling",
