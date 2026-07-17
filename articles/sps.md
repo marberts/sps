@@ -6,8 +6,11 @@ units. It’s a fast, simple, and flexible method for sampling units
 proportional to their size, and is often used for drawing a sample of
 businesses. The purpose of this vignette is to give an example of how
 the functions in this package can be used to easily draw a sample using
-the sequential Poisson method. More details can be found on the help
-pages for the functions used in this vignette.
+the sequential Poisson method. More details, including references to the
+literature, can be found on the help pages for the functions used in
+this vignette. Tillé (2020) (Chapter 5) gives a textbook treatment of
+this method and how it compares with other
+probability-proportional-to-size sampling methods.
 
 ## Drawing a sample of businesses
 
@@ -28,14 +31,15 @@ frame <- data.frame(
 )
 
 head(frame)
-#>   revenue region
-#> 1    2676      1
-#> 2    2158      1
-#> 3    2046      3
-#> 4     537      2
-#> 5     266      3
-#> 6    1991      1
 ```
+
+    ##   revenue region
+    ## 1    2676      1
+    ## 2    2158      1
+    ## 3    2046      3
+    ## 4     537      2
+    ## 5     266      3
+    ## 6    1991      1
 
 Associated with each business is a value for their sales for the current
 quarter, although these values are not observable for all businesses.
@@ -60,9 +64,10 @@ do this allocation proportional to the total revenue in each region.
 
 allocation <- with(frame, prop_allocation(revenue, 100, region))
 allocation
-#>  1  2  3 
-#> 19 32 49
 ```
+
+    ##  1  2  3 
+    ## 19 32 49
 
 With the sample size for each region in hand, it’s now time to draw a
 sample and observe the value of sales for these businesses. In practice
@@ -76,14 +81,15 @@ sample <- with(frame, sps(revenue, allocation, region))
 survey <- cbind(frame[sample, ], sales = sales[sample])
 
 head(survey)
-#>    revenue region sales
-#> 8     1422      3  1571
-#> 25    2741      2  1843
-#> 31     580      1   897
-#> 37    4508      2  8659
-#> 38    1007      3  1804
-#> 42    2380      3  4740
 ```
+
+    ##    revenue region sales
+    ## 8     1422      3  1571
+    ## 25    2741      2  1843
+    ## 31     580      1   897
+    ## 37    4508      2  8659
+    ## 38    1007      3  1804
+    ## 42    2380      3  4740
 
 An important piece of information from the sampling process is the
 design weights, as these enable estimating the value of sales in the
@@ -94,21 +100,23 @@ population with the usual Horvitz-Thompson estimator.
 survey$weight <- weights(sample)
 
 head(survey)
-#>    revenue region sales    weight
-#> 8     1422      3  1571 11.254659
-#> 25    2741      2  1843  6.070412
-#> 31     580      1   897 27.752969
-#> 37    4508      2  8659  3.690994
-#> 38    1007      3  1804 15.892875
-#> 42    2380      3  4740  6.724422
 ```
+
+    ##    revenue region sales    weight
+    ## 8     1422      3  1571 11.254659
+    ## 25    2741      2  1843  6.070412
+    ## 31     580      1   897 27.752969
+    ## 37    4508      2  8659  3.690994
+    ## 38    1007      3  1804 15.892875
+    ## 42    2380      3  4740  6.724422
 
 ``` r
 
 ht <- with(survey, sum(sales * weight))
 ht
-#> [1] 2039582
 ```
+
+    ## [1] 2039582
 
 The Horvitz-Thompson estimator is (asymptotically) unbiased under
 sequential Poisson sampling, so it should be no surprise that the
@@ -118,8 +126,9 @@ businesses.
 ``` r
 
 ht / sum(sales) - 1
-#> [1] 0.01325931
 ```
+
+    ## [1] 0.01325931
 
 But in practice it’s not possible to determine how far an estimate is
 from the true value in the population. Instead, a common measure of the
@@ -140,8 +149,9 @@ var <- attr(repweights, "tau")^2 *
   mean((colSums(survey$sales * repweights) - ht)^2)
 
 sqrt(var) / ht
-#> [1] 0.09666341
 ```
+
+    ## [1] 0.09666341
 
 There is also an analytic estimator for the variance of the
 Horvitz-Thompson estimator under sequential Poisson sampling. It’s less
@@ -164,8 +174,9 @@ var <- with(
 )
 
 sqrt(sum(var)) / ht
-#> [1] 0.03067625
 ```
+
+    ## [1] 0.03067625
 
 ## Coordinating samples
 
@@ -182,14 +193,15 @@ and suitably “rotating” them to reduce the overlap between both samples.
 frame$prn <- runif(1000)
 
 head(frame)
-#>   revenue region        prn
-#> 1    2676      1 0.72614569
-#> 2    2158      1 0.30042829
-#> 3    2046      3 0.09393538
-#> 4     537      2 0.31786097
-#> 5     266      3 0.23796557
-#> 6    1991      1 0.80298366
 ```
+
+    ##   revenue region        prn
+    ## 1    2676      1 0.72614569
+    ## 2    2158      1 0.30042829
+    ## 3    2046      3 0.09393538
+    ## 4     537      2 0.31786097
+    ## 5     266      3 0.23796557
+    ## 6    1991      1 0.80298366
 
 Permanent random numbers can be used with methods other than sequential
 Poisson—the procedure is the same for any order sampling scheme
@@ -204,8 +216,9 @@ sample <- with(frame, sps(revenue, allocation, region, prn))
 parsample <- with(frame, pareto(revenue, allocation, region, (prn - 0.5) %% 1))
 
 length(intersect(sample, parsample)) / 100
-#> [1] 0.09
 ```
+
+    ## [1] 0.09
 
 Although there is still a meaningful overlap between the units in both
 samples, this is roughly half of what would be expected without using
@@ -218,9 +231,10 @@ replicate(1000, {
   length(intersect(sample, s)) / 100
 }) |>
   summary()
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  0.1200  0.2000  0.2300  0.2275  0.2500  0.3500
 ```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##  0.1200  0.2000  0.2300  0.2275  0.2500  0.3500
 
 ## Topping up
 
@@ -239,8 +253,9 @@ sample <- with(frame, sps(revenue, allocation, region, prn))
 sample_tu <- with(frame, sps(revenue, allocation + c(10, 0, 0), region, prn))
 
 all(sample %in% sample_tu)
-#> [1] TRUE
 ```
+
+    ## [1] TRUE
 
 As with any proportional-to-size sampling scheme, there is a critical
 sample size after which some units become take-all units. If these units
@@ -252,15 +267,16 @@ which each unit enters the take-all stratum.
 ``` r
 
 Map(\(x) head(becomes_ta(x)), split(frame$revenue, frame$region))
-#> $`1`
-#> [1]  86  98 102 174 161 160
-#> 
-#> $`2`
-#> [1] 278 157 261 254 110 284
-#> 
-#> $`3`
-#> [1] 283 500 500 344 449 482
 ```
+
+    ## $`1`
+    ## [1]  86  98 102 174 161 160
+    ## 
+    ## $`2`
+    ## [1] 278 157 261 254 110 284
+    ## 
+    ## $`3`
+    ## [1] 283 500 500 344 449 482
 
 But this is rare in practice. For this example there is no point at
 which increasing the sample size drops a unit that was previously
@@ -273,13 +289,18 @@ x <- rlnorm(10)
 u <- runif(10)
 
 becomes_ta(x)
-#>  [1] 10  4  5  5  5  9  8 10  9  9
+```
+
+    ##  [1] 10  4  5  5  5  9  8 10  9  9
+
+``` r
 
 sample <- sps(x, 4, prn = u)
 
 sample %in% sps(x, 5, prn = u)
-#> [1]  TRUE  TRUE  TRUE FALSE
 ```
+
+    ## [1]  TRUE  TRUE  TRUE FALSE
 
 The solution to this problem is to simply increase the size of the
 sample until all previously sampled units are included.
@@ -287,8 +308,9 @@ sample until all previously sampled units are included.
 ``` r
 
 sample %in% sps(x, 6, prn = u)
-#> [1] TRUE TRUE TRUE TRUE
 ```
+
+    ## [1] TRUE TRUE TRUE TRUE
 
 It’s possible to go one step further and make an iterator that draws the
 next unit in the sample without replacing the old ones, and gives the
@@ -300,15 +322,20 @@ s <- sps_iterator(x, prn = u)
 for (i in 1:5) {
   print(s())
 }
-#> [1] 4
-#> [1] 6
-#> [1] 7
-#> [1] 2
-#> [1] 3 5
+```
+
+    ## [1] 4
+    ## [1] 6
+    ## [1] 7
+    ## [1] 2
+    ## [1] 3 5
+
+``` r
 
 sps(x, 6, prn = u)
-#> [1] 2 3 4 5 6 7
 ```
+
+    ## [1] 2 3 4 5 6 7
 
 Note that the ability to update a sample like this is not shared by the
 Pareto and successive order sampling schemes. For both of those methods,
@@ -320,14 +347,19 @@ even without any take-all units.
 set.seed(10052)
 u <- runif(10)
 pareto(x, 2, prn = u) %in% pareto(x, 3, prn = u)
-#> [1]  TRUE FALSE
+```
+
+    ## [1]  TRUE FALSE
+
+``` r
 
 set.seed(10063)
 u <- runif(10)
 successive <- order_sampling(\(x) log(1 - x))
 successive(x, 2, prn = u) %in% successive(x, 3, prn = u)
-#> [1] FALSE  TRUE
 ```
+
+    ## [1] FALSE  TRUE
 
 ## Bias in the Horvitz-Thompson estimator
 
@@ -344,13 +376,14 @@ sampling_distribution <- replicate(1000, {
 })
 
 summary(sampling_distribution / sum(sales) - 1)
-#>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
-#> -9.264e-02 -2.216e-02 -2.872e-04 -8.442e-05  2.088e-02  9.883e-02
 ```
+
+    ##       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+    ## -9.264e-02 -2.216e-02 -2.872e-04 -8.442e-05  2.088e-02  9.883e-02
 
 More generally, the distribution of inclusion probabilities is usually
 close to what is expected if sequential Poisson sampling was exactly
-proportional to size.[^1]
+proportional to size (Tillé 2023).
 
 ``` r
 
@@ -383,6 +416,9 @@ legend("topright", c("empirical", "theoretical"), lty = c("solid", "dashed"))
 Poisson sampling is approximately
 Guassian.](sps_files/figure-html/tille-1.png)
 
-[^1]: See Tillé, Y. (2023). Remarks on some misconceptions about unequal
-    probability sampling without replacement. *Computer Science Review*,
-    47, 100533.
+Tillé, Y. 2020. *Sampling and Estimation from Finite Populations*.
+Wiley. <https://doi.org/10.1002/9781119071259>.
+
+Tillé, Y. 2023. “Remarks on Some Misconceptions about Unequal
+Probability Sampling Without Replacement.” *Computer Science Review* 47:
+100533. <https://doi.org/10.1016/j.cosrev.2022.100533>.

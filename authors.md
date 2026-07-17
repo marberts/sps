@@ -14,7 +14,7 @@ Source:
 
 Martin S (2025). *sps: Sequential Poisson Sampling*.
 [doi:10.5281/zenodo.10109857](https://doi.org/10.5281/zenodo.10109857).
-R package version 0.6.3.9001, <https://cran.r-project.org/package=sps>.
+R package version 0.6.3.9003, <https://cran.r-project.org/package=sps>.
 
     @Manual{,
       title = {{sps}: Sequential Poisson Sampling},
@@ -22,5 +22,5 @@ R package version 0.6.3.9001, <https://cran.r-project.org/package=sps>.
       year = {2025},
       doi = {10.5281/zenodo.10109857},
       url = {https://cran.r-project.org/package=sps},
-      note = {R package version 0.6.3.9001},
+      note = {R package version 0.6.3.9003},
     }

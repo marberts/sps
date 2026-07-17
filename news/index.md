@@ -4,7 +4,8 @@
 
 - Small improvements to the documentation.
 
-- Now using [tinytest](https://github.com/markvanderloo/tinytest).
+- Now using [tinytest](https://github.com/markvanderloo/tinytest) and
+  [litedown](https://github.com/yihui/litedown).
 
 ## sps 0.6.3
 

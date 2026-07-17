@@ -13,18 +13,20 @@ greater than 1, especially when \\n\\ is large. The usual procedure to
 deal with these units is to put them in a special take-all stratum so
 that they are always included in the sample, essentially fixing their
 inclusion probabilities at 1, with the remaining units (the take-some
-units) drawn at random. The usual algorithm used by, say,
+units) drawn at random; see, e.g., Ohlsson (1998) or Tillé (2020)
+(Chapter 5). The usual algorithm used by, say,
 `sampling::inclusionprobabilities()` repeatedly moves units into the
 take-all stratum and recalculates the inclusion probabilities for the
 remaining units until all inclusion probabilities are less than 1.[^1]
 
-Sequential poisson sampling is a bit more complicated because it can be
-useful to place units with an inclusion probability greater than \\1 -
-\alpha\\, for some small \\\alpha\\, into the take-all stratum. Unless
-\\\alpha = 0\\, the usual algorithm for finding take-all units can put
-units into the take-all stratum that have an inclusion probability less
-than \\1 - \alpha\\. We can see this with the following example (with a
-larger value for \\\alpha\\ for illustration).
+Sequential poisson sampling is a bit more complicated because, as noted
+by Ohlsson (1998), it can be useful to place units with an inclusion
+probability greater than \\1 - \alpha\\, for some small \\\alpha\\, into
+the take-all stratum. Unless \\\alpha = 0\\, the usual algorithm for
+finding take-all units can put units into the take-all stratum that have
+an inclusion probability less than \\1 - \alpha\\. We can see this with
+the following example (with a larger value for \\\alpha\\ for
+illustration).
 
 ``` r
 
@@ -40,18 +42,27 @@ alpha <- 0.15
 # Units 11, 12, and 13 have an inclusion probability
 # greater than 1 - alpha.
 which(pi(x, 8) >= 1 - alpha)
-#> [1] 11 12 13
+```
+
+    ## [1] 11 12 13
+
+``` r
 
 # Now units 9 and 10 have an inclusion probability
 # greater than 1 - alpha.
 which(pi(x[1:10], 5) >= 1 - alpha)
-#> [1]  9 10
+```
+
+    ## [1]  9 10
+
+``` r
 
 # After two rounds of removal all inclusion probabilities
 # are less than 1 - alpha.
 any(pi(x[1:8], 3) >= 1 - alpha)
-#> [1] FALSE
 ```
+
+    ## [1] FALSE
 
 Although all inclusion probabilities are less than \\1 - \alpha\\ after
 two rounds of placing units into a take-all stratum, the inclusion
@@ -61,8 +72,9 @@ being in the take-all stratum.
 ``` r
 
 pi(x[1:9], 4)[9] >= 1 - alpha
-#> [1] FALSE
 ```
+
+    ## [1] FALSE
 
 This means that units have to be considered one at a time, from largest
 to smallest, to determine if they belong in the take-all stratum. Rather
@@ -163,6 +175,27 @@ symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 
 ![Diagram showing when units first enter the take-all
 stratum.](take-all_files/figure-html/unnamed-chunk-4-1.png)
+
+This can be calculated for each unit in the population.
+
+``` r
+
+sps::becomes_ta(x, alpha = alpha)
+```
+
+    ##  [1] 13 13 12 12 11 10 10  9  9  8  6  6  4
+
+Knowing when a unit enters the take-all stratum also makes it possible
+to draw units one at a time with the sequential Poisson method, as with
+the
+[`sps_iterator()`](https://marberts.github.io/sps/reference/sps_iterator.md)
+function.
+
+Ohlsson, E. 1998. “Sequential Poisson Sampling.” *Journal of Official
+Statistics* 14 (2): 149–62.
+
+Tillé, Y. 2020. *Sampling and Estimation from Finite Populations*.
+Wiley. <https://doi.org/10.1002/9781119071259>.
 
 [^1]: To see why this needs to be done repeatedly, consider a population
     with three units with sizes 1, 2, and 3 and find which units have an
