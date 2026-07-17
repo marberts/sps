@@ -177,7 +177,7 @@ symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 This can be calculated for each unit in the population.
 
 ```{r}
-becomes_ta(x, alpha = alpha)
+sps::becomes_ta(x, alpha = alpha)
 ```
 
 Knowing when a unit enters the take-all stratum also makes it possible to draw

@@ -2,7 +2,7 @@
 
 - Small improvements to the documentation.
 
-- Now using `{tinytest}`.
+- Now using `{tinytest}` and `{litedown}`.
 
 ## sps 0.6.3
 
