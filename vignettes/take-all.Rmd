@@ -3,14 +3,11 @@ title: "Take-all units"
 format: 
   html:
     html-math-method: mathjax
+bibliography: ref.bib
 vignette: >
   %\VignetteIndexEntry{Take-all units}
-  %\VignetteEngine{quarto::html}
+  %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
-knitr:
-  opts_chunk: 
-    collapse: true
-    comment: '#>'
 ---
 
 When drawing a sample of size $n$ from a population of size $N$,
@@ -27,16 +24,20 @@ probability greater than 1, especially when $n$ is large. The usual procedure to
 deal with these units is to
 put them in a special take-all stratum so that they are always included in the
 sample, essentially fixing their inclusion probabilities at 1, with the
-remaining units (the take-some units) drawn at random. The
+remaining units (the take-some units) drawn at random; see, e.g., @ohlsson1998
+or @tille2020 (Chapter 5). The
 usual algorithm used by, say, `sampling::inclusionprobabilities()`
 repeatedly moves units into the take-all stratum
 and recalculates the inclusion probabilities for the remaining units
-until all inclusion probabilities are less than 1.^[To see why this needs
+until all inclusion probabilities are less than 1.[^1]
+
+[^1]: To see why this needs
 to be done repeatedly, consider a population with three units with sizes 1, 2, and 3
 and find which units have an inclusion probability greater than 1 when the sample
-size is 3.]
+size is 3.
 
-Sequential poisson sampling is a bit more complicated because it can be useful
+Sequential poisson sampling is a bit more complicated because, as noted by
+@ohlsson1998, it can be useful
 to place units with an inclusion probability greater than $1 - \alpha$, for some 
 small $\alpha$, into the take-all stratum. Unless $\alpha = 0$, the usual algorithm
 for finding take-all units can put units into the take-all stratum that have
@@ -172,3 +173,13 @@ legend(1, 2.5, c("take-some", "take-all"), pch = c(20, 19))
 legend(1, 2, c("n = 8", "n = 9"), pch = 20, col = c("black", "red"))
 symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ```
+
+This can be calculated for each unit in the population.
+
+```{r}
+sps::becomes_ta(x, alpha = alpha)
+```
+
+Knowing when a unit enters the take-all stratum also makes it possible to draw
+units one at a time with the sequential Poisson method, as with the `sps_iterator()`
+function.
