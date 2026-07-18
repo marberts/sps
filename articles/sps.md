@@ -8,7 +8,7 @@ businesses. The purpose of this vignette is to give an example of how
 the functions in this package can be used to easily draw a sample using
 the sequential Poisson method. More details, including references to the
 literature, can be found on the help pages for the functions used in
-this vignette. Tillé (2020) (Chapter 5) gives a textbook treatment of
+this vignette. Tillé (2020, Chapter 5) gives a textbook treatment of
 this method and how it compares with other
 probability-proportional-to-size sampling methods.
 
@@ -383,7 +383,7 @@ summary(sampling_distribution / sum(sales) - 1)
 
 More generally, the distribution of inclusion probabilities is usually
 close to what is expected if sequential Poisson sampling was exactly
-proportional to size (Tillé 2023).
+proportional to size (Tillé, 2023).
 
 ``` r
 
@@ -416,9 +416,11 @@ legend("topright", c("empirical", "theoretical"), lty = c("solid", "dashed"))
 Poisson sampling is approximately
 Guassian.](sps_files/figure-html/tille-1.png)
 
-Tillé, Y. 2020. *Sampling and Estimation from Finite Populations*.
+## References
+
+Tillé, Y. (2020). *Sampling and Estimation from Finite Populations*.
 Wiley. <https://doi.org/10.1002/9781119071259>.
 
-Tillé, Y. 2023. “Remarks on Some Misconceptions about Unequal
-Probability Sampling Without Replacement.” *Computer Science Review* 47:
+Tillé, Y. (2023). Remarks on some misconceptions about unequal
+probability sampling without replacement. *Computer Science Review*, 47:
 100533. <https://doi.org/10.1016/j.cosrev.2022.100533>.

@@ -13,11 +13,11 @@ greater than 1, especially when \\n\\ is large. The usual procedure to
 deal with these units is to put them in a special take-all stratum so
 that they are always included in the sample, essentially fixing their
 inclusion probabilities at 1, with the remaining units (the take-some
-units) drawn at random; see, e.g., Ohlsson (1998) or Tillé (2020)
-(Chapter 5). The usual algorithm used by, say,
+units) drawn at random. The usual algorithm used by, say,
 `sampling::inclusionprobabilities()` repeatedly moves units into the
 take-all stratum and recalculates the inclusion probabilities for the
 remaining units until all inclusion probabilities are less than 1.[^1]
+See, e.g., Ohlsson (1998) or Tillé (2020, Chapter 5).
 
 Sequential poisson sampling is a bit more complicated because, as noted
 by Ohlsson (1998), it can be useful to place units with an inclusion
@@ -39,8 +39,8 @@ x <- c(1:8, 9.5, 10, 20, 20, 30)
 
 alpha <- 0.15
 
-# Units 11, 12, and 13 have an inclusion probability
-# greater than 1 - alpha.
+# With a sample size of 8, units 11, 12, and 13
+# have an inclusion probability greater than 1 - alpha.
 which(pi(x, 8) >= 1 - alpha)
 ```
 
@@ -176,7 +176,7 @@ symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ![Diagram showing when units first enter the take-all
 stratum.](take-all_files/figure-html/unnamed-chunk-4-1.png)
 
-This can be calculated for each unit in the population.
+And this can be calculated for each unit in the population.
 
 ``` r
 
@@ -191,10 +191,12 @@ the
 [`sps_iterator()`](https://marberts.github.io/sps/reference/sps_iterator.md)
 function.
 
-Ohlsson, E. 1998. “Sequential Poisson Sampling.” *Journal of Official
-Statistics* 14 (2): 149–62.
+## References
 
-Tillé, Y. 2020. *Sampling and Estimation from Finite Populations*.
+Ohlsson, E. (1998). Sequential Poisson sampling. *Journal of Official
+Statistics*, 14(2): 149–162.
+
+Tillé, Y. (2020). *Sampling and Estimation from Finite Populations*.
 Wiley. <https://doi.org/10.1002/9781119071259>.
 
 [^1]: To see why this needs to be done repeatedly, consider a population

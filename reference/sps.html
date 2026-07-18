@@ -17,7 +17,7 @@ schemes."><meta property="og:image" content="https://marberts.github.io/sps/logo
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,9 +141,10 @@ SEQ_POISSON</code>.</p>
 <p>For each stratum, the sequential Poisson procedure starts by stratifying
 units in the population based on their (target) inclusion probabilities
 \(\pi\). Units with \(\pi = 0\) are placed into a take-none stratum,
-units with \(0 &lt; \pi &lt; 1\) are placed into a take-some stratum, and units
-with \(\pi = 1\) are placed into a take-all stratum. As noted by
-Ohlsson (1998), it can be useful to set \(\alpha\) to a small positive
+units with \(0 &lt; \pi &lt; 1 - \alpha\) are placed into a take-some stratum,
+and units
+with \(\pi \geq 1 - \alpha\) are placed into a take-all stratum. As noted
+by Ohlsson (1998), it can be useful to set \(\alpha\) to a small positive
 value when calculating inclusion probabilities, and this is the default
 behavior.</p>
 <p>After units are appropriately stratified, a sample of take-some units is
@@ -196,13 +197,16 @@ case when the sample size is small relative to the population.</p>
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Matei, A., and Tillé, Y. (2007). Computational aspects of order
 \(\pi\)ps sampling schemes. <em>Computational Statistics &amp; Data Analysis</em>,
-51: 3703-3717.</p>
+51: 3703-3717.
+https://doi.org/10.1016/j.csda.2006.12.026.</p>
 <p>Ohlsson, E. (1998). Sequential Poisson Sampling.
 <em>Journal of Official Statistics</em>, 14(2): 149-162.</p>
 <p>Rosén, B. (1997). On sampling with probability proportional to size.
-<em>Journal of Statistical Planning and Inference</em>, 62(2): 159-191.</p>
+<em>Journal of Statistical Planning and Inference</em>, 62(2): 159-191.
+https://doi.org/10.1016/S0378-3758(96)00186-3.</p>
 <p>Rosén, B. (2000). On inclusion probabilities for order \(\pi\)ps sampling.
-<em>Journal of Statistical Planning and Inference</em>, 90(1): 117-143.</p>
+<em>Journal of Statistical Planning and Inference</em>, 90(1): 117-143.
+https://doi.org/10.1016/S0378-3758(00)00104-X.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,19 +90,19 @@ can have an inclusion probability greater than 1, especially when <span class="m
 with these units is to put them in a special take-all stratum so that
 they are always included in the sample, essentially fixing their
 inclusion probabilities at 1, with the remaining units (the take-some
-units) drawn at random; see, e.g., <span class="citation">Ohlsson
-(1998)</span> or <span class="citation">Tillé (2020)</span> (Chapter 5).
-The usual algorithm used by, say,
+units) drawn at random. The usual algorithm used by, say,
 <code>sampling::inclusionprobabilities()</code> repeatedly moves units
 into the take-all stratum and recalculates the inclusion probabilities
 for the remaining units until all inclusion probabilities are less than
 1.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;To see why this needs to be done repeatedly, consider a
 population with three units with sizes 1, 2, and 3 and find which units
 have an inclusion probability greater than 1 when the sample size is
-3.&lt;/p&gt;"><sup>1</sup></a></p>
+3.&lt;/p&gt;"><sup>1</sup></a> See,
+e.g., Ohlsson (1998) or Tillé (2020, Chapter 5).</p>
 <p>Sequential poisson sampling is a bit more complicated because, as
-noted by <span class="citation">Ohlsson (1998)</span>, it can be useful
-to place units with an inclusion probability greater than <span class="math inline">\(1 - \alpha\)</span>, for some small <span class="math inline">\(\alpha\)</span>, into the take-all stratum. Unless
+noted by Ohlsson (1998), it can be useful to place units with an
+inclusion probability greater than <span class="math inline">\(1 -
+\alpha\)</span>, for some small <span class="math inline">\(\alpha\)</span>, into the take-all stratum. Unless
 <span class="math inline">\(\alpha = 0\)</span>, the usual algorithm for
 finding take-all units can put units into the take-all stratum that have
 an inclusion probability less than <span class="math inline">\(1 -
@@ -119,8 +119,8 @@ illustration).</p>
 <span></span>
 <span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.15</span></span>
 <span></span>
-<span><span class="co"># Units 11, 12, and 13 have an inclusion probability</span></span>
-<span><span class="co"># greater than 1 - alpha.</span></span>
+<span><span class="co"># With a sample size of 8, units 11, 12, and 13</span></span>
+<span><span class="co"># have an inclusion probability greater than 1 - alpha.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html" class="external-link">pi</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">8</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 11 12 13</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -230,23 +230,20 @@ take-all stratum.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n = 8"</span>, <span class="st">"n = 9"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/symbols.html" class="external-link">symbols</a></span><span class="op">(</span><span class="fl">4.5</span>, <span class="fl">0.85</span>, circles <span class="op">=</span> <span class="fl">1</span>, inches <span class="op">=</span> <span class="cn">FALSE</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="take-all_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="Diagram showing when units first enter the take-all stratum." width="768"></p>
-<p>This can be calculated for each unit in the population.</p>
+<p>And this can be calculated for each unit in the population.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sps</span><span class="fu">::</span><span class="fu"><a href="../reference/inclusion_prob.html">becomes_ta</a></span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="va">alpha</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] 13 13 12 12 11 10 10  9  9  8  6  6  4</span></span></code></pre>
 <p>Knowing when a unit enters the take-all stratum also makes it
 possible to draw units one at a time with the sequential Poisson method,
 as with the <code><a href="../reference/sps_iterator.html">sps_iterator()</a></code> function.</p>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-ohlsson1998" class="csl-entry">
-Ohlsson, E. 1998. <span>“Sequential <span>P</span>oisson
-Sampling.”</span> <em>Journal of Official Statistics</em> 14 (2):
-149–62.
-</div>
-<div id="ref-tille2020" class="csl-entry">
-Tillé, Y. 2020. <em>Sampling and Estimation from Finite
-Populations</em>. Wiley. <a href="https://doi.org/10.1002/9781119071259" class="external-link">https://doi.org/10.1002/9781119071259</a>.
-</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>Ohlsson, E. (1998). Sequential Poisson sampling. <em>Journal of
+Official Statistics</em>, 14(2): 149–162.</p>
+<p>Tillé, Y. (2020). <em>Sampling and Estimation from Finite
+Populations</em>. Wiley. <a href="https://doi.org/10.1002/9781119071259" class="external-link uri">https://doi.org/10.1002/9781119071259</a>.</p>
 </div>
 
   </main>
