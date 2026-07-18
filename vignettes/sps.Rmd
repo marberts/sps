@@ -1,13 +1,12 @@
 ---
 title: "Drawing a Sequential Poisson Sample"
-bibliography: ref.bib
 vignette: >
   %\VignetteIndexEntry{Drawing a Sequential Poisson Sample}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---
 
-Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details, including references to the literature, can be found on the help pages for the functions used in this vignette. @tille2020 (Chapter 5) gives a textbook treatment of this method and how it compares with other probability-proportional-to-size sampling methods.
+Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details, including references to the literature, can be found on the help pages for the functions used in this vignette. Tillé (2020, Chapter 5) gives a textbook treatment of this method and how it compares with other probability-proportional-to-size sampling methods.
 
 ## Drawing a sample of businesses
 
@@ -208,7 +207,7 @@ summary(sampling_distribution / sum(sales) - 1)
 ```
 
 More generally, the distribution of inclusion probabilities
-is usually close to what is expected if sequential Poisson sampling was exactly proportional to size [@tille2023].
+is usually close to what is expected if sequential Poisson sampling was exactly proportional to size (Tillé, 2023).
 
 ```{r tille, fig.width=8, fig.height=5.33}
 #| fig.alt: >
@@ -238,3 +237,9 @@ plot(
 lines(seq(-4, 4, 0.1), dnorm(seq(-4, 4, 0.1)), lty = "dashed")
 legend("topright", c("empirical", "theoretical"), lty = c("solid", "dashed"))
 ```
+
+## References {-}
+
+Tillé, Y. (2020). _Sampling and Estimation from Finite Populations_. Wiley. https://doi.org/10.1002/9781119071259.
+
+Tillé, Y. (2023). Remarks on some misconceptions about unequal probability sampling without replacement. _Computer Science Review_, 47: 100533. https://doi.org/10.1016/j.cosrev.2022.100533.

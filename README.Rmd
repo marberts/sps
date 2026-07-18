@@ -102,8 +102,8 @@ All contributions are welcome. Please start by opening an issue on GitHub to rep
 
 ## References
 
-Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. *International Statistical Review*, 80(1): 127-148.
+Beaumont, J.-F. and Patak, Z. (2012). On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling. *International Statistical Review*, 80(1): 127-148. https://doi.org/10.1111/j.1751-5823.2011.00166.x.
 
 Ohlsson, E. (1998). Sequential Poisson Sampling. *Journal of Official Statistics*, 14(2): 149-162.
 
-Rosén, B. (1997). On sampling with probability proportional to size. *Journal of Statistical Planning and Inference*, 62(2): 159-191.
+Rosén, B. (1997). On sampling with probability proportional to size. *Journal of Statistical Planning and Inference*, 62(2): 159-191. https://doi.org/10.1016/S0378-3758(96)00186-3.

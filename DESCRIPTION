@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.6.3.9003
+Version: 0.6.3.9004
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -22,7 +22,6 @@ Imports: stats
 Suggests: 
     kit (>= 0.0.10),
     litedown,
-    rbibutils,
     tinytest
 License: MIT + file LICENSE
 Encoding: UTF-8
