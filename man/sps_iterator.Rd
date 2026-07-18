@@ -27,7 +27,7 @@ The default is slightly larger than 0.}
 get an inclusion probability of 1. The default does not apply a cutoff.}
 }
 \value{
-A function that returns the next unit in the sample. It take a single
+A function that returns the next unit in the sample. It takes a single
 argument giving the sentinel value to indicate that there are no units
 left to sample (default \code{NULL}).
 }

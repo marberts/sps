@@ -79,9 +79,10 @@ SEQ_POISSON}.
 For each stratum, the sequential Poisson procedure starts by stratifying
 units in the population based on their (target) inclusion probabilities
 \eqn{\pi}. Units with \eqn{\pi = 0} are placed into a take-none stratum,
-units with \eqn{0 < \pi < 1} are placed into a take-some stratum, and units
-with \eqn{\pi = 1} are placed into a take-all stratum. As noted by
-Ohlsson (1998), it can be useful to set \eqn{\alpha} to a small positive
+units with \eqn{0 < \pi < 1 - \alpha} are placed into a take-some stratum,
+and units
+with \eqn{\pi \geq 1 - \alpha} are placed into a take-all stratum. As noted
+by Ohlsson (1998), it can be useful to set \eqn{\alpha} to a small positive
 value when calculating inclusion probabilities, and this is the default
 behavior.
 
@@ -194,15 +195,18 @@ order_sampling2(-1)(x, 6, prn = u) # Pareto
 Matei, A., and Tillé, Y. (2007). Computational aspects of order
 \eqn{\pi}ps sampling schemes. \emph{Computational Statistics & Data Analysis},
 51: 3703-3717.
+https://doi.org/10.1016/j.csda.2006.12.026.
 
 Ohlsson, E. (1998). Sequential Poisson Sampling.
 \emph{Journal of Official Statistics}, 14(2): 149-162.
 
 Rosén, B. (1997). On sampling with probability proportional to size.
 \emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
+https://doi.org/10.1016/S0378-3758(96)00186-3.
 
 Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling.
 \emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
+https://doi.org/10.1016/S0378-3758(00)00104-X.
 }
 \seealso{
 \code{\link[=prop_allocation]{prop_allocation()}} for generating proportional-to-size allocations.
