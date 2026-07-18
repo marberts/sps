@@ -1,14 +1,14 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "sps" in publications use:'
 type: software
 license: MIT
 title: 'sps: Sequential Poisson Sampling'
-version: 0.6.3
+version: 0.6.4
 doi: 10.5281/zenodo.10109857
 identifiers:
 - type: doi
@@ -36,7 +36,7 @@ preferred-citation:
   year: '2025'
   doi: 10.5281/zenodo.10109857
   url: https://cran.r-project.org/package=sps
-  notes: R package version 0.6.3
+  notes: R package version 0.6.4
 repository: https://CRAN.R-project.org/package=sps
 repository-code: https://github.com/marberts/sps
 url: https://marberts.github.io/sps/
@@ -61,10 +61,13 @@ references:
   url: https://www.R-project.org/
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
     name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
-  year: '2025'
+  year: '2026'
+  doi: 10.32614/R.manuals
   version: '>= 4.2'
 - type: software
   title: stats
@@ -72,64 +75,51 @@ references:
   notes: Imports
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
     name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
-  year: '2025'
+  year: '2026'
+  doi: 10.32614/R.manuals
 - type: software
   title: kit
   abstract: 'kit: Data Manipulation Functions Implemented in C'
   notes: Suggests
-  url: https://github.com/2005m/kit
+  url: https://fastverse.org/kit/
   repository: https://CRAN.R-project.org/package=kit
   authors:
   - family-names: Jacob
     given-names: Morgan
     email: morgan.emailbox@gmail.com
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.kit
   version: '>= 0.0.10'
 - type: software
-  title: knitr
-  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  title: litedown
+  abstract: 'litedown: A Lightweight Version of R Markdown'
   notes: Suggests
-  url: https://yihui.org/knitr/
-  repository: https://CRAN.R-project.org/package=knitr
+  url: https://github.com/yihui/litedown
+  repository: https://CRAN.R-project.org/package=litedown
   authors:
   - family-names: Xie
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2025'
-  doi: 10.32614/CRAN.package.knitr
+  year: '2026'
+  doi: 10.32614/CRAN.package.litedown
 - type: software
-  title: quarto
-  abstract: 'quarto: R Interface to ''Quarto'' Markdown Publishing System'
+  title: tinytest
+  abstract: 'tinytest: Lightweight and Feature Complete Unit Testing Framework'
   notes: Suggests
-  url: https://quarto-dev.github.io/quarto-r/
-  repository: https://CRAN.R-project.org/package=quarto
+  url: https://github.com/markvanderloo/tinytest
+  repository: https://CRAN.R-project.org/package=tinytest
   authors:
-  - family-names: Allaire
-    given-names: JJ
-    email: jj@posit.co
-    orcid: https://orcid.org/0000-0003-0174-9868
-  - family-names: Dervieux
-    given-names: Christophe
-    email: cderv@posit.co
-    orcid: https://orcid.org/0000-0003-4474-2498
-  year: '2025'
-  doi: 10.32614/CRAN.package.quarto
-- type: software
-  title: testthat
-  abstract: 'testthat: Unit Testing for R'
-  notes: Suggests
-  url: https://testthat.r-lib.org
-  repository: https://CRAN.R-project.org/package=testthat
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  year: '2025'
-  doi: 10.32614/CRAN.package.testthat
-  version: '>= 3.0.0'
+  - family-names: Loo
+    given-names: Mark
+    name-particle: van der
+    email: mark.vanderloo@gmail.com
+    orcid: https://orcid.org/0000-0002-9807-4686
+  year: '2026'
+  doi: 10.32614/CRAN.package.tinytest
 
