@@ -207,7 +207,7 @@ summary(sampling_distribution / sum(sales) - 1)
 ```
 
 More generally, the distribution of inclusion probabilities
-is usually close to what is expected if sequential Poisson sampling was exactly proportional to size [@tille2023].
+is usually close to what is expected if sequential Poisson sampling was exactly proportional to size (Tillé, 2023).
 
 ```{r tille, fig.width=8, fig.height=5.33}
 #| fig.alt: >
