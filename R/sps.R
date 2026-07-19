@@ -1,6 +1,6 @@
 #' Order sampling (internal)
 #' @noRd
-order_sampling_ <- function(f) {
+.order_sampling <- function(f) {
   f <- match.fun(f)
 
   function(p, n, u) {
@@ -19,7 +19,7 @@ order_sampling_ <- function(f) {
 
 #' Ordinary Poisson sampling (internal)
 #' @noRd
-ps_ <- function(p, n, u) {
+.ps <- function(p, n, u) {
   which(u < p)
 }
 
@@ -152,13 +152,13 @@ stratify <- function(f) {
 #'   population, distributed uniform between 0 and 1. The default does not use
 #'   permanent random numbers, instead generating a random vector when the
 #'   function is called.
-#' @param alpha `[0 <= numeric < 1]` A numeric vector with values between 0 and
+#' @param alpha `[0 <= numeric <= 1]` A numeric vector with values between 0 and
 #'   1 for each stratum,
 #'   ordered according to the levels of `strata`. Units with inclusion
-#'   probabilities greater than or equal to 1 - `alpha` are set to 1 for
+#'   probabilities greater than or equal to `1 - alpha` are set to 1 for
 #'   each stratum. A single value is recycled for all strata. The default is
 #'   slightly larger than 0.
-#' @param cutoff `[numeric >= 0]` A positive numeric vector of cutoffs for each
+#' @param cutoff `[numeric > 0]` A positive numeric vector of cutoffs for each
 #'   stratum, ordered
 #'   according to the levels of `strata`. Units with `x >= cutoff` get
 #'   an inclusion probability of 1 for each stratum. A single value is recycled
@@ -191,6 +191,8 @@ stratify <- function(f) {
 #' [inclusion_prob()] for calculating the inclusion probabilities.
 #'
 #' [sps_repweights()] for generating bootstrap replicate weights.
+#'
+#' [sps_iterator()] for a drawing a sample one unit at a time.
 #'
 #' The `UPpoisson()` and `UPopips()` functions in the \pkg{sampling}
 #' package for ordinary and sequential Poisson sampling, respectively. Note
@@ -283,16 +285,16 @@ stratify <- function(f) {
 #' order_sampling2(0)(x, 6, prn = u) # successive
 #' order_sampling2(-1)(x, 6, prn = u) # Pareto
 #' @export
-sps <- stratify(order_sampling_(identity))
+sps <- stratify(.order_sampling(identity))
 
 #' Ordinary Poisson sampling
 #' @rdname sps
 #' @export
-ps <- stratify(ps_)
+ps <- stratify(.ps)
 
 #' Factory to make order sampling schemes
 #' @rdname sps
 #' @export
 order_sampling <- function(dist) {
-  stratify(order_sampling_(dist))
+  stratify(.order_sampling(dist))
 }

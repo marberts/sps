@@ -49,9 +49,9 @@ stratum.}
 apportionment method. The default uses the Jefferson/D'Hondt method. See
 details for other possible functions.}
 
-\item{ties}{\verb{[character(1)]} Either 'largest' to break ties in favor of the
+\item{ties}{\verb{[character(1)]} Either \code{"largest"} to break ties in favor of the
 stratum with the
-largest size (the default), or 'first' to break ties in favor of the
+largest size (the default), or \code{"first"} to break ties in favor of the
 ordering of \code{strata}.}
 
 \item{name}{\verb{[character(1)]} Name of the divisor function. See details.}
@@ -85,7 +85,7 @@ are a number of different divisor functions:
 Note that a divisor function with \eqn{d(0) = 0} (i.e., Huntington-Hill,
 Adams, Dean) should have an initial allocation of at least 1 for all strata.
 In all cases, ties are broken according to the sum of \code{x} if
-\code{ties = 'largest'}; otherwise, if \code{ties = 'first'}, then ties are broken
+\code{ties = "largest"}; otherwise, if \code{ties = "first"}, then ties are broken
 according to the levels of \code{strata}.
 
 In cases where the number of units with non-zero size in a stratum is

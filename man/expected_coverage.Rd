@@ -17,14 +17,14 @@ giving
 the strata associated with units in the population. The default is to place
 all units into a single stratum.}
 
-\item{alpha}{\verb{[0 <= numeric < 1]} A numeric vector with values between 0 and
+\item{alpha}{\verb{[0 <= numeric <= 1]} A numeric vector with values between 0 and
 1 for each stratum,
 ordered according to the levels of \code{strata}. Units with inclusion
-probabilities greater than or equal to 1 - \code{alpha} are set to 1 for
+probabilities greater than or equal to \code{1 - alpha} are set to 1 for
 each stratum. A single value is recycled for all strata. The default is
 slightly larger than 0.}
 
-\item{cutoff}{\verb{[numeric >= 0]} A positive numeric vector of cutoffs for each
+\item{cutoff}{\verb{[numeric > 0]} A positive numeric vector of cutoffs for each
 stratum, ordered
 according to the levels of \code{strata}. Units with \code{x >= cutoff} get
 an inclusion probability of 1 for each stratum. A single value is recycled
