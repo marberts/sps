@@ -32,14 +32,14 @@ population, distributed uniform between 0 and 1. The default does not use
 permanent random numbers, instead generating a random vector when the
 function is called.}
 
-\item{alpha}{\verb{[0 <= numeric < 1]} A numeric vector with values between 0 and
+\item{alpha}{\verb{[0 <= numeric <= 1]} A numeric vector with values between 0 and
 1 for each stratum,
 ordered according to the levels of \code{strata}. Units with inclusion
-probabilities greater than or equal to 1 - \code{alpha} are set to 1 for
+probabilities greater than or equal to \code{1 - alpha} are set to 1 for
 each stratum. A single value is recycled for all strata. The default is
 slightly larger than 0.}
 
-\item{cutoff}{\verb{[numeric >= 0]} A positive numeric vector of cutoffs for each
+\item{cutoff}{\verb{[numeric > 0]} A positive numeric vector of cutoffs for each
 stratum, ordered
 according to the levels of \code{strata}. Units with \code{x >= cutoff} get
 an inclusion probability of 1 for each stratum. A single value is recycled
@@ -214,6 +214,8 @@ https://doi.org/10.1016/S0378-3758(00)00104-X.
 \code{\link[=inclusion_prob]{inclusion_prob()}} for calculating the inclusion probabilities.
 
 \code{\link[=sps_repweights]{sps_repweights()}} for generating bootstrap replicate weights.
+
+\code{\link[=sps_iterator]{sps_iterator()}} for a drawing a sample one unit at a time.
 
 The \code{UPpoisson()} and \code{UPopips()} functions in the \pkg{sampling}
 package for ordinary and sequential Poisson sampling, respectively. Note

@@ -19,11 +19,11 @@ population, distributed uniform between 0 and 1. The default does not use
 permanent random numbers, instead generating a random vector when the
 function is called.}
 
-\item{alpha}{\verb{[0 <= numeric(1) < 1]} A number between 0 and 1. Units with
-inclusion probabilities greater than or equal to 1 - \code{alpha} are set to 1.
+\item{alpha}{\verb{[0 <= numeric(1) <= 1]} A number between 0 and 1. Units with
+inclusion probabilities greater than or equal to \code{1 - alpha} are set to 1.
 The default is slightly larger than 0.}
 
-\item{cutoff}{\verb{[numeric(1) >= 0]} A numeric cutoff. Units with \code{x >= cutoff}
+\item{cutoff}{\verb{[numeric(1) > 0]} A numeric cutoff. Units with \code{x >= cutoff}
 get an inclusion probability of 1. The default does not apply a cutoff.}
 }
 \value{
@@ -44,4 +44,7 @@ s()
 
 # Same as drawing the sample with 3 units.
 sps(1:5, 3, prn = prn)
+}
+\seealso{
+\code{\link[=sps]{sps()}} for drawing a sequential Poisson sample.
 }

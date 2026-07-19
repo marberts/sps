@@ -6,16 +6,19 @@
 #' @inheritParams sps
 #' @param n `[integer(1) >= 0]` A positive integer giving the initial sample
 #'   size for the iterator. The default is 0.
-#' @param alpha `[0 <= numeric(1) < 1]` A number between 0 and 1. Units with
-#'   inclusion probabilities greater than or equal to 1 - `alpha` are set to 1.
+#' @param alpha `[0 <= numeric(1) <= 1]` A number between 0 and 1. Units with
+#'   inclusion probabilities greater than or equal to `1 - alpha` are set to 1.
 #'   The default is slightly larger than 0.
-#' @param cutoff `[numeric(1) >= 0]` A numeric cutoff. Units with `x >= cutoff`
+#' @param cutoff `[numeric(1) > 0]` A numeric cutoff. Units with `x >= cutoff`
 #'   get an inclusion probability of 1. The default does not apply a cutoff.
 #'
 #' @returns
 #' A function that returns the next unit in the sample. It takes a single
 #' argument giving the sentinel value to indicate that there are no units
 #' left to sample (default `NULL`).
+#'
+#' @seealso
+#' [sps()] for drawing a sequential Poisson sample.
 #'
 #' @examples
 #' prn <- runif(5)
@@ -32,14 +35,7 @@ sps_iterator <- function(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf) {
   if (any(x <= 0)) {
     stop("sizes must be strictly greater than 0")
   }
-  if (is.null(prn)) {
-    prn <- stats::runif(length(x))
-  } else {
-    prn <- as.numeric(prn)
-  }
-  if (length(x) != length(prn)) {
-    stop("`x` and `prn` must be the same length")
-  }
+  prn <- random_deviates(prn, x)
 
   s <- order(prn / x)
   pop <- seq_along(s)
