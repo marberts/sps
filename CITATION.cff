@@ -33,7 +33,7 @@ preferred-citation:
     given-names: Steve
     orcid: https://orcid.org/0000-0003-2544-9480
     email: marberts@protonmail.com
-  year: '2025'
+  year: '2026'
   doi: 10.5281/zenodo.10109857
   url: https://cran.r-project.org/package=sps
   notes: R package version 0.6.4
