@@ -2,6 +2,8 @@
 
 ## sps 0.6.4
 
+CRAN release: 2026-07-19
+
 - Small improvements to the documentation.
 
 - Now using [tinytest](https://github.com/markvanderloo/tinytest) and
