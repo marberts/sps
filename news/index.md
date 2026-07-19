@@ -1,6 +1,6 @@
 # Changelog
 
-## sps (development version)
+## sps 0.6.4
 
 - Small improvements to the documentation.
 

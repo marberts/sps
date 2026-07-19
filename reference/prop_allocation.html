@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,9 +108,9 @@ details for other possible functions.</p></dd>
 
 
 <dt id="arg-ties">ties<a class="anchor" aria-label="anchor" href="#arg-ties"></a></dt>
-<dd><p><code>[character(1)]</code> Either 'largest' to break ties in favor of the
+<dd><p><code>[character(1)]</code> Either <code>"largest"</code> to break ties in favor of the
 stratum with the
-largest size (the default), or 'first' to break ties in favor of the
+largest size (the default), or <code>"first"</code> to break ties in favor of the
 ordering of <code>strata</code>.</p></dd>
 
 
@@ -156,7 +156,7 @@ are a number of different divisor functions:</p>
 </dl><p>Note that a divisor function with \(d(0) = 0\) (i.e., Huntington-Hill,
 Adams, Dean) should have an initial allocation of at least 1 for all strata.
 In all cases, ties are broken according to the sum of <code>x</code> if
-<code>ties = 'largest'</code>; otherwise, if <code>ties = 'first'</code>, then ties are broken
+<code>ties = "largest"</code>; otherwise, if <code>ties = "first"</code>, then ties are broken
 according to the levels of <code>strata</code>.</p>
 <p>In cases where the number of units with non-zero size in a stratum is
 smaller than its allocation, the allocation for that stratum is set to the

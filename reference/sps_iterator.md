@@ -31,13 +31,13 @@ sps_iterator(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf)
 
 - alpha:
 
-  `[0 <= numeric(1) < 1]` A number between 0 and 1. Units with inclusion
-  probabilities greater than or equal to 1 - `alpha` are set to 1. The
-  default is slightly larger than 0.
+  `[0 <= numeric(1) <= 1]` A number between 0 and 1. Units with
+  inclusion probabilities greater than or equal to `1 - alpha` are set
+  to 1. The default is slightly larger than 0.
 
 - cutoff:
 
-  `[numeric(1) >= 0]` A numeric cutoff. Units with `x >= cutoff` get an
+  `[numeric(1) > 0]` A numeric cutoff. Units with `x >= cutoff` get an
   inclusion probability of 1. The default does not apply a cutoff.
 
 ## Value
@@ -45,6 +45,11 @@ sps_iterator(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf)
 A function that returns the next unit in the sample. It takes a single
 argument giving the sentinel value to indicate that there are no units
 left to sample (default `NULL`).
+
+## See also
+
+[`sps()`](https://marberts.github.io/sps/reference/sps.md) for drawing a
+sequential Poisson sample.
 
 ## Examples
 

@@ -35,19 +35,18 @@ expected_coverage(x, n, strata, alpha = 0.001, cutoff = Inf)
 
 - alpha:
 
-  `[0 <= numeric < 1]` A numeric vector with values between 0 and 1 for
+  `[0 <= numeric <= 1]` A numeric vector with values between 0 and 1 for
   each stratum, ordered according to the levels of `strata`. Units with
-  inclusion probabilities greater than or equal to 1 - `alpha` are set
+  inclusion probabilities greater than or equal to `1 - alpha` are set
   to 1 for each stratum. A single value is recycled for all strata. The
   default is slightly larger than 0.
 
 - cutoff:
 
-  `[numeric >= 0]` A positive numeric vector of cutoffs for each
-  stratum, ordered according to the levels of `strata`. Units with
-  `x >= cutoff` get an inclusion probability of 1 for each stratum. A
-  single value is recycled for all strata. The default does not apply a
-  cutoff.
+  `[numeric > 0]` A positive numeric vector of cutoffs for each stratum,
+  ordered according to the levels of `strata`. Units with `x >= cutoff`
+  get an inclusion probability of 1 for each stratum. A single value is
+  recycled for all strata. The default does not apply a cutoff.
 
 ## Value
 

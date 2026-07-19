@@ -15,7 +15,7 @@ sequential Poisson method without replacing previously sampled units."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,13 +78,13 @@ function is called.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p><code>[0 &lt;= numeric(1) &lt; 1]</code> A number between 0 and 1. Units with
-inclusion probabilities greater than or equal to 1 - <code>alpha</code> are set to 1.
+<dd><p><code>[0 &lt;= numeric(1) &lt;= 1]</code> A number between 0 and 1. Units with
+inclusion probabilities greater than or equal to <code>1 - alpha</code> are set to 1.
 The default is slightly larger than 0.</p></dd>
 
 
 <dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
-<dd><p><code>[numeric(1) &gt;= 0]</code> A numeric cutoff. Units with <code>x &gt;= cutoff</code>
+<dd><p><code>[numeric(1) &gt; 0]</code> A numeric cutoff. Units with <code>x &gt;= cutoff</code>
 get an inclusion probability of 1. The default does not apply a cutoff.</p></dd>
 
 </dl></div>
@@ -93,6 +93,10 @@ get an inclusion probability of 1. The default does not apply a cutoff.</p></dd>
     <p>A function that returns the next unit in the sample. It takes a single
 argument giving the sentinel value to indicate that there are no units
 left to sample (default <code>NULL</code>).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="sps.html">sps()</a></code> for drawing a sequential Poisson sample.</p></div>
     </div>
 
     <div class="section level2">

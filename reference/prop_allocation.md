@@ -62,9 +62,9 @@ divisor_method(
 
 - ties:
 
-  `[character(1)]` Either 'largest' to break ties in favor of the
-  stratum with the largest size (the default), or 'first' to break ties
-  in favor of the ordering of `strata`.
+  `[character(1)]` Either `"largest"` to break ties in favor of the
+  stratum with the largest size (the default), or `"first"` to break
+  ties in favor of the ordering of `strata`.
 
 - name:
 
@@ -117,7 +117,7 @@ there are a number of different divisor functions:
 Note that a divisor function with \\d(0) = 0\\ (i.e., Huntington-Hill,
 Adams, Dean) should have an initial allocation of at least 1 for all
 strata. In all cases, ties are broken according to the sum of `x` if
-`ties = 'largest'`; otherwise, if `ties = 'first'`, then ties are broken
+`ties = "largest"`; otherwise, if `ties = "first"`, then ties are broken
 according to the levels of `strata`.
 
 In cases where the number of units with non-zero size in a stratum is

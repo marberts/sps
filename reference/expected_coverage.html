@@ -23,7 +23,7 @@ enterprises covered within a stratum when sampling business establishments."><me
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,16 +88,16 @@ all units into a single stratum.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p><code>[0 &lt;= numeric &lt; 1]</code> A numeric vector with values between 0 and
+<dd><p><code>[0 &lt;= numeric &lt;= 1]</code> A numeric vector with values between 0 and
 1 for each stratum,
 ordered according to the levels of <code>strata</code>. Units with inclusion
-probabilities greater than or equal to 1 - <code>alpha</code> are set to 1 for
+probabilities greater than or equal to <code>1 - alpha</code> are set to 1 for
 each stratum. A single value is recycled for all strata. The default is
 slightly larger than 0.</p></dd>
 
 
 <dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
-<dd><p><code>[numeric &gt;= 0]</code> A positive numeric vector of cutoffs for each
+<dd><p><code>[numeric &gt; 0]</code> A positive numeric vector of cutoffs for each
 stratum, ordered
 according to the levels of <code>strata</code>. Units with <code>x &gt;= cutoff</code> get
 an inclusion probability of 1 for each stratum. A single value is recycled

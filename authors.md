@@ -12,15 +12,15 @@
 Source:
 [`inst/CITATION`](https://github.com/marberts/sps/blob/main/inst/CITATION)
 
-Martin S (2025). *sps: Sequential Poisson Sampling*.
+Martin S (2026). *sps: Sequential Poisson Sampling*.
 [doi:10.5281/zenodo.10109857](https://doi.org/10.5281/zenodo.10109857).
-R package version 0.6.3.9004, <https://cran.r-project.org/package=sps>.
+R package version 0.6.4, <https://cran.r-project.org/package=sps>.
 
     @Manual{,
       title = {{sps}: Sequential Poisson Sampling},
       author = {Steve Martin},
-      year = {2025},
+      year = {2026},
       doi = {10.5281/zenodo.10109857},
       url = {https://cran.r-project.org/package=sps},
-      note = {R package version 0.6.3.9004},
+      note = {R package version 0.6.4},
     }
