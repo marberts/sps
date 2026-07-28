@@ -10,11 +10,11 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/marberts/sps/blob/v0.6.4/inst/CITATION)
+[`inst/CITATION`](https://github.com/marberts/sps/blob/main/inst/CITATION)
 
 Martin S (2026). *sps: Sequential Poisson Sampling*.
 [doi:10.5281/zenodo.10109857](https://doi.org/10.5281/zenodo.10109857).
-R package version 0.6.4, <https://cran.r-project.org/package=sps>.
+R package version 0.6.4.9001, <https://cran.r-project.org/package=sps>.
 
     @Manual{,
       title = {{sps}: Sequential Poisson Sampling},
@@ -22,5 +22,5 @@ R package version 0.6.4, <https://cran.r-project.org/package=sps>.
       year = {2026},
       doi = {10.5281/zenodo.10109857},
       url = {https://cran.r-project.org/package=sps},
-      note = {R package version 0.6.4},
+      note = {R package version 0.6.4.9001},
     }
