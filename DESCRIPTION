@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.6.4
+Version: 0.6.4.9001
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -19,9 +19,10 @@ Description: Sequential Poisson sampling is a variation of Poisson sampling for
     (2012, <doi:10.1111/j.1751-5823.2011.00166.x>).
 Depends: R (>= 4.2)
 Imports: stats
-Suggests: 
+Suggests:
     kit (>= 0.0.10),
     litedown,
+    spelling,
     tinytest
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -30,3 +31,4 @@ BugReports: https://github.com/marberts/sps/issues
 VignetteBuilder: litedown
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0
+Language: en-US

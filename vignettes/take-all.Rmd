@@ -124,8 +124,8 @@ Returning to the previous example, we can correctly find the four take-all units
 from the elements of $p_{i}$ that are greater than $1 - \alpha$.
 
 ```{r, fig.width=8, fig.height=5.33}
-#| fig.alt: >
-#|   Diagram showing how to find units that belong in the take-all stratum.
+#| fig.alt: "Diagram showing how to find units that belong in the take-all
+#|   stratum."
 p <- function(x, n) {
   ord <- order(x, decreasing = TRUE)
   s <- seq_len(n)
@@ -153,8 +153,7 @@ legend(1, 2, c("take-some", "take-all"), pch = c(20, 19))
 As each element $p_{i}$ in the sequence is a strictly increasing function of $n$, we can also identify the unique value for $n$ when a unit enters the take-all stratum.
 
 ```{r, fig.width=8, fig.height=5.33}
-#| fig.alt: >
-#|   Diagram showing when units first enter the take-all stratum.
+#| fig.alt: "Diagram showing when units first enter the take-all stratum."
 plot(
   2:5,
   p(x, 8)[1:4],
