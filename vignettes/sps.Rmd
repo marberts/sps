@@ -6,6 +6,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r}
+#| echo: false
+litedown::reactor(print = NA)
+```
+
 Sequential Poisson sampling is a variation of Poisson sampling for drawing probability-proportional-to-size samples with a given number of units. It's a fast, simple, and flexible method for sampling units proportional to their size, and is often used for drawing a sample of businesses. The purpose of this vignette is to give an example of how the functions in this package can be used to easily draw a sample using the sequential Poisson method. More details, including references to the literature, can be found on the help pages for the functions used in this vignette. Tillé (2020, Chapter 5) gives a textbook treatment of this method and how it compares with other probability-proportional-to-size sampling methods.
 
 ## Drawing a sample of businesses

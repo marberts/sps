@@ -9,6 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r}
+#| echo: false
+litedown::reactor(print = NA)
+```
+
 When drawing a sample of size $n$ from a population of size $N$,
 where each unit is drawn proportional to some measure of size $x_{i}$, $i=1,\ldots,N$,
 the probability that the $i$th unit is included in the sample is
