@@ -147,7 +147,7 @@ legend(1, 2, c("take-some", "take-all"), pch = c(20, 19))
 ```
 
 ![Diagram showing how to find units that belong in the take-all
-stratum.](take-all_files/figure-html/unnamed-chunk-3-1.png)
+stratum.](take-all_files/figure-html/unnamed-chunk-4-1.png)
 
 As each element \\p\_{i}\\ in the sequence is a strictly increasing
 function of \\n\\, we can also identify the unique value for \\n\\ when
@@ -174,7 +174,7 @@ symbols(4.5, 0.85, circles = 1, inches = FALSE, add = TRUE, lty = 2)
 ```
 
 ![Diagram showing when units first enter the take-all
-stratum.](take-all_files/figure-html/unnamed-chunk-4-1.png)
+stratum.](take-all_files/figure-html/unnamed-chunk-5-1.png)
 
 And this can be calculated for each unit in the population.
 
