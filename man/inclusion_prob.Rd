@@ -63,7 +63,8 @@ size exceeds \code{cutoff}) or never included.
 }
 \note{
 \code{\link[kit:topn]{kit::topn()}} is used if available to improve performance in the normal
-case when the sample size is small relative to the population.
+case when the sample size is small relative to the population. Set
+\code{options(sps.usekit = FALSE)} to disable this.
 }
 \examples{
 # Make inclusion probabilities for a population with units

@@ -105,7 +105,7 @@ prop_allocation <- function(
   }
 
   x <- split(x, strata)
-  ns <- vapply(x, function(x) sum(x > 0), integer(1L))
+  ns <- vapply(x, \(x) sum(x > 0), integer(1L))
 
   if (length(initial) == 1L) {
     initial <- pmin.int(ns, min(n %/% nlevels(strata), initial))

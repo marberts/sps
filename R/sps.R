@@ -163,7 +163,8 @@
 #'
 #' @note
 #' [`kit::topn()`] is used if available to improve performance in the normal
-#' case when the sample size is small relative to the population.
+#' case when the sample size is small relative to the population. Set
+#' `options(sps.usekit = FALSE)` to disable this.
 #'
 #' @seealso
 #' [prop_allocation()] for generating proportional-to-size allocations.
