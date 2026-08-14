@@ -18,7 +18,7 @@
 #' random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d
 #' \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
 #'
-#' The adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to
+#' The adjustments can be rescaled by a value \eqn{\tau \geq 1} to
 #' prevent negative replicate weights. With this rescaling, the adjustment
 #' becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting
 #' bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
@@ -117,7 +117,7 @@ sps_repweights <- function(
 
   n <- length(w) * replicates
   if (is.null(dist)) {
-    a <- pseudo_pop(w, n)
+    a <- .pseudo_pop(w, n)
   } else {
     a <- match.fun(dist)(n) * sqrt(1 - 1 / w)
   }
@@ -156,7 +156,7 @@ min_tau <- function(tol) {
 
 #' Pseudo-population method
 #' @noRd
-pseudo_pop <- function(w, n) {
+.pseudo_pop <- function(w, n) {
   p <- 1 / w
   wf <- floor(w)
   wr <- wf + (stats::runif(n) < w - wf)

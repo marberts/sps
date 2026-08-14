@@ -96,7 +96,7 @@ prop_allocation <- function(
 ) {
   x <- as.numeric(x)
   n <- as.integer(n)
-  strata <- validate_strata(as.factor(strata), x)
+  strata <- .validate_strata(as.factor(strata), x)
   initial <- as.integer(initial)
   ties <- tolower(as.character(ties))
 
@@ -112,7 +112,7 @@ prop_allocation <- function(
   }
 
   p <- vapply(x, sum, numeric(1L))
-  res <- highest_averages(p, n, initial, ns, match.arg(ties), divisor)
+  res <- .highest_averages(p, n, initial, ns, match.arg(ties), divisor)
   names(res) <- levels(strata)
   res
 }
@@ -171,7 +171,7 @@ divisor_method <- function(
 
 #' Highest-averages apportionment method
 #' @noRd
-highest_averages <- function(p, n, initial, available, ties, dist) {
+.highest_averages <- function(p, n, initial, available, ties, dist) {
   if (n < 0L) {
     stop("sample size must be greater than or equal to 0")
   }

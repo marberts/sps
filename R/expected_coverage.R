@@ -33,7 +33,7 @@ expected_coverage <- function(x, n, strata, alpha = 1e-3, cutoff = Inf) {
   n <- as.integer(n)
   alpha <- as.numeric(alpha)
   cutoff <- as.numeric(cutoff)
-  strata <- validate_strata(as.factor(strata), x)
-  p <- split(log(1 - pi(x, n, alpha, cutoff)), strata)
+  strata <- .validate_strata(as.factor(strata), x)
+  p <- split(log(1 - .pi(x, n, alpha, cutoff)), strata)
   sum(1 - vapply(p, function(x) exp(sum(x)), numeric(1L)))
 }

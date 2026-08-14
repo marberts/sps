@@ -62,7 +62,7 @@ deviates-generating function for \code{dist} uses this function to produce a
 random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d
 \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
 
-The adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to
+The adjustments can be rescaled by a value \eqn{\tau \geq 1} to
 prevent negative replicate weights. With this rescaling, the adjustment
 becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting
 bootstrap variance estimator should be multiplied by \eqn{\tau^2}.

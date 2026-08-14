@@ -11,7 +11,7 @@
     # Sample the take somes.
     keep <- if (n_ts > 0L) {
       xi <- f(u[ts]) / f(p[ts])
-      topn(xi, n_ts, decreasing = FALSE)
+      .topn(xi, n_ts, decreasing = FALSE)
     }
     c(ta, ts[keep])
   }
@@ -23,29 +23,9 @@
   which(u < p)
 }
 
-#' Make random deviates
-#' @noRd
-random_deviates <- function(prn, x) {
-  if (is.null(prn)) {
-    prn <- stats::runif(length(x))
-  } else {
-    prn <- as.numeric(prn)
-    if (length(x) != length(prn)) {
-      stop(
-        "the vectors for sizes and permanent random numbers must be the ",
-        "same length"
-      )
-    }
-    if (any(prn <= 0) || any(prn >= 1)) {
-      stop("permanent random numbers must be in (0, 1)")
-    }
-  }
-  prn
-}
-
 #' Operator to stratify a sampling function
 #' @noRd
-stratify <- function(f) {
+.stratify <- function(f) {
   f <- match.fun(f)
 
   function(x, n, strata = NULL, prn = NULL, alpha = 1e-3, cutoff = Inf) {
@@ -53,18 +33,18 @@ stratify <- function(f) {
     n <- as.integer(n)
     alpha <- as.numeric(alpha)
     cutoff <- as.numeric(cutoff)
-    prn <- random_deviates(prn, x)
+    prn <- .random_deviates(prn, x)
 
     if (!is.null(strata)) {
-      strata <- validate_strata(as.factor(strata), x)
-      p <- stratified_pi(x, n, strata, alpha, cutoff)
+      strata <- .validate_strata(as.factor(strata), x)
+      p <- .stratified_pi(x, n, strata, alpha, cutoff)
       samp <- Map(f, p, n, split(prn, strata))
       pos <- split(seq_along(prn), strata)
       # Strata must have at least one level, so unlist won't return NULL.
       res <- unlist(Map(`[`, pos, samp), use.names = FALSE)
       weights <- 1 / unlist(Map(`[`, p, samp), use.names = FALSE)
     } else {
-      p <- pi(x, n, alpha, cutoff)
+      p <- .pi(x, n, alpha, cutoff)
       res <- f(p, n, prn)
       weights <- 1 / p[res]
     }
@@ -285,16 +265,16 @@ stratify <- function(f) {
 #' order_sampling2(0)(x, 6, prn = u) # successive
 #' order_sampling2(-1)(x, 6, prn = u) # Pareto
 #' @export
-sps <- stratify(.order_sampling(identity))
+sps <- .stratify(.order_sampling(identity))
 
 #' Ordinary Poisson sampling
 #' @rdname sps
 #' @export
-ps <- stratify(.ps)
+ps <- .stratify(.ps)
 
 #' Factory to make order sampling schemes
 #' @rdname sps
 #' @export
 order_sampling <- function(dist) {
-  stratify(.order_sampling(dist))
+  .stratify(.order_sampling(dist))
 }

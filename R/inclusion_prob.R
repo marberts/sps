@@ -5,7 +5,7 @@
 #' Within a stratum, the inclusion probability for a unit is given by
 #' \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. These values can be greater
 #' than 1 in practice, and so they are constructed iteratively by taking units
-#' with \eqn{\pi \geq 1 - \alpha}{\pi >= 1 - \alpha} (from largest to smallest)
+#' with \eqn{\pi \geq 1 - \alpha}(from largest to smallest)
 #' and assigning these units an inclusion probability of 1, with the remaining
 #' inclusion probabilities recalculated at each step. See `vignette("take-all")`
 #' for details. If \eqn{\alpha > 0}, then
@@ -59,10 +59,10 @@ inclusion_prob <- function(x, n, strata = NULL, alpha = 1e-3, cutoff = Inf) {
   alpha <- as.numeric(alpha)
   cutoff <- as.numeric(cutoff)
   if (!is.null(strata)) {
-    strata <- validate_strata(as.factor(strata), x)
-    unsplit(stratified_pi(x, n, strata, alpha, cutoff), strata)
+    strata <- .validate_strata(as.factor(strata), x)
+    unsplit(.stratified_pi(x, n, strata, alpha, cutoff), strata)
   } else {
-    pi(x, n, alpha, cutoff)
+    .pi(x, n, alpha, cutoff)
   }
 }
 
@@ -95,24 +95,9 @@ becomes_ta <- function(x, alpha = 1e-3, cutoff = Inf) {
   res[order(ord)]
 }
 
-#' Validate that a factor represents sampling strata
-#' @noRd
-validate_strata <- function(strata, x) {
-  if (anyNA(strata)) {
-    stop("cannot have missing strata")
-  }
-  if (nlevels(strata) < 1L) {
-    stop("there must be at least one stratum")
-  }
-  if (length(x) != length(strata)) {
-    stop("the vectors for sizes and strata must be the same length")
-  }
-  strata
-}
-
 #' Calculate unconstrained inclusion probabilities
 #' @noRd
-unbounded_pi <- function(x, n) {
+.unbounded_pi <- function(x, n) {
   # n == 0 should be a strong zero.
   if (n == 0L) {
     rep.int(0, length(x))
@@ -123,7 +108,7 @@ unbounded_pi <- function(x, n) {
 
 #' Find the units that belong in a TA stratum
 #' @noRd
-ta_units <- function(x, n, alpha) {
+.ta_units <- function(x, n, alpha) {
   # Partial sorting is not stable, so if x[n] == x[n + 1] after sorting then
   # it is possible for the result to not resolve ties according to x
   # (as documented) when alpha is large enough to make at least one unit with
@@ -131,7 +116,7 @@ ta_units <- function(x, n, alpha) {
   if (n == 0L) {
     return(integer(0L))
   }
-  possible_ta <- rev(topn(x, n))
+  possible_ta <- rev(.topn(x, n))
   x_ta <- x[possible_ta] # ties are in reverse
   p <- x_ta * seq_len(n) / (sum(x[-possible_ta]) + cumsum(x_ta))
   # The sequence given by p has the following properties
@@ -143,7 +128,7 @@ ta_units <- function(x, n, alpha) {
 
 #' Calculate inclusion probabilities for a single stratum
 #' @noRd
-pi <- function(x, n, alpha, cutoff) {
+.pi <- function(x, n, alpha, cutoff) {
   if (any(x < 0)) {
     stop("sizes must be greater than or equal to 0")
   }
@@ -172,12 +157,12 @@ pi <- function(x, n, alpha, cutoff) {
   }
 
   x[ta] <- 0
-  res <- unbounded_pi(x, n - length(ta))
+  res <- .unbounded_pi(x, n - length(ta))
   if (any(res >= 1 - alpha)) {
-    ta2 <- ta_units(x, n - length(ta), alpha)
+    ta2 <- .ta_units(x, n - length(ta), alpha)
     x[ta2] <- 0
     ta <- c(ta, ta2)
-    res <- unbounded_pi(x, n - length(ta))
+    res <- .unbounded_pi(x, n - length(ta))
   }
 
   res[ta] <- 1
@@ -186,7 +171,7 @@ pi <- function(x, n, alpha, cutoff) {
 
 #' Calculate inclusion probabilities by stratum
 #' @noRd
-stratified_pi <- function(x, n, strata, alpha, cutoff) {
+.stratified_pi <- function(x, n, strata, alpha, cutoff) {
   if (length(n) != 1L && length(n) != nlevels(strata)) {
     stop("there must be a single sample size for each stratum")
   }
@@ -196,15 +181,5 @@ stratified_pi <- function(x, n, strata, alpha, cutoff) {
   if (length(cutoff) != 1L && length(cutoff) != nlevels(strata)) {
     stop("`cutoff` must be a single value or have a value for each stratum")
   }
-  Map(pi, split(x, strata), n, alpha, cutoff)
-}
-
-#' Faster order
-#' @noRd
-topn <- function(x, n, decreasing = TRUE) {
-  if (requireNamespace("kit", quietly = TRUE)) {
-    kit::topn(x, n = n, decreasing = decreasing, hasna = FALSE)
-  } else {
-    order(x, decreasing = decreasing)[seq_len(n)]
-  }
+  Map(.pi, split(x, strata), n, alpha, cutoff)
 }
