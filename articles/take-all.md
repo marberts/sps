@@ -14,10 +14,11 @@ deal with these units is to put them in a special take-all stratum so
 that they are always included in the sample, essentially fixing their
 inclusion probabilities at 1, with the remaining units (the take-some
 units) drawn at random. The usual algorithm used by, say,
-`sampling::inclusionprobabilities()` repeatedly moves units into the
-take-all stratum and recalculates the inclusion probabilities for the
-remaining units until all inclusion probabilities are less than 1.[^1]
-See, e.g., Ohlsson (1998) or Tillé (2020, Chapter 5).
+[`sampling::inclusionprobabilities()`](https://rdrr.io/pkg/sampling/man/inclusionprobabilities.html)
+repeatedly moves units into the take-all stratum and recalculates the
+inclusion probabilities for the remaining units until all inclusion
+probabilities are less than 1.[^1] See, e.g., Ohlsson (1998) or Tillé
+(2020, Chapter 5).
 
 Sequential poisson sampling is a bit more complicated because, as noted
 by Ohlsson (1998), it can be useful to place units with an inclusion
@@ -79,8 +80,10 @@ pi(x[1:9], 4)[9] >= 1 - alpha
 This means that units have to be considered one at a time, from largest
 to smallest, to determine if they belong in the take-all stratum. Rather
 than doing this as a loop and potentially calculating the inclusion
-probabilities many times for most units, we can calculate a sequence of
-inclusion probabilities for the \\n\\ units with the largest sizes
+probabilities many times for most units (see
+[`vignette("performance")`](https://marberts.github.io/sps/articles/performance.md)),
+we can calculate a sequence of inclusion probabilities for the \\n\\
+units with the largest sizes
 
 \\ p\_{i} = \frac{x_i i}{\bar{x} + \sum\_{j=1}^{i} x_j}, \\
 

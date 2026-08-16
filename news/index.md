@@ -1,5 +1,14 @@
 # Changelog
 
+## sps (development version)
+
+- Added a new option `sps.usekit`, to control if
+  [kit](https://fastverse.org/kit/) is used for partial sorting.
+
+- Added a new vignette about sampling performance.
+
+- Fixed poorly-rendered tables in vignettes.
+
 ## sps 0.6.4
 
 CRAN release: 2026-07-19

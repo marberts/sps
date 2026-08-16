@@ -75,7 +75,8 @@ value is undefined for units that are always included in the sample
 
 [`kit::topn()`](https://fastverse.org/kit/reference/topn.html) is used
 if available to improve performance in the normal case when the sample
-size is small relative to the population.
+size is small relative to the population. Set
+`options(sps.usekit = FALSE)` to disable this.
 
 ## See also
 

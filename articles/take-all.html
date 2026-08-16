@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sps</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.4.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/take-all.html">Take-all units</a></li>
+<li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
+    <li><a class="dropdown-item" href="../articles/take-all.html">Take-all units</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -91,7 +92,7 @@ with these units is to put them in a special take-all stratum so that
 they are always included in the sample, essentially fixing their
 inclusion probabilities at 1, with the remaining units (the take-some
 units) drawn at random. The usual algorithm used by, say,
-<code>sampling::inclusionprobabilities()</code> repeatedly moves units
+<code><a href="https://rdrr.io/pkg/sampling/man/inclusionprobabilities.html" class="external-link">sampling::inclusionprobabilities()</a></code> repeatedly moves units
 into the take-all stratum and recalculates the inclusion probabilities
 for the remaining units until all inclusion probabilities are less than
 1.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;To see why this needs to be done repeatedly, consider a
@@ -143,8 +144,10 @@ despite it being in the take-all stratum.</p>
 <p>This means that units have to be considered one at a time, from
 largest to smallest, to determine if they belong in the take-all
 stratum. Rather than doing this as a loop and potentially calculating
-the inclusion probabilities many times for most units, we can calculate
-a sequence of inclusion probabilities for the <span class="math inline">\(n\)</span> units with the largest sizes</p>
+the inclusion probabilities many times for most units (see
+<code><a href="../articles/performance.html">vignette("performance")</a></code>), we can calculate a sequence of
+inclusion probabilities for the <span class="math inline">\(n\)</span>
+units with the largest sizes</p>
 <p><span class="math display">\[
 p_{i} = \frac{x_i i}{\bar{x} + \sum_{j=1}^{i} x_j},
 \]</span></p>
