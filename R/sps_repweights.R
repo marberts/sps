@@ -5,9 +5,9 @@
 #' sampling.
 #'
 #' Replicate weights are constructed using the generalized bootstrap method by
-#' Beaumont and Patak (2012). Their method takes a vector of design weights
+#' \bibcitet{beaumont+patak2012}. Their method takes a vector of design weights
 #' \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate,
-#' and calculates the replicate weights as \eqn{a w}{a * w}.
+#' and calculates the replicate weights as \eqn{a w}.
 #'
 #' There are two ways to calculate the adjustments \eqn{a}. The default
 #' pseudo-population method randomly rounds \eqn{w} for each replicate to
@@ -15,8 +15,8 @@
 #' random vector \eqn{b} from the binomial distribution. The vector of
 #' adjustments is then \eqn{a = 1 + b - w' / w}. Specifying a
 #' deviates-generating function for `dist` uses this function to produce a
-#' random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d
-#' \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
+#' random vector \eqn{d} that is then used to make an adjustment
+#' \eqn{a = 1 + d (1 - 1 / w)^{0.5}}.
 #'
 #' The adjustments can be rescaled by a value \eqn{\tau \geq 1} to
 #' prevent negative replicate weights. With this rescaling, the adjustment
@@ -36,7 +36,7 @@
 #'   picks the smallest feasible rescale factor (up to a small tolerance).
 #' @param dist `[function]` A function that produces random deviates with mean 0
 #'   and standard deviation 1, such as [rnorm()]. The default uses the
-#'   pseudo-population method from section 4.1 of Beaumont and Patak (2012); see
+#'   pseudo-population method by \bibcitet{|beaumont+patak2012|section 4.1}; see
 #'   details.
 #'
 #' @returns
@@ -49,17 +49,18 @@
 #' adjustments are greater than or equal to `tol`.
 #'
 #' @note
-#' As an alternative to the bootstrap, Ohlsson (1998, equations 2.13)
+#' As an alternative to the bootstrap, \bibcitet{|ohlsson1998|equations 2.13}
 #' proposes an analytic estimator for the variance of the total \eqn{\hat Y =
-#' \sum wy}{Y = \sum w * y} (for the take-some units) under sequential Poisson
+#' \sum wy} (for the take-some units) under sequential Poisson
 #' sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 -
 #' \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1)
-#' \sum (1 - 1 / w) (w * y - Y / n)^2.} See Rosén (1997, equation 3.11) for a
+#' \sum (1 - 1 / w) (w y - Y / n)^2.} See \bibcitet{|rosen1997|equations 3.11}
+#' for a
 #' more general version of this estimator that can be applied to other order
 #' sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)},
 #' where \eqn{m} is the number of units in the sample, gives a similar
 #' estimator for the total under ordinary Poisson sampling, \eqn{\hat Y = n / m
-#' \sum wy}{Y = n / m * \sum w * y}.
+#' \sum wy}.
 #'
 #' @seealso
 #' [sps()] for drawing a sequential Poisson sample.
@@ -70,17 +71,7 @@
 #' package.
 #'
 #' @references
-#' Beaumont, J.-F. and Patak, Z. (2012). On the Generalized
-#' Bootstrap for Sample Surveys with Special Attention to Poisson Sampling.
-#' *International Statistical Review*, 80(1): 127-148.
-#' https://doi.org/10.1111/j.1751-5823.2011.00166.x.
-#'
-#' Ohlsson, E. (1998). Sequential Poisson Sampling.
-#' *Journal of Official Statistics*, 14(2): 149-162.
-#'
-#' Rosén, B. (1997). On sampling with probability proportional to size.
-#' *Journal of Statistical Planning and Inference*, 62(2): 159-191.
-#' https://doi.org/10.1016/S0378-3758(96)00186-3.
+#' \bibshow{*}
 #'
 #' @examples
 #' # Make a population with units of different size

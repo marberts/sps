@@ -70,9 +70,10 @@ schemes.
 }
 \details{
 The \code{sps()} function draws a sample according to the sequential Poisson
-procedure, the details of which are given by Ohlsson (1998). It is also
-called uniform order sampling, as it is a type of order sampling; see Rosén
-(1997, 2000) for a more general presentation of the method. This is the same
+procedure, the details of which are given by \bibcitet{ohlsson1998}. It is
+also called uniform order sampling, as it is a type of order sampling; see
+\bibcitet{rosen1997,rosen2000} for a more general presentation of the method.
+This is the same
 method used by \command{PROC SURVEYSELECT} in SAS with \command{METHOD =
 SEQ_POISSON}.
 
@@ -82,9 +83,9 @@ units in the population based on their (target) inclusion probabilities
 units with \eqn{0 < \pi < 1 - \alpha} are placed into a take-some stratum,
 and units
 with \eqn{\pi \geq 1 - \alpha} are placed into a take-all stratum. As noted
-by Ohlsson (1998), it can be useful to set \eqn{\alpha} to a small positive
-value when calculating inclusion probabilities, and this is the default
-behavior.
+by \bibcitet{ohlsson1998}, it can be useful to set \eqn{\alpha} to a small
+positive value when calculating inclusion probabilities, and this is the
+default behavior.
 
 After units are appropriately stratified, a sample of take-some units is
 drawn by assigning each unit a value \eqn{\xi = u / \pi}, where \eqn{u} is a
@@ -94,8 +95,8 @@ take-all units. (Ties in \eqn{\xi} are technically a measure-zero event---in
 practice these are broken by position.) This results in a fixed sample size
 at the expense of the sampling procedure being only approximately
 probability-proportional-to-size (i.e., the inclusion probabilities from the
-sample design are close but not exactly equal to \eqn{\pi}; see Matei and
-Tillé, 2007, for details on the exact computation).
+sample design are close but not exactly equal to \eqn{\pi}; see
+\bibcitet{matei+tille2007} for details on the exact computation).
 
 Ordinary Poisson sampling follows the same procedure as above, except that
 all units with \eqn{\xi < 1} are included in the sample; consequently, while
@@ -193,21 +194,7 @@ order_sampling2(0)(x, 6, prn = u) # successive
 order_sampling2(-1)(x, 6, prn = u) # Pareto
 }
 \references{
-Matei, A., and Tillé, Y. (2007). Computational aspects of order
-\eqn{\pi}ps sampling schemes. \emph{Computational Statistics & Data Analysis},
-51: 3703-3717.
-https://doi.org/10.1016/j.csda.2006.12.026.
-
-Ohlsson, E. (1998). Sequential Poisson Sampling.
-\emph{Journal of Official Statistics}, 14(2): 149-162.
-
-Rosén, B. (1997). On sampling with probability proportional to size.
-\emph{Journal of Statistical Planning and Inference}, 62(2): 159-191.
-https://doi.org/10.1016/S0378-3758(96)00186-3.
-
-Rosén, B. (2000). On inclusion probabilities for order \eqn{\pi}ps sampling.
-\emph{Journal of Statistical Planning and Inference}, 90(1): 117-143.
-https://doi.org/10.1016/S0378-3758(00)00104-X.
+\bibshow{*}
 }
 \seealso{
 \code{\link[=prop_allocation]{prop_allocation()}} for generating proportional-to-size allocations.
