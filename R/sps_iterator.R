@@ -35,7 +35,7 @@ sps_iterator <- function(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf) {
   if (any(x <= 0)) {
     stop("sizes must be strictly greater than 0")
   }
-  prn <- random_deviates(prn, x)
+  prn <- .random_deviates(prn, x)
 
   s <- order(prn / x)
   pop <- seq_along(s)

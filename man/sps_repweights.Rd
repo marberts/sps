@@ -51,7 +51,7 @@ sampling.
 Replicate weights are constructed using the generalized bootstrap method by
 Beaumont and Patak (2012). Their method takes a vector of design weights
 \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate,
-and calculates the replicate weights as \eqn{a w}{a * w}.
+and calculates the replicate weights as \eqn{a w}.
 
 There are two ways to calculate the adjustments \eqn{a}. The default
 pseudo-population method randomly rounds \eqn{w} for each replicate to
@@ -62,7 +62,7 @@ deviates-generating function for \code{dist} uses this function to produce a
 random vector \eqn{d} that is then used to make an adjustment \eqn{a = 1 + d
 \sqrt{1 - 1 / w}}{a = 1 + d * (1 - 1 / w)^0.5}.
 
-The adjustments can be rescaled by a value \eqn{\tau \geq 1}{\tau >= 1} to
+The adjustments can be rescaled by a value \eqn{\tau \geq 1} to
 prevent negative replicate weights. With this rescaling, the adjustment
 becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting
 bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
@@ -78,7 +78,7 @@ more general version of this estimator that can be applied to other order
 sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)},
 where \eqn{m} is the number of units in the sample, gives a similar
 estimator for the total under ordinary Poisson sampling, \eqn{\hat Y = n / m
-\sum wy}{Y = n / m * \sum w * y}.
+\sum wy}.
 }
 \examples{
 # Make a population with units of different size
