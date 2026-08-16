@@ -7,7 +7,7 @@
 #' Replicate weights are constructed using the generalized bootstrap method by
 #' Beaumont and Patak (2012). Their method takes a vector of design weights
 #' \eqn{w}, finds a vector of adjustments \eqn{a} for each bootstrap replicate,
-#' and calculates the replicate weights as \eqn{a w}{a * w}.
+#' and calculates the replicate weights as \eqn{a w}.
 #'
 #' There are two ways to calculate the adjustments \eqn{a}. The default
 #' pseudo-population method randomly rounds \eqn{w} for each replicate to
@@ -59,7 +59,7 @@
 #' sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)},
 #' where \eqn{m} is the number of units in the sample, gives a similar
 #' estimator for the total under ordinary Poisson sampling, \eqn{\hat Y = n / m
-#' \sum wy}{Y = n / m * \sum w * y}.
+#' \sum wy}.
 #'
 #' @seealso
 #' [sps()] for drawing a sequential Poisson sample.

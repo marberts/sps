@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.6.4.9001
+Version: 0.6.4.9002
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -20,8 +20,10 @@ Description: Sequential Poisson sampling is a variation of Poisson sampling for
 Depends: R (>= 4.2)
 Imports: stats
 Suggests:
+    bench,
     kit (>= 0.0.10),
     litedown,
+    sampling,
     spelling,
     tinytest
 License: MIT + file LICENSE
