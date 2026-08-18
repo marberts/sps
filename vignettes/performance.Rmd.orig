@@ -12,7 +12,9 @@ litedown::reactor(print = NA, warning = FALSE)
 ```
 
 The sequential Poisson method, and order sampling methods more generally, are
-simple and consequently not computationally expensive. Despite this, there are
+simple and consequently not computationally expensive. This makes them suitable
+for a range of different applications, especially when drawing a sample from a
+large population. Despite this, there are
 two optimizations in this package to keep drawing samples fast.
 
 ## Calculating inclusion probabilities
@@ -21,24 +23,20 @@ The first optimization concerns the inclusion probabilities when there are
 take-all units. As seen in `vignette("take-all")`, the algorithm finds
 take-all units one at a time without recomputing the inclusion probabilities
 many times. This is much faster than the naive approach when drawing a large
-sample and is on par with the usual algorithm that finds take-all units in 
+sample, and is on par with the usual algorithm that finds take-all units in 
 batches.
 
 ```{r}
 library(sps)
 
-set.seed(85834)
+# Make a population with 200 take-all units.
+x <- c(rep(1, 1e6 - 200), rep(1e6, 200))
+n <- 1e3
 
-x <- rlnorm(1e5)
-n <- 1e4
-
-p <- function(x, n) x / sum(x) * n
-
-# How many take-all units?
-sum(becomes_ta(x) <= n)
 
 # Naive implementation.
 ip <- function(x, n, alpha = 0.001) {
+  p <- \(x, n) x * (n / sum(x))
   ta_units <- integer(0)
   pi <- p(x, n)
   max_ts <- which.max(pi)
@@ -69,9 +67,6 @@ when `n` is much smaller than the length of `x`, and can have a modest impact on
 performance when drawing a sample from a large population.
 
 ```{r}
-x <- rlnorm(1e6)
-n <- 1e3
-
 options(sps.usekit = TRUE)
 bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
 
