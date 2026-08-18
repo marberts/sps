@@ -79,8 +79,10 @@
     
 <p>The sequential Poisson method, and order sampling methods more
 generally, are simple and consequently not computationally expensive.
-Despite this, there are two optimizations in this package to keep
-drawing samples fast.</p>
+This makes them suitable for a range of different applications,
+especially when drawing a sample from a large population. Despite this,
+there are two optimizations in this package to keep drawing samples
+fast.</p>
 <div class="section level2">
 <h2 id="calculating-inclusion-probabilities">Calculating inclusion probabilities<a class="anchor" aria-label="anchor" href="#calculating-inclusion-probabilities"></a>
 </h2>
@@ -88,24 +90,19 @@ drawing samples fast.</p>
 there are take-all units. As seen in <code><a href="../articles/take-all.html">vignette("take-all")</a></code>,
 the algorithm finds take-all units one at a time without recomputing the
 inclusion probabilities many times. This is much faster than the naive
-approach when drawing a large sample and is on par with the usual
+approach when drawing a large sample, and is on par with the usual
 algorithm that finds take-all units in batches.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marberts.github.io/sps/">sps</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">85834</span><span class="op">)</span></span>
+<span><span class="co"># Make a population with 200 take-all units.</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1e6</span> <span class="op">-</span> <span class="fl">200</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1e6</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e3</span></span>
 <span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1e5</span><span class="op">)</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e4</span></span>
 <span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span> <span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="va">n</span></span>
-<span></span>
-<span><span class="co"># How many take-all units?</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/inclusion_prob.html">becomes_ta</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="va">n</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; [1] 240</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Naive implementation.</span></span>
+<span><span class="co"># Naive implementation.</span></span>
 <span><span class="va">ip</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, <span class="va">alpha</span> <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> \<span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span> <span class="va">x</span> <span class="op">*</span> <span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">ta_units</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span>  <span class="va">pi</span> <span class="op">&lt;-</span> <span class="fu">p</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span></span>
 <span>  <span class="va">max_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">pi</span><span class="op">)</span></span>
@@ -125,9 +122,9 @@ algorithm that finds take-all units in batches.</p>
 <pre><code><span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
 <span><span class="co">#&gt;   expression                               median mem_alloc n_itr</span></span>
 <span><span class="co">#&gt;   &lt;bch:expr&gt;                             &lt;bch:tm&gt; &lt;bch:byt&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 inclusion_prob(x, n)                     6.13ms    7.67MB    78</span></span>
-<span><span class="co">#&gt; 2 ip(x, n)                               124.48ms  367.88MB     5</span></span>
-<span><span class="co">#&gt; 3 sampling::inclusionprobabilities(x, n)   4.66ms   19.45MB    80</span></span></code></pre>
+<span><span class="co">#&gt; 1 inclusion_prob(x, n)                    50.81ms    72.5MB    10</span></span>
+<span><span class="co">#&gt; 2 ip(x, n)                                  1.04s       3GB     1</span></span>
+<span><span class="co">#&gt; 3 sampling::inclusionprobabilities(x, n)  49.29ms   133.5MB     8</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="partial-sorting">Partial sorting<a class="anchor" aria-label="anchor" href="#partial-sorting"></a>
@@ -141,23 +138,20 @@ a drop-in replacement for <code>order(x)[1:n]</code> that can be faster
 when <code>n</code> is much smaller than the length of <code>x</code>,
 and can have a modest impact on performance when drawing a sample from a
 large population.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1e6</span><span class="op">)</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e3</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>sps.usekit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>sps.usekit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span><span class="fu"><a href="../reference/sps.html">sps</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expression"</span>, <span class="st">"median"</span>, <span class="st">"mem_alloc"</span>, <span class="st">"n_itr"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
 <span><span class="co">#&gt;   expression   median mem_alloc n_itr</span></span>
 <span><span class="co">#&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:byt&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 sps(x, n)    59.9ms    76.3MB     7</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; 1 sps(x, n)    64.8ms     111MB     8</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>sps.usekit <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span><span class="fu"><a href="../reference/sps.html">sps</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expression"</span>, <span class="st">"median"</span>, <span class="st">"mem_alloc"</span>, <span class="st">"n_itr"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
 <span><span class="co">#&gt;   expression   median mem_alloc n_itr</span></span>
 <span><span class="co">#&gt;   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:byt&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 sps(x, n)    88.1ms    80.1MB     5</span></span></code></pre>
+<span><span class="co">#&gt; 1 sps(x, n)     155ms     126MB     4</span></span></code></pre>
 <p>Partial sorting generally speeds up drawing smaller samples as well,
 but the effect is not as large because the sequential Poisson method is
 already quick.</p>

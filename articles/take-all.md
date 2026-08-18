@@ -20,6 +20,8 @@ inclusion probabilities for the remaining units until all inclusion
 probabilities are less than 1.[^1] See, e.g., Ohlsson (1998) or Tillé
 (2020, Chapter 5).
 
+## Generalizing the usual approach
+
 Sequential poisson sampling is a bit more complicated because, as noted
 by Ohlsson (1998), it can be useful to place units with an inclusion
 probability greater than \\1 - \alpha\\, for some small \\\alpha\\, into

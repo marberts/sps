@@ -99,8 +99,8 @@ becomes_ta(x)
 #>  [1] 11 11 10 10  9  9  8  8  7  7  2
 
 # Determine the number of take-all units before drawing a sample
-n_ta <- function(x, n, ...) {
-  sum(becomes_ta(x, ...) <= n, na.rm = TRUE)
+n_ta <- function(x, n, cutoff = Inf) {
+  sum(becomes_ta(x, cutoff = cutoff) <= n, na.rm = TRUE) + sum(x >= cutoff)
 }
 
 n_ta(x, 7)

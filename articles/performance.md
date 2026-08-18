@@ -2,8 +2,10 @@
 
 The sequential Poisson method, and order sampling methods more
 generally, are simple and consequently not computationally expensive.
-Despite this, there are two optimizations in this package to keep
-drawing samples fast.
+This makes them suitable for a range of different applications,
+especially when drawing a sample from a large population. Despite this,
+there are two optimizations in this package to keep drawing samples
+fast.
 
 ## Calculating inclusion probabilities
 
@@ -12,30 +14,21 @@ are take-all units. As seen in
 [`vignette("take-all")`](https://marberts.github.io/sps/articles/take-all.md),
 the algorithm finds take-all units one at a time without recomputing the
 inclusion probabilities many times. This is much faster than the naive
-approach when drawing a large sample and is on par with the usual
+approach when drawing a large sample, and is on par with the usual
 algorithm that finds take-all units in batches.
 
 ``` r
 
 library(sps)
 
-set.seed(85834)
+# Make a population with 200 take-all units.
+x <- c(rep(1, 1e6 - 200), rep(1e6, 200))
+n <- 1e3
 
-x <- rlnorm(1e5)
-n <- 1e4
-
-p <- function(x, n) x / sum(x) * n
-
-# How many take-all units?
-sum(becomes_ta(x) <= n)
-```
-
-    #> [1] 240
-
-``` r
 
 # Naive implementation.
 ip <- function(x, n, alpha = 0.001) {
+  p <- \(x, n) x * (n / sum(x))
   ta_units <- integer(0)
   pi <- p(x, n)
   max_ts <- which.max(pi)
@@ -57,9 +50,9 @@ bench::mark(
     #> # A tibble: 3 × 4
     #>   expression                               median mem_alloc n_itr
     #>   <bch:expr>                             <bch:tm> <bch:byt> <int>
-    #> 1 inclusion_prob(x, n)                     6.13ms    7.67MB    78
-    #> 2 ip(x, n)                               124.48ms  367.88MB     5
-    #> 3 sampling::inclusionprobabilities(x, n)   4.66ms   19.45MB    80
+    #> 1 inclusion_prob(x, n)                    50.81ms    72.5MB    10
+    #> 2 ip(x, n)                                  1.04s       3GB     1
+    #> 3 sampling::inclusionprobabilities(x, n)  49.29ms   133.5MB     8
 
 ## Partial sorting
 
@@ -75,9 +68,6 @@ a sample from a large population.
 
 ``` r
 
-x <- rlnorm(1e6)
-n <- 1e3
-
 options(sps.usekit = TRUE)
 bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
 ```
@@ -85,7 +75,7 @@ bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
     #> # A tibble: 1 × 4
     #>   expression   median mem_alloc n_itr
     #>   <bch:expr> <bch:tm> <bch:byt> <int>
-    #> 1 sps(x, n)    59.9ms    76.3MB     7
+    #> 1 sps(x, n)    64.8ms     111MB     8
 
 ``` r
 
@@ -96,7 +86,7 @@ bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
     #> # A tibble: 1 × 4
     #>   expression   median mem_alloc n_itr
     #>   <bch:expr> <bch:tm> <bch:byt> <int>
-    #> 1 sps(x, n)    88.1ms    80.1MB     5
+    #> 1 sps(x, n)     155ms     126MB     4
 
 Partial sorting generally speeds up drawing smaller samples as well, but
 the effect is not as large because the sequential Poisson method is
