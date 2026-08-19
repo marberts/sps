@@ -39,9 +39,14 @@ sps_iterator <- function(x, n = 0L, prn = NULL, alpha = 0.001, cutoff = Inf) {
 
   s <- order(prn / x)
   pop <- seq_along(s)
+  # becomes_ta() returns a double that takes on integer values, so it's much
+  # faster to coerce to an integer then make a factor.
   bta <- split(
     pop,
-    factor(becomes_ta(x, alpha = alpha, cutoff = cutoff), levels = pop)
+    factor(
+      as.integer(becomes_ta(x, alpha = alpha, cutoff = cutoff)),
+      levels = pop
+    )
   )
   if (n > 0L) {
     sampled <- as.integer(sps(x, n, prn = prn, alpha = alpha, cutoff = cutoff))

@@ -7,6 +7,8 @@ sorting.
 
 - Fixed poorly-rendered tables in vignettes.
 
+- `sps_iterator()` is now much faster for large populations.
+
 ## sps 0.6.4
 
 - Small improvements to the documentation.
