@@ -221,18 +221,21 @@ local({
 local({
   samp <- sps(1:5, 3)
   # mathematical functions should treat 'sps' objects as numeric vectors
-  expect_true(inherits(log(samp), "numeric"))
-  expect_true(inherits(1L + samp, "integer"))
-  expect_true(inherits(samp / 2, "numeric"))
-  expect_true(inherits(samp > samp, "logical"))
-  expect_true(inherits(-samp, "integer"))
+  expect_false(inherits(log(samp), "sps_sample"))
+  expect_false(inherits(1L + samp, "sps_sample"))
+  expect_false(inherits(samp / 2, "sps_sample"))
+  expect_false(inherits(samp > samp, "sps_sample"))
+  expect_false(inherits(-samp, "sps_sample"))
 
   # and replacement methods
-  expect_true(inherits(replace(samp, 1, 1), "numeric"))
-  expect_true(inherits(replace(samp, 1, 1L), "integer"))
+  expect_false(inherits(replace(samp, 1, 1), "sps_sample"))
+  samp2 <- samp
+  samp2[[1]] <- 1
+  expect_false(inherits(samp2, "sps_sample"))
+  expect_error(levels(samp) <- 2)
 
   length(samp) <- 2
-  expect_true(inherits(samp, "integer"))
+  expect_false(inherits(samp, "sps_sample"))
 })
 
 # Agrees with manual calculation.
