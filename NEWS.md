@@ -1,6 +1,6 @@
 ## sps (development version)
 
-- Added a new option `sps.usekit`, to control if `{kit}` is used for partial
+- Added a new option `sps.usekit` to control if `{kit}` is used for partial
 sorting.
 
 - Added a new vignette about sampling performance.

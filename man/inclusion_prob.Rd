@@ -40,7 +40,7 @@ for all strata. The default does not apply a cutoff.}
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for
 each unit in the population.
 
-\code{becomes_ta()} returns an integer vector giving the sample size at which a
+\code{becomes_ta()} returns a numeric vector giving the sample size at which a
 unit enters the take-all stratum.
 }
 \description{
