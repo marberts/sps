@@ -2,12 +2,15 @@
 
 ## sps (development version)
 
-- Added a new option `sps.usekit`, to control if
+- Added a new option `sps.usekit` to control if
   [kit](https://fastverse.org/kit/) is used for partial sorting.
 
 - Added a new vignette about sampling performance.
 
 - Fixed poorly-rendered tables in vignettes.
+
+- [`sps_iterator()`](https://marberts.github.io/sps/reference/sps_iterator.md)
+  is now much faster for large populations.
 
 ## sps 0.6.4
 

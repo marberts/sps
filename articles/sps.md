@@ -160,9 +160,9 @@ flexible than the bootstrap estimator, but is more precise.
 ``` r
 
 sps_var <- function(y, w) {
-  tas <- w > 1
-  y <- y[tas]
-  w <- w[tas]
+  ts <- w > 1
+  y <- y[ts]
+  w <- w[ts]
   n <- length(y)
   total <- sum(y * w)
   n / (n - 1) * sum((1 - 1 / w) * (w * y - total / n)^2)
