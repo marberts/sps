@@ -40,6 +40,8 @@ to be done repeatedly, consider a population with three units with sizes 1, 2, a
 and find which units have an inclusion probability greater than 1 when the sample
 size is 3.
 
+## Generalizing the usual approach
+
 Sequential poisson sampling is a bit more complicated because, as noted by
 Ohlsson (1998), it can be useful
 to place units with an inclusion probability greater than $1 - \alpha$, for some 
@@ -82,8 +84,8 @@ pi(x[1:9], 4)[9] >= 1 - alpha
 This means that units have to be considered one at a time, from largest to smallest,
 to determine if they belong in the take-all stratum. Rather than doing this as
 a loop and potentially calculating the inclusion probabilities many times for
-most units, we can calculate a sequence of inclusion probabilities for the $n$
-units with the largest sizes
+most units (see `vignette("performance")`), we can calculate a sequence of
+inclusion probabilities for the $n$ units with the largest sizes
 
 $$
 p_{i} = \frac{x_i i}{\bar{x} + \sum_{j=1}^{i} x_j},

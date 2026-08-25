@@ -40,7 +40,7 @@ for all strata. The default does not apply a cutoff.}
 \code{inclusion_prob()} returns a numeric vector of inclusion probabilities for
 each unit in the population.
 
-\code{becomes_ta()} returns an integer vector giving the sample size at which a
+\code{becomes_ta()} returns a numeric vector giving the sample size at which a
 unit enters the take-all stratum.
 }
 \description{
@@ -77,8 +77,8 @@ x <- c(1:10, 100)
 becomes_ta(x)
 
 # Determine the number of take-all units before drawing a sample
-n_ta <- function(x, n, ...) {
-  sum(becomes_ta(x, ...) <= n, na.rm = TRUE)
+n_ta <- function(x, n, cutoff = Inf) {
+  sum(becomes_ta(x, cutoff = cutoff) <= n, na.rm = TRUE) + sum(x >= cutoff)
 }
 
 n_ta(x, 7)

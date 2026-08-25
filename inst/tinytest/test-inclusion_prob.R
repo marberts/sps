@@ -56,6 +56,7 @@ local({
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, NA)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = c(0, 0, 0)))
   expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), alpha = integer(0)))
+  expect_error(inclusion_prob(1:6, c(2, 2), gl(2, 3), cutoff = integer(0)))
   expect_error(inclusion_prob(1:6, 2, alpha = c(0, 0)))
   expect_error(inclusion_prob(1:6, 2, cutoff = 3))
   expect_error(inclusion_prob(1:6, 2, cutoff = numeric(0)))

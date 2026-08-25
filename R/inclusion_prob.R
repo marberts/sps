@@ -3,9 +3,9 @@
 #' Calculate stratified (first-order) inclusion probabilities.
 #'
 #' Within a stratum, the inclusion probability for a unit is given by
-#' \eqn{\pi = nx / \sum x}{\pi = n * x / \sum x}. These values can be greater
+#' \eqn{\pi = nx / \sum x}. These values can be greater
 #' than 1 in practice, and so they are constructed iteratively by taking units
-#' with \eqn{\pi \geq 1 - \alpha}(from largest to smallest)
+#' with \eqn{\pi \geq 1 - \alpha} (from largest to smallest)
 #' and assigning these units an inclusion probability of 1, with the remaining
 #' inclusion probabilities recalculated at each step. See `vignette("take-all")`
 #' for details. If \eqn{\alpha > 0}, then
@@ -22,7 +22,7 @@
 #' `inclusion_prob()` returns a numeric vector of inclusion probabilities for
 #' each unit in the population.
 #'
-#' `becomes_ta()` returns an integer vector giving the sample size at which a
+#' `becomes_ta()` returns a numeric vector giving the sample size at which a
 #' unit enters the take-all stratum.
 #'
 #' @note
@@ -44,8 +44,8 @@
 #' becomes_ta(x)
 #'
 #' # Determine the number of take-all units before drawing a sample
-#' n_ta <- function(x, n, ...) {
-#'   sum(becomes_ta(x, ...) <= n, na.rm = TRUE)
+#' n_ta <- function(x, n, cutoff = Inf) {
+#'   sum(becomes_ta(x, cutoff = cutoff) <= n, na.rm = TRUE) + sum(x >= cutoff)
 #' }
 #'
 #' n_ta(x, 7)
