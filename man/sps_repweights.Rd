@@ -68,12 +68,12 @@ becomes \eqn{(a + \tau - 1) / \tau}. If \eqn{\tau > 1} then the resulting
 bootstrap variance estimator should be multiplied by \eqn{\tau^2}.
 }
 \note{
-As an alternative to the bootstrap, \bibcitep{|ohlsson1998|equations 2.13}
+As an alternative to the bootstrap, \bibcitet{|ohlsson1998|equations 2.13}
 proposes an analytic estimator for the variance of the total \eqn{\hat Y =
 \sum wy} (for the take-some units) under sequential Poisson
 sampling: \deqn{V(\hat Y) = \frac{n}{n - 1} \sum \left(1 -
 \frac{1}{w}\right) \left(wy - \frac{\hat Y}{n}\right)^2.}{V(Y) = n / (n - 1)
-\sum (1 - 1 / w) (w y - Y / n)^2.} See \bibcitep{|rosen1997|equations 3.11}
+\sum (1 - 1 / w) (w y - Y / n)^2.} See \bibcitet{|rosen1997|equations 3.11}
 for a
 more general version of this estimator that can be applied to other order
 sampling schemes. Replacing the left-most correction by \eqn{n / (m - 1)},

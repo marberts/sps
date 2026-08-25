@@ -26,7 +26,7 @@ bibentry(
 bibentry(
   key = "rosen2000",
   bibtype = "Article",
-  title = "On inclusion probabilities for order πps sampling",
+  title = "On inclusion probabilities for order \\eqn{\\pi}ps sampling",
   author = "B. Rosén",
   year = "2000",
   journal = "Journal of Statistical Planning and Inference",
@@ -39,14 +39,14 @@ bibentry(
 bibentry(
   key = "matei+tille2007",
   bibtype = "Article",
-  title = "Computational aspects of order πps sampling schemes",
+  title = "Computational aspects of order \\eqn{\\pi}ps sampling schemes",
   author = "A. Matei and Y. Tillé",
   year = "2007",
   journal = "Computational Statistics & Data Analysis",
   volume = "51",
   pages = "3703-3717",
   doi = "https://doi.org/10.1016/j.csda.2006.12.026"
-)
+) -> a
 
 bibentry(
   key = "beaumont+patak2012",

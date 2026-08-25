@@ -1,10 +1,10 @@
 .PHONY: all
-all: clean check
+all: check
 
 .PHONY: clean
 clean:
-	-rm sps_*.tar.gz
-	-rm -rf sps.Rcheck
+	rm -f sps_*.tar.gz
+	rm -rf sps.Rcheck
 	
 .PHONY: roxygen
 roxygen:
