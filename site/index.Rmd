@@ -1,0 +1,28 @@
+---
+title: 'Sequential Poisson sampling <img src="../man/figures/logo.png" align="right" height="139" alt="sps logo" />'
+---
+
+```{r}
+#| echo: false
+litedown::pkg_desc()
+```
+
+```{r}
+#| echo: false
+#| results: "asis"
+readme <- xfun::read_utf8("../README.md")
+# Remove lines before badges as they usually contain duplicated info.
+i <- which(readme == '<!-- badges: start -->')
+if (length(i) > 0L) readme <- readme[-seq_len(i[1L] - 1L)]
+
+xfun::raw_string(readme)
+```
+
+## Citation {.appendix}
+
+To cite `{sps}` please use:
+
+```{r}
+#| echo: false
+litedown::pkg_citation()
+```

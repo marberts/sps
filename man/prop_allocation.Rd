@@ -69,8 +69,8 @@ Generate a proportional-to-size allocation for stratified sampling.
 The \code{prop_allocation()} function gives a sample size for each level in
 \code{strata} that is proportional to the sum of \code{x} across strata and
 adds up to \code{n}. This is done using the divisor (highest-averages)
-apportionment method (Balinksi and Young, 1982, Appendix A), for which there
-are a number of different divisor functions:
+apportionment method \bibcitep{|balinski+young1982|appendix A}, for which
+there are a number of different divisor functions:
 
 \describe{
 \item{Jefferson/D'Hondt}{\verb{\\(a) a + 1}}
@@ -113,9 +113,7 @@ s <- rep(letters[1:10], each = 3)
 prop_allocation(x, 15, s, initial = 1)
 }
 \references{
-Balinksi, M. L. and Young, H. P. (1982).
-\emph{Fair Representation: Meeting the Ideal of One Man, One Vote}.
-Yale University Press.
+\bibshow{*}
 }
 \seealso{
 \code{\link[=sps]{sps()}} for stratified sequential Poisson sampling.

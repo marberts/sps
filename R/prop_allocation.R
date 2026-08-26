@@ -5,8 +5,8 @@
 #' The `prop_allocation()` function gives a sample size for each level in
 #' `strata` that is proportional to the sum of `x` across strata and
 #' adds up to `n`. This is done using the divisor (highest-averages)
-#' apportionment method (Balinksi and Young, 1982, Appendix A), for which there
-#' are a number of different divisor functions:
+#' apportionment method \bibcitep{|balinski+young1982|appendix A}, for which
+#' there are a number of different divisor functions:
 #'
 #' \describe{
 #' \item{Jefferson/D'Hondt}{`\(a) a + 1`}
@@ -72,9 +72,7 @@
 #' for other allocation methods.
 #'
 #' @references
-#' Balinksi, M. L. and Young, H. P. (1982).
-#' *Fair Representation: Meeting the Ideal of One Man, One Vote*.
-#' Yale University Press.
+#' \bibshow{*}
 #'
 #' @examples
 #' # Make a population with units of different size
