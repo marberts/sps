@@ -7,6 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Take-all units}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
+bibliography: "../inst/REFERENCES.R"
 ---
 
 ```{r}
@@ -32,7 +33,7 @@ remaining units (the take-some units) drawn at random. The
 usual algorithm used by, say, `sampling::inclusionprobabilities()`
 repeatedly moves units into the take-all stratum
 and recalculates the inclusion probabilities for the remaining units
-until all inclusion probabilities are less than 1.[^1] See, e.g., Ohlsson (1998)
+until all inclusion probabilities are less than 1.[^1] See, e.g., @ohlsson1998
 or Tillé (2020, Chapter 5).
 
 [^1]: To see why this needs
