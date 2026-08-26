@@ -46,12 +46,12 @@ bibentry(
   volume = "51",
   pages = "3703-3717",
   doi = "https://doi.org/10.1016/j.csda.2006.12.026"
-) -> a
+)
 
 bibentry(
   key = "beaumont+patak2012",
   bibtype = "Article",
-  title = "On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling",
+  title = "On the Generalized Bootstrap for Sample Surveys with Special Attention to Poisson Sampling", # nolint
   author = "J. F. Beaumont and Z. Patak",
   year = "2012",
   journal = "International Statistical Review",

@@ -1,0 +1,8 @@
+---
+title: "Help pages"
+---
+
+```{r}
+#| echo: false
+litedown::pkg_manual()
+```

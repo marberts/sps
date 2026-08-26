@@ -3,6 +3,6 @@
 .RData
 .Ruserdata
 *.Rproj
-.vscode
 docs
-inst/doc
+*.tar.gz
+*.Rcheck

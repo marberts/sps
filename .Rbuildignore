@@ -4,14 +4,11 @@
 ^\.github$
 ^cran-comments\.md$
 ^README\.Rmd$
-^\.vscode$
-^_pkgdown\.yml$
 ^docs$
-^pkgdown$
 ^inst/logo\.R$
 ^CRAN-SUBMISSION$
 ^CITATION\.cff$
-^vignettes/\.quarto$
 ^CONTRIBUTING\.md$
 ^[.]?air[.]toml$
 ^makefile$
+^site$

@@ -1,0 +1,22 @@
+---
+title: "Vignettes"
+---
+
+```{r}
+#| echo: false
+#| results: "asis"
+info <- tools::getVignetteInfo("sps")
+invisible(file.copy(system.file("doc", package = "sps"), "./", recursive = TRUE))
+vigs = info[, "PDF"]
+# redirect doc/index.html to vignettes.html.
+if (!"index.html" %in% vigs) {
+  writeLines(
+    "<script>location.href = location.href.replace(/\\/[^\\/]*$/, '') + '/../vignettes.html';</script>",
+    "doc/index.html"
+  )
+}
+# Clean up .R files.
+invisible(file.remove(file.path("doc", setdiff(info[, "R"], ""))))
+res <- sprintf("- [%s](doc/%s)\n", info[, "Title"], vigs)
+xfun::raw_string(res)
+```

@@ -1,0 +1,9 @@
+site:
+  pattern: "[.]R?md$"
+
+output:
+  html:
+    meta:
+      css: ["@default"]
+      include_before: "[Home](/index.html) [Manual](/manual.html) [Vignettes](/vignettes.html)"
+      include_after: "Developed by Steve Martin | Site built with [litedown](https://cran.r-project.org/package=litedown)"
