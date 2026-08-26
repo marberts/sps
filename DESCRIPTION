@@ -23,7 +23,6 @@ Suggests:
     bench,
     kit (>= 0.0.10),
     litedown,
-    rbibutils,
     sampling,
     spelling,
     tinytest
