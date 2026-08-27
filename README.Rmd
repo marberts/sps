@@ -5,7 +5,7 @@
 litedown::reactor(print = NA)
 ```
 
-# Sequential Poisson sampling <a href="https://marberts.github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
+# Sequential Poisson sampling <a href="https://marberts.codeberg.page/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
@@ -25,19 +25,13 @@ Get the stable release from CRAN.
 install.packages("sps")
 ```
 
-The development version can be installed from R-Universe
+The development version can be installed from R-Universe.
 
 ```{r, eval=FALSE}
 install.packages(
   "sps",
   repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
 )
-```
-
-or directly from GitHub.
-
-```{r, eval=FALSE}
-pak::pak("marberts/sps")
 ```
 
 ## Usage
@@ -89,7 +83,7 @@ There are many packages on CRAN for drawing samples proportional to size, but th
 
 ## Contributing
 
-All contributions are welcome. Please start by opening an issue on GitHub to report any bugs or suggest improvements and new features. See the contribution guidelines for this project for more information.
+All contributions are welcome. Please start by opening an issue on codeberg to report any bugs or suggest improvements and new features. See the contribution guidelines for this project for more information.
 
 ## References
 

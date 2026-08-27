@@ -2,7 +2,7 @@
 
 
 
-# Sequential Poisson sampling <a href="https://marberts.github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
+# Sequential Poisson sampling <a href="https://marberts.codeberg.page/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
@@ -22,19 +22,13 @@ Get the stable release from CRAN.
 install.packages("sps")
 ```
 
-The development version can be installed from R-Universe
+The development version can be installed from R-Universe.
 
 ``` {.r}
 install.packages(
   "sps",
   repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
 )
-```
-
-or directly from GitHub.
-
-``` {.r}
-pak::pak("marberts/sps")
 ```
 
 ## Usage
@@ -53,7 +47,7 @@ revenue <- c(1:10, 100, 150)
 ```
 
 ```
-#> [1]  7  8  9 10 11 12
+#> [1]  1  6  9 10 11 12
 ```
 
 ``` {.r}
@@ -62,7 +56,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 1.964286 1.718750 1.527778 1.375000 1.000000 1.000000
+#> [1] 13.750000  2.291667  1.527778  1.375000  1.000000  1.000000
 ```
 
 ``` {.r}
@@ -94,7 +88,7 @@ stratum <- rep(c("a", "b"), c(9, 3))
 ```
 
 ```
-#> [1]  6  8  9 10 11 12
+#> [1]  4  8  9 10 11 12
 ```
 
 ``` {.r}
@@ -102,7 +96,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 2.500000 1.875000 1.666667 1.000000 1.000000 1.000000
+#> [1] 3.750000 1.875000 1.666667 1.000000 1.000000 1.000000
 ```
 
 ``` {.r}
@@ -120,13 +114,13 @@ sps_repweights(weights(samp), 5)
 ```
 
 ```
-#>          [,1]     [,2]         [,3]     [,4]     [,5]
-#> [1,] 2.916625 0.000250 2.0833750000 2.083375 0.833500
-#> [2,] 2.604094 3.333188 3.3331875000 3.333188 2.604094
-#> [3,] 2.222167 1.388917 0.0001666667 2.777667 2.777667
-#> [4,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
-#> [5,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
-#> [6,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
+#>          [,1]         [,2]     [,3]     [,4]     [,5]
+#> [1,] 3.541688 6.6663750000 3.541688 6.666375 4.374937
+#> [2,] 3.333188 3.3331875000 0.208500 2.604094 3.333188
+#> [3,] 2.777667 0.0001666667 2.777667 1.388917 1.388917
+#> [4,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
+#> [5,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
+#> [6,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
 #> attr(,"tau")
 #> [1] 1.20012
 ```
@@ -139,7 +133,7 @@ There are many packages on CRAN for drawing samples proportional to size, but th
 
 ## Contributing
 
-All contributions are welcome. Please start by opening an issue on GitHub to report any bugs or suggest improvements and new features. See the contribution guidelines for this project for more information.
+All contributions are welcome. Please start by opening an issue on codeberg to report any bugs or suggest improvements and new features. See the contribution guidelines for this project for more information.
 
 ## References
 
