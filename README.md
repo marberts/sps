@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
-
+**Moved to [codeberg](https://codeberg.org/marberts/sps)**
 
 # Sequential Poisson sampling <a href="https://marberts.github.io/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
 
