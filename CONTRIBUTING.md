@@ -34,7 +34,7 @@ answer in the documentation. (It may be a bug or problem with the documentation.
 
 When making a pull request, please:
 
-1. Fork the repository on github and make a new branch in your forked copy;
+1. Fork the repository on codeberg and make a new branch in your forked copy;
 
 2. Follow the [tidyverse style guide](https://style.tidyverse.org/);
 

@@ -12,9 +12,9 @@ Sequential Poisson sampling is a variation of Poisson sampling for drawing proba
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://marberts.github.io/sps/}
-  \item \url{https://github.com/marberts/sps}
-  \item Report bugs at \url{https://github.com/marberts/sps/issues}
+  \item \url{https://marberts.codeberg.page/sps/}
+  \item \url{https://codeberg.org/marberts/sps}
+  \item Report bugs at \url{https://codeberg.org/marberts/sps/issues}
 }
 
 }

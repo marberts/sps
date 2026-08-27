@@ -8,8 +8,6 @@
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
 [![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/r-sps.svg)](https://anaconda.org/conda-forge/r-sps)
-[![R-CMD-check](https://github.com/marberts/sps/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/sps/actions)
-[![codecov](https://codecov.io/gh/marberts/sps/graph/badge.svg?token=5CPGWUF267)]( https://app.codecov.io/gh/marberts/sps)
 [![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 <!-- badges: end -->
@@ -55,7 +53,7 @@ revenue <- c(1:10, 100, 150)
 ```
 
 ```
-#> [1]  2  6  8 10 11 12
+#> [1]  7  8  9 10 11 12
 ```
 
 ``` {.r}
@@ -64,7 +62,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 6.875000 2.291667 1.718750 1.375000 1.000000 1.000000
+#> [1] 1.964286 1.718750 1.527778 1.375000 1.000000 1.000000
 ```
 
 ``` {.r}
@@ -96,7 +94,7 @@ stratum <- rep(c("a", "b"), c(9, 3))
 ```
 
 ```
-#> [1]  1  5  9 10 11 12
+#> [1]  6  8  9 10 11 12
 ```
 
 ``` {.r}
@@ -104,7 +102,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 15.000000  3.000000  1.666667  1.000000  1.000000  1.000000
+#> [1] 2.500000 1.875000 1.666667 1.000000 1.000000 1.000000
 ```
 
 ``` {.r}
@@ -122,13 +120,13 @@ sps_repweights(weights(samp), 5)
 ```
 
 ```
-#>              [,1]      [,2]      [,3]      [,4]         [,5]
-#> [1,] 1.500000e+01 39.997500 27.498750 27.498750 3.999750e+01
-#> [2,] 5.499750e+00  3.000000  3.000000  3.000000 5.499750e+00
-#> [3,] 1.666667e-04  2.222167  2.777667  2.777667 1.666667e-04
-#> [4,] 1.000000e+00  1.000000  1.000000  1.000000 1.000000e+00
-#> [5,] 1.000000e+00  1.000000  1.000000  1.000000 1.000000e+00
-#> [6,] 1.000000e+00  1.000000  1.000000  1.000000 1.000000e+00
+#>          [,1]     [,2]         [,3]     [,4]     [,5]
+#> [1,] 2.916625 0.000250 2.0833750000 2.083375 0.833500
+#> [2,] 2.604094 3.333188 3.3331875000 3.333188 2.604094
+#> [3,] 2.222167 1.388917 0.0001666667 2.777667 2.777667
+#> [4,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
+#> [5,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
+#> [6,] 1.000000 1.000000 1.0000000000 1.000000 1.000000
 #> attr(,"tau")
 #> [1] 1.20012
 ```

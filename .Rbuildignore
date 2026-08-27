@@ -1,13 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^\.github$
 ^cran-comments\.md$
 ^README\.Rmd$
-^docs$
 ^inst/logo\.R$
 ^CRAN-SUBMISSION$
-^CITATION\.cff$
 ^CONTRIBUTING\.md$
 ^[.]?air[.]toml$
 ^makefile$

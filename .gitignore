@@ -3,6 +3,5 @@
 .RData
 .Ruserdata
 *.Rproj
-docs
 *.tar.gz
 *.Rcheck
