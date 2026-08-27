@@ -20,10 +20,8 @@ Description: Sequential Poisson sampling is a variation of Poisson sampling for
 Depends: R (>= 4.2)
 Imports: stats
 Suggests:
-    bench,
     kit (>= 0.0.10),
     litedown,
-    sampling,
     spelling,
     tinytest
 License: MIT + file LICENSE

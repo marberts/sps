@@ -1,10 +1,13 @@
+VERSION := $(shell grep -oP '^Version: \K.*' DESCRIPTION)
+PKG := $(shell grep -oP '^Package: \K.*' DESCRIPTION)
+
 .PHONY: all
 all: check site
 
 .PHONY: clean
 clean:
-	rm -f sps_*.tar.gz
-	rm -rf sps.Rcheck
+	rm -f $(PKG)_*.tar.gz
+	rm -rf $(PKG).Rcheck
 	
 .PHONY: clean-site
 clean-site:
@@ -24,7 +27,7 @@ build: roxygen clean
 	
 .PHONY: install
 install: build
-	R CMD INSTALL sps_*.tar.gz
+	R CMD INSTALL $(PKG)_$(VERSION).tar.gz
 	
 .PHONY: test
 test: roxygen
@@ -32,7 +35,7 @@ test: roxygen
 	
 .PHONY: check
 check: build
-	_R_CHECK_CRAN_INCOMING_REMOTE_=false R CMD check --as-cran sps_*.tar.gz
+	_R_CHECK_CRAN_INCOMING_REMOTE_=false R CMD check --as-cran $(PKG)_$(VERSION).tar.gz
 
 .PHONY: site
 site: install clean-site README.md
