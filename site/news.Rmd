@@ -1,8 +1,0 @@
----
-title: "News"
----
-
-```{r}
-#| echo: false
-litedown::pkg_news()
-```

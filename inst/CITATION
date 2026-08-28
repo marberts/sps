@@ -6,7 +6,7 @@ bibentry(
   author   = person("Steve", "Martin", role = c("aut", "cre", "cph"),
                     comment = c(ORCID = "0000-0003-2544-9480")),
   year     = "2026",
-  doi      = "10.5281/zenodo.10109857",
+  doi      = "10.32614/CRAN.package.sps",
   url      = "https://cran.r-project.org/package=sps",
   note     = sprintf("R package version %s", meta$Version)
 )

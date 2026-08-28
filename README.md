@@ -2,13 +2,12 @@
 
 
 
-# Sequential Poisson sampling <a href="https://marberts.codeberg.page/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
+# Sequential Poisson sampling <a><img src="man/figures/logo.png" align="right" height="139" alt="sps logo"/></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
 [![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/r-sps.svg)](https://anaconda.org/conda-forge/r-sps)
-[![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 <!-- badges: end -->
 
@@ -37,6 +36,7 @@ Given a vector of sizes for units in a population (e.g., revenue for sampling bu
 
 ``` {.r}
 library(sps)
+set.seed(12446)
 
 # Generate some data on sizes for 12 businesses in a single
 # stratum as a simple example
@@ -47,7 +47,7 @@ revenue <- c(1:10, 100, 150)
 ```
 
 ```
-#> [1]  1  6  9 10 11 12
+#> [1]  4  8  9 10 11 12
 ```
 
 ``` {.r}
@@ -56,7 +56,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 13.750000  2.291667  1.527778  1.375000  1.000000  1.000000
+#> [1] 3.437500 1.718750 1.527778 1.375000 1.000000 1.000000
 ```
 
 ``` {.r}
@@ -88,7 +88,7 @@ stratum <- rep(c("a", "b"), c(9, 3))
 ```
 
 ```
-#> [1]  4  8  9 10 11 12
+#> [1]  7  8  9 10 11 12
 ```
 
 ``` {.r}
@@ -96,7 +96,7 @@ weights(samp)
 ```
 
 ```
-#> [1] 3.750000 1.875000 1.666667 1.000000 1.000000 1.000000
+#> [1] 2.142857 1.875000 1.666667 1.000000 1.000000 1.000000
 ```
 
 ``` {.r}
@@ -114,18 +114,18 @@ sps_repweights(weights(samp), 5)
 ```
 
 ```
-#>          [,1]         [,2]     [,3]     [,4]     [,5]
-#> [1,] 3.541688 6.6663750000 3.541688 6.666375 4.374937
-#> [2,] 3.333188 3.3331875000 0.208500 2.604094 3.333188
-#> [3,] 2.777667 0.0001666667 2.777667 1.388917 1.388917
-#> [4,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
-#> [5,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
-#> [6,] 1.000000 1.0000000000 1.000000 1.000000 1.000000
+#>          [,1]         [,2]     [,3]     [,4]      [,5]
+#> [1,] 4.047429 2.2618928571 4.047429 4.047429 1.4286429
+#> [2,] 3.333188 0.2085000000 1.770844 3.333188 3.3331875
+#> [3,] 1.388917 0.0001666667 2.222167 2.222167 0.8334167
+#> [4,] 1.000000 1.0000000000 1.000000 1.000000 1.0000000
+#> [5,] 1.000000 1.0000000000 1.000000 1.000000 1.0000000
+#> [6,] 1.000000 1.0000000000 1.000000 1.000000 1.0000000
 #> attr(,"tau")
 #> [1] 1.20012
 ```
 
-The vignette gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
+The vignettes gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
 
 ## Prior work
 

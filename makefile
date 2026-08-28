@@ -2,17 +2,12 @@ VERSION := $(shell grep -oP '^Version: \K.*' DESCRIPTION)
 PKG := $(shell grep -oP '^Package: \K.*' DESCRIPTION)
 
 .PHONY: all
-all: check site
+all: check
 
 .PHONY: clean
 clean:
 	rm -f $(PKG)_*.tar.gz
 	rm -rf $(PKG).Rcheck
-	
-.PHONY: clean-site
-clean-site:
-	rm -f site/*.html
-	rm -rf site/doc
 	
 .PHONY: roxygen
 roxygen:
@@ -34,9 +29,9 @@ test: roxygen
 	Rscript -e 'tinytest::build_install_test()'
 	
 .PHONY: check
-check: build
+check: build README.md
 	_R_CHECK_CRAN_INCOMING_REMOTE_=false R CMD check --as-cran $(PKG)_$(VERSION).tar.gz
-
-.PHONY: site
-site: install clean-site README.md
-	Rscript -e 'litedown::fuse_site("site")'
+	
+vignettes/performance.Rmd: vignettes/performance.Rmd.orig
+	Rscript -e 'litedown::fuse("vignettes/performance.Rmd.orig", "vignettes/performance.md")'
+	mv vignettes/performance.md vignettes/performance.Rmd

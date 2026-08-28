@@ -5,13 +5,12 @@
 litedown::reactor(print = NA)
 ```
 
-# Sequential Poisson sampling <a href="https://marberts.codeberg.page/sps/"><img src="man/figures/logo.png" align="right" height="139" alt="sps website" /></a>
+# Sequential Poisson sampling <a><img src="man/figures/logo.png" align="right" height="139" alt="sps logo"/></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/sps)](https://cran.r-project.org/package=sps)
 [![sps status badge](https://marberts.r-universe.dev/badges/sps)](https://marberts.r-universe.dev)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/r-sps.svg)](https://anaconda.org/conda-forge/r-sps)
-[![DOI](https://zenodo.org/badge/326323827.svg)](https://zenodo.org/doi/10.5281/zenodo.10109857)
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 <!-- badges: end -->
 
@@ -40,6 +39,7 @@ Given a vector of sizes for units in a population (e.g., revenue for sampling bu
 
 ```{r}
 library(sps)
+set.seed(12446)
 
 # Generate some data on sizes for 12 businesses in a single
 # stratum as a simple example
@@ -75,7 +75,7 @@ The design weights for a sample can then be used to generate bootstrap replicate
 sps_repweights(weights(samp), 5)
 ```
 
-The vignette gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
+The vignettes gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
 
 ## Prior work
 

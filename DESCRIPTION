@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.6.4.9005
+Version: 0.6.4.9006
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -24,9 +24,8 @@ Suggests:
     litedown,
     spelling,
     tinytest
-License: MIT + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
-URL: https://marberts.codeberg.page/sps/, https://codeberg.org/marberts/sps
 BugReports: https://codeberg.org/marberts/sps/issues
 VignetteBuilder: litedown
 Roxygen: list(markdown = TRUE)

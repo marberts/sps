@@ -1,4 +1,4 @@
-## sps (development version)
+## sps 0.7.0
 
 - Added a new option `sps.usekit` to control if `{kit}` is used for partial
 sorting.
@@ -8,6 +8,10 @@ sorting.
 - Fixed poorly-rendered tables in vignettes.
 
 - `sps_iterator()` is now much faster for large populations.
+
+- Code is now hosted on [codeberg](https://codeberg.org/marberts/sps).
+
+- License has changed from MIT to GPL (>= 3).
 
 ## sps 0.6.4
 

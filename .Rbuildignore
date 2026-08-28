@@ -4,8 +4,6 @@
 ^cran-comments\.md$
 ^README\.Rmd$
 ^inst/logo\.R$
-^CRAN-SUBMISSION$
 ^CONTRIBUTING\.md$
 ^[.]?air[.]toml$
 ^makefile$
-^site$
