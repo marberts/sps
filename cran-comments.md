@@ -2,8 +2,7 @@
 
 - local Ubuntu 24.04 installation, R 4.6.1
 - win-builder (devel, release, oldrelease)
-- github actions: Ubuntu (devel, release, oldrelease), Mac (release),
-Windows (release)
+- mac-builder
 
 ## R CMD check results
 

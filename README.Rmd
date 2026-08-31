@@ -75,7 +75,7 @@ The design weights for a sample can then be used to generate bootstrap replicate
 sps_repweights(weights(samp), 5)
 ```
 
-The vignettes gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
+The vignettes give more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
 
 ## Prior work
 

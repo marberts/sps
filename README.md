@@ -125,7 +125,7 @@ sps_repweights(weights(samp), 5)
 #> [1] 1.20012
 ```
 
-The vignettes gives more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
+The vignettes give more detail about how to use these functions to draw coordinated samples, top up a sample, and estimate variance.
 
 ## Prior work
 

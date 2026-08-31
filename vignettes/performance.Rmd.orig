@@ -48,11 +48,13 @@ ip <- function(x, n, alpha = 0.001) {
   replace(pi, ta_units, 1)
 }
 
+cols <- c("expression", "median", "mem_alloc", "n_itr")
+ 
 bench::mark(
   inclusion_prob(x, n),
   ip(x, n),
   sampling::inclusionprobabilities(x, n)
-)[c("expression", "median", "mem_alloc", "n_itr")]
+)[cols]
 ```
 
 ## Partial sorting
@@ -60,7 +62,7 @@ bench::mark(
 The second optimization is recognizing that both the computation of inclusion
 probabilities and the sequential Poisson method can benefit from partial sorting
 algorithms. In both cases, only the $n$ largest/smallest elements of a vector
-are needed and, when installed, the `topn()` function from the `{kit}` package
+are needed and, when installed, the `topn()` function from the **kit** package
 is used to avoid a complete sort. This is a drop-in
 replacement for `order(x)[1:n]` that can be faster
 when `n` is much smaller than the length of `x`, and can have a modest impact on
@@ -68,11 +70,27 @@ performance when drawing a sample from a large population.
 
 ```{r}
 options(sps.usekit = TRUE)
-bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
+bench::mark(sps(x, n))[cols]
 
 options(sps.usekit = FALSE)
-bench::mark(sps(x, n))[c("expression", "median", "mem_alloc", "n_itr")]
+bench::mark(sps(x, n))[cols]
 ```
 
 Partial sorting generally speeds up drawing smaller samples as well, but the
 effect is not as large because the sequential Poisson method is already quick.
+
+## Iteratively drawing a sample
+
+Both optimizations above can be seen when iteratively drawing a sequential
+Poisson sample as creating an iterator involves finding the point at which each
+unit enters the take-all stratum. Although this is more expensive than drawing
+a single sample, it quickly pays off because of the small cost to iterating over
+units in the sample.
+
+```{r}
+bench::mark(s <- sps_iterator(x, n), min_iterations = 10)[cols]
+
+bench::mark(s())[cols]
+
+bench::mark(sps(x, n))
+```
