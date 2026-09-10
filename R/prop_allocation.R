@@ -63,10 +63,10 @@
 #' `divisor_method()` returns a function giving the desired divisor function.
 #'
 #' @seealso
-#' [sps()] for stratified sequential Poisson sampling.
+#' [`sps()`] for stratified sequential Poisson sampling.
 #'
-#' [expected_coverage()] to calculate the expected number of strata in a sample
-#' without stratification.
+#' [`expected_coverage()`] to calculate the expected number of strata in a
+#' sample without stratification.
 #'
 #' `strAlloc()` in the \pkg{PracTools} package and the \pkg{optimall} package
 #' for other allocation methods.

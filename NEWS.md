@@ -1,3 +1,7 @@
+## sps 0.7.1
+
+- Internal changes to the codebase. No user-facing change.
+
 ## sps 0.7.0
 
 - Added a new option `sps.usekit` to control if `{kit}` is used for partial

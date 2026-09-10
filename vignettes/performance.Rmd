@@ -58,9 +58,9 @@ bench::mark(
 #> # A tibble: 3 × 4
 #>   expression                               median mem_alloc n_itr
 #>   <bch:expr>                             <bch:tm> <bch:byt> <int>
-#> 1 inclusion_prob(x, n)                    24.18ms    61.1MB    21
-#> 2 ip(x, n)                                  1.41s       3GB     1
-#> 3 sampling::inclusionprobabilities(x, n)   70.1ms     134MB     8
+#> 1 inclusion_prob(x, n)                    18.02ms    61.1MB    28
+#> 2 ip(x, n)                                  1.14s       3GB     1
+#> 3 sampling::inclusionprobabilities(x, n)   54.8ms     134MB     9
 ```
 
 ## Partial sorting
@@ -83,7 +83,7 @@ bench::mark(sps(x, n))[cols]
 #> # A tibble: 1 × 4
 #>   expression   median mem_alloc n_itr
 #>   <bch:expr> <bch:tm> <bch:byt> <int>
-#> 1 sps(x, n)    75.5ms     111MB     6
+#> 1 sps(x, n)    59.5ms     111MB     9
 ```
 
 ``` {.r}
@@ -95,7 +95,7 @@ bench::mark(sps(x, n))[cols]
 #> # A tibble: 1 × 4
 #>   expression   median mem_alloc n_itr
 #>   <bch:expr> <bch:tm> <bch:byt> <int>
-#> 1 sps(x, n)     153ms     126MB     4
+#> 1 sps(x, n)     131ms     126MB     4
 ```
 
 Partial sorting generally speeds up drawing smaller samples as well, but the
@@ -117,7 +117,7 @@ bench::mark(s <- sps_iterator(x, n), min_iterations = 10)[cols]
 #> # A tibble: 1 × 4
 #>   expression                median mem_alloc n_itr
 #>   <bch:expr>              <bch:tm> <bch:byt> <int>
-#> 1 s <- sps_iterator(x, n)    931ms     336MB    10
+#> 1 s <- sps_iterator(x, n)    791ms     336MB    10
 ```
 
 ``` {.r}
@@ -128,17 +128,16 @@ bench::mark(s())[cols]
 #> # A tibble: 1 × 4
 #>   expression   median mem_alloc n_itr
 #>   <bch:expr> <bch:tm> <bch:byt> <int>
-#> 1 s()          2.82ms    15.2MB    80
+#> 1 s()          2.18ms    15.2MB    92
 ```
 
 ``` {.r}
-bench::mark(sps(x, n))
+bench::mark(sps(x, n))[cols]
 ```
 
 ```
-#> # A tibble: 1 × 13
-#>   expression      min median `itr/sec` mem_alloc `gc/sec` n_itr  n_gc total_time
-#>   <bch:expr> <bch:tm> <bch:>     <dbl> <bch:byt>    <dbl> <int> <dbl>   <bch:tm>
-#> 1 sps(x, n)     158ms  159ms      6.13     126MB     7.66     4     5      653ms
-#> # ℹ 4 more variables: result <list>, memory <list>, time <list>, gc <list>
+#> # A tibble: 1 × 4
+#>   expression   median mem_alloc n_itr
+#>   <bch:expr> <bch:tm> <bch:byt> <int>
+#> 1 sps(x, n)     166ms     126MB     3
 ```

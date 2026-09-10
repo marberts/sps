@@ -31,7 +31,7 @@
 #' `options(sps.usekit = FALSE)` to disable this.
 #'
 #' @seealso
-#' [sps()] for drawing a sequential Poisson sample.
+#' [`sps()`] for drawing a sequential Poisson sample.
 #'
 #' @examples
 #' # Make inclusion probabilities for a population with units

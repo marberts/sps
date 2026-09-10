@@ -156,7 +156,7 @@
 #' probability-proportional-to-size). `weights()` can be used to access
 #' the design weights attribute of an `sps_sample` object, and `levels()` can
 #' be used to determine which units are in the take-all or take-some
-#' strata. [Mathematical and binary/unary operators][groupGeneric] strip
+#' strata. [Mathematical and binary/unary operators][base::groupGeneric] strip
 #' attributes, as does replacement.
 #'
 #' `order_sampling` returns a function the with the same interface as
@@ -168,13 +168,13 @@
 #' `options(sps.usekit = FALSE)` to disable this.
 #'
 #' @seealso
-#' [prop_allocation()] for generating proportional-to-size allocations.
+#' [`prop_allocation()`] for generating proportional-to-size allocations.
 #'
-#' [inclusion_prob()] for calculating the inclusion probabilities.
+#' [`inclusion_prob()`] for calculating the inclusion probabilities.
 #'
-#' [sps_repweights()] for generating bootstrap replicate weights.
+#' [`sps_repweights()`] for generating bootstrap replicate weights.
 #'
-#' [sps_iterator()] for a drawing a sample one unit at a time.
+#' [`sps_iterator()`] for a drawing a sample one unit at a time.
 #'
 #' The `UPpoisson()` and `UPopips()` functions in the \pkg{sampling}
 #' package for ordinary and sequential Poisson sampling, respectively. Note

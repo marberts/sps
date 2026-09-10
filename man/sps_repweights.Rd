@@ -25,7 +25,7 @@ adjustments and returns a number larger than 1. The default automatically
 picks the smallest feasible rescale factor (up to a small tolerance).}
 
 \item{dist}{\verb{[function]} A function that produces random deviates with mean 0
-and standard deviation 1, such as \code{\link[=rnorm]{rnorm()}}. The default uses the
+and standard deviation 1, such as \code{\link[stats:rnorm]{stats::rnorm()}}. The default uses the
 pseudo-population method by \bibcitet{|beaumont+patak2012|section 4.1}; see
 details.}
 

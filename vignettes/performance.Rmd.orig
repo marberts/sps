@@ -92,5 +92,5 @@ bench::mark(s <- sps_iterator(x, n), min_iterations = 10)[cols]
 
 bench::mark(s())[cols]
 
-bench::mark(sps(x, n))
+bench::mark(sps(x, n))[cols]
 ```

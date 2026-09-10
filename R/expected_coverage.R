@@ -16,7 +16,7 @@
 #' The expected number of strata covered by the sample design.
 #'
 #' @seealso
-#' [prop_allocation()] for generating proportional-to-size allocations.
+#' [`prop_allocation()`] for generating proportional-to-size allocations.
 #'
 #' @examples
 #' # Make a population with units of different size

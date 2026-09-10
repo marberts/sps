@@ -18,7 +18,7 @@
 #' left to sample (default `NULL`).
 #'
 #' @seealso
-#' [sps()] for drawing a sequential Poisson sample.
+#' [`sps()`] for drawing a sequential Poisson sample.
 #'
 #' @examples
 #' prn <- runif(5)

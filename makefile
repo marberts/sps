@@ -42,7 +42,7 @@ vignettes/performance.Rmd: vignettes/performance.Rmd.orig
 	mv vignettes/performance.md vignettes/performance.Rmd
 
 .PHONY: readme
-rerender: install README.md
+readme: install README.md
 
 .PHONY: coverage
 coverage:

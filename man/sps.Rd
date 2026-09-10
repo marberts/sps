@@ -57,7 +57,7 @@ that sequential Poisson sampling is only approximately
 probability-proportional-to-size). \code{weights()} can be used to access
 the design weights attribute of an \code{sps_sample} object, and \code{levels()} can
 be used to determine which units are in the take-all or take-some
-strata. \link[=groupGeneric]{Mathematical and binary/unary operators} strip
+strata. \link[base:groupGeneric]{Mathematical and binary/unary operators} strip
 attributes, as does replacement.
 
 \code{order_sampling} returns a function the with the same interface as

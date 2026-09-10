@@ -118,8 +118,8 @@ prop_allocation(x, 15, s, initial = 1)
 \seealso{
 \code{\link[=sps]{sps()}} for stratified sequential Poisson sampling.
 
-\code{\link[=expected_coverage]{expected_coverage()}} to calculate the expected number of strata in a sample
-without stratification.
+\code{\link[=expected_coverage]{expected_coverage()}} to calculate the expected number of strata in a
+sample without stratification.
 
 \code{strAlloc()} in the \pkg{PracTools} package and the \pkg{optimall} package
 for other allocation methods.

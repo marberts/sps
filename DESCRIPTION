@@ -1,6 +1,6 @@
 Package: sps
 Title: Sequential Poisson Sampling
-Version: 0.7.0
+Version: 0.7.0.9001
 Authors@R: c(
     person("Steve", "Martin",
             role = c("aut", "cre", "cph"),
@@ -29,5 +29,5 @@ Encoding: UTF-8
 BugReports: https://codeberg.org/marberts/sps/issues
 VignetteBuilder: litedown
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Language: en-US
