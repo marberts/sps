@@ -23,7 +23,8 @@ Suggests:
     kit (>= 0.0.10),
     litedown,
     spelling,
-    tinytest
+    tinytest,
+    rbibutils
 License: GPL (>= 3)
 Encoding: UTF-8
 BugReports: https://codeberg.org/marberts/sps/issues
